@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ORION — Portal Unificado (v1.2 comentado)</title>
+
+  <!--
+    =========================================
+    INSTRUCCIONES RÁPIDAS
+    =========================================
+    1) Coloca este archivo en la MISMA carpeta donde están tus 3 apps:
+       - Orion Comunicaciones Clínicas ® — v4.3 PRO.html
+       - Orion CC INSUMOS v4.0.html
+       - orion-recetas-v2.22-statement.html
+
+       Si cambiaste algún nombre o carpeta, AJUSTA los "src" de los iframes en la sección STAGE.
+
+    2) Logos del header/footermarca de agua:
+       - Usa archivos locales (por ejemplo: orion-logo.png y logo_orion_health_spa_oficial_azul.png)
+         y colócalos junto a este HTML, o cambia las rutas en los <img>.
+
+    3) Este portal NO recarga las apps al navegar (usa iframes precargados + History API),
+       así no se pierden formularios ni archivos subidos al volver atrás.
+  -->
+
+  <!--
+    =========================================
+    HOJA DE ESTILOS (puedes ajustar colores/tamaños)
+    =========================================
+    - Modifica colores base en :root
+    - Tamaños de logos: .brand img (header), .fwrap img (footer), .watermark img (marca de agua)
+    - Alto del escenario (stage): .stage (usa calc(100vh - Xpx) si quieres considerar el header)
+  -->
+  <style>
+    :root{
+      --bg:#FBFAF9;   /* Fondo general del portal */
+      --text:#000000; /* Color principal de texto */
+      --brand:#0c4a6e;/* Azul Orión (botones y títulos) */
+      --brand-2:#0369a1; /* Acento (no esencial) */
+      --card:#ffffff9f; /* Fondo de tarjetas/botones */
+      --muted:#17338f;/* Texto secundario */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;background:var(--bg);color:var(--text);
+      font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica Neue,Arial;
+    }
+
+    /* ====== Contenedor general ====== */
+    .shell{min-height:100vh;display:flex;flex-direction:column}
+
+/* ===== Header compacto y alineado ===== */
+header{
+  position: sticky; top: 0; z-index: 50;
+  background: #FBFAF9;
+  border-bottom: 1px solid #0c4a6e;
+  backdrop-filter: blur(10px);
+}
+.hwrap{
+  max-width: 1200px; margin: 0 auto;
+  padding: 6px 12px;               /* ↓ antes 12px */
+  display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+  min-height: 60px;                 /* fija altura mínima */
+}
+.brand{ display: flex; align-items: center; gap: 12px; }
+.brand img{
+  width: 65px; height: auto;        /* ↓ antes 142×142 */
+  object-fit: contain;
+}
+.brand h1{
+  margin: 0;
+  font-weight: 800; color: var(--brand);
+  font-size: clamp(22px, 3vw, 34px); /* tamaño fluido */
+  line-height: 1.1;
+}
+.backbtn{
+  appearance: none; border: 1.5px solid var(--brand);
+  background: #fff; color: var(--brand);
+  padding: 8px 12px; border-radius: 12px; font-weight: 700; cursor: pointer;
+}
+.backbtn[hidden]{ display: none; }
+
+/* ===== Evitar salto debajo del header ===== */
+html, body{ margin: 0; }            /* quita margen por defecto */
+main{ flex: 1; position: relative; margin-top: 0; }
+section:first-child{ margin-top: 0; } /* evita colapso de márgenes */
+
+/* ===== Responsive ===== */
+@media (max-width: 768px){
+  .hwrap{ padding: 6px 12px; min-height: 64px; }
+  .brand img{ width: 64px; }
+  .brand h1{ font-size: clamp(18px, 5vw, 28px); }
+}
+
+    /* ====== Main ====== */
+    main{flex:1;position:relative}
+
+    /* ====== Vista HOME (portada con 3 botones) ====== */
+    .home{max-width:1000px;margin:0 auto;padding:40px 16px;text-align:center}
+    .home h2{margin:8px 0 8px;font-size:clamp(24px,4vw,34px);font-weight:900;color:var(--brand)}
+    .lead{margin:0 0 24px;color:var(--muted)}
+    .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+    .btn{background:var(--card);border:4px solid var(--brand);color:var(--brand);text-decoration:none;font-weight:800;
+          padding:18px 16px;border-radius:18px;box-shadow:0 6px 18px rgba(228, 232, 249, 0.06);transition:.3s ease;display:block}
+    .btn:hover{background:#0c4a6e79;transform:translateY(-1px)}
+
+    /* ====== Escenario de apps (iframes) ======
+       - Pre-cargamos 3 iframes para NO perder estado al volver atrás.
+       - Solo 1 iframe visible a la vez (clase .active) */
+    .stage{position:relative;height:calc(100vh - 82px);}
+    .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;display:none;background:#fff}
+    .stage iframe.active{display:block}
+
+    /* ====== Footer ======
+       - Texto "Orion Health SpA" + logo institucional */
+    footer{border-top:1px solid #e2e8f0;background:#fff; padding:10px 18px}
+    .fwrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:10px;justify-content:flex-end}
+    .fwrap img{height:86px;object-fit:contain;opacity:.9} /* ← Ajusta tamaño del logo del footer */
+
+    /* ====== Marca de agua utilitaria ====== */
+    .watermark{position:fixed;right:420px;bottom:40px;opacity:.05;pointer-events:none;user-select:none}
+    .watermark img{width:min(50vw,400px)} /* ← Ajusta tamaño de marca de agua */
+  </style>
+</head>
+<body>
+<div class="shell">
+  <!-- =========================================
+       HEADER — Logo + título y botón Volver
+       ========================================= -->
+  <header>
+    <div class="hwrap">
+      <div class="brand">
+        <!-- Logo superior (ORION Comunicaciones). Cambia la ruta del src si renombraste la imagen -->
+        <img src="orion-logo.png" alt="ORION Comunicaciones">
+        <!-- Título dinámico: cambia según la app activa -->
+        <h1 id="title">PORTAL</h1>
+      </div>
+      <!-- Botón Volver: se oculta en la portada y aparece dentro de las apps -->
+      <button class="backbtn" id="back" hidden>← Volver</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- =========================================
+         HOME — Pantalla inicial con 3 botones
+         - Cambia los textos o el orden sin tocar data-app
+         ========================================= -->
+    <section class="home" id="home">
+      <!-- Logo de portada -->
+      <h2>PORTAL COMUNICACIONES - UNIFICADO</h2>
+      <p class="lead">Elige una herramienta. La navegación usa historial sin recargar las apps, así mantienes tu progreso (subidas, formularios, etc.).</p>
+
+      <!-- Botones: data-app debe coincidir con el sufijo del iframe (clinicas/insumos/recetas) -->
+      <div class="grid">
+        <a class="btn" data-app="clinicas" href="#clinicas">ORION COMUNICACIONES CLÍNICAS</a>
+        <a class="btn" data-app="insumos"  href="#insumos">ORION COMUNICACIONES INSUMOS</a>
+        <a class="btn" data-app="recetas"  href="#recetas">ORION COMUNICACIONES RECETA</a>
+      </div>
+    </section>
+
+    <!-- =========================================
+         STAGE — Iframes pre-cargados (no pierden estado)
+         - Cambia el atributo src si renombraste archivos
+         ========================================= -->
+    <section class="stage" id="stage" style="display:none">
+      <!--
+        IMPORTANTE:
+        - Si cambias el nombre de un archivo, ajusta el src correspondiente.
+        - Puedes usar nombres con espacios/acentos. Si un servidor no acepta, convierte a URL (espacio → %20, í → %C3%AD, etc.).
+      -->
+      <iframe id="frame-clinicas"  src="Orion_Comunicaciones_Clinicas_v4.5_PRO_BD.html"  title="Comunicaciones Clínicas"></iframe>
+      <iframe id="frame-insumos"   src="Orion CC INSUMOS v4.4.html"                      title="Comunicaciones Insumos"></iframe>
+      <iframe id="frame-recetas"   src="orion_recetas_v4.3_20.html"               title="Comunicaciones Receta"></iframe>
+    </section>
+  </main>
+
+  <!-- =========================================
+       FOOTER — Marca Orion Health SpA
+       - Texto + logo institucional
+       ========================================= -->
+  <footer>
+    <div class="fwrap">
+      <span style="font-weight:700;color:var(--brand);">Orion Health SpA</span>
+      <img src="logo_orion_health_spa_oficial_azul.png" alt="Orion Health SpA">
+    </div>
+  </footer>
+</div>
+
+<!-- Marca de agua decorativa en esquina -->
+<div class="watermark"><img src="orion-logo.png" alt=""></div>
+
+<!--
+  =========================================
+  LÓGICA JS — Navegación SPA sencilla
+  =========================================
+  ¿Qué hace?
+  - Pre-carga 3 iframes y solo alterna su visibilidad (clase .active)
+  - Gestiona el Historial (pushState/popstate) para que funcione el botón Atrás del navegador
+  - Botón ← Volver llama history.back()
+  ¿Dónde tocar?
+  - mapTitle para cambiar títulos por app
+  - Si agregas una 4ª app, duplica el iframe y añade su línea en frames y mapTitle
+-->
+<script>
+(function(){
+  const home = document.getElementById('home');
+  const stage = document.getElementById('stage');
+  const back  = document.getElementById('back');
+  const title = document.getElementById('title');
+
+  // Mapa de iframes — las claves deben coincidir con data-app de los botones
+  const frames = {
+    clinicas: document.getElementById('frame-clinicas'),
+    insumos:  document.getElementById('frame-insumos'),
+    recetas:  document.getElementById('frame-recetas'),
+  };
+
+  // Cambia los títulos mostrados en el header por app
+  const mapTitle = {
+    home:    'PORTAL',
+    clinicas:'ORION — Comunicaciones Clínicas',
+    insumos: 'ORION — Comunicaciones Insumos',
+    recetas: 'ORION — Comunicaciones Recetas/Indicaciones'
+  };
+
+  function showHome(push) {
+    for (const k in frames) frames[k].classList.remove('active'); // ocultar todos
+    stage.style.display = 'none';
+    home.style.display = 'block';
+    back.hidden = true;
+    title.textContent = mapTitle.home;
+    if (push) history.pushState({view:'home'}, '', '#');
+  }
+
+  function showApp(name, push) {
+    if (!frames[name]) return showHome(push);
+    home.style.display = 'none';
+    stage.style.display = 'block';
+    for (const k in frames) frames[k].classList.toggle('active', k === name); // mostrar solo el seleccionado
+    back.hidden = false;
+    title.textContent = mapTitle[name] || mapTitle.home;
+    if (push) history.pushState({view:'app', app:name}, '', '#' + name);
+  }
+
+  // Enlazar botones de la portada
+  document.querySelectorAll('[data-app]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const name = a.getAttribute('data-app');
+      showApp(name, true);
+      e.preventDefault();
+    });
+  });
+
+  // Botón Volver → usa el historial del navegador
+  back.addEventListener('click', () => history.back());
+
+  // Navegación con Back/Forward del navegador
+  window.addEventListener('popstate', () => {
+    const hash = (location.hash || '').replace('#','');
+    if (!hash) return showHome(false);
+    showApp(hash, false);
+  });
+
+  // Ruta inicial: permitir links directos como portal.html#insumos
+  const start = (location.hash || '').replace('#','');
+  if (start && frames[start]) showApp(start, false); else showHome(false);
+})();
+</script>
+</body>
+</html>

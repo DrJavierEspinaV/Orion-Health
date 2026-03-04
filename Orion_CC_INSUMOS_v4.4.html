@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orion Comunicaciones — Solicitud de Insumos (Interno) v4.4.1</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .disabled { opacity: .85; background-color: #f8fafc; cursor: not-allowed; }
+    .footer{ display:flex; align-items:center; gap:12px; padding:12px 16px; }
+    .footer img{ height:84px; width:auto; display:block; }
+    .footer span{ font-size:15px; line-height:1.25; color:#0f172a; white-space:nowrap; }
+    .badge{position:fixed;right:12px;bottom:12px;background:#0ea5e9;color:#fff;padding:6px 10px;border-radius:10px;font-size:12px}
+  </style>
+</head>
+
+<body class="bg-slate-100">
+  <!-- ===== Encabezado Orion (UNIFICADO) ===== -->
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-6xl mx-auto pl-4 pr-4 md:pr-6 py-4 flex items-center gap-4">
+      <a href="#" class="shrink-0">
+        <img src="orion-logo.png" alt="Orion" class="block h-16 w-auto">
+      </a>
+      <div class="min-w-0">
+        <h1 class="text-2xl font-bold leading-tight">Orion Comunicaciones - Insumos ® — v4.4.1</h1>
+        <p class="text-slate-500">Solicitud de Insumos de Pabellón</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto p-4 md:p-6">
+    <div id="jsStatus" class="mb-4 p-3 md:p-4 rounded-xl bg-white/70 border text-sm text-slate-700">Listo.</div>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+      <!-- Datos del procedimiento -->
+      <div class="lg:col-span-1 bg-white rounded-2xl shadow-sm border p-4 md:p-6">
+        <h2 class="font-semibold mb-3 text-slate-900">Datos del procedimiento</h2>
+        <div class="grid grid-cols-1 gap-3">
+          <div>
+            <label class="text-sm">Nombre del profesional</label>
+            <input id="nombre" class="mt-1 w-full border rounded-lg p-2 disabled" value="Dr. Javier Espina Videla" readonly />
+          </div>
+          <div>
+            <label class="text-sm">RUN Profesional</label>
+            <input id="run" class="mt-1 w-full border rounded-lg p-2 disabled" value="15.699.633-5" readonly />
+          </div>
+          <div>
+            <label class="text-sm">Número de episodio</label>
+            <input id="episodio" class="mt-1 w-full border rounded-lg p-2" placeholder="Ej: 256789" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-sm">Nombre Paciente</label>
+              <input id="pacienteNombre" class="mt-1 w-full border rounded-lg p-2" placeholder="Ej: Juan Pérez" />
+            </div>
+            <div>
+              <label class="text-sm">RUN Paciente</label>
+              <input id="pacienteRun" class="mt-1 w-full border rounded-lg p-2" placeholder="Ej: 12.345.678-9" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-sm">Día de pabellón</label>
+              <input type="date" id="dia" class="mt-1 w-full border rounded-lg p-2" />
+            </div>
+            <div>
+              <label class="text-sm">Hora Qx (opcional)</label>
+              <input type="time" id="horaQx" class="mt-1 w-full border rounded-lg p-2" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-sm">Tiempo quirúrgico (min)</label>
+              <input type="number" id="tiempo" class="mt-1 w-full border rounded-lg p-2" placeholder="90" />
+            </div>
+            <div>
+              <label class="text-sm">Cirugía / Procedimiento</label>
+              <input id="cirugia" class="mt-1 w-full border rounded-lg p-2" placeholder="Ej: Terceros molares" />
+            </div>
+          </div>
+          <div>
+            <label class="text-sm">Observaciones</label>
+            <textarea id="obs" class="mt-1 w-full border rounded-lg p-2" rows="3" placeholder="Ej: injerto bilateral, alergias, etc."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Selección de insumos -->
+      <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border p-4 md:p-6">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <h2 class="font-semibold mb-3 text-slate-900">Seleccionar insumos</h2>
+          <div class="flex items-center gap-2">
+            <input id="fileInput" type="file" accept=".xlsx,.xls,.csv" class="border rounded px-2 py-1" />
+            <button id="importBtn" type="button" class="px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 border">Importar</button>
+            <span id="importInfo" class="text-xs text-slate-600"></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2 items-end">
+          <div class="md:col-span-2">
+            <label class="text-sm">Buscar por nombre, código, tipo o proveedor</label>
+            <input id="search" class="mt-1 w-full border rounded-lg p-2" placeholder="Ej: membrana, 33201, implantes, biohorizon..." />
+          </div>
+          <div>
+            <label class="text-sm">Cantidad</label>
+            <input type="number" id="cantidad" class="mt-1 w-full border rounded-lg p-2" value="1" min="1"/>
+          </div>
+        </div>
+        <div class="mt-2">
+          <label class="text-sm">Selecciona un insumo</label>
+          <select id="selector" class="mt-1 w-full border rounded-lg p-2"></select>
+        </div>
+        <div class="mt-3">
+          <button id="addBtn" type="button" class="px-4 py-2 rounded-xl bg-[#0d3b66] text-white hover:bg-[#0b3258]">Agregar</button>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="text-sm font-medium mb-2">Seleccionados</h3>
+          <div id="chips" class="flex flex-wrap gap-2"></div>
+          <div class="overflow-auto border rounded-lg mt-2">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th class="border p-2 text-left">Código</th>
+                  <th class="border p-2 text-left">Insumo</th>
+                  <th class="border p-2 text-left">Unidad</th>
+                  <th class="border p-2 text-left">Cantidad</th>
+                  <th class="border p-2">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tabla"></tbody>
+            </table>
+          </div>
+          <p class="mt-2 text-[11px] text-slate-500">
+            Tip: si tu Excel es gigante, esta versión importa con “modo liviano” (solo lee las primeras filas para encontrar encabezados, y limita el máximo de filas procesadas).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mensaje y generar Excel (sin backend) -->
+    <section class="bg-white rounded-2xl shadow-sm border p-4 md:p-6">
+      <h2 class="font-semibold mb-3 text-slate-900">Mensaje + Excel</h2>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-3">
+        <input id="correo" class="border rounded-lg p-2 disabled" value="Rodrigo.DiazG@integramedica.cl" readonly />
+        <input id="cc" class="border rounded-lg p-2 disabled" value="jennifer.bravo@integramedica.cl" readonly />
+        <input id="asunto" class="border rounded-lg p-2 md:col-span-2" value="Solicitud de Insumos — Dr. Javier Espina — " />
+      </div>
+      <textarea id="mensaje" class="w-full border rounded-lg p-2 mono" rows="10"></textarea>
+      <div class="mt-3 flex flex-wrap gap-2 items-center">
+        <button id="copiarBtn" type="button" class="px-4 py-2 rounded-xl bg-slate-700 text-white hover:bg-slate-800">Copiar</button>
+        <a id="mailtoLink" class="px-4 py-2 rounded-xl bg-indigo-700 text-white hover:bg-indigo-800" href="#" target="_blank" rel="noreferrer">Abrir en correo</a>
+        <button id="btnGenerarExcelInline" type="button" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Generar Correo/Excel</button>
+        <span id="statusExcel" class="text-sm text-slate-600"></span>
+      </div>
+      <p class="text-[11px] opacity-70 mt-2">
+        <strong>Flujo:</strong> 1) Genera el Excel CCMM (se descarga) · 2) Pulsa “Abrir en correo” y adjunta el archivo descargado.
+        CCMM fijo: <b>INTEGRAMEDICA TOBALABA</b>.
+      </p>
+    </section>
+  </main>
+
+  <div class="footer bg-white border-t border-slate-200">
+    <img src="logo_orion_health_spa_oficial_azul.png" alt="Orion" />
+    <span>Desarrollado por Dr. Javier Espina Videla - Orion Health SpA ®</span>
+  </div>
+
+  <div class="badge">v4.4.1</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  // Helpers de estado
+  const okStatus  = msg => { try{ const el=document.getElementById("jsStatus"); if(el){ el.textContent=msg; el.className="mb-4 p-3 md:p-4 rounded-xl bg-white/70 border text-sm text-slate-700"; } }catch(e){} };
+  const errStatus = msg => { try{ const el=document.getElementById("jsStatus"); if(el){ el.textContent=msg; el.className="mb-4 p-3 md:p-4 rounded-xl bg-rose-50 border border-rose-300 text-sm text-rose-700"; } }catch(e){} };
+
+  // Si XLSX no cargó, lo decimos de inmediato (suele pasar con bloqueo de CDN)
+  if (typeof XLSX === "undefined"){
+    errStatus("No cargó la librería XLSX (bloqueo de CDN / sin internet). Prueba con internet o desactiva bloqueadores.");
+    return;
+  }
+
+  try{
+    /* ========= Listado base ========= */
+    let CODES = [
+      { codigo: "50007072", nombre_insumo: "MEMBRANA 15X20 (COLÁGENO)", unidad: "", tipo: "", proveedor: "" },
+      { codigo: "50022089", nombre_insumo: "HUESO MINEROSS JERINGA ESPON 1.0 XENOINJ", unidad: "", tipo: "", proveedor: "" }
+    ];
+
+    // --- DOM refs ---
+    const selector = document.getElementById('selector');
+    const search = document.getElementById('search');
+    const cantidad = document.getElementById('cantidad');
+    const chips = document.getElementById('chips');
+    const tabla = document.getElementById('tabla');
+    const importBtn = document.getElementById('importBtn');
+    const fileInput = document.getElementById('fileInput');
+    const importInfo = document.getElementById('importInfo');
+
+    const nombre = document.getElementById('nombre');
+    const run = document.getElementById('run');
+    const episodio = document.getElementById('episodio');
+    const dia = document.getElementById('dia');
+    const horaQx = document.getElementById('horaQx');
+    const tiempo = document.getElementById('tiempo');
+    const obs = document.getElementById('obs');
+    const cirugia = document.getElementById('cirugia');
+
+    const pacienteNombre = document.getElementById('pacienteNombre');
+    const pacienteRun = document.getElementById('pacienteRun');
+
+    const correo = document.getElementById('correo');
+    const cc = document.getElementById('cc');
+    const asunto = document.getElementById('asunto');
+    const mensaje = document.getElementById('mensaje');
+    const mailtoLink = document.getElementById('mailtoLink');
+    const copiarBtn = document.getElementById('copiarBtn');
+    const generarExcelInline = document.getElementById('btnGenerarExcelInline');
+    const statusExcel = document.getElementById('statusExcel');
+
+    // Aliases de compatibilidad (por si quedó código viejo)
+    window.generarExcelInline = generarExcelInline;
+    window.generarExcellnline = generarExcelInline; // typo antiguo
+    window.generarExcelInlineFn = () => generarExcelInline?.click();
+
+    const CCMM_FIJO = "INTEGRAMEDICA TOBALABA";
+    let seleccionados = [];
+
+    function renderOptions(filtro=""){
+      selector.innerHTML = "";
+      const f = (filtro||"").toLowerCase();
+      const lista = CODES.filter(it =>
+        (it.nombre_insumo||"").toLowerCase().includes(f) ||
+        (it.codigo||"").toLowerCase().includes(f) ||
+        (it.tipo||"").toLowerCase().includes(f) ||
+        (it.proveedor||"").toLowerCase().includes(f)
+      );
+      for(const it of lista){
+        const opt = document.createElement('option');
+        opt.value = it.codigo;
+        const unidad = it.unidad ? ` — ${it.unidad}` : "";
+        const tipoTxt = it.tipo ? ` — ${it.tipo}` : "";
+        const provTxt = it.proveedor ? ` — ${it.proveedor}` : "";
+        opt.textContent = `${it.nombre_insumo} [${it.codigo}]${unidad}${tipoTxt}${provTxt}`;
+        selector.appendChild(opt);
+      }
+      if (!selector.value && selector.options.length) selector.selectedIndex = 0;
+    }
+
+    function renderTabla(){
+      tabla.innerHTML = "";
+      chips.innerHTML = "";
+      seleccionados.forEach((it, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="border p-2">${it.codigo}</td>
+          <td class="border p-2">${it.nombre}</td>
+          <td class="border p-2">${it.unidad || ""}</td>
+          <td class="border p-2 text-center">${it.cantidad}</td>
+          <td class="border p-2 text-center">
+            <button class="px-2 py-1 text-white bg-rose-600 rounded" data-idx="${idx}" type="button">Quitar</button>
+          </td>
+        `;
+        tabla.appendChild(tr);
+
+        const chip = document.createElement('span');
+        chip.className = "inline-flex items-center gap-2 bg-white border rounded-full px-3 py-1 text-xs";
+        chip.innerHTML = `<span>${it.nombre} <span class="opacity-60">[${it.codigo}]</span> × <strong>${it.cantidad}</strong></span>`;
+        const b = document.createElement('button');
+        b.className = "text-rose-700 hover:text-rose-900";
+        b.textContent = "×";
+        b.type = "button";
+        b.onclick = () => removeIdx(idx);
+        chip.appendChild(b);
+        chips.appendChild(chip);
+      });
+
+      tabla.querySelectorAll('button[data-idx]').forEach(btn => {
+        btn.addEventListener('click', (e) => removeIdx(parseInt(e.target.getAttribute('data-idx'))));
+      });
+    }
+
+    function removeIdx(i){
+      seleccionados.splice(i,1);
+      renderTabla();
+    }
+
+    function addSelected(){
+      const codigo = selector.value;
+      if (!codigo) return;
+      const item = CODES.find(x => x.codigo === codigo);
+      if (!item) return;
+      const qty = Math.max(1, parseInt(cantidad.value || "1"));
+      const found = seleccionados.find(x => x.codigo === codigo);
+      if (found){
+        found.cantidad += qty;
+      }else{
+        seleccionados.push({
+          codigo: item.codigo,
+          nombre: item.nombre_insumo,
+          unidad: item.unidad || "",
+          tipo: item.tipo || "",
+          proveedor: item.proveedor || "",
+          cantidad: qty
+        });
+      }
+      renderTabla();
+    }
+
+    function buildMessage(){
+      const prof = nombre.value || "";
+      const rut  = run.value || "";
+      const epi  = episodio.value || "";
+      const pNom = pacienteNombre.value || "";
+      const pRun = pacienteRun.value || "";
+      const fecha = dia.value || "";
+      const hora  = horaQx.value || "";
+      const mins  = tiempo.value || "";
+      const ob = obs.value || "";
+      const cir = cirugia.value || "";
+
+      let lines = [];
+      lines.push("Estimado Jefe Dental Tobalaba:");
+      lines.push("");
+      lines.push("Solicito los siguientes insumos para la intervención programada:");
+      lines.push("");
+      if (prof) lines.push(`👨‍⚕️ Profesional: ${prof}`);
+      if (rut)  lines.push(`🪪 RUN Profesional: ${rut}`);
+      if (pNom || pRun) lines.push(`🧍 Paciente: ${pNom}${pRun ? " — RUN: " + pRun : ""}`);
+      if (epi)  lines.push(`🧾 Episodio: ${epi}`);
+      if (fecha) lines.push(`📅 Día pabellón: ${fecha}${hora ? " — Hora: " + hora : ""}`);
+      if (mins) lines.push(`⏱️ Tiempo quirúrgico estimado: ${mins} minutos`);
+      if (cir)  lines.push(`🔧 Cirugía: ${cir}`);
+      lines.push("");
+      lines.push("🧰 Insumos solicitados:");
+      if (seleccionados.length === 0) {
+        lines.push("- (sin insumos seleccionados)");
+      } else {
+        for (const it of seleccionados) {
+          const uni = it.unidad ? ` — ${it.unidad}` : "";
+          const tipo = it.tipo ? ` — ${it.tipo}` : "";
+          const prov = it.proveedor ? ` — ${it.proveedor}` : "";
+          lines.push(`- ${it.nombre} [${it.codigo}] — Cantidad: ${it.cantidad}${uni}${tipo}${prov}`);
+        }
+      }
+      if (ob) {
+        lines.push("");
+        lines.push(`Observaciones: ${ob}`);
+      }
+      lines.push("");
+      if (prof) lines.push(`Atentamente,\n${prof}`);
+      return lines.join("\n");
+    }
+
+    function generateMailto(){
+      const to = (correo.value || "Rodrigo.DiazG@integramedica.cl").trim();
+      const ccAddr = (cc.value || "jennifer.bravo@integramedica.cl").trim();
+      const subj = (asunto.value || "Solicitud de Insumos — Dr. Javier Espina — ").trim();
+      const body = buildMessage();
+      mensaje.value = body;
+      let mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+      if (ccAddr) mailto += `&cc=${encodeURIComponent(ccAddr)}`;
+      mailtoLink.href = mailto;
+    }
+
+    // ========= Importador LIVIANO (anti-crash) =========
+    const norm = s => String(s||"").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+    function getPreviewMatrix(ws, maxRows=60, maxCols=40){
+      const ref = ws["!ref"];
+      if (!ref) return { matrix: [], range: null };
+      const range = XLSX.utils.decode_range(ref);
+      const endR = Math.min(range.e.r, range.s.r + maxRows - 1);
+      const endC = Math.min(range.e.c, range.s.c + maxCols - 1);
+      const matrix = [];
+      for (let r = range.s.r; r <= endR; r++){
+        const row = [];
+        for (let c = range.s.c; c <= endC; c++){
+          const cell = ws[XLSX.utils.encode_cell({r, c})];
+          row.push(cell ? (cell.w ?? cell.v ?? "") : "");
+        }
+        matrix.push(row);
+      }
+      return { matrix, range };
+    }
+
+    function findHeaderRow(preview){
+      // busca fila con algo como codigo + insumo/descripcion
+      for (let i=0; i<Math.min(25, preview.length); i++){
+        const row = preview[i].map(c => norm(c));
+        const joined = row.join("|");
+        const hasCodigo = row.includes("codigo") || row.includes("sku") || row.includes("sap") || /(^|\|)codigo(\||$)/.test(joined);
+        const hasInsumos = row.includes("insumos") || row.includes("insumo") || row.includes("descripcion") || row.includes("descripción") || row.includes("nombre");
+        if (hasCodigo && hasInsumos) return i;
+      }
+      return -1;
+    }
+
+    function parseSheet(ws, sheetName){
+      const { matrix, range } = getPreviewMatrix(ws);
+      if (!matrix.length || !range) return { out: [], truncated: false, scanned: 0 };
+
+      const headerRowLocal = findHeaderRow(matrix);
+      // rango total de la hoja
+      const totalRows = range.e.r - range.s.r + 1;
+      const totalCols = range.e.c - range.s.c + 1;
+
+      // Si no encontramos header, intentamos con sheet_to_json "normal" pero con límite para evitar matar el navegador.
+      const MAX_ROWS = 20000; // seguridad dura: si tu excel tiene 300.000 filas, no vamos a suicidar el Chrome.
+      const maxEndR = Math.min(range.e.r, range.s.r + MAX_ROWS - 1);
+      const truncated = maxEndR < range.e.r;
+
+      // construimos rango string (A1 style)
+      const safeRange = XLSX.utils.encode_range({ s: { r: range.s.r, c: range.s.c }, e: { r: maxEndR, c: range.e.c } });
+
+      let rows = [];
+      try{
+        if (headerRowLocal >= 0){
+          const absoluteHeaderRow = range.s.r + headerRowLocal;
+          // armamos encabezado desde la preview row (ya está en matrix)
+          const header = matrix[headerRowLocal].map(c => String(c||"").trim());
+          const dataRange = XLSX.utils.encode_range({
+            s: { r: absoluteHeaderRow + 1, c: range.s.c },
+            e: { r: maxEndR, c: range.e.c }
+          });
+          rows = XLSX.utils.sheet_to_json(ws, { header: header, range: dataRange, defval:"", blankrows:false, raw:false });
+        } else {
+          rows = XLSX.utils.sheet_to_json(ws, { range: safeRange, defval:"", blankrows:false, raw:false });
+        }
+      }catch(e){
+        console.error("parseSheet error", sheetName, e);
+        return { out: [], truncated: truncated, scanned: Math.min(totalRows, MAX_ROWS) };
+      }
+
+      const out = rows.map(r => {
+        const entries = Object.entries(r);
+        const get = (names) => {
+          for (const [k,v] of entries){
+            const nk = norm(k);
+            for (const n of names){ if (nk === n || nk.includes(n)) return v; }
+          }
+          return "";
+        };
+        const codigo    = String(get(["codigo","sku","sap","cod"])).trim();
+        const insumo    = String(get(["insumos","insumo","descripcion","descripción","nombre"])).trim();
+        const tipo      = String(get(["tipo","categoria"])).trim();
+        const proveedor = String(get(["proveedor"])).trim();
+        const unidad    = "";
+        if (!codigo || !insumo) return null;
+        return { codigo, nombre_insumo: insumo, unidad, tipo, proveedor };
+      }).filter(Boolean);
+
+      return { out, truncated, scanned: Math.min(totalRows, MAX_ROWS) };
+    }
+
+    function parseWorkbook(workbook){
+      let combined = [];
+      let truncatedAny = false;
+      let scannedTotal = 0;
+
+      for (const sheetName of workbook.SheetNames){
+        const ws = workbook.Sheets[sheetName];
+        if (!ws) continue;
+        const res = parseSheet(ws, sheetName);
+        scannedTotal += res.scanned || 0;
+        if (res.truncated) truncatedAny = true;
+        combined = combined.concat(res.out || []);
+      }
+
+      // Dedupe por código (mantiene el primero)
+      const map = new Map();
+      for (const it of combined){
+        if (!map.has(it.codigo)) map.set(it.codigo, it);
+      }
+      const deduped = Array.from(map.values());
+
+      return { items: deduped, truncatedAny, scannedTotal };
+    }
+
+    importBtn.addEventListener('click', () => {
+      try{
+        if (fileInput.files && fileInput.files.length){
+          const file = fileInput.files[0];
+          okStatus("Leyendo archivo… (si es gigante, puede demorar un poco, pero no debería botar la página)");
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            try{
+              const data = new Uint8Array(evt.target.result);
+              const workbook = XLSX.read(data, { type:'array' });
+              const res = parseWorkbook(workbook);
+              const out = res.items || [];
+              if (!out.length){ errStatus("No se encontraron filas válidas (revisa que existan columnas tipo: CODIGO + INSUMO/DESCRIPCION)."); return; }
+
+              CODES = out;
+              const truncTxt = res.truncatedAny ? " (⚠️ importación limitada por tamaño; si faltan ítems, reduce el Excel o divide por proveedor)" : "";
+              importInfo.textContent = `Importado: ${CODES.length} ítems desde ${workbook.SheetNames.length} hoja(s).${truncTxt}`;
+              renderOptions(search.value);
+              okStatus("Archivo importado correctamente.");
+            }catch(err){
+              console.error(err);
+              errStatus("Error al leer el Excel. Abre la consola (F12) para ver detalles.");
+            }
+          };
+          reader.readAsArrayBuffer(file);
+        }else{
+          fileInput.click();
+        }
+      }catch(e){
+        console.error(e);
+        errStatus("Error al iniciar importación.");
+      }
+    });
+
+    // si seleccionas archivo directo, importamos
+    fileInput.addEventListener('change', () => { if(fileInput.files?.length) importBtn.click(); });
+
+    document.getElementById('addBtn').addEventListener('click', addSelected);
+    copiarBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(mensaje.value || buildMessage());
+        okStatus("Texto copiado.");
+      }catch(e){
+        errStatus("No se pudo copiar automáticamente (permiso del navegador).");
+      }
+    });
+
+    asunto.addEventListener('input', generateMailto);
+    mensaje.addEventListener('input', generateMailto);
+    search.addEventListener('input', (e) => renderOptions(e.target.value));
+
+    generateMailto();
+    renderOptions();
+    okStatus("Interfaz lista.");
+
+    /* ====== Generar Excel CCMM (descarga local) ====== */
+    function generarExcelCCMM(){
+      const pNom = (pacienteNombre.value || "").trim();
+      const pRun = (pacienteRun.value || "").trim();
+      const fecha = (dia.value || "").trim();
+      if(!pNom || !pRun || !fecha){ statusExcel.textContent = "Completa: Nombre paciente, RUN y Día Qx."; return null; }
+      if(seleccionados.length === 0){ statusExcel.textContent = "Agrega al menos un insumo."; return null; }
+
+      const rowsOut = seleccionados.map(it => ({
+        "CCMM": CCMM_FIJO,
+        "RUT PACIENTE": pRun,
+        "NOMBRE PACIENTE": pNom,
+        "EPISODIO": (episodio.value || ""),
+        "PROFESIONAL": (nombre.value || ""),
+        "CIRUGÍA": (cirugia.value || ""),
+        "FECHA Qx": fecha,
+        "HORA Qx": (horaQx.value || ""),
+        "CÓDIGO": it.codigo,
+        "TIPO": it.tipo || "",
+        "INSUMOS": it.nombre,
+        "CANTIDAD": it.cantidad,
+        "PROVEEDOR": it.proveedor || ""
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(rowsOut, { skipHeader: false });
+      ws["!cols"] = [
+        { wch: 24 }, { wch: 14 }, { wch: 26 }, { wch: 12 }, { wch: 22 },
+        { wch: 18 }, { wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 10 },
+        { wch: 30 }, { wch: 10 }, { wch: 16 }
+      ];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Solicitud");
+
+      const fname = `Solicitud CCMM – ${pNom} - ${pRun}.xlsx`;
+      try{
+        if (XLSX && XLSX.writeFile) { XLSX.writeFile(wb, fname); }
+        else if (XLSX && XLSX.writeFileXLSX) { XLSX.writeFileXLSX(wb, fname); }
+        else {
+          const blob = new Blob([XLSX.write(wb, {bookType:'xlsx', type:'array'})], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href = url; a.download = fname; a.click();
+          setTimeout(()=>URL.revokeObjectURL(url), 2000);
+        }
+      }catch(e){ console.error(e); }
+      return true;
+    }
+
+    // Listener único
+    generarExcelInline?.addEventListener('click', () => {
+      if (statusExcel) statusExcel.textContent = "Generando Excel…";
+      try { generateMailto(); } catch(_){}
+      let ok = false;
+      try { ok = !!generarExcelCCMM(); } catch(e){ console.error(e); ok=false; }
+      if (ok){
+        if (statusExcel) statusExcel.textContent = "Excel descargado. Adjunta el archivo al correo.";
+        okStatus("Listo: cuerpo del correo actualizado + Excel descargado.");
+      } else {
+        if (statusExcel) statusExcel.textContent = "Completa datos obligatorios o agrega al menos un insumo. El cuerpo del correo se actualizó igual.";
+        try { generateMailto(); } catch(_){}
+        errStatus("Faltan datos mínimos para Excel, pero el mensaje fue preparado.");
+      }
+    });
+
+  }catch(initErr){
+    console.error(initErr);
+    errStatus("Error inicializando la app. Revisa la consola.");
+  }
+
+  window.addEventListener('error', (e) => {
+    const msg = "JS error: " + (e.message || e.error || e.filename || "desconocido");
+    console.error(msg);
+    const st = document.getElementById('jsStatus');
+    if (st){ st.textContent = msg; st.className = "mb-4 p-3 md:p-4 rounded-xl bg-rose-50 border border-rose-300 text-sm text-rose-700"; }
+  });
+});
+</script>
+</body>
+</html>

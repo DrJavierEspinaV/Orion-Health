@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Orion — Recetas Tipo v4.3_4 (Statement, estable)</title>
+
+<!-- Librerías -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+  :root{
+    --bg:#f7fbff; --card:#fff; --text:#0f172a; --muted:#64748b; --pri:#2563eb;
+
+    --top-offset: 18mm;        /* cabecera vertical */
+    --footer-bottom: 20mm;     /* pie vertical */
+
+    --firma-h: 100px;          /* altura firma */
+    --firma-line-w: 180px;     /* ancho línea firma */
+
+    --receta-font: 11pt;  --receta-line: 1.20;
+    --ind-font: 11pt;     --ind-line: 1.20;
+    --doc-font: 11pt;     --doc-line: 1.20; /* Hoja 3/Órdenes */
+
+    --hdr-row-gap: 0.25rem;
+    --safe-gap-over-footer: calc(var(--firma-h) + 10mm);
+
+    /* --- NUEVO: control de tamaños del pie --- */
+    --brand-logo-h: 32px;      /* alto logo por defecto (hojas 1–2) */
+    /* overrides solo para Hoja 3 (se activan en #printDoc) */
+    /* --brand-logo-h-3: 36px; */
+    /* --firma-h-3: 110px; */
+  }
+
+  body{background:var(--bg);color:var(--text)}
+  .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+  .chip{border:1px dashed #cbd5e1;border-radius:999px;padding:.25rem .6rem;font-size:.8rem}
+  #printSheet, #printSheet2, .card{ border:0 !important; box-shadow:none !important; border-radius:0 !important; }
+  .actions-bottom{ position:sticky; bottom:0; z-index:40; background:#ffffffE6; backdrop-filter:saturate(180%) blur(4px); }
+
+  #printSheet pre, #printSheet2 pre, #printDoc pre, #printExamLab pre, #printExamImg pre{
+    white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; font-family:inherit;
+    font-size:13px; line-height:1.16; margin-top:.2rem;
+  }
+  .dateBox{ white-space:nowrap; font-size:12px }
+  #printSheet hr, #printSheet2 hr{ margin:2px 0 4px 0; }
+  .section{ margin-top:10px; }
+  .diagline{ margin-top:8px; margin-bottom:8px; }
+
+  .hdrgrid{
+    display:grid;
+    grid-template-columns: 70% 30%;
+    column-gap: 1rem;
+    row-gap: var(--hdr-row-gap);
+  }
+  .hdrgrid p{ margin:0; text-align:left !important; justify-self:start; line-height:1.12; }
+  .wrap{ overflow-wrap: normal; word-break: normal; white-space: normal; }
+
+  #contentWrap, #contentWrap2{ padding-bottom: var(--safe-gap-over-footer); }
+  #v_receta{ font-size: var(--receta-font); line-height: var(--receta-line); }
+  #v_ind, #v_ind2{ font-size: var(--ind-font); line-height: var(--ind-line); }
+  .avoid-break{ break-inside:avoid; page-break-inside:avoid; }
+
+  /* ==== CAMBIO: selectores generalizados para cualquier pie (#fixedFoot, #fixedFoot2, #fixedFoot3) ==== */
+  [id^="fixedFoot"]{
+    position:absolute; left:0; right:0; bottom: var(--footer-bottom);
+    display:grid; grid-template-columns:1fr auto; align-items:end; column-gap:10px;
+  }
+  [id^="fixedFoot"] .brand{
+    display:inline-flex; gap:8px; align-items:center; color:#475569; font-size:.80rem; line-height:1;
+  }
+  [id^="fixedFoot"] .brand .logo{
+    /* usa override 3 si existe, si no el global */
+    max-height: var(--brand-logo-h-3, var(--brand-logo-h));
+    width:auto; display:block;
+  }
+  [id^="fixedFoot"] .sigBox{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; }
+  [id^="fixedFoot"] .sigBox .firmaimg{
+    height: var(--firma-h-3, var(--firma-h));
+    width:auto; display:block; opacity:.98; margin-bottom:4px;
+  }
+  [id^="fixedFoot"] .sigBox .sig-line{ width: var(--firma-line-w); border-top:1px solid #94a3b8; margin:4px auto; }
+  [id^="fixedFoot"] .sigBox .name{ font-weight:700; color:#000; font-size:.95rem; }
+
+  /* Drawer: grupos desplegables (details/summary) */
+  details > summary{ list-style:none; }
+  details > summary::-webkit-details-marker{ display:none; }
+
+  .page{
+    position:relative;
+    box-sizing:border-box;
+    height:8.5in;
+    padding-top:var(--top-offset);
+    page-break-after:auto;
+  }
+  .force-break{ page-break-after:always !important; }
+  #printSheet2.hidden{ display:none !important; }
+
+  @media print{
+    @page { size:5.5in 8.5in; margin:7mm }
+    .no-print{ display:none !important }
+    #examBackdrop, #examDrawer{ display:none !important }
+    body { background:#fff !important }
+
+    .page{
+      box-sizing: border-box;
+      height: calc(8.5in - 14mm);
+      padding-top: var(--top-offset);
+    }
+
+    #printSheet, #printSheet2{ position:relative; min-height:0; }
+    #printSheet h3, #printSheet2 h3{ font-size:17px; margin:0 0 2px 0 }
+    #printSheet h4, #printSheet2 h4{ font-size:13px; margin:4px 0 2px 0 }
+    #printSheet pre, #printSheet2 pre, #printDoc pre, #printExamLab pre, #printExamImg pre{ font-size:11px; line-height:1.2; margin-top:2px }
+    #v_receta{ font-size:11px; line-height:1.20 }
+    .dateBox{ font-size:10px }
+    #printSheet hr, #printSheet2 hr{ margin:1px 0 3px 0 }
+    .diagline{ margin-top:3mm; margin-bottom:3mm; }
+    .section{ margin-top:3mm; }
+
+    /* ==== CAMBIO: selector print generalizado ==== */
+    [id^="fixedFoot"]{ position:absolute; left:0; right:0; bottom: var(--footer-bottom); break-inside:avoid; page-break-inside:avoid; }
+
+    img,svg{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* Botonera PRE/POST */
+  .fase-actions{ display:flex; gap:.5rem; flex-wrap:wrap; margin:.5rem 0 0; }
+  .chip{ display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border:1px solid rgba(0,0,0,.08); border-radius:999px; font-size:.9rem; }
+  .cta-insert{ font-weight:600; background:#16a34a; color:#fff; border-color:#16a34a; }
+  .cta-insert:hover{ filter:brightness(0.97); }
+  #btnInsertInd{ display:none !important; } /* ocultamos el botón antiguo */
+  @media print { .no-print { display:none !important; } }
+
+  /* ==== NUEVO: overrides SOLO para la Hoja 3 (Certificado / Biopsia) ==== */
+  #printDoc{
+    --brand-logo-h-3: 36px;  /* ajusta a gusto: 32/36/40 */
+    --firma-h-3: 110px;      /* alto de la firma en Hoja 3 */
+  }
+
+  /* ==== NUEVO: área segura para documentos (Hoja 3 y Órdenes) ==== */
+  #printDoc .docWrap, #printExamLab .docWrap, #printExamImg .docWrap{ padding-bottom: var(--safe-gap-over-footer); }
+  #printDoc #v_doc, #printExamLab #v_doc_lab, #printExamImg #v_doc_img{
+    font-size: var(--doc-font);
+    line-height: var(--doc-line);
+    font-family: inherit;
+  }
+  /* Cajas de contenido en órdenes/documentos (evita que el texto se “coma” el pie) */
+  .docBox{ border:1px solid #e2e8f0; border-radius:14px; padding:10px 12px; background:#fff; }
+  .docLabel{ font-weight:700; margin-bottom:6px; }
+  .docListPre{ margin:0; white-space:pre-wrap; }
+  .docListBox{ max-height: 92mm; overflow:auto; }
+  .docObs{ width:100%; min-height:28mm; resize:vertical; border:1px solid #e2e8f0; border-radius:12px; padding:8px 10px; }
+  @media print{
+    .docListBox{ overflow:hidden; }
+    .docObs{ resize:none; min-height:26mm; max-height:34mm; }
+  }
+
+
+
+/* ===== ORION PRO: tipografía homogénea en TODAS las hojas ===== */
+:root{
+  --orion-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  --orion-base: 12px;
+  --orion-small: 10.5px;
+  --orion-title: 16px;
+  --orion-subtitle: 12.5px;
+}
+body, input, select, textarea, button{ font-family: var(--orion-font) !important; }
+.page, .page *{ font-family: var(--orion-font) !important; }
+.page{ font-size: var(--orion-base); line-height: 1.25; }
+.page .doc-title{ font-size: var(--orion-title); font-weight: 800; letter-spacing: .2px; }
+.page .doc-subtitle{ font-size: var(--orion-subtitle); font-weight: 700; }
+.page .doc-meta, .page .doc-meta *{ font-size: var(--orion-small); }
+.page .doc-body, .page .doc-body *{ font-size: var(--orion-base); }
+
+/* Fecha alineada de forma consistente (evita salto de línea tipo 09-02-
+2026) */
+.dateBox{ white-space:nowrap; }
+.dateBox span{ white-space:nowrap; display:inline-block; min-width: 92px; text-align:right; }
+
+/* Compatibilidad con IDs/clases usadas en distintas hojas */
+#v_fecha, .v_fecha2, .v_fecha3, .v_fecha_lab, .v_fecha_img, .v_fecha_inter{
+  white-space:nowrap; display:inline-block; min-width: 92px; text-align:right;
+}
+
+/* Subtítulo bajo el nombre (firma) */
+[id^="fixedFoot"] .sigBox .name-sub{
+  font-weight:600; color:#111; font-size: .78rem; line-height:1.15;
+  margin-top:2px; text-align:center;
+}
+
+
+.subtitulo-academico{
+  font-size: 9px;
+  line-height: 1.15;
+  text-align: center;
+  max-width: 240px;
+  margin: 4px auto 0 auto;
+  color: #222;
+  font-weight: 600;
+}
+.subtitulo-academico div{
+  white-space: nowrap;
+}
+
+
+
+/* Placeholders NO imprimibles para contenteditable */
+.editable[data-ph]:empty:before{ content: attr(data-ph); color:#94a3b8; }
+@media print{ .editable[data-ph]:empty:before{ content:""; } }
+
+
+/* Afinar tamaños para que títulos/membretas queden homogéneos (similar a RECETA) */
+.page h3{ font-size: 16px !important; }
+.page h3.text-xl{ font-size: 16px !important; }
+.page .text-xl{ font-size: 16px !important; }
+.page .text-sm{ font-size: 12px !important; }
+.page .text-slate-600, .page .text-slate-500{ font-size: 12px !important; }
+.page hr{ border-color: #d6deea !important; }
+
+</style>
+</head>
+
+<!-- ===== Encabezado Orion (NO se imprime) ===== -->
+<header class="bg-white border-b border-slate-200 no-print">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
+    <img src="orion-logo.png" alt="Orion Comunicaciones" 
+         class="w-16 h-16 md:w-20 md:h-20 object-contain select-none" />
+    <div class="leading-tight">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800">
+        ORION Comunicaciones - Plataforma Clínica
+        <span class="align-baseline text-xl md:text-2xl font-black">®</span> — v4.3.5 PRO
+      </h1>
+      <p class="text-sm md:text-base text-slate-500">Recetas e Indicaciónes PreQx y PostQx</p>
+    </div>
+  </div>
+</header>
+
+<body>
+<main class="max-w-6xl mx-auto px-4 pb-24">
+  <!-- (1) Datos del Paciente — UI -->
+  <section class="card p-6 mb-6 no-print">
+    <h2 class="font-bold mb-4">1) Datos del Paciente</h2>
+    <div class="grid md:grid-cols-5 gap-4">
+      <div class="md:col-span-2">
+        <label class="text-sm text-slate-600">Nombre</label>
+        <input id="p_nombre" class="mt-1 w-full rounded-xl border p-2" placeholder="Ej. Ana Pérez Soto"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">RUN / RUT</label>
+        <input id="p_rut" class="mt-1 w-full rounded-xl border p-2" placeholder="12.345.678-9"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">Edad (años)</label>
+        <input id="p_edad" type="number" min="0" class="mt-1 w-full rounded-xl border p-2"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">Peso (kg)</label>
+        <input id="p_peso" type="number" min="0" step="0.1" class="mt-1 w-full rounded-xl border p-2" placeholder="kg"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- (2) Tipo de Receta — UI -->
+  <section class="card p-6 mb-6 no-print">
+    <div class="mb-4 flex items-center justify-between gap-3">
+      <h2 class="font-bold">2) Tipo de Receta</h2>
+      <div class="flex items-center gap-2">
+        <div class="hidden md:flex items-center gap-2 mr-2">
+          <label for="reposoDias" class="text-xs text-slate-500">Reposo&nbsp;(días)</label>
+          <input id="reposoDias" type="number" min="0" class="w-16 rounded-lg border p-1 text-sm" placeholder="0"/>
+        </div>
+        <button id="btnDocCert" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Certificado de Atención (reposo/justificación)">Certificado de Atención</button>
+        <button id="btnDocBiopsia" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Orden de Biopsia">Orden de Biopsia</button>
+        <button id="btnDocExams" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Desplegar selección de exámenes (laboratorio / imagenología)">Exámenes</button>
+        <button id="btnDocInter" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Interconsulta a otras especialidades">Interconsulta</button>
+      </div>
+    </div>
+
+    <div class="flex gap-2 mb-4">
+      <label class="chip cursor-pointer"><input type="radio" name="modo" value="plantillas" id="modoPlant" class="mr-2" checked>Plantillas/Combinaciones</label>
+      <label class="chip cursor-pointer"><input type="radio" name="modo" value="componentes" id="modoComp" class="mr-2">Por Fármacos / Familias</label>
+    </div>
+
+    <!-- Plantillas -->
+    <div id="panelPlantillas">
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="text-sm text-slate-600">Plantilla — Adulto</label>
+          <select id="tplAdulto" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <option value="Post_Qx1">POST-QUIRÚRGICO 1</option>
+            <option value="Post_Qx2">POST-QUIRÚRGICO 2</option>
+            <option value="PRE_QX">PRE-QUIRURGICOS</option>
+            <option value="alergia_penicilina">Alergia a Penicilinas</option>
+            <option value="hipertenso">Paciente HTA</option>
+            <option value="diabetico">Paciente DM</option>
+            <option value="embarazo">Embarazo/Puerperio (Seguridad)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-slate-600">Plantilla — Pediátrico</label>
+          <select id="tplPedia" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <option value="pedia_dolor">Dolor/ Fiebre (Paracetamol/Ibuprofeno)</option>
+            <option value="pedia_amoxi">Amoxicilina (mg/kg/día)</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1">Usa el campo <b>kg</b> para calcular dosis.</p>
+        </div>
+        <div>
+          <label class="text-sm text-slate-600">Diagnóstico / Procedimiento</label>
+          <input id="p_dx" class="mt-1 w-full rounded-xl border p-2" placeholder="Ej. Exodoncia 3.8 / Terceros molares"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Componentes (catálogo de fármacos) -->
+    <div id="panelComponentes" class="hidden mt-4">
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Analgésicos -->
+        <div>
+          <label class="text-sm text-slate-600">Analgésicos</label>
+          <select id="selAnalgesico" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <optgroup label="Analgésicos">
+
+
+              <!-- EDITA AQUÍ (posología analgésicos) -->
+              <option value="PARACETAMOL 1 gr
+1 Comprimido cada 6–8 hr por 3–5 días">Paracetamol 1 gr (adulto)</option>
+              <option value="PARACETAMOL (PED)
+10–15 mg/kg cada 4–6 hr (máx. 60 mg/kg/día) por 3–5 días">Paracetamol (pediátrico, gotas/susp)</option>
+              <option value="IBUPROFENO 400–600 mg
+1 Comprimido cada 6–8 hr por 3–5 días">Ibuprofeno 400–600 mg</option>
+              <option value="NAPROXENO SÓDICO 550 mg
+1 Comprimido cada 12 hr por 5–7 días">Naproxeno Sódico 550 mg</option>
+              <option value="CLONIXINATO DE LISINA 125 mg
+1 Comprimido cada 6–8 hr (máx. 750 mg/día) por 3–5 días">Clonixinato de Lisina 125 mg</option>
+              <option value="KETOPROFENO 50 mg
+1 Comprimido cada 6-8 hr por 3–5 días">Ketoprofeno 50 mg</option>
+              <option value="KETOROLACO 10 mg SL/VO
+1 Comprimido cada 6-8 hr (máx. 40 mg/día; ≤7 días)">Ketorolaco 10 mg SL/VO</option>
+              <option value="MELOXICAM 7,5 mg
+1 Comprimido cada 24 hr por 3–5 días (máx. 15 mg/día)">Meloxicam 7,5–15 mg</option>
+              <option value="CELECOXIB 200 mg
+1 Comprimido cada 12 hr en dolor agudo (o 200 mg/día) por 3–5 días">Celecoxib 200 mg</option>
+              <option value="TRAMADOL 50–100 mg
+1 Comprimido cada 6–8 hr (máx. 400 mg/día) por 3–5 días">Tramadol 50–100 mg</option>
+            </optgroup>
+          </select>
+          <button class="chip mt-2" id="addAnalgesico">Agregar</button>
+        </div>
+
+        <!-- Antibióticos -->
+        <div>
+          <label class="text-sm text-slate-600">Antibióticos</label>
+          <select id="selATB" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <optgroup label="Antibióticos VO">
+              <!-- EDITA AQUÍ (posología antibióticos) -->
+              <option value="AMOXICILINA 500 mg
+1 Comprimido cada 8 hr por 7 días">Amoxicilina 500 mg c/8 hr</option>
+              <option value="AMOXICILINA 1 g
+1 Comprimido cada 12 hr por 7 días">Amoxicilina 1 g c/12 hr</option>
+              <option value="AMOXICILINA/CLAVULÁNICO 875/125 mg
+1 Comprimido cada 12 hr por 7-14 días">Amoxi/Clav 875/125 mg c/12 hr</option>
+              <option value="FENOXIMETILPENICILINA 500 mg
+1 Comprimido cada 6 hr por 3–7 días">Penicilina V 500 mg c/6 hr</option>
+              <option value="CLINDAMICINA 300 mg
+1 Comprimido cada 6–8 hr por 7 días">Clindamicina 300 mg c/6–8 hr</option>
+              <option value="AZITROMICINA 500 mg
+1 Comprimido cada 24 hr por 3-5 días">Azitromicina 500 mg/día (3-5 días)</option>
+              <option value="METRONIDAZOL 500 mg
+1 Comprimido cada 8 hr por 7 días">Metronidazol 500 mg c/8 hr</option>
+            </optgroup>
+            <optgroup label="Parenterales (referencia)">
+              <option value="AMPICILINA/SULBACTAM IV
+1,5–3 g c/6–8 h">Ampicilina/Sulbactam IV</option>
+              <option value="CEFAZOLINA IV
+1 g c/6–8 h">Cefazolina IV</option>
+              <option value="CEFTRIAXONA IV/IM
+1–2 g cada 24 h">Ceftriaxona IV/IM</option>
+              <option value="CLINDAMICINA IV
+600–900 mg c/8 h">Clindamicina IV</option>
+            </optgroup>
+          </select>
+          <button class="chip mt-2" id="addATB">Agregar</button>
+        </div>
+
+        <!-- Otros -->
+        <div>
+          <label class="text-sm text-slate-600">Corticoides / Otros</label>
+          <select id="selCorti" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <optgroup label="Corticoides sistémicos">
+              <!-- EDITA AQUÍ (posología otros) -->
+              <option value="DEXAMETASONA 4 mg
+1 Comprimido cada 8 hr por 1–3 días">Dexametasona 4 mg</option>
+              <option value="PREDNISONA 5 mg
+1 Comprimido cada 8 hr por 3–5 días">Prednisona 5 mg</option>
+            </optgroup>
+            <optgroup label="Corticoide Oralbase">
+              <option value="TRIAMCINOLONA 0,1% PASTA
+Aplicar fina 1–3 veces/día por 5–7 días">Triamcinolona 0,1% (pasta) 1–3 apl/día</option>
+            </optgroup>
+            <optgroup label="Antifúngicos">
+              <option value="NISTATINA 100.000 UI/mL
+5 mL (o 100.000 UI) 4 veces/día por 7–14 días">Nistatina 100.000 UI/mL (4/día)</option>
+              <option value="MICONAZOL 2% GEL ORAL
+2,5 mL 4 veces/día por 7–14 días">Miconazol 2% gel oral</option>
+              <option value="FLUCONAZOL
+100–200 mg/día por 7–14 días">Fluconazol 100–200 mg/día</option>
+            </optgroup>
+            <optgroup label="Antivirales (VHS)">
+              <option value="ACICLOVIR 5% CREMA
+Aplicar 5 veces/día por 5 días">Aciclovir 5% tópico (5/día)</option>
+              <option value="ACICLOVIR 200 mg VO
+Cada 4 h (5/día) por 5 días">Aciclovir VO 200 mg c/4 hr</option>
+              <option value="VALACICLOVIR
+2 g cada 12 h por 1 día">Valaciclovir 2 g c/12 hr ×1 día</option>
+            </optgroup>
+            <optgroup label="Antieméticos">
+              <option value="ONDANSETRÓN
+4–8 mg cada 8–12 h, uso breve">Ondansetrón 4–8 mg</option>
+              <option value="METOCLOPRAMIDA 10 mg
+Hasta 3/día (≤5 días)">Metoclopramida 10 mg</option>
+            </optgroup>
+            <optgroup label="Descongestionante">
+              <option value="OXIMETAZOLINA 0,05%
+2 puffs por Fosa Nasal, cada 12 hr (≤3 días)">Oximetazolina</option>
+            </optgroup>
+            <optgroup label="Protector Gástrico">
+              <option value="OMEPRAZOL 20 mg
+1 Comprimido cada 24 hr, mientras use AINE">Omeprazol 20 mg</option>
+            </optgroup>
+            <optgroup label="Relajantes musculares">
+              <option value="CICLOBENZAPRINA 5–10 mg
+1 Comprimido 1 hr antes de Dormir (≤1–2 semanas)">Ciclobenzaprina</option>
+           <optgroup label="Antiseptico Orofaríngeo"></optgroup>
+              <option value="Colutorio Orofaríngeo de Clohexidina 0,12%
+3 Veces al Día, máximo 14 días.">Clohexidina</option>
+            </optgroup>
+            <optgroup label="Información al paciente">
+              <option data-bold="3" value="Encuesta de satisfacción (NPS): Puede recibir una encuesta aleatoria sobre su experiencia de hoy. Responderla toma &lt;1 min y nos ayuda a mejorar. ¡Gracias por su Tiempo!
+              
+
+              
+Ya tiene Cita el día _______________ a las __________ Hrs.">
+                Encuesta NPS — mensaje para paciente
+              </option>
+            </optgroup>
+          </select>
+          <button class="chip mt-2" id="addCorti">Agregar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <label class="text-sm text-slate-600">RECETA (editable)</label>
+      <textarea id="receta" rows="9" class="mt-1 w-full rounded-xl border p-3"></textarea>
+    </div>
+
+    <div class="mt-6 grid md:grid-cols-2 gap-4">
+      <div>
+        <label class="text-sm text-slate-600">Indicaciones (Elige una y/o Edita)</label>
+        <select id="selInd" class="mt-1 w-full rounded-xl border p-2">
+          <option value="">— Selecciona Indicación —</option>
+          <option value="ind_tm">Terceros Molares</option>
+          <option value="ind_exo_colgajo">Exodoncia a Colgajo</option>
+          <option value="ind_exo_rog">Extracción + ROG (Preservación Alveolar)</option>
+          <option value="ind_fen">Fenestración</option>
+          <option value="ind_mt">Microtornillos de Ortodoncia</option>
+          <option value="ind_fren">Frenectomía Lingual/Maxilar</option>
+          <option value="ind_biop">Biopsia</option>
+          <option value="ind_seno">Elevación de Seno Maxilar + Injerto</option>
+        </select>
+
+        <!-- Botonera definitiva PRE/POST -->
+        <div class="fase-actions" id="faseActions">
+          <button id="insPre"  class="chip cta-insert">Insertar PRE</button>
+          <button id="insPost" class="chip cta-insert">Insertar POST</button>
+          <button id="insAmbas" class="chip">Insertar PRE + POST</button>
+        </div>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">Diagnóstico / Procedimiento (se copiará a la hoja)</label>
+        <input id="p_dx2" class="mt-1 w-full rounded-xl border p-2" placeholder="Si difiere del anterior, escríbelo aquí"/>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <label class="text-sm text-slate-600">INDICACIONES (editable)</label>
+      <textarea id="indicaciones" rows="10" class="mt-1 w-full rounded-xl border p-3" placeholder="Pega o genera tus indicaciones aquí."></textarea>
+    </div>
+  </section>
+
+  <!-- (3) HOJA 1 — SOLO RECETA -->
+  <section class="card p-6 page" id="printSheet">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span id="v_fecha"></span></div>
+    </div>
+    <h3 class="text-xl font-bold text-center mt-1">RECETA</h3>
+    <hr class="my-3"/>
+
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span id="v_nombre" class="wrap"></span></p>
+      <p><b>RUN:</b> <span id="v_rut" class="wrap"></span></p>
+      <p><b>Edad:</b> <span id="v_edad" class="wrap"></span></p>
+      <p><b>Peso:</b> <span id="v_peso" class="wrap"></span></p>
+      <p class="col-span-2 diagline"><b>Diagnóstico/Procedimiento:</b> <span id="v_dx" class="wrap"></span></p>
+    </div>
+
+    <div id="contentWrap">
+      <div class="mt-4 section">
+        <h4 class="font-extrabold">📝 Rp/</h4>
+        <pre id="v_receta"></pre>
+      </div>
+    </div>
+
+    <div id="fixedFoot">
+      <div class="brand">
+        <span class="by">by</span>
+        <img src="orion-logo.png" alt="ORION" class="logo">
+        <span class="inline-flex items-center gap-2">
+          <!-- WhatsApp 16x16 -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M20.52 3.48A11.78 11.78 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.15 1.61 5.95L0 24l6.25-1.64A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.2-3.48-8.52zM12 22.03c-1.87 0-3.68-.5-5.26-1.45l-.38-.22-3.71.97.99-3.62-.23-.38A9.96 9.96 0 0 1 2.04 12C2.04 6.58 6.58 2.04 12 2.04S21.96 6.58 21.96 12 17.42 22.03 12 22.03zm5.48-6.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-1.9-.93-3.27-2.31-4.24-4.09-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35z"/>
+          </svg>
+          <strong>SOS</strong>
+          <span>&nbsp;+56&nbsp;9&nbsp;220&nbsp;62&nbsp;775</span>
+        </span>
+      </div>
+      <div class="sigBox">
+        <img class="firmaimg" src="firma_tinta_pluma_navy_transp.png" alt="Firma" onerror="this.style.display='none'">
+        <div class="sig-line"></div>
+        <div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- (4) HOJA 2 — SOLO INDICACIONES -->
+  <section class="card p-6 hidden page" id="printSheet2" aria-hidden="true">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span class="v_fecha2"></span></div>
+    </div>
+    <h3 class="text-xl font-extrabold text-center mt-1">INDICACIONES</h3>
+    <hr class="my-3"/>
+
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span class="v_nombre2 wrap"></span></p>
+      <p><b>RUN:</b> <span class="v_rut2 wrap"></span></p>
+      <p><b>Edad:</b> <span class="v_edad2 wrap"></span></p>
+      <p><b>Peso:</b> <span class="v_peso2 wrap"></span></p>
+      <p class="col-span-2 diagline"><b>Diagnóstico/Procedimiento:</b> <span class="v_dx2 wrap"></span></p>
+    </div>
+
+    <div id="contentWrap2">
+      <div class="mt-3 section avoid-break">
+        <h4 class="font-bold">ℹ️ INDICACIONES</h4>
+        <pre id="v_ind2"></pre>
+      </div>
+    </div>
+
+    <div id="fixedFoot2">
+      <div class="brand">
+        <span class="by">by</span>
+        <img src="orion-logo.png" alt="ORION" class="logo">
+        <span class="inline-flex items-center gap-2">
+          <!-- WhatsApp 16x16 -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M20.52 3.48A11.78 11.78 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.15 1.61 5.95L0 24l6.25-1.64A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.2-3.48-8.52zM12 22.03c-1.87 0-3.68-.5-5.26-1.45l-.38-.22-3.71.97.99-3.62-.23-.38A9.96 9.96 0 0 1 2.04 12C2.04 6.58 6.58 2.04 12 2.04S21.96 6.58 21.96 12 17.42 22.03 12 22.03zm5.48-6.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-1.9-.93-3.27-2.31-4.24-4.09-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35z"/>
+          </svg>
+          <strong>SOS</strong>
+          <span>&nbsp;+56&nbsp;9&nbsp;220&nbsp;62&nbsp;775</span>
+        </span>
+      </div>
+      <div class="sigBox">
+        <img class="firmaimg" src="firma_tinta_pluma_navy_transp.png" alt="Firma" onerror="this.style.display='none'">
+        <div class="sig-line"></div>
+        <div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- (2.5) Exámenes — Panel tipo "Begmax" (drawer lateral) -->
+  <div id="examDrawerRoot" class="no-print">
+    <div id="examBackdrop" class="fixed inset-0 bg-black/40 hidden z-50"></div>
+
+    <aside id="examDrawer" class="fixed inset-y-0 right-0 w-full max-w-xl bg-white shadow-2xl border-l border-slate-200 translate-x-full transition-transform duration-200 z-50 flex flex-col">
+      <div class="p-4 border-b flex items-center justify-between gap-3">
+        <div>
+          <div class="text-xs text-slate-500">Orion • Orden</div>
+          <h3 class="text-lg font-extrabold text-slate-900">🧪 Exámenes</h3>
+          <p class="text-xs text-slate-500">Selecciona laboratorio / imágenes y genera órdenes separadas (Laboratorio / Imágenes).</p>
+        </div>
+        <button id="btnExamClose" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Cerrar</button>
+      </div>
+
+      <div class="p-4 space-y-3 overflow-auto grow">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="tabExamLab" class="px-3 py-1.5 rounded-xl border text-sm bg-slate-900 text-white">Laboratorio</button>
+          <button id="tabExamImg" class="px-3 py-1.5 rounded-xl border text-sm hover:bg-slate-50">Imágenes</button>
+          <span id="examCount" class="ml-auto text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-700">0 seleccionados</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <input id="examSearch" class="w-full rounded-xl border p-2" placeholder="Buscar (ej. INR, CBCT, panorámica)"/>
+          <button id="btnExamClear" class="px-3 py-2 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Limpiar</button>
+        </div>
+
+        <div id="examPanelLab" class="space-y-3"></div>
+        <div id="examPanelImg" class="space-y-3 hidden"></div>
+
+        <div class="mt-2">
+          <label class="text-xs font-semibold text-slate-600">Observaciones (se imprimen en la orden)</label>
+          <textarea id="examObs" rows="3" maxlength="400" class="mt-1 w-full rounded-xl border p-2 text-sm" placeholder="Ej: Ayuno 8h, urgente, sospecha de infección, control post-operatorio, etc."></textarea>
+          <div class="text-[11px] text-slate-500 mt-1">Tip: si lo dejas vacío, la orden sale limpia.</div>
+        </div>
+
+        <div class="text-xs text-slate-500">
+          <b>Nota:</b> el catálogo es editable (JS). Esto no reemplaza criterio clínico.
+        </div>
+      </div>
+
+      <div class="p-4 border-t bg-white">
+        <div class="flex flex-wrap gap-2 justify-end">
+          <button id="btnExamOrderLab" class="px-4 py-2 rounded-xl bg-[color:var(--pri)] text-white">Orden Laboratorio</button>
+          <button id="btnExamOrderImg" class="px-4 py-2 rounded-xl bg-slate-800 text-white">Orden Imágenes</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- (2.6) Interconsulta — Panel (drawer lateral) -->
+  <div id="interDrawerRoot" class="no-print">
+    <div id="interBackdrop" class="fixed inset-0 bg-black/40 hidden z-50"></div>
+
+    <aside id="interDrawer" class="fixed inset-y-0 right-0 w-full max-w-xl bg-white shadow-2xl border-l border-slate-200 translate-x-full transition-transform duration-200 z-50 flex flex-col">
+      <div class="p-4 border-b flex items-center justify-between gap-3">
+        <div>
+          <div class="text-xs text-slate-500">Orion • Documento</div>
+          <h3 class="text-lg font-extrabold text-slate-900">📄 Interconsulta</h3>
+          <p class="text-xs text-slate-500">Solicitud a otras especialidades (médicas, dentales u otras). Se genera como hoja separada.</p>
+        </div>
+        <button id="btnInterClose" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Cerrar</button>
+      </div>
+
+      <div class="p-4 space-y-3 overflow-auto grow">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-600">Área</label>
+            <select id="interArea" class="mt-1 w-full rounded-xl border p-2 text-sm">
+              <option value="Médica">Médica</option>
+              <option value="Dental">Dental</option>
+              <option value="Otra (salud)">Otra (salud)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-600">Especialidad</label>
+            <input id="interEsp" class="mt-1 w-full rounded-xl border p-2 text-sm" placeholder="Ej: Alergología, Hematología, Medicina Interna, etc."/>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-600">Motivo / Pregunta clínica</label>
+          <textarea id="interMotivo" rows="3" maxlength="700" class="mt-1 w-full rounded-xl border p-2 text-sm" placeholder="Ej: Evaluar alergia a anestésicos locales (lidocaína) / látex; sugerir protocolo, etc."></textarea>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-600">Antecedentes relevantes</label>
+          <textarea id="interAnte" rows="3" maxlength="700" class="mt-1 w-full rounded-xl border p-2 text-sm" placeholder="Ej: reacción previa, comorbilidades, fármacos (bifosfonatos/denosumab), etc."></textarea>
+        </div>
+
+        <div>
+          <label class="text-xs font-semibold text-slate-600">Observaciones (editable)</label>
+          <textarea id="interObs" rows="4" maxlength="900" class="mt-1 w-full rounded-xl border p-2 text-sm" placeholder="Indicaciones adicionales, urgencia, preparación del paciente, etc."></textarea>
+          <div class="text-[11px] text-slate-500 mt-1">Esta sección se imprime en la hoja de interconsulta. Si es muy extensa, se recorta para no pisar la firma.</div>
+        </div>
+      </div>
+
+      <div class="p-4 border-t bg-white">
+        <div class="flex flex-wrap gap-2 justify-end">
+          <button id="btnInterGenerate" class="px-4 py-2 rounded-xl bg-[color:var(--pri)] text-white">Generar Interconsulta</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- (4.5) HOJA 3 — DOCUMENTO (CERTIFICADO / ORDEN) -->
+  <section class="card p-6 hidden page" id="printDoc" aria-hidden="true">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span class="v_fecha3"></span></div>
+    </div>
+
+    <h3 id="docTitulo" class="text-xl font-extrabold text-center mt-1">DOCUMENTO</h3>
+    <hr class="my-3"/>
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span class="v_nombre3"></span></p>
+      <p><b>RUN:</b> <span class="v_rut3"></span></p>
+      <p><b>Edad:</b> <span class="v_edad3"></span></p>
+      <p><b>Peso:</b> <span class="v_peso3"></span></p>
+      <p class="col-span-2"><b>Diagnóstico/Procedimiento:</b> <span class="v_dx3"></span></p>
+    </div>
+    <div class="mt-4 docWrap">
+      <pre id="v_doc" style="white-space:pre-wrap;"></pre>
+    </div>
+
+    <div id="fixedFoot3">
+<div class="brand">
+<span class="by">by</span>
+<img alt="ORION" class="logo" src="orion-logo.png"/>
+<span class="inline-flex items-center gap-2">
+<!-- WhatsApp 16x16 -->
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.52 3.48A11.78 11.78 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.15 1.61 5.95L0 24l6.25-1.64A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.2-3.48-8.52zM12 22.03c-1.87 0-3.68-.5-5.26-1.45l-.38-.22-3.71.97.99-3.62-.23-.38A9.96 9.96 0 0 1 2.04 12C2.04 6.58 6.58 2.04 12 2.04S21.96 6.58 21.96 12 17.42 22.03 12 22.03zm5.48-6.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-1.9-.93-3.27-2.31-4.24-4.09-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35z"></path>
+</svg>
+<strong>SOS</strong>
+<span> +56 9 220 62 775</span>
+</span>
+</div>
+<div class="sigBox">
+<img alt="Firma" class="firmaimg" onerror="this.style.display='none'" src="firma_tinta_pluma_navy_transp.png"/>
+<div class="sig-line"></div>
+<div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+</div>
+</div>
+
+
+</section>
+  
+  <!-- (4.6) HOJA 4 — ORDEN LABORATORIO -->
+  <section class="card p-6 hidden page" id="printExamLab" aria-hidden="true">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span class="v_fecha_lab"></span></div>
+    </div>
+
+    <h3 class="text-xl font-extrabold text-center mt-1">ORDEN DE EXÁMENES — LABORATORIO</h3>
+    <hr class="my-3"/>
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span class="v_nombre_lab"></span></p>
+      <p><b>RUN:</b> <span class="v_rut_lab"></span></p>
+      <p><b>Edad:</b> <span class="v_edad_lab"></span></p>
+      <p><b>Peso:</b> <span class="v_peso_lab"></span></p>
+      <p class="col-span-2"><b>Diagnóstico/Procedimiento:</b> <span class="v_dx_lab"></span></p>
+    </div>
+
+        <div class="mt-4 docWrap">
+      <div class="docBox docListBox">
+        <div class="docLabel">Exámenes solicitados</div>
+        <pre id="v_doc_lab" class="docListPre"></pre>
+      </div>
+      <div class="docBox mt-3">
+        <div class="docLabel">Observaciones (editable)</div>
+        <textarea id="v_doc_lab_obs" class="docObs" placeholder=""></textarea>
+        <div class="text-xs text-slate-400 mt-1 no-print">Observaciones (opcional)</div>
+      </div>
+      <div id="v_doc_lab_warn" class="mt-2 text-xs text-amber-700 hidden">⚠️ Hay más exámenes de los que caben en 1 hoja. Reduce la selección o emite una segunda orden.</div>
+    </div>
+    <div id="fixedFoot4">
+<div class="brand">
+<span class="by">by</span>
+<img alt="ORION" class="logo" src="orion-logo.png"/>
+<span class="inline-flex items-center gap-2">
+<!-- WhatsApp 16x16 -->
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.52 3.48A11.78 11.78 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.15 1.61 5.95L0 24l6.25-1.64A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.2-3.48-8.52zM12 22.03c-1.87 0-3.68-.5-5.26-1.45l-.38-.22-3.71.97.99-3.62-.23-.38A9.96 9.96 0 0 1 2.04 12C2.04 6.58 6.58 2.04 12 2.04S21.96 6.58 21.96 12 17.42 22.03 12 22.03zm5.48-6.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-1.9-.93-3.27-2.31-4.24-4.09-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35z"></path>
+</svg>
+<strong>SOS</strong>
+<span> +56 9 220 62 775</span>
+</span>
+</div>
+<div class="sigBox">
+<img alt="Firma" class="firmaimg" onerror="this.style.display='none'" src="firma_tinta_pluma_navy_transp.png"/>
+<div class="sig-line"></div>
+<div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+</div>
+</div>
+  </section>
+
+  <!-- (4.7) HOJA 5 — ORDEN IMÁGENES -->
+  <section class="card p-6 hidden page" id="printExamImg" aria-hidden="true">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span class="v_fecha_img"></span></div>
+    </div>
+
+    <h3 class="text-xl font-extrabold text-center mt-1">ORDEN DE EXÁMENES — IMÁGENES</h3>
+    <hr class="my-3"/>
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span class="v_nombre_img"></span></p>
+      <p><b>RUN:</b> <span class="v_rut_img"></span></p>
+      <p><b>Edad:</b> <span class="v_edad_img"></span></p>
+      <p><b>Peso:</b> <span class="v_peso_img"></span></p>
+      <p class="col-span-2"><b>Diagnóstico/Procedimiento:</b> <span class="v_dx_img"></span></p>
+    </div>
+
+        <div class="mt-4 docWrap">
+      <div class="docBox docListBox">
+        <div class="docLabel">Exámenes solicitados</div>
+        <pre id="v_doc_img" class="docListPre"></pre>
+      </div>
+      <div class="docBox mt-3">
+        <div class="docLabel">Observaciones (editable)</div>
+        <textarea id="v_doc_img_obs" class="docObs" placeholder=""></textarea>
+        <div class="text-xs text-slate-400 mt-1 no-print">Observaciones (opcional)</div>
+      </div>
+      <div id="v_doc_img_warn" class="mt-2 text-xs text-amber-700 hidden">⚠️ Hay más exámenes de los que caben en 1 hoja. Reduce la selección o emite una segunda orden.</div>
+    </div>
+    <div id="fixedFoot5">
+<div class="brand">
+<span class="by">by</span>
+<img alt="ORION" class="logo" src="orion-logo.png"/>
+<span class="inline-flex items-center gap-2">
+<!-- WhatsApp 16x16 -->
+<svg aria-hidden="true" fill="currentColor" height="16" viewbox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.52 3.48A11.78 11.78 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.15 1.61 5.95L0 24l6.25-1.64A11.93 11.93 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.19-1.25-6.2-3.48-8.52zM12 22.03c-1.87 0-3.68-.5-5.26-1.45l-.38-.22-3.71.97.99-3.62-.23-.38A9.96 9.96 0 0 1 2.04 12C2.04 6.58 6.58 2.04 12 2.04S21.96 6.58 21.96 12 17.42 22.03 12 22.03zm5.48-6.37c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.34.22-.64.07-1.9-.93-3.27-2.31-4.24-4.09-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.09 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.08 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.08-.12-.28-.2-.58-.35z"></path>
+</svg>
+<strong>SOS</strong>
+<span> +56 9 220 62 775</span>
+</span>
+</div>
+<div class="sigBox">
+<img alt="Firma" class="firmaimg" onerror="this.style.display='none'" src="firma_tinta_pluma_navy_transp.png"/>
+<div class="sig-line"></div>
+<div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+</div>
+</div>
+  </section>
+
+
+
+  
+  <!-- (4.8) HOJA 6 — INTERCONSULTA -->
+  <section class="card p-6 hidden page" id="printInter" aria-hidden="true">
+    <div class="flex justify-between items-start">
+      <div>
+        <h3 class="text-xl font-bold leading-tight">Cirugía y Traumatología Bucomaxilofacial</h3>
+        <p class="text-slate-500">&nbsp;</p>
+      </div>
+      <div class="text-sm text-slate-600 dateBox"><b>Fecha:</b> <span class="v_fecha_inter"></span></div>
+    </div>
+
+    <h3 class="text-xl font-extrabold text-center mt-1">INTERCONSULTA A ESPECIALIDAD</h3>
+    <hr class="my-3"/>
+    <div class="hdrgrid text-sm">
+      <p><b>Paciente:</b> <span class="v_nombre_inter"></span></p>
+      <p><b>RUN:</b> <span class="v_rut_inter"></span></p>
+      <p><b>Edad:</b> <span class="v_edad_inter"></span></p>
+      <p><b>Peso:</b> <span class="v_peso_inter"></span></p>
+      <p class="col-span-2"><b>Diagnóstico/Procedimiento:</b> <span class="v_dx_inter"></span></p>
+    </div>
+
+    <div class="mt-4 docWrap">
+      <div class="docBox">
+        <div class="docLabel">Área / Especialidad</div>
+        <pre id="v_inter_head" style="white-space:pre-wrap;"></pre>
+      </div>
+
+      <div class="docBox mt-3">
+        <div class="docLabel">Motivo / Pregunta clínica</div>
+        <pre id="v_inter_motivo" style="white-space:pre-wrap;"></pre>
+      </div>
+
+      <div class="docBox mt-3">
+        <div class="docLabel">Antecedentes relevantes</div>
+        <pre id="v_inter_ante" style="white-space:pre-wrap;"></pre>
+      </div>
+
+      <div class="docBox mt-3">
+        <div class="docLabel">Observaciones (editable)</div>
+        <textarea id="v_inter_obs" class="docObs" placeholder=""></textarea>
+        <div class="text-xs text-slate-400 mt-1 no-print">Observaciones (opcional)</div>
+      </div>
+    </div>
+
+    <div id="fixedFoot6">
+<div class="brand">
+<span class="by">by</span>
+<img alt="ORION" class="logo" src="orion-logo.png"/>
+<span class="inline-flex items-center gap-2">
+<strong>SOS</strong>
+<span> +56 9 220 62 775</span>
+</span>
+</div>
+<div class="sigBox">
+<img alt="Firma" class="firmaimg" onerror="this.style.display='none'" src="firma_tinta_pluma_navy_transp.png"/>
+<div class="sig-line"></div>
+<div><span class="name">Dr. Javier Espina Videla</span></div>
+        <div class="subtitulo-academico">
+          <div>Cirugía y Traumatología Bucomaxilofacial</div>
+          <div>Universidad de Chile</div>
+        </div>
+</div>
+</div>
+  </section>
+
+<!-- (5) Acciones -->
+  <section class="actions-bottom no-print mt-6">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3 border-t">
+      <button id="btnPrint" class="px-4 py-2 rounded-xl bg-slate-800 text-white">🖨️ Imprimir</button>
+      <button id="btnPdf"   class="px-4 py-2 rounded-xl bg-[color:var(--pri)] text-white">PDF</button>
+      <button id="btnWA"    class="px-4 py-2 rounded-xl bg-green-600 text-white">WhatsApp</button>
+      <button id="btnCopy"  class="px-4 py-2 rounded-xl border">Copiar Texto</button>
+    </div>
+  </section>
+</main>
+
+<!-- =========================
+     LÓGICA JS (funcional + fixes)
+     ========================= -->
+<script>
+  /* ========= PLANTILLAS (EDITA AQUÍ POSOLOGÍA RÁPIDO) ========= */
+  const PLANTILLAS = {
+
+    Post_Qx1: 
+`PARACETAMOL 1 gr
+1 comprimido cada 6-8 hr por 5 días o SOS.
+
+KETOPROFENO 50 mg
+1 comprimido cada 6-8 hr por 3 - 5 días o SOS.
+
+AMOXICILINA 500 mg
+1 comprimido cada 6-8 hr por 7 días o SOS.
+
+PREDNISONA 5 mg
+1 comprimido cada 6-8 hr por 3 días o SOS.
+
+Colutorio Orofaríngeo de Clohexidina 0,12%
+3 Veces al Día, máximo 14 días.
+
+Encuesta de satisfacción (NPS): Puede recibir una encuesta aleatoria sobre su experiencia de hoy. Responderla toma 1 min y nos ayuda a mejorar. ¡Gracias por su tiempo!
+
+
+
+Ya tiene Cita el día _______________ a las __________ Hrs.`,
+
+
+    Post_Qx2:
+`PARACETAMOL 1 gr
+1 comprimido cada 6-8 hr por 5 días o SOS.
+
+KETOPROFENO 50 mg
+1 comprimido cada 6-8 hr por 3 - 5 días o SOS.
+
+Colutorio Orofaríngeo de Clohexidina 0,12%
+3 Veces al Día, máximo 14 días.
+
+Encuesta de satisfacción (NPS): Puede recibir una encuesta aleatoria sobre su experiencia de hoy. Responderla toma 1 min y nos ayuda a mejorar. ¡Gracias por su tiempo!
+
+
+
+Ya tiene Cita el día _______________ a las __________ Hrs.`,
+
+
+    PRE_QX: 
+`PARACETAMOL 1 gr
+1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
+
+KETOPROFENO 50 mg
+1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
+
+AMOXICILINA 500 mg
+1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
+
+PREDNISONA 5 mg
+1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.`,
+
+
+    alergia_penicilina:
+`PARACETAMOL 1 g
+1 comprimido cada 6 horas por 5 días
+
+KETOPROFENO 50 mg
+1 comprimido cada 8 horas por 3–5 días
+
+CLINDAMICINA 300 mg
+1 comprimido cada 8 horas por 7 días
+ó
+AZITROMICINA 500 mg
+1 comprimido cada 24 horas por 3 días`,
+  
+
+  Hipertenso: 
+`PARACETAMOL 1 g
+1 comprimido cada 8 horas por 3-5 días
+
+MELOXICAM 15 mg
+1 comprimido cada 12 horas por 3 días
+
+*Evitar ibuprofeno/ketorolaco si es mal controlado.`,
+
+
+    Diabetico: 
+`PARACETAMOL 1 g
+1 comprimido cada 6 horas por 5 días
+
+KETOPROFENO 50 mg
+1 comprimido cada 8 horas por 3–5 días
+
+AMOXICILINA 500 mg
+4 comprimido 1 hora antes el procedimiento
+
+
+*Evitar AINES si hay nefropatía. Control de Glicemias (<180 mg/dl).`,
+
+
+    embarazo: 
+`PARACETAMOL 500–1000 mg
+c/6–8 horas según necesidad.
+
+AMOXICILINA 500 mg
+1 comprimido cada 8 horas por 7 días
+
+Evitar AINES y Quinolonas.`
+  };
+
+  const PEDIA = {
+    pedia_dolor: (kg)=> {
+      const paracetamolMg = Math.round(kg * 12.5);
+      const ibuprofenoMg = Math.round(kg * 10);
+      return `PARACETAMOL jarabe (120 mg/5 ml)
+Dosis: ${paracetamolMg} mg cada 6–8 horas (≈ ${((paracetamolMg/120)*5).toFixed(1)} ml) por 3–5 días
+
+IBUPROFENO jarabe (100 mg/5 ml)
+Dosis: ${ibuprofenoMg} mg cada 6–8 horas (≈ ${((ibuprofenoMg/100)*5).toFixed(1)} ml) por 3–5 días`;
+    },
+    pedia_amoxi: (kg)=> {
+      const totalDia = Math.round(kg * 30);
+      const c8h = Math.round(totalDia/3);
+      return `AMOXICILINA jarabe 250 mg/5 ml
+Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
+≈ ${((c8h/250)*5).toFixed(1)} ml por toma por 7 días`;
+    }
+  };
+
+  /* ========= INDICACIONES ========= */
+  const INDICACIONES = {
+
+    ind_tm: `✅ Postquirúrgicas
+• Gasa con Presión 30–45 min; repetir si es necesario.
+• Frío Local intermitente 24–48 hr (20 min sí / 10 min no). Calor Local, desde el 3er día.
+• Reposo Relativo 24–48 hr; dormir semi-sentado(a).
+• Dieta Blanda y Templada/Fría; evitar duros, calientes, semillas y picantes.
+• No Fumar ni Alcohol 72 hr; no usar bombillas.
+• Sin Enjuagues Vigorosos ni Cepillado sobre la zona por 24 hr; desde 2do día, enjuague suave.
+• Medicación exactamente como fue indicada.
+• Control 7–10 días (retiro de suturas según indicación).
+
+⚠️ Alertas
+• Sangrado que no cede en 30–45 min de compresión; volver a comprimir otro periódo.
+• Dolor progresivo o refractario a analgésicos.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_exo_colgajo: `✅ Postquirúrgicas
+• No manipular la herida ni tirar del labio.
+• Gasa 30–45 min; evitar succión/escupir fuerte.
+• Frío Local 24–48 hr; reposo relativo 24–48 hr. Calor local, desde el 3° día.
+• Dieta Blanda y Templada/Fría 48–72 hr; evitar duros, calientes, semillas y picantes.
+• Higiene: sin Enjuagues vigorosos 24 hr; desde 2do día, cepillado suave + Enjuague Bucal si se indicó.
+• Medicación exactamente como fue indicada.
+• Control 7–10 días (retiro de suturas según indicación).
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_exo_rog: `✅ Postquirúrgicas
+• No manipular la herida ni tirar del labio.
+• Gasa 30–45 min; evitar succión o escupir fuerte.
+• Frío 24–48 hr; reposo relativo 24–48 hr. Calor local, desde el 3° día.
+• Dieta Blanda y Templada/Fría 48–72 hr; sin fumar ni alcohol.
+• Higiene: no cepillar la herida 24 hr; desde 2do día, cepillado suave + enjuague si se indicó.
+• Medicación exactamente como fue indicada.
+• Evitar uso de Aparato Protésico que presionen el Sitio hasta autorización.
+• Control 7–10 días (retiro de suturas según indicación).
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_fen: `✅ Postquirúrgicas
+• No manipular Cadenas, Alambres, Elásticos ni Bracket; si se sueltan, contactar SOS.
+• Dieta Blanda y Templada/Fría 48–72 hr; evitar morder sobre la zona.
+• Evitar Cepillado Directo 24 hr; luego cepillado suave + enjuague si se indicó.
+• Medicación exactamente como fue indicada.
+• Control 7–10 días (retiro de suturas según indicación).
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_mt: `✅ Postquirúrgicas
+• No manipular el Microtornillo con Lengua o Dedos.
+• Evitar Alimentos Duros sobre la Zona 3–5 días.
+• Higiene: cepillado suave desde el mismo día; clorhexidina 7–10 días si se indicó.
+• Analgesia según receta; frío 12–24 hr.
+• Leve movilidad inicial puede ser normal; si hay movilidad evidente o dolor persistente, contactar.
+• Mantener elásticos/cadenas salvo indicación del ortodoncista.
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_fren: `✅ Postquirúrgicas
+• Compresión con gasa 20–30 min si sangra; Frío intermitente 24 hr.
+• Dieta Blanda y Fría/Templada 24–48 hr; evitar ácidos/picantes.
+• No traccionar labio o lengua 48 hr.
+• Sin Enjuagues Vigorosos 24 hr; luego cepillado suave + enjuague si se indicó.
+• Ejercicios de Movilidad si fueron indicados (48–72 hr).
+• Analgesia según receta.
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_biop: `✅ Postquirúrgicas
+• No Traumatizar la zona ni tirar del labio.
+• Compresión con Gasa 20–30 min si sangra; frío 12–24 hr.
+• Dieta Blanda y Fría/Templada; evitar calientes y picantes.
+• Sin Enjuagues Vigorosos 24 hr; luego cepillado suave + enjuague si se indicó.
+• Medicamentos según receta.
+• Resultados Histopatológicos aprox. 21 días (variable).
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`,
+
+    ind_seno: `✅ Postquirúrgicas
+• No Sonarse ni Estornudar con la Boca Cerrada por 2 semanas (si estornuda, hágalo con la boca abierta).
+• Evitar Succión, Escupir fuerte o VASALVA.
+• Dormir con cabeza elevada 3–5 días; Frío Local 24–48 hr.
+• Dieta Blanda; sin Fumar ni Alcohol por 2 semanas.
+• Usar Descongestionante/ATB si se indicaron.
+• Sin Avión, Buceo ni Deportes de Impacto 2–3 semanas.
+• No manipular la zona; higiene suave alrededor.
+
+ℹ Notas
+• Si usa CPAP, seguir indicación específica de presión/pausa.
+• Maduración del Injerto: 3-4 meses aprox.
+
+⚠️ Alertas
+• Sangrado persistente >30–45 min con compresión.
+• Dolor, Fiebre >38 °C, Secreción Purulenta, Mal Olor.
+• Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`
+  };
+
+  /* ========= PREQUIRÚRGICAS (base) ========= */
+  const PRE_BASE = `✅ Prequirúrgicas
+• No es necesario Ayuno (salvo indicación específica/sedación).
+• Desayuno/Almuerzo liviano el mismo día.
+• Llevar Cédula y Estudios (Rx/CBCT si corresponde).
+• Higiene previa (ducha, ropa cómoda, sin joyas/maquillaje).
+• Acompañante si es Menor de edad, Ansioso(a) o Sedación.
+• Informar cambios de Salud (fiebre, resfrío, embarazo, alergias).
+• Medicación previa solo si fue indicada por su profesional.
+• Evitar anti-inflamatorios no indicados 24 hr antes si se le solicitó.
+• Asistir con tiempo (15 min) y sin esmalte de uñas (monitoreo).`;
+
+  // ==== Inserción PRE/POST ====
+  (function(){
+    const selInd = document.getElementById('selInd');
+    const indicaciones = document.getElementById('indicaciones');
+    const safeRender = ()=>{ try{ if(typeof render === 'function') render(); }catch(_){} };
+
+    function insertPre(){
+      if(!indicaciones) return;
+      const current = (indicaciones.value || '').trim();
+      const add = PRE_BASE.trim();
+      indicaciones.value = current ? `${current}\n\n${add}` : add;
+      safeRender();
+    }
+    function insertPost(){
+      if(!selInd || !indicaciones) return;
+      const key = selInd.value; if(!key) return;
+      const post = (INDICACIONES[key] || '').trim();
+      const current = (indicaciones.value || '').trim();
+      indicaciones.value = current ? `${current}\n\n${post}` : post;
+      safeRender();
+    }
+    function insertAmbas(){
+      if(!selInd || !indicaciones) return;
+      const key = selInd.value; if(!key) return;
+      const post = (INDICACIONES[key] || '').trim();
+      indicaciones.value = `${PRE_BASE.trim()}\n\n${post}`.trim();
+      safeRender();
+    }
+
+    // Desacoplar listeners duplicados
+    ['insPre','insPost','insAmbas'].forEach(id=>{
+      const old = document.getElementById(id);
+      if(!old) return;
+      const clone = old.cloneNode(true);
+      old.parentNode.replaceChild(clone, old);
+    });
+    document.getElementById('insPre')?.addEventListener('click', insertPre);
+    document.getElementById('insPost')?.addEventListener('click', insertPost);
+    document.getElementById('insAmbas')?.addEventListener('click', insertAmbas);
+  })();
+
+  /* ========= DOM ========= */
+  const $ = (id)=>document.getElementById(id);
+  const p_nombre=$('p_nombre'), p_rut=$('p_rut'), p_edad=$('p_edad'), p_peso=$('p_peso');
+  const p_dx=$('p_dx'), p_dx2=$('p_dx2');
+  const v_fecha=$('v_fecha'), v_nombre=$('v_nombre'), v_rut=$('v_rut'),
+        v_edad=$('v_edad'), v_peso=$('v_peso'), v_dx=$('v_dx');
+  const receta=$('receta'), indicaciones=$('indicaciones');
+  const tplAdulto=$('tplAdulto'), tplPedia=$('tplPedia');
+  const panelPlantillas=$('panelPlantillas'), panelComponentes=$('panelComponentes');
+  const modoPlant=$('modoPlant'), modoComp=$('modoComp');
+  const selInd=$('selInd');
+
+  v_fecha.textContent = new Date().toLocaleDateString('es-CL');
+
+  function syncModo(){
+    const isPlant = modoPlant.checked;
+    panelPlantillas.classList.toggle('hidden', !isPlant);
+    panelComponentes.classList.toggle('hidden', isPlant);
+  }
+  modoPlant.addEventListener('change', syncModo);
+  modoComp.addEventListener('change', syncModo);
+  syncModo();
+
+  tplAdulto?.addEventListener('change', ()=>{ receta.value = PLANTILLAS[tplAdulto.value] || ''; render(); });
+  tplPedia?.addEventListener('change', ()=>{
+    const kg = parseFloat(p_peso.value||'0');
+    if(!kg){ alert('Ingresa peso (kg) para cálculo.'); return; }
+    const txt = PEDIA[tplPedia.value]?.(kg) || '';
+    receta.value = (receta.value?receta.value+'\n\n':'') + txt;
+    render();
+  });
+
+  function addFrom(selectId){
+    const s = $(selectId); if(!s?.value) return;
+    receta.value = (receta.value?receta.value+'\n\n':'') + s.value;
+    s.selectedIndex = 0; render();
+  }
+  $('addAnalgesico')?.addEventListener('click', ()=> addFrom('selAnalgesico'));
+  $('addATB')?.addEventListener('click', ()=> addFrom('selATB'));
+  $('addCorti')?.addEventListener('click', ()=> addFrom('selCorti'));
+
+  /* ========= Layout helpers ========= */
+  const rootStyle = document.documentElement.style;
+  const cw1 = $('contentWrap');
+
+  function isOverflowing(){
+    const foot = document.getElementById('fixedFoot');
+    const limitY = foot.offsetTop - 5;
+    const contentBottom = cw1.offsetTop + cw1.scrollHeight;
+    return (contentBottom > limitY);
+  }
+  function tryAutofit(){
+    const defaultInd = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ind-font')) || 11.0;
+    const minInd = 9.6, step = 0.2;
+    rootStyle.setProperty('--ind-font', defaultInd + 'pt');
+    let size = defaultInd, guard = 0;
+    while (isOverflowing() && size > minInd && guard < 30){
+      size = +(size - step).toFixed(2);
+      rootStyle.setProperty('--ind-font', size + 'pt');
+      guard++;
+    }
+  }
+
+  // ==== Autofit para documentos (Hoja 3 y Órdenes) ====
+  function isOverflowingDoc(sec){
+    const foot = sec.querySelector('[id^="fixedFoot"]');
+    const wrap = sec.querySelector('.docWrap');
+    if(!foot || !wrap) return false;
+    const limitY = foot.offsetTop - 5;
+    const contentBottom = wrap.offsetTop + wrap.scrollHeight;
+    return contentBottom > limitY;
+  }
+  function tryAutofitDocs(){
+    const defaultDoc = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--doc-font')) || 11.0;
+    const minDoc = 9.6, step = 0.2;
+    rootStyle.setProperty('--doc-font', defaultDoc + 'pt');
+    let size = defaultDoc, guard = 0;
+    const secs = ['printDoc','printExamLab','printExamImg']
+      .map(id=>document.getElementById(id))
+      .filter(sec=>sec && !sec.classList.contains('hidden') && sec.getAttribute('aria-hidden')!=='true');
+    if(!secs.length) return;
+    while (secs.some(isOverflowingDoc) && size > minDoc && guard < 30){
+      size = +(size - step).toFixed(2);
+      rootStyle.setProperty('--doc-font', size + 'pt');
+      guard++;
+    }
+  }
+
+  function fillSecondPageHeader(){
+    document.querySelectorAll('.v_fecha2').forEach(el=> el.textContent = new Date().toLocaleDateString('es-CL'));
+    document.querySelectorAll('.v_nombre2').forEach(el=> el.textContent = p_nombre.value||'');
+    document.querySelectorAll('.v_rut2').forEach(el=> el.textContent = p_rut.value||'');
+    document.querySelectorAll('.v_edad2').forEach(el=> el.textContent = p_edad.value?`${p_edad.value} años`:'');
+    document.querySelectorAll('.v_peso2').forEach(el=> el.textContent = p_peso.value?`${p_peso.value} kg`:'');
+    document.querySelectorAll('.v_dx2').forEach(el=> el.textContent = (p_dx2.value||p_dx.value||''));
+  }
+
+  function updatePrintBreaks(){
+    const ids = ['printSheet','printSheet2','printDoc','printExamLab','printExamImg'];
+    const pages = ids.map(id=>document.getElementById(id))
+      .filter(sec=>sec && !sec.classList.contains('hidden') && sec.getAttribute('aria-hidden')!=='true');
+    pages.forEach(p=>p.classList.remove('force-break'));
+    pages.forEach((p,i)=>{ if(i < pages.length-1) p.classList.add('force-break'); });
+  }
+  window.__orionUpdatePrintBreaks = updatePrintBreaks;
+  window.addEventListener('beforeprint', updatePrintBreaks);
+  window.addEventListener('afterprint', ()=> {
+    const ids = ['printSheet','printSheet2','printDoc','printExamLab','printExamImg'];
+    ids.map(id=>document.getElementById(id)).filter(Boolean).forEach(p=>p.classList.remove('force-break'));
+  });
+
+
+  /* ========= Render principal ========= */
+  function render(){
+    const dxFinal = (p_dx2.value||p_dx.value||'');
+    v_nombre.textContent = p_nombre.value||'';
+    v_rut.textContent    = p_rut.value||'';
+    v_edad.textContent   = p_edad.value?`${p_edad.value} años`:'';
+    v_peso.textContent   = p_peso.value?`${p_peso.value} kg`:'';
+    v_dx.textContent     = dxFinal;
+
+    function escapeHTML(s){
+      return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+    function formatRecetaHTML(s){
+      let esc = escapeHTML((s||'').trim());
+      // Pone en negrita toda la línea que comience con "Encuesta de satisfacción (NPS):"
+      esc = esc.replace(/^(.*Encuesta de satisfacción \(NPS\):.*)$/m, '<strong>$1</strong>');
+      return esc;
+    }
+    document.getElementById('v_receta').innerHTML = formatRecetaHTML(receta.value||'');
+
+    const indTxt = (indicaciones.value||'').replace(/^\s*indicaciones?\s*—.*?\n+/i,'').trim();
+    const v_ind2 = document.getElementById('v_ind2');
+    const sheet2 = document.getElementById('printSheet2');
+
+    v_ind2.textContent = indTxt;
+
+    if (indTxt.length > 0){
+      fillSecondPageHeader();
+      sheet2.classList.remove('hidden');
+      sheet2.removeAttribute('aria-hidden');
+    }else{
+      sheet2.classList.add('hidden');
+      sheet2.setAttribute('aria-hidden','true');
+    }
+
+    tryAutofit();
+    tryAutofitDocs();
+    updatePrintBreaks();
+  }
+
+  [p_nombre,p_rut,p_edad,p_peso,p_dx,p_dx2,receta,indicaciones].forEach(el=> el.addEventListener('input', render));
+  render();
+
+  /* ========= Acciones ========= */
+  function enableAll(){
+    document.querySelectorAll('button').forEach(b=>{
+      b.disabled = false;
+      b.classList.remove('opacity-50','pointer-events-none');
+    });
+  }
+  setInterval(enableAll, 1500);
+  window.addEventListener('afterprint', enableAll);
+  window.addEventListener('focus', enableAll);
+
+  document.getElementById('btnPrint')?.addEventListener('click', ()=>{ render(); window.print(); setTimeout(enableAll,150); });
+
+  // PDF (incluye Hoja 1, Hoja 2 si existe y Hoja 3 si visible)
+  document.getElementById('btnPdf')?.addEventListener('click', async ()=> {
+    render(); // layout final
+
+
+    if (typeof html2pdf !== 'function'){
+      alert('No se pudo cargar el motor de PDF (html2pdf). Usa Imprimir → Guardar como PDF.');
+      window.print();
+      return;
+    }
+    const s1   = document.getElementById('printSheet');
+    const s2   = document.getElementById('printSheet2');
+    const s3   = document.getElementById('printDoc');
+    const sLab = document.getElementById('printExamLab');
+    const sImg = document.getElementById('printExamImg');
+    const container = document.createElement('div');
+
+    const forceStyle = document.createElement('style');
+    forceStyle.textContent = `
+      .no-print{display:none !important;}
+      .orion-print-only{display:block !important;}
+      .page{display:block !important;}
+    `;
+    container.appendChild(forceStyle);
+
+
+    Object.assign(container.style, {
+      position:'absolute', left:'-10000px', top:'0',
+      background:'#fff', width: (s1 && s1.offsetWidth ? s1.offsetWidth : 794) + 'px'
+    });
+
+    const styleFix = document.createElement('style');
+    styleFix.textContent = `
+      .no-print{display:none !important;}
+      .orion-print-only{display:block !important;}
+      .hidden{display:none !important;}
+    `;
+    container.appendChild(styleFix);
+    
+
+    const pages = [];
+    pages.push(s1);
+    if (s2 && !s2.classList.contains('hidden')) pages.push(s2);
+    if (s3 && !s3.classList.contains('hidden')) pages.push(s3);
+    if (sLab && !sLab.classList.contains('hidden')) pages.push(sLab);
+    if (sImg && !sImg.classList.contains('hidden')) pages.push(sImg);
+
+    pages.forEach(p => container.appendChild(p.cloneNode(true)));
+
+    container.querySelectorAll('.page').forEach((el, i, arr) => {
+      el.style.pageBreakAfter = (i === arr.length - 1) ? 'auto' : 'always';
+    });
+
+    async function waitImages(root){
+      const imgs = Array.from(root.querySelectorAll('img'));
+      await Promise.all(imgs.map(img => (img.decode ? img.decode() : Promise.resolve()).catch(()=>{})));
+    }
+
+    document.body.appendChild(container);
+    await waitImages(container);
+
+    const opt = {
+      margin: 0,
+      filename: 'Receta-Orion.pdf',
+      image: { type:'jpeg', quality:0.98 },
+      html2canvas: {
+        scale: 2, useCORS: false, allowTaint: true, backgroundColor: '#FFFFFF',
+        imageTimeout: 0, scrollX: 0, scrollY: 0,
+        windowWidth: container.scrollWidth, windowHeight: container.scrollHeight
+      },
+      jsPDF: { unit:'in', format:[5.5,8.5], orientation:'portrait' },
+      pagebreak: { mode:['css'], avoid:['.avoid-break'] }
+    };
+
+    try{
+      if(typeof html2pdf !== 'function'){
+        alert('PDF: tu navegador bloqueó la librería (modo archivo local o sin internet). Usa Imprimir → Guardar como PDF.');
+        document.body.removeChild(container);
+        window.print();
+        return;
+      }
+      // Fuerza visibilidad de páginas dentro del contenedor (para que html2canvas no capture en blanco)
+      const style = document.createElement('style');
+      style.textContent = '.hidden{display:none !important;} .no-print{display:none !important;} .page{display:block !important;}';
+      container.appendChild(style);
+      await html2pdf().set(opt).from(container).save();
+    } finally {
+      container.remove();
+      enableAll();
+    }
+  });
+
+  // Compartir / Copiar
+  document.getElementById('btnCopy')?.addEventListener('click', ()=>{
+    const f = new Date().toLocaleDateString('es-CL');
+    const dxFinal = (p_dx2.value||p_dx.value||'');
+    const txt = `ORION HEALTH SpA — Receta / Indicaciones
+Fecha: ${f}
+
+Paciente: ${p_nombre.value||''}
+RUN: ${p_rut.value||''}
+Edad: ${p_edad.value?`${p_edad.value} años`:''}
+Peso: ${p_peso.value?`${p_peso.value} kg`:''}
+Diagnóstico/Procedimiento: ${dxFinal}
+
+Receta:
+${(receta.value||'').trim()}
+
+Indicaciones:
+${(indicaciones.value||'').replace(/^\s*indicaciones?\s*—.*?\n+/i,'').trim()}
+
+— Dr. Javier Espina Videla • Cirugía Oral y Maxilofacial —`;
+    navigator.clipboard.writeText(txt).then(()=> alert('Texto copiado.'));
+  });
+
+  document.getElementById('btnWA')?.addEventListener('click', ()=>{
+    const url = 'https://wa.me/?text='+encodeURIComponent(location.href);
+    const win = window.open(url,'_blank','noopener,noreferrer');
+    if(!win) location.href = url;
+    setTimeout(enableAll,200);
+  });
+</script>
+
+
+
+<!-- === EXÁMENES (drawer): selección LAB/IMG + ÓRDENES separadas (Lab / Imágenes) === -->
+<script>
+(function(){
+  const el = (id)=> document.getElementById(id);
+
+  const btnOpen   = el('btnDocExams');
+  const backdrop  = el('examBackdrop');
+  const drawer    = el('examDrawer');
+  const btnClose  = el('btnExamClose');
+
+  const tabLab    = el('tabExamLab');
+  const tabImg    = el('tabExamImg');
+  const panelLab  = el('examPanelLab');
+  const panelImg  = el('examPanelImg');
+  const search    = el('examSearch');
+  const btnClear  = el('btnExamClear');
+  const btnOrderLab = el('btnExamOrderLab');
+  const btnOrderImg = el('btnExamOrderImg');
+  const countPill = el('examCount');
+  const obs       = el('examObs');
+
+  if(!btnOpen || !drawer || !backdrop) return;
+
+  // --- Catálogo sugerido (editable) ---
+  // Nota: la idea es cubrir lo más usado en preoperatorio/maxilofacial; puedes editar/expandir libremente.
+  
+  const LAB = [
+    { group:'Hematología', desc:'Serie roja/blanca/plaquetas y evaluación básica de anemia/infección.', items:[
+      { key:'hem_comp', label:'Hematología completa', hint:'CBC completo' },
+      { key:'anemia_class', label:'Clasificación de anemia', hint:'según criterio clínico' },
+      { key:'form_leuco', label:'Fórmula leucocitaria', hint:'diferencial de leucocitos' },
+      { key:'wbc', label:'Glóbulos blancos', hint:'recuento' },
+      { key:'rbc', label:'Glóbulos rojos', hint:'recuento' },
+      { key:'hct', label:'Hematocrito', hint:'Hto' },
+      { key:'hb', label:'Hemoglobina', hint:'Hb' },
+      { key:'eos', label:'Recuento de eosinófilos', hint:'alergia/parásitos (según caso)' },
+      { key:'plt', label:'Recuento de plaquetas', hint:'riesgo hemorrágico' },
+      { key:'retic', label:'Recuento de reticulocitos', hint:'producción medular' },
+      { key:'esr', label:'Eritrosedimentación (VHS)', hint:'inflamación (según caso)' },
+      { key:'frote', label:'Frote periférico', hint:'morfología celular' },
+      { key:'grupo_rh', label:'Grupo y Rh', hint:'según protocolo/centro' },
+      { key:'coombs_dir', label:'Coombs directo', hint:'hemólisis inmune (según caso)' },
+      { key:'coombs_ind', label:'Coombs indirecto', hint:'anticuerpos (según caso)' },
+      { key:'gota_gruesa', label:'Gota gruesa', hint:'malaria (si corresponde)' },
+    ]},
+
+    { group:'Coagulación / Hemostasia', desc:'Evaluación de coagulación; clave en anticoagulados, hepatopatía o antecedentes de sangrado.', items:[
+      { key:'ptinr', label:'Tiempo de protrombina (TP/INR)', hint:'vía extrínseca / warfarina' },
+      { key:'aptt',  label:'Tiempo parcial tromboplastina (TTPa)', hint:'vía intrínseca / heparina' },
+      { key:'fbg',   label:'Fibrinógeno', hint:'consumo/hepatopatía (según caso)' },
+      { key:'tsang', label:'Tiempo de sangría', hint:'hemostasia primaria (según caso)' },
+      { key:'crio',  label:'Crioglobulinas', hint:'según caso' },
+    ]},
+
+    { group:'Renal / Metabólico', desc:'Función renal y glicémica; importante para ajuste de fármacos y seguridad perioperatoria.', items:[
+      { key:'uric', label:'Ácido úrico', hint:'según contexto' },
+      { key:'bun',  label:'Nitrógeno ureico (BUN)', hint:'función renal/hidratación' },
+      { key:'cr',   label:'Creatinina', hint:'función renal' },
+      { key:'glu_ay', label:'Glucosa en ayunas', hint:'metabolismo/DM' },
+      { key:'glu_2hpp', label:'Glucosa 2 HPP', hint:'tolerancia glucosa (según caso)' },
+      { key:'hba1c', label:'Hemoglobina glicosilada (HbA1c)', hint:'control 2–3 meses (DM)' },
+      { key:'ctg_3h', label:'Curva tolerancia glucosa 3 horas', hint:'según caso' },
+      { key:'ctg_5h', label:'Curva tolerancia glucosa 5 horas', hint:'según caso' },
+      { key:'ins_curve', label:'Curva de insulina', hint:'según caso' },
+    ]},
+
+    { group:'Electrolitos', desc:'Equilibrio hidroelectrolítico; relevante en comórbidos y perioperatorio.', items:[
+      { key:'ca', label:'Calcio', hint:'metabolismo óseo/paratiroides (según caso)' },
+      { key:'cl', label:'Cloruros', hint:'' },
+      { key:'phos', label:'Fósforo', hint:'' },
+      { key:'mg', label:'Magnesio', hint:'' },
+      { key:'k', label:'Potasio', hint:'' },
+      { key:'k_orina', label:'Potasio en orina', hint:'según caso' },
+      { key:'na', label:'Sodio', hint:'' },
+      { key:'litio', label:'Litio', hint:'si tratamiento' },
+    ]},
+
+    { group:'Hepático', desc:'Función hepática y colestasis; metabolismo de fármacos.', items:[
+      { key:'tgo', label:'TGO (AST)', hint:'' },
+      { key:'tgp', label:'TGP (ALT)', hint:'' },
+      { key:'ggt', label:'Gamma GT', hint:'' },
+      { key:'alp', label:'Fosfatasa alcalina', hint:'hepato-biliar/óseo' },
+      { key:'tbil', label:'Bilirrubina total', hint:'' },
+      { key:'dbil', label:'Bilirrubina directa', hint:'' },
+      { key:'ptot', label:'Proteínas totales', hint:'' },
+      { key:'alb', label:'Albúmina', hint:'' },
+      { key:'amonio', label:'Amonio', hint:'según caso' },
+    ]},
+
+    { group:'Enzimas', desc:'Apoyo diagnóstico en daño tisular/páncreas/músculo (según contexto).', items:[
+      { key:'amil', label:'Amilasa', hint:'páncreas' },
+      { key:'lipa', label:'Lipasa', hint:'páncreas' },
+      { key:'ald', label:'Aldolasa', hint:'músculo (según caso)' },
+      { key:'ckmb', label:'CK‑MB', hint:'miocardio (según caso)' },
+      { key:'colin', label:'Colinesterasa', hint:'hepático/intoxicación (según caso)' },
+      { key:'ldh', label:'LDH', hint:'lesión tisular (según caso)' },
+    ]},
+
+    { group:'Lípidos', desc:'Perfil lipídico (según contexto).', items:[
+      { key:'chol', label:'Colesterol total', hint:'' },
+      { key:'hdl', label:'HDL‑Colesterol', hint:'' },
+      { key:'ldl', label:'LDL‑Colesterol', hint:'' },
+      { key:'vldl', label:'VLDL‑Colesterol', hint:'' },
+      { key:'tg', label:'Triglicéridos', hint:'' },
+    ]},
+
+    { group:'Urología / Orina', desc:'Apoya pesquisa de infección/proteinuria; incluye orina completa.', items:[
+      { key:'orina', label:'Orina completa', hint:'sedimento/uroanálisis' },
+      { key:'cal_orina', label:'Calcio en orina', hint:'según caso' },
+      { key:'calc_urin', label:'Cálculo urinario', hint:'si corresponde' },
+    ]},
+
+    { group:'Coprología', desc:'Estudios de heces según clínica.', items:[
+      { key:'heces', label:'Heces completa', hint:'' },
+      { key:'enema', label:'Enema salino', hint:'parasitología (según caso)' },
+      { key:'pva', label:'P.V.A.', hint:'según protocolo' },
+      { key:'sang_oc', label:'Sangre oculta (Guayaco)', hint:'' },
+      { key:'rota', label:'Rotavirus', hint:'' },
+      { key:'ag_giardia', label:'Antígeno de Giardia', hint:'' },
+      { key:'ag_ameba', label:'Antígeno amebiano', hint:'' },
+      { key:'hp_heces', label:'H. pylori en heces', hint:'' },
+    ]},
+
+    { group:'Hormonas', desc:'Perfil hormonal según caso.', items:[
+      { key:'cort', label:'Cortisol AM/PM', hint:'' },
+      { key:'fsh', label:'FSH', hint:'' },
+      { key:'lh', label:'LH', hint:'' },
+      { key:'insulina', label:'Insulina', hint:'' },
+      { key:'prl', label:'Prolactina', hint:'' },
+      { key:'prog', label:'Progesterona', hint:'' },
+      { key:'t3', label:'T3', hint:'' },
+      { key:'t4', label:'T4', hint:'' },
+      { key:'tsh', label:'TSH', hint:'' },
+      { key:'estr', label:'Estradiol', hint:'' },
+      { key:'acth', label:'ACTH', hint:'' },
+      { key:'testo', label:'Testosterona', hint:'' },
+      { key:'gastr', label:'Gastrina', hint:'' },
+    ]},
+
+    { group:'Inmunología / Serologías', desc:'Depende de protocolo institucional y contexto clínico.', items:[
+      { key:'anti_dna', label:'Anti‑DNA', hint:'autoinmune (según caso)' },
+      { key:'aso', label:'Antiestreptolisinas (ASO)', hint:'' },
+      { key:'c3c4', label:'Complemento C3‑C4', hint:'' },
+      { key:'ana', label:'Factor antinuclear (ANA)', hint:'' },
+      { key:'tpo', label:'Ac. microsomales (TPO)', hint:'tiroides' },
+      { key:'tg_ab', label:'Ac. tiroglobulina', hint:'tiroides' },
+      { key:'rf', label:'Factor reumatoideo', hint:'' },
+      { key:'rpr', label:'RPR / VDRL', hint:'sífilis (tamizaje)' },
+      { key:'hcg_q', label:'β‑hCG cualitativa', hint:'embarazo (si corresponde)' },
+      { key:'hcg_c', label:'β‑hCG cuantitativa', hint:'embarazo (si corresponde)' },
+      { key:'widal', label:'Widal', hint:'según caso' },
+      { key:'crp', label:'Proteína C reactiva (PCR)', hint:'infección/inflamación' },
+      { key:'tTG', label:'Anti‑Transglutaminasa', hint:'celiaquía (según caso)' },
+      { key:'gliadina', label:'Anti‑Gliadina', hint:'celiaquía (según caso)' },
+      { key:'ige_total', label:'Inmunoglobulina IgE', hint:'alergia (según caso)' },
+      { key:'iga', label:'Inmunoglobulinas IgG/IgM/IgA', hint:'según caso' },
+      { key:'hud', label:'Huddleson', hint:'brucelosis (según caso)' },
+      { key:'mono', label:'Mono test', hint:'' },
+      { key:'torch_g', label:'TORCH IgG', hint:'' },
+      { key:'torch_m', label:'TORCH IgM', hint:'' },
+      { key:'toxo_g', label:'Toxoplasma IgG', hint:'' },
+      { key:'toxo_m', label:'Toxoplasma IgM', hint:'' },
+      { key:'cardiolip', label:'Ac. cardiolipina', hint:'según caso' },
+      { key:'dengue', label:'Dengue IgG/IgM', hint:'' },
+      { key:'myco', label:'Ac. Mycoplasma', hint:'' },
+    ]},
+
+    { group:'Enfermedades infecciosas (serologías)', desc:'Según protocolo y contexto.', items:[
+      { key:'digox', label:'Digoxina', hint:'nivel si tratamiento' },
+      { key:'amebas', label:'Ac. Amebas (HIA)', hint:'' },
+      { key:'rubeola_g', label:'Rubéola IgG', hint:'' },
+      { key:'rubeola_m', label:'Rubéola IgM', hint:'' },
+      { key:'cmv_g', label:'CMV IgG', hint:'' },
+      { key:'cmv_m', label:'CMV IgM', hint:'' },
+      { key:'fta', label:'FTA‑ABS', hint:'' },
+      { key:'hb_ag', label:'Hepatitis B antígeno', hint:'' },
+      { key:'hb_ab', label:'Hepatitis B anticuerpo', hint:'' },
+      { key:'hsv_g', label:'Herpes simple IgG', hint:'' },
+      { key:'hsv_m', label:'Herpes simple IgM', hint:'' },
+      { key:'hp_ser', label:'H. pylori (serología)', hint:'' },
+      { key:'hiv', label:'VIH', hint:'' },
+    ]},
+
+    { group:'Microbiología', desc:'Cultivos y frotis según foco.', items:[
+      { key:'fc_abs', label:'Frote/Cultivo absceso', hint:'' },
+      { key:'fc_region', label:'F/C cualquier región', hint:'' },
+      { key:'fc_esputo', label:'F/C esputo corriente', hint:'' },
+      { key:'fc_garg', label:'F/C garganta‑nariz', hint:'' },
+      { key:'fc_heces', label:'F/C heces directo', hint:'' },
+      { key:'ziel', label:'F/C Ziehl‑Neelsen', hint:'BAAR (según caso)' },
+      { key:'fc_orina', label:'F/C orina', hint:'' },
+      { key:'fc_sangre', label:'F/C sangre', hint:'' },
+      { key:'koh', label:'KOH / cultivo hongos', hint:'' },
+      { key:'c_dif', label:'Clostridium difficile', hint:'' },
+      { key:'fc_ojo', label:'F/C ojo', hint:'' },
+      { key:'gram', label:'Frote Gram', hint:'' },
+      { key:'f_hong', label:'Frote hongos', hint:'' },
+    ]},
+
+    { group:'Marcadores tumorales', desc:'Según sospecha/derivación.', items:[
+      { key:'psa', label:'PSA', hint:'' },
+      { key:'afp', label:'Alfa‑fetoproteína (AFP)', hint:'' },
+      { key:'cea', label:'CEA', hint:'' },
+      { key:'ca125', label:'CA‑125', hint:'' },
+      { key:'ca153', label:'CA‑15‑3', hint:'' },
+      { key:'ca199', label:'CA‑19‑9', hint:'' },
+      { key:'psa_libre', label:'PSA libre', hint:'' },
+    ]},
+
+    { group:'Alergias', desc:'Estudios orientativos; si hay reacción relevante, se recomienda evaluación por Alergología.', items:[
+      { key:'panel_alergenos', label:'Panel alérgenos', hint:'según laboratorio' },
+      { key:'panel_alim', label:'Panel alimenticios', hint:'según laboratorio' },
+      { key:'ige_latex', label:'IgE específica a látex', hint:'si sospecha clínica' },
+      { key:'alerg_al', label:'Interconsulta Alergología: prueba a anestésicos locales (lidocaína/otros)', hint:'evaluación supervisada' },
+    ]},
+
+    { group:'Metabolismo óseo (según fármacos)', desc:'Útil en pacientes con antiresortivos (bifosfonatos/denosumab) u otras condiciones óseas.', items:[
+      { key:'ctx', label:'CTX (telopéptido C‑terminal)', hint:'marcador de recambio óseo' },
+      { key:'vitd', label:'25‑OH Vitamina D', hint:'estado vitamina D' },
+      { key:'pth', label:'PTH', hint:'balance calcio/fósforo' },
+    ]},
+
+    { group:'Fármacos / Drogas (niveles)', desc:'Solo si corresponde a tratamiento.', items:[
+      { key:'valp', label:'Ácido valproico', hint:'nivel' },
+      { key:'carb', label:'Carbamazepina', hint:'nivel' },
+      { key:'fenit', label:'Fenitoína', hint:'nivel' },
+      { key:'fenob', label:'Fenobarbital', hint:'nivel' },
+      { key:'teo', label:'Teofilina', hint:'nivel' },
+    ]},
+
+    { group:'Varios', desc:'Pruebas especiales (según caso).', items:[
+      { key:'xilosa', label:'Absorción xilosa', hint:'' },
+      { key:'vma', label:'Ácido vanil‑mandélico (VMA)', hint:'' },
+      { key:'campo', label:'Campo oscuro', hint:'' },
+      { key:'sat_hierro', label:'Cap. saturación de hierro', hint:'' },
+      { key:'hierro', label:'Hierro', hint:'' },
+      { key:'sudor', label:'Test sudor (Na/K/Cl)', hint:'' },
+    ]},
+  ];
+
+
+  
+  const IMG = [
+    { group:'Radiografías 2D', desc:'Primera línea para evaluación inicial y control. Rápidas y de bajo costo.', items:[
+      { key:'pano', label:'Rx Panorámica', hint:'visión global' },
+      { key:'peri', label:'Periapical', hint:'zona específica' },
+      { key:'bite', label:'Bite‑wing', hint:'caries interproximal' },
+      { key:'ocl',  label:'Oclusal', hint:'localización / cuerpos extraños' },
+    ]},
+    { group:'Tomografía / 3D', desc:'Definición anatómica 3D para terceros, implantes, trauma, patología ósea y planificación.', items:[
+      { key:'cbct',   label:'CBCT (Cone Beam)', hint:'3D / terceros / implantes' },
+      { key:'cbctMx', label:'CBCT Maxilar', hint:'segmento maxilar' },
+      { key:'cbctMd', label:'CBCT Mandíbula', hint:'segmento mandibular' },
+      { key:'ct',     label:'TC (scanner) maxilofacial', hint:'trauma / patología extensa' },
+    ]},
+    { group:'Orto / Cefalométricos', desc:'Análisis ortodóncico/ortognático y asimetrías.', items:[
+      { key:'telerx', label:'Telerradiografía lateral', hint:'cefalometría' },
+      { key:'pa',     label:'Cefalometría PA', hint:'asimetrías' },
+    ]},
+    { group:'ATM / Tejidos blandos (según caso)', desc:'Para disco/articulación y partes blandas cuando la clínica lo sugiere.', items:[
+      { key:'mri_atm', label:'RM ATM', hint:'disco / tejidos blandos' },
+      { key:'usg',     label:'Ecografía', hint:'glándulas / partes blandas' },
+    ]},
+  ];
+
+
+  // --- Estado ---
+  const selLab = new Set();
+  const selImg = new Set();
+  let activeTab = 'lab';
+
+  const norm = (s)=> (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+
+  function setCount(){
+    if(countPill) countPill.textContent = `${selLab.size + selImg.size} seleccionados`;
+  }
+
+  function mkItemRow(kind, it){
+    const id = `ex_${kind}_${it.key}`;
+    const checked = (kind==='lab' ? selLab.has(it.key) : selImg.has(it.key));
+    return `
+      <label class="flex items-start gap-2 p-2 rounded-lg border hover:bg-slate-50 cursor-pointer">
+        <input type="checkbox" id="${id}" class="mt-1" ${checked ? 'checked':''} />
+        <div>
+          <div class="font-medium">${it.label}</div>
+          ${it.hint ? `<div class="text-xs text-slate-500">${it.hint}</div>` : ''}
+        </div>
+      </label>
+    `;
+  }
+
+  function render(kind){
+    const panel = (kind==='lab') ? panelLab : panelImg;
+    const CAT = (kind==='lab') ? LAB : IMG;
+    const q = norm(search?.value || '');
+    const set = (kind==='lab') ? selLab : selImg;
+    const openAttr = q ? 'open' : '';
+
+    let html = '';
+    for(const g of CAT){
+      const items = g.items.filter(it=>{
+        if(!q) return true;
+        return norm(it.label).includes(q) || norm(it.hint).includes(q);
+      });
+      if(!items.length) continue;
+      const selCount = g.items.reduce((acc,it)=> acc + (set.has(it.key)?1:0), 0);
+      const badge = selCount
+        ? `<span class="text-xs px-2 py-0.5 rounded-full bg-slate-900 text-white">${selCount}</span>`
+        : `<span class="text-xs text-slate-400">${g.items.length}</span>`;
+      const desc = g.desc ? `<div class="px-4 -mt-1 pb-2 text-xs text-slate-500">${g.desc}</div>` : ``;
+
+      html += `
+        <details class="border rounded-2xl bg-white overflow-hidden" ${openAttr}>
+          <summary class="flex items-center justify-between gap-2 px-4 py-3 cursor-pointer select-none">
+            <span class="font-semibold">${g.group}</span>
+            ${badge}
+          </summary>
+          ${desc}
+          <div class="px-4 pb-4 grid gap-2">
+            ${items.map(it=>mkItemRow(kind, it)).join('')}
+          </div>
+        </details>
+      `;
+    }
+    panel.innerHTML = html || `<div class="text-sm text-slate-500">Sin resultados.</div>`;
+
+    // wire events
+    CAT.forEach(g=> g.items.forEach(it=>{
+      const id = `ex_${kind}_${it.key}`;
+      const chk = el(id);
+      if(!chk) return;
+      chk.addEventListener('change', ()=>{
+        const set = (kind==='lab') ? selLab : selImg;
+        if(chk.checked) set.add(it.key); else set.delete(it.key);
+        setCount();
+      });
+    }));
+  }
+
+  function open(){
+    // show backdrop + drawer
+    backdrop.classList.remove('hidden');
+    drawer.classList.remove('hidden');
+
+    // slide-in (Tailwind)
+    drawer.classList.remove('translate-x-full');
+    drawer.classList.add('translate-x-0');
+
+    // reset UI
+    search && (search.value = '');
+    render('lab'); render('img');
+    setTab(activeTab);
+    setCount();
+
+    // lock body scroll while drawer is open
+    document.documentElement.classList.add('overflow-hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+  function close(){
+    // slide-out
+    drawer.classList.remove('translate-x-0');
+    drawer.classList.add('translate-x-full');
+
+    // unlock scroll immediately
+    document.documentElement.classList.remove('overflow-hidden');
+    document.body.classList.remove('overflow-hidden');
+
+    // hide after transition
+    setTimeout(()=>{
+      drawer.classList.add('hidden');
+      backdrop.classList.add('hidden');
+    }, 220);
+  }
+  function setTab(tab){
+    activeTab = tab;
+    if(tab==='lab'){
+      tabLab.classList.add('active'); tabImg.classList.remove('active');
+      panelLab.classList.remove('hidden'); panelImg.classList.add('hidden');
+    } else {
+      tabImg.classList.add('active'); tabLab.classList.remove('active');
+      panelImg.classList.remove('hidden'); panelLab.classList.add('hidden');
+    }
+  }
+
+  function getTextList(kind){
+    const CAT = (kind==='lab') ? LAB : IMG;
+    const set = (kind==='lab') ? selLab : selImg;
+    const out = [];
+    CAT.forEach(g=>{
+      const items = g.items.filter(it=> set.has(it.key));
+      if(!items.length) return;
+      out.push(g.group + ':');
+      items.forEach(it=> out.push(`• ${it.label}`));
+      out.push('');
+    });
+    return out.join('\n').trim();
+  }
+
+  // ====== ÓRDENES (páginas separadas) ======
+  const secLab = el('printExamLab');
+  const secImg = el('printExamImg');
+
+  function today(){
+    return new Date().toLocaleDateString('es-CL');
+  }
+
+  function readPatient(){
+    const nombre = el('p_nombre')?.value?.trim() || '________________';
+    const rut    = el('p_rut')?.value?.trim()    || '________________';
+    const edad   = el('p_edad')?.value?.trim()   || '____';
+    const peso   = el('p_peso')?.value?.trim()   || '____ kg';
+    const dx2    = el('p_dx2')?.value?.trim();
+    const dx1    = el('p_dx')?.value?.trim();
+    const dx     = dx2 || dx1 || '________________';
+    return {nombre,rut,edad,peso,dx};
+  }
+
+  function fillSec(kind){
+    const isLab = (kind==='lab');
+    const sec   = isLab ? secLab : secImg;
+    if(!sec) return;
+
+    const pre = isLab ? el('v_doc_lab') : el('v_doc_img');
+    const list = getTextList(kind);
+    if(!list){
+      alert(isLab ? 'Selecciona al menos 1 examen de laboratorio.' : 'Selecciona al menos 1 examen de imágenes.');
+      return;
+    }
+    const {nombre,rut,edad,peso,dx} = readPatient();
+    sec.querySelector(isLab?'.v_fecha_lab':'.v_fecha_img').textContent = today();
+    sec.querySelector(isLab?'.v_nombre_lab':'.v_nombre_img').textContent = nombre;
+    sec.querySelector(isLab?'.v_rut_lab':'.v_rut_img').textContent = rut;
+    sec.querySelector(isLab?'.v_edad_lab':'.v_edad_img').textContent = edad;
+    sec.querySelector(isLab?'.v_peso_lab':'.v_peso_img').textContent = peso;
+    sec.querySelector(isLab?'.v_dx_lab':'.v_dx_img').textContent = dx;
+    const obsText = (obs?.value || '').trim();
+
+    // Lista (no se mezcla con observaciones)
+    pre.textContent = list;
+
+    // Observaciones: editable en la hoja
+    const ta = isLab ? el('v_doc_lab_obs') : el('v_doc_img_obs');
+    if(ta) ta.value = obsText;
+
+    // Advertencia si se desborda la caja
+    const warn = isLab ? el('v_doc_lab_warn') : el('v_doc_img_warn');
+    requestAnimationFrame(()=>{
+      const box = pre?.closest('.docListBox');
+      if(!warn || !box) return;
+      const overflow = box.scrollHeight > box.clientHeight + 2;
+      warn.classList.toggle('hidden', !overflow);
+    });
+// Mostrar página (puedes generar ambas si corresponde)
+    sec.classList.remove('hidden');
+    sec.setAttribute('aria-hidden','false');
+
+    // Recalcular saltos para imprimir
+    window.__orionUpdatePrintBreaks && window.__orionUpdatePrintBreaks();
+
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  // ===== Eventos UI
+  btnOpen.addEventListener('click', open);
+  backdrop.addEventListener('click', close);
+  btnClose && btnClose.addEventListener('click', close);
+
+  // Cerrar con ESC
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && !backdrop.classList.contains('hidden')) close();
+  });
+
+  tabLab && tabLab.addEventListener('click', ()=> setTab('lab'));
+  tabImg && tabImg.addEventListener('click', ()=> setTab('img'));
+
+  search && search.addEventListener('input', ()=>{ render('lab'); render('img'); });
+
+  btnClear && btnClear.addEventListener('click', ()=>{
+    selLab.clear(); selImg.clear();
+    render('lab'); render('img'); setCount();
+    if(obs) obs.value='';
+    const sLab = document.getElementById('printExamLab');
+    const sImg = document.getElementById('printExamImg');
+    if(sLab){ sLab.classList.add('hidden'); sLab.setAttribute('aria-hidden','true'); }
+    if(sImg){ sImg.classList.add('hidden'); sImg.setAttribute('aria-hidden','true'); }
+    window.__orionUpdatePrintBreaks && window.__orionUpdatePrintBreaks();
+  });
+
+  btnOrderLab && btnOrderLab.addEventListener('click', ()=> fillSec('lab'));
+  btnOrderImg && btnOrderImg.addEventListener('click', ()=> fillSec('img'));
+
+})();
+</script>
+
+
+<!-- === INTERCONSULTA (drawer): genera hoja separada === -->
+<script>
+(function(){
+  const el = (id)=> document.getElementById(id);
+  const btnOpen = el('btnDocInter');
+  const backdrop = el('interBackdrop');
+  const drawer = el('interDrawer');
+  const btnClose = el('btnInterClose');
+  const btnGen = el('btnInterGenerate');
+
+  const sec = el('printInter');
+
+  if(!btnOpen || !drawer || !backdrop || !btnGen || !sec) return;
+
+  function today(){ return new Date().toLocaleDateString('es-CL'); }
+
+  function readPatient(){
+    const nombre = el('p_nombre')?.value?.trim() || '________________';
+    const rut    = el('p_rut')?.value?.trim()    || '________________';
+    const edad   = el('p_edad')?.value?.trim()   || '____';
+    const peso   = el('p_peso')?.value?.trim()   || '____ kg';
+    const dx2    = el('p_dx2')?.value?.trim();
+    const dx1    = el('p_dx')?.value?.trim();
+    const dx     = dx2 || dx1 || '________________';
+    return {nombre,rut,edad,peso,dx};
+  }
+
+  function open(){
+    backdrop.classList.remove('hidden');
+    drawer.classList.remove('hidden');
+    drawer.classList.remove('translate-x-full');
+    drawer.classList.add('translate-x-0');
+    document.documentElement.classList.add('overflow-hidden');
+    document.body.classList.add('overflow-hidden');
+  }
+
+  function close(){
+    drawer.classList.remove('translate-x-0');
+    drawer.classList.add('translate-x-full');
+    document.documentElement.classList.remove('overflow-hidden');
+    document.body.classList.remove('overflow-hidden');
+    setTimeout(()=>{
+      drawer.classList.add('hidden');
+      backdrop.classList.add('hidden');
+    }, 220);
+  }
+
+  function fill(){
+    const {nombre,rut,edad,peso,dx} = readPatient();
+    sec.querySelector('.v_fecha_inter').textContent = today();
+    sec.querySelector('.v_nombre_inter').textContent = nombre;
+    sec.querySelector('.v_rut_inter').textContent = rut;
+    sec.querySelector('.v_edad_inter').textContent = edad;
+    sec.querySelector('.v_peso_inter').textContent = peso;
+    sec.querySelector('.v_dx_inter').textContent = dx;
+
+    const area = el('interArea')?.value || 'Médica';
+    const esp  = el('interEsp')?.value?.trim() || '________________';
+    const motivo = el('interMotivo')?.value?.trim() || '';
+    const ante   = el('interAnte')?.value?.trim() || '';
+    const obs    = el('interObs')?.value?.trim() || '';
+
+    el('v_inter_head').textContent = `${area} — ${esp}`;
+    el('v_inter_motivo').textContent = motivo;
+    el('v_inter_ante').textContent = ante;
+
+    const ta = el('v_inter_obs');
+    if(ta) ta.value = obs;
+
+    sec.classList.remove('hidden');
+    sec.setAttribute('aria-hidden','false');
+
+    window.__orionUpdatePrintBreaks && window.__orionUpdatePrintBreaks();
+    sec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  btnOpen.addEventListener('click', open);
+  backdrop.addEventListener('click', close);
+  btnClose.addEventListener('click', close);
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && !backdrop.classList.contains('hidden')) close();
+  });
+
+  btnGen.addEventListener('click', ()=>{
+    fill();
+    close();
+  });
+
+})();
+</script>
+<!-- === BOTONES DOC: Certificado / Biopsia / Exámenes === (HOJA 3 siempre disponible) === -->
+<script>
+(function(){
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+  const get = id => document.getElementById(id);
+  const val = id => (get(id)?.value || '').trim();
+
+  function fillHeader(){
+    const now = new Date().toLocaleDateString('es-CL');
+    $$('.v_fecha3').forEach(e=> e.textContent = now);
+    $$('.v_nombre3').forEach(e=> e.textContent = val('p_nombre'));
+    $$('.v_rut3').forEach(e=> e.textContent = val('p_rut'));
+    $$('.v_edad3').forEach(e=> e.textContent = val('p_edad') ? `${val('p_edad')} años` : '');
+    $$('.v_peso3').forEach(e=> e.textContent = val('p_peso') ? `${val('p_peso')} kg` : '');
+    $$('.v_dx3').forEach(e=> e.textContent = val('p_dx2') || val('p_dx') || '');
+  }
+
+  function tplCertificado(){
+    const nombre = val('p_nombre') || '____________________';
+    const run = val('p_rut') || '________________';
+    const dias = parseInt(val('reposoDias'),10) || 0;
+    const extra = dias ? `
+
+Se indica reposo médico por ${dias} día${dias>1?'s':''} a contar de la fecha.` : '';
+    return `CERTIFICADO DE ATENCIÓN
+
+El profesional que suscribe certifica que ${nombre} (RUN ${run}) fue atendid@ en el servicio de Cirugía y Traumatología Bucomaxilofacial del Centro Médico Integramédica Tobalaba.
+
+Este certificado se emite a solicitud del/la interesad@ para fines de reposo o justificación de atención médica según corresponda.` + extra;
+  }
+
+  function tplBiopsia(){
+    return `ORDEN DE EXAMEN – BIOPSIA
+
+SE INDICA BIOPSIA MUCOSA
+
+CÓDIGO: 0801005 - 0801008
+RUT LAB: 9.202.238-2
+
+INDICACIONES:
+1° Comprar Bono Fonasa o Isapre (Ejecutivas Dental)
+2° Presentarse con esta orden y cédula de identidad
+3° Entregar resultados al profesional tratante`;
+  }
+
+  // Clonar pie de firma de hoja 1 a Hoja 3 si no existe
+  document.addEventListener('DOMContentLoaded', () => {
+    const srcFoot = document.querySelector('#printSheet [id^="fixedFoot"]')
+                 || document.querySelector('#printSheet2 [id^="fixedFoot"]');
+    const sec = document.getElementById('printDoc');
+    if(srcFoot && sec && !sec.querySelector('[id^="fixedFoot"]')){
+      const clone = srcFoot.cloneNode(true);
+      if (clone.id) clone.id = (clone.id.replace(/\d*$/, '') + '3');
+      if (getComputedStyle(sec).position === 'static') sec.style.position = 'relative';
+      sec.appendChild(clone);
+    }
+  });
+
+  function showDoc(mode){
+    const s3 = get('printDoc');
+    const sLab = get('printExamLab');
+    const sImg = get('printExamImg');
+    if(sLab){ sLab.classList.add('hidden'); sLab.setAttribute('aria-hidden','true'); }
+    if(sImg){ sImg.classList.add('hidden'); sImg.setAttribute('aria-hidden','true'); }
+    fillHeader();
+    const titulo = get('docTitulo'), cuerpo = get('v_doc');
+    if(!titulo || !cuerpo){ alert('Falta estructura de Hoja 3'); return; }
+    if(mode==='cert'){
+      titulo.textContent = 'CERTIFICADO DE ATENCIÓN';
+      cuerpo.textContent = tplCertificado();
+    }else if(mode==='bio'){
+      titulo.textContent = 'ORDEN DE EXAMEN – BIOPSIA';
+      cuerpo.textContent = tplBiopsia();
+    }else{
+      return;
+    }
+    s3.classList.remove('hidden'); s3.removeAttribute('aria-hidden');
+    window.__orionUpdatePrintBreaks && window.__orionUpdatePrintBreaks();
+    s3.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    const b1 = get('btnDocCert'), b2 = get('btnDocBiopsia');
+    if(b1){ b1.onclick = function(e){ e.preventDefault(); showDoc('cert'); }; }
+    if(b2){ b2.onclick = function(e){ e.preventDefault(); showDoc('bio');  }; }
+  });
+})();
+</script>
+
+</body>
+</html>
