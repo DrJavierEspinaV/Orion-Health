@@ -5,10 +5,10 @@ const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/orion-logo.png',
-  './assets/logo_orion_health_spa_oficial_azul.png',
-  './icons/icon-192.png',
-  './icons/icon-512.png'
+  './orion-logo.png',
+  './logo_orion_health_spa_oficial_azul.png',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
