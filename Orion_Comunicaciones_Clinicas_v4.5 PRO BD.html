@@ -9,7 +9,7 @@
 <!-- ✅ PWA (instalable) — rutas pensadas para /comunicaciones/index.html -->
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0B3A55">
-<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -1552,7 +1552,7 @@ setTimeout(()=>{
   if(!isHttps && !isLocalhost) return;
 
   window.addEventListener('load', () => {
-    // ../../sw.js apunta a la raíz del repo (p.ej. /orion-portal/sw.js)
+    // ./sw.js apunta a la raíz del repo (p.ej. /orion-portal/sw.js)
     navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 })();
