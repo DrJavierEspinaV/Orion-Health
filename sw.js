@@ -1,4 +1,4 @@
-const CACHE_NAME = 'orion-portal-v1';
+const CACHE_NAME = 'orion-portal-v2';
 
 // App shell (solo lo que vive en ESTE repo). Ojo: GitHub Pages sirve desde /<repo>/
 const APP_SHELL = [
