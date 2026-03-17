@@ -6,38 +6,41 @@
   <title>ORION — Portal</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #F6F3EE;
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#F6F3EE;
     }
 
-    header {
-      background: #0E4A66;
-      color: white;
-      padding: 12px;
-      display: flex;
-      gap: 10px;
+    header{
+      background:#0E4A66;
+      color:white;
+      padding:12px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
     }
 
-    button {
-      padding: 10px 14px;
-      border: none;
-      cursor: pointer;
-      background: white;
-      border-radius: 6px;
-      font-weight: bold;
+    button{
+      padding:10px 14px;
+      border:none;
+      cursor:pointer;
+      background:white;
+      border-radius:6px;
+      font-weight:bold;
     }
 
-    iframe {
-      width: 100%;
-      height: calc(100vh - 60px);
-      border: none;
-      display: none;
+    iframe{
+      width:100%;
+      height:calc(100vh - 60px);
+      border:none;
+      display:none;
+      background:#fff;
     }
 
-    iframe.active {
-      display: block;
+    iframe.active{
+      display:block;
     }
   </style>
 </head>
@@ -45,13 +48,12 @@
 <body>
 
 <header>
-  <button onclick="showApp('comunicaciones')">Comunicaciones</button>
-  <button onclick="showApp('recetas')">Receta</button>
+  <button type="button" onclick="showApp('comunicaciones')">Comunicaciones</button>
+  <button type="button" onclick="showApp('recetas')">Receta</button>
 </header>
 
-<!-- IFAMES -->
-<iframe id="frame-comunicaciones"></iframe>
-<iframe id="frame-recetas"></iframe>
+<iframe id="frame-comunicaciones" title="Comunicaciones"></iframe>
+<iframe id="frame-recetas" title="Receta"></iframe>
 
 <script>
 /***************************************************
@@ -65,10 +67,76 @@ const URLS = {
 };
 
 /***************************************************
+ * EVENTOS ORION
+ ***************************************************/
+const EVENT_SET_NEW = 'ORION_SET_DOCUMENTO_PACIENTE';
+const EVENT_CLEAR_NEW = 'ORION_CLEAR_DOCUMENTO_PACIENTE';
+const EVENT_SET_LEGACY = 'ORION_SET_RECETA_PACIENTE';
+const EVENT_CLEAR_LEGACY = 'ORION_CLEAR_RECETA_PACIENTE';
+const EVENT_GET_NEW = 'ORION_GET_DOCUMENTO_PACIENTE';
+const EVENT_GET_LEGACY = 'ORION_GET_RECETA_PACIENTE';
+const EVENT_NAV = 'ORION_NAVIGATE_TO_APP';
+
+const EVENT_SYNC_NEW = 'ORION_DOCUMENTO_PACIENTE_SYNC';
+const EVENT_SYNC_LEGACY = 'ORION_RECETA_PACIENTE_SYNC';
+
+/***************************************************
  * ESTADO GLOBAL
  ***************************************************/
 let activeApp = null;
 let documentoPaciente = null;
+
+/***************************************************
+ * HELPERS
+ ***************************************************/
+function normalizePayload(payload){
+  if (!payload || typeof payload !== 'object') return null;
+
+  return {
+    nombre: String(payload.nombre || payload.nombreCompleto || payload.paciente || '').trim(),
+    rut: String(payload.rut || payload.run || '').trim(),
+    edad: String(payload.edad || '').trim()
+  };
+}
+
+function getFrame(app){
+  return document.getElementById(`frame-${app}`);
+}
+
+function ensureFrameSrc(app){
+  const frame = getFrame(app);
+  if (!frame) return null;
+
+  const expected = URLS[app];
+  if (!expected) return frame;
+
+  const current = frame.getAttribute('src');
+  if (!current) {
+    frame.setAttribute('src', expected);
+  }
+
+  return frame;
+}
+
+function sendPacienteToReceta(){
+  if (!documentoPaciente) return;
+
+  const frame = getFrame('recetas');
+  if (!frame || !frame.contentWindow) return;
+
+  const payload = normalizePayload(documentoPaciente);
+  if (!payload) return;
+
+  frame.contentWindow.postMessage({
+    type: EVENT_SYNC_NEW,
+    payload
+  }, '*');
+
+  frame.contentWindow.postMessage({
+    type: EVENT_SYNC_LEGACY,
+    payload
+  }, '*');
+}
 
 /***************************************************
  * NAVEGACIÓN
@@ -76,23 +144,14 @@ let documentoPaciente = null;
 function showApp(app) {
   activeApp = app;
 
-  const frame = document.getElementById(`frame-${app}`);
-
-  if (!frame.src) {
-    frame.src = URLS[app];
-  }
+  const frame = ensureFrameSrc(app);
+  if (!frame) return;
 
   document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
   frame.classList.add('active');
 
-  // Si hay paciente, lo mandamos a receta automáticamente
   if (app === 'recetas' && documentoPaciente) {
-    setTimeout(() => {
-      frame.contentWindow.postMessage({
-        type: 'ORION_PACIENTE_ACTIVO',
-        payload: documentoPaciente
-      }, '*');
-    }, 500);
+    setTimeout(sendPacienteToReceta, 300);
   }
 }
 
@@ -100,43 +159,75 @@ function showApp(app) {
  * PUENTE ENTRE IFRAMES
  ***************************************************/
 window.addEventListener('message', (event) => {
-  const data = event.data;
+  const data = event.data || {};
+  if (!data || typeof data !== 'object' || !data.type) return;
 
-  if (!data || !data.type) return;
-
-  console.log("📡 Portal recibe:", data.type);
+  console.log('📡 Portal recibe:', data.type, data);
 
   switch (data.type) {
-
-    // 👉 Comunicaciones envía paciente
-    case 'ORION_SET_DOCUMENTO_PACIENTE':
-      documentoPaciente = data.payload;
-
-      console.log("🧠 Paciente guardado en portal:", documentoPaciente);
-
-      // ir automáticamente a receta
-      showApp('recetas');
+    case EVENT_SET_NEW:
+    case EVENT_SET_LEGACY: {
+      documentoPaciente = normalizePayload(data.payload || null);
+      console.log('🧠 Paciente guardado en portal:', documentoPaciente);
       break;
+    }
 
-    // 👉 Receta pide paciente
-    case 'ORION_GET_DOCUMENTO_PACIENTE':
-      if (documentoPaciente) {
-        event.source.postMessage({
-          type: 'ORION_PACIENTE_ACTIVO',
-          payload: documentoPaciente
-        }, '*');
+    case EVENT_CLEAR_NEW:
+    case EVENT_CLEAR_LEGACY: {
+      documentoPaciente = null;
+      console.log('🧹 Paciente activo limpiado');
+      break;
+    }
+
+    case EVENT_GET_NEW:
+    case EVENT_GET_LEGACY: {
+      if (!documentoPaciente || !event.source) return;
+
+      const payload = normalizePayload(documentoPaciente);
+
+      event.source.postMessage({
+        type: EVENT_SYNC_NEW,
+        payload
+      }, '*');
+
+      event.source.postMessage({
+        type: EVENT_SYNC_LEGACY,
+        payload
+      }, '*');
+
+      console.log('📤 Portal respondió con paciente activo');
+      break;
+    }
+
+    case EVENT_NAV: {
+      const appKey = String(data.appKey || '').toLowerCase();
+
+      if (appKey === 'cmf' || appKey === 'recetas' || appKey === 'receta') {
+        showApp('recetas');
+        setTimeout(sendPacienteToReceta, 350);
       }
       break;
+    }
 
     default:
-      console.log("⚠️ Mensaje no manejado:", data.type);
+      console.log('⚠️ Mensaje no manejado:', data.type);
+      break;
   }
 });
 
 /***************************************************
- * INICIO
+ * CUANDO RECETA TERMINA DE CARGAR
  ***************************************************/
-showApp('comunicaciones');
+window.addEventListener('DOMContentLoaded', () => {
+  const recetaFrame = getFrame('recetas');
+  if (recetaFrame) {
+    recetaFrame.addEventListener('load', () => {
+      setTimeout(sendPacienteToReceta, 350);
+    });
+  }
+
+  showApp('comunicaciones');
+});
 </script>
 
 </body>
