@@ -6,10 +6,10 @@
 
 <title>ORION_Comunicaciones_Clinicas_v4.5 PRO BD — FINAL</title>
 
-<!-- ✅ PWA (instalable) — rutas pensadas para /apps/comunicaciones/index.html -->
-<link rel="manifest" href="../../manifest.webmanifest">
+<!-- ✅ PWA (instalable) — rutas pensadas para /comunicaciones/index.html -->
+<link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0B3A55">
-<link rel="apple-touch-icon" href="../../icons/icon-192.png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -1553,7 +1553,7 @@ setTimeout(()=>{
 
   window.addEventListener('load', () => {
     // ../../sw.js apunta a la raíz del repo (p.ej. /orion-portal/sw.js)
-    navigator.serviceWorker.register('../../sw.js').catch(()=>{});
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
   });
 })();
 </script>
