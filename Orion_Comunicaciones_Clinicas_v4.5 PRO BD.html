@@ -4,12 +4,12 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-<title>ORION_Comunicaciones_Clinicas_v4.5 PRO BD — FINAL</title>
+<title>ORION_Comunicaciones_Clinicas_v5.3 PRO BD — ETA EN LINEA + COLORES INTENSOS + FRANJA HORARIA</title>
 
-<!-- ✅ PWA (instalable) — rutas pensadas para /comunicaciones/index.html -->
-<link rel="manifest" href="./manifest.webmanifest">
+<!-- ✅ PWA (instalable) — rutas pensadas para /apps/comunicaciones/index.html -->
+<link rel="manifest" href="../../manifest.webmanifest">
 <meta name="theme-color" content="#0B3A55">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="../../icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
@@ -20,7 +20,7 @@
     :root{
       --bg:#FBFAF9; --card:#FBFAF9; --muted:#64748b; --text:#0f172a; --primary:#2563eb;
       --badge:#eef2ff; --stroke:#d7e1ee; --stroke-2:#c2d0e6; --whatsapp:#25D366;
-      --col-paciente:1.3fr; --col-run:.8fr; --col-fecha:.95fr; --col-hora:.7fr; --col-status:.9fr; --col-motivo:2.4fr; --col-accion:1fr;
+      --col-paciente:3.85fr; --col-run:.72fr; --col-fecha:.60fr; --col-hora:.44fr; --col-status:.58fr; --col-motivo:.62fr; --col-accion:0fr;
     }
     *{box-sizing:border-box}
     body{margin:0; font-family:Inter,Arial,Helvetica,sans-serif; background:var(--bg); color:var(--text)}
@@ -42,19 +42,57 @@
     .btn.primary{background:var(--primary); color:#fff; border-color:transparent}
     .btn.whatsapp{background:var(--whatsapp); color:#fff; border-color:transparent}
     .btn.sent{background:#ef4444}
-    .table{display:grid; grid-template-columns:var(--col-paciente) var(--col-run) var(--col-fecha) var(--col-hora) var(--col-status) var(--col-motivo) var(--col-accion); gap:0; border:1px solid var(--stroke); border-radius:12px; overflow:hidden}
+    .table{display:grid; grid-template-columns:var(--col-paciente) var(--col-run) var(--col-fecha) var(--col-hora) var(--col-status) var(--col-motivo); gap:0; border:1px solid var(--stroke); border-radius:12px; overflow:hidden; font-size:13px}
     .header, .row{display:contents} #list{display:contents}
-    .header > div{font-weight:800; text-transform:uppercase; background:#f3f7ff; padding:12px 8px; border-bottom:2px solid var(--stroke)}
-    .row > div{padding:12px 8px; border-bottom:1px solid var(--stroke); display:flex; align-items:center; min-height:48px}
+    .header > div{font-weight:800; text-transform:uppercase; background:#f3f7ff; padding:9px 5px; border-bottom:2px solid var(--stroke); min-width:0; font-size:10px; letter-spacing:.02em; line-height:1.08}
+    .row > div{padding:9px 5px; border-bottom:1px solid var(--stroke); display:flex; align-items:center; min-height:42px; min-width:0; font-size:11.5px; line-height:1.05}
     .row > div:first-child{flex-direction:column; align-items:flex-start}
-    .paciente-nombre{font-weight:700} .muted{color:var(--muted); font-size:12px; margin-top:2px}
-    .paciente-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
-    .udc-wrap{display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border:1px solid var(--stroke-2); border-radius:999px; background:#f8fbff; user-select:none}
-    .udc-check{width:14px; height:14px; margin:0; cursor:pointer; accent-color:#0b6bcb}
-    .udc-label{font-size:11px; font-weight:800; letter-spacing:.3px; color:#0b6bcb; cursor:pointer}
-    .udc-wrap.active{background:#e0f2fe; border-color:#7dd3fc}
-    .row.udc-active > div:first-child{background:linear-gradient(90deg, rgba(14,165,233,.08) 0%, rgba(14,165,233,0) 100%)}
-    .right{justify-content:flex-end; width:100%}
+    .paciente-nombre{font-weight:800; line-height:1.1; word-break:break-word; font-size:13.5px} .muted{color:var(--muted); font-size:10.5px; margin-top:2px}
+    .paciente-top{width:100%; display:flex; align-items:center; justify-content:flex-start; gap:4px; flex-wrap:nowrap; margin-bottom:7px; overflow-x:auto; overflow-y:hidden; padding-bottom:2px; scrollbar-width:thin}
+    .paciente-top::-webkit-scrollbar{height:4px}
+    .paciente-top::-webkit-scrollbar-thumb{background:#cbd5e1; border-radius:999px}
+    .udc-wrap{display:inline-flex; align-items:center; gap:4px; padding:3px 6px; border:1px solid var(--stroke-2); border-radius:999px; background:#f8fbff; user-select:none; flex:0 0 auto; transition:all .15s ease}
+    .udc-check{width:12px; height:12px; margin:0; cursor:pointer; accent-color:#0b6bcb}
+    .udc-label{font-size:9.5px; font-weight:900; letter-spacing:.2px; color:#0b6bcb; cursor:pointer; white-space:nowrap}
+    .udc-wrap.active{background:#0b6bcb; border-color:#064f99; box-shadow:0 0 0 2px rgba(11,107,203,.18)}
+    .udc-wrap.active .udc-label{color:#fff}
+    .udc-wrap.active .udc-check{accent-color:#fff}
+    .row.udc-active > div:first-child{background:linear-gradient(90deg, rgba(11,107,203,.22) 0%, rgba(14,165,233,.08) 68%, rgba(14,165,233,0) 100%)}
+    .retraso-wrap{display:inline-flex; align-items:center; gap:4px; padding:3px 6px; border:1px solid var(--stroke-2); border-radius:999px; background:#fff7ed; user-select:none; flex:0 0 auto; transition:all .15s ease}
+    .retraso-check{width:12px; height:12px; margin:0; cursor:pointer; accent-color:#f97316}
+    .retraso-label{font-size:9px; font-weight:900; letter-spacing:.15px; color:#c2410c; cursor:pointer; white-space:nowrap}
+    .retraso-wrap.retraso-llegada{background:#fff7ed; border-color:#fdba74}
+    .retraso-wrap.retraso-llegada .retraso-check{accent-color:#ea580c}
+    .retraso-wrap.retraso-llegada .retraso-label{color:#9a3412}
+    .retraso-wrap.retraso-llegada.active{background:#ea580c; border-color:#c2410c; box-shadow:0 0 0 2px rgba(234,88,12,.20)}
+    .retraso-wrap.retraso-llegada.active .retraso-label{color:#fff}
+    .retraso-wrap.retraso-llegada.active .retraso-check{accent-color:#fff}
+    .retraso-wrap.retraso-atencion{background:#fff1f2; border-color:#fda4af}
+    .retraso-wrap.retraso-atencion .retraso-check{accent-color:#e11d48}
+    .retraso-wrap.retraso-atencion .retraso-label{color:#be123c}
+    .retraso-wrap.retraso-atencion.active{background:#e11d48; border-color:#9f1239; box-shadow:0 0 0 2px rgba(225,29,72,.22)}
+    .retraso-wrap.retraso-atencion.active .retraso-label{color:#fff}
+    .retraso-wrap.retraso-atencion.active .retraso-check{accent-color:#fff}
+    .retraso-estimado-wrap{display:inline-flex; align-items:center; gap:3px; padding:2px 5px; border:1px solid #cbd5e1; border-radius:999px; background:#f8fafc; flex:0 0 auto; transition:all .15s ease}
+    .retraso-estimado-wrap.active{background:#0f172a; border-color:#020617; box-shadow:0 0 0 2px rgba(15,23,42,.15)}
+    .retraso-estimado-wrap.active .retraso-estimado-label{color:#fff}
+    .retraso-estimado-label{font-size:9.5px; font-weight:900; color:#475569}
+    .retraso-minutos{width:auto !important; min-width:70px; max-width:82px; padding:2px 5px !important; border-radius:999px !important; font-size:10px; font-weight:900; background:#fff !important}
+    .retraso-minutos:disabled{opacity:.55; cursor:not-allowed}
+    .row.retraso-active > div:first-child{background:linear-gradient(90deg, rgba(225,29,72,.24) 0%, rgba(244,63,94,.10) 70%, rgba(225,29,72,0) 100%)}
+    .row.retraso-llegada-active > div:first-child{background:linear-gradient(90deg, rgba(234,88,12,.26) 0%, rgba(251,146,60,.12) 70%, rgba(234,88,12,0) 100%)}
+    .btn.whatsapp.wa-action{display:inline-flex; align-items:center; justify-content:center; min-width:112px; max-width:145px; min-height:32px; padding:6px 10px !important; white-space:normal; line-height:1.05; font-size:11px; border-radius:999px !important; box-shadow:0 4px 10px rgba(2,6,23,.10)!important; flex:0 0 auto}
+    .btn.whatsapp.wa-retraso-llegada{background:#f59e0b !important; color:#fff !important}
+    .btn.whatsapp.wa-retraso-atencion{background:#e11d48 !important; color:#fff !important}
+    .right{justify-content:flex-end; width:100%; overflow:visible}
+
+    .header > div:nth-child(7), .row > div:nth-child(7){display:none !important}
+    #whatsappManualCard{display:none !important}
+    .wa-row-line{width:100%; display:flex; justify-content:flex-start; margin-top:7px}
+    .row > div:nth-child(2), .row > div:nth-child(3), .row > div:nth-child(4), .row > div:nth-child(5), .row > div:nth-child(6){justify-content:center; text-align:center}
+    .row > div:nth-child(6){font-size:10.8px; line-height:1.06; word-break:break-word}
+    .row > div:nth-child(2), .row > div:nth-child(3), .row > div:nth-child(4){font-size:11px; font-weight:700}
+    .pill{font-size:11px; padding:3px 8px}
     .pill{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; background:#eef2ff; border:1px solid var(--stroke-2)}
     .pill.ausente{background:#fee2e2; border-color:#fecaca; color:#991b1b}
     .pill.ok{background:#dcfce7; border-color:#bbf7d0; color:#065f46}
@@ -170,6 +208,17 @@
     .doc-status-meta{font-size:12px; color:var(--muted)}
     .doc-status-badge{display:inline-flex; align-items:center; justify-content:center; min-height:34px; padding:0 14px; border-radius:999px; border:1px solid var(--stroke-2); background:#eef2ff; color:#1e3a8a; font-size:12px; font-weight:800}
     .doc-status-badge.active{background:#dcfce7; border-color:#bbf7d0; color:#166534}
+    .auto-slot-card{margin-top:12px; border:2px solid rgba(14,165,233,.32); border-radius:18px; background:linear-gradient(135deg,#eff6ff 0%,#ecfeff 100%); padding:14px 16px; box-shadow:0 10px 24px rgba(14,165,233,.10)}
+    .auto-slot-card[hidden]{display:none !important}
+    .auto-slot-top{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap}
+    .auto-slot-kicker{font-size:11px; font-weight:900; color:#0b6bcb; text-transform:uppercase; letter-spacing:.35px}
+    .auto-slot-name{font-size:18px; font-weight:900; color:#0f172a; margin-top:3px; line-height:1.15}
+    .auto-slot-meta{font-size:12px; color:#475569; margin-top:4px; line-height:1.35}
+    .auto-slot-badge{display:inline-flex; align-items:center; justify-content:center; min-height:32px; padding:0 12px; border-radius:999px; background:#0b6bcb; color:#fff; font-size:12px; font-weight:900; white-space:nowrap}
+    .auto-slot-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
+    .auto-slot-btn{padding:8px 12px !important; border-radius:999px !important; font-size:12px !important}
+    .row.franja-auto-active > div{background:linear-gradient(90deg, rgba(14,165,233,.30) 0%, rgba(219,234,254,.88) 54%, rgba(255,255,255,0) 100%) !important}
+    .row.franja-auto-active > div:first-child{box-shadow:inset 5px 0 0 #0ea5e9}
 </style>
 
 <style id="orionDashStyle">
@@ -272,7 +321,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
   <!-- ✅ Si lo publicas en /apps/comunicaciones/, deja los logos dentro de ESTA carpeta o ajusta a ../../assets/... -->
   <img alt="Orion Comunicaciones" src="orion-logo.png"/>
   <div class="hgroup">
-    <h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v4.5 PRO_BD</h1>
+    <h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v5.3 PRO_BD</h1>
     <p>Mensajería Clínica · Estados · Plantillas · Enlaces</p>
   </div>
 </header>
@@ -368,7 +417,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
         </div>
       </div>
 
-      <div class="card editable" id="whatsappManualCard" style="display:none">
+      <div class="card editable" id="whatsappManualCard" style="display:none !important">
         <div class="bar-2">
           <div>
             <label class="small">📞 N° WhatsApp Manual (Out BD)</label>
@@ -475,6 +524,8 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
         </div>
         <div class="filter-chip" id="filterTodayLabel" hidden>📆 Mostrando pacientes de hoy</div>
 
+        <div class="auto-slot-card" id="franjaPacienteCard" hidden aria-live="polite"></div>
+
         <div class="doc-status" id="documentoStatus" aria-live="polite">
           <div class="doc-status-info">
             <div class="doc-status-title">Paciente Activo para Documento</div>
@@ -555,10 +606,15 @@ Adjunto su Presupuesto, Indicaciones y Examen Radiológico. Quedo atento(a) a su
 
 let DATA = [];
 let activeDocumentoRut = '';
+let retrasoWhatsappKeys = new Map();
+let retrasoMinutosKeys = new Map();
 let autoTodayFilterActive = false;
 let restoredFromCache = false;
+let autoScrollFranjaPending = true;
+const AUTO_FRANJA_PASADA_MIN = 55;
+const AUTO_FRANJA_PROXIMA_MIN = 45;
 
-const CACHE_KEY = 'orion_comunicaciones_cache_v7';
+const CACHE_KEY = 'orion_comunicaciones_cache_v9';
 const CACHE_TTL_MS = 10 * 60 * 1000;
 const $ = s => document.querySelector(s);
 
@@ -569,7 +625,7 @@ const LEGACY_EVENT_SET = 'ORION_SET_RECETA_PACIENTE';
 const LEGACY_EVENT_CLEAR = 'ORION_CLEAR_RECETA_PACIENTE';
 const DOCUMENTO_STORAGE_KEY = 'orion_documento_paciente_activo_v1';
 const DOCUMENTO_STORAGE_TTL_MS = 2 * 60 * 60 * 1000;
-const MOBILE_RECETA_URL = './orion-recetas-v4.3_20.html';
+const MOBILE_RECETA_URL = 'orion-recetas-v4.3_20.html';
 const listEl = $('#list');
 
 const presetsLinks = {
@@ -731,7 +787,7 @@ function setPlantilla(){
     const d = document.getElementById('derivador'); if(d) d.value='';
     const i = document.getElementById('indicacion'); if(i) i.value='';
   }
-  if(wm) wm.style.display = '';
+  if(wm) wm.style.display = 'none';
 }
 setPlantilla();
 $('#tipoMensaje').addEventListener('change', setPlantilla);
@@ -814,6 +870,8 @@ function saveCacheState(){
       ts: Date.now(),
       data: DATA,
       activeDocumentoRut,
+      retrasosWhatsapp: Array.from(retrasoWhatsappKeys.entries()),
+      retrasosMinutos: Array.from(retrasoMinutosKeys.entries()),
       autoTodayFilterActive,
       q: document.getElementById('q')?.value || '',
       showFilter: document.getElementById('showFilter')?.value || '__todos__',
@@ -834,6 +892,16 @@ function restoreCacheState(){
 
     DATA = reviveCacheRows(cache.data);
     activeDocumentoRut = cache.activeDocumentoRut || '';
+    const retrasosCache = Array.isArray(cache.retrasosWhatsapp) ? cache.retrasosWhatsapp : [];
+    retrasoWhatsappKeys = new Map(retrasosCache.map(item => {
+      if(Array.isArray(item)) return [String(item[0] || ''), String(item[1] || 'atencion')];
+      return [String(item || ''), 'atencion'];
+    }).filter(item => item[0]));
+    const retrasosMinutosCache = Array.isArray(cache.retrasosMinutos) ? cache.retrasosMinutos : [];
+    retrasoMinutosKeys = new Map(retrasosMinutosCache.map(item => {
+      if(Array.isArray(item)) return [String(item[0] || ''), String(item[1] || '')];
+      return ['', ''];
+    }).filter(item => item[0]));
     autoTodayFilterActive = !!cache.autoTodayFilterActive;
     restoredFromCache = true;
 
@@ -1054,6 +1122,129 @@ function renderTodayLabel(){
   const isToday = fromVal && toVal && fromVal === todayStr && toVal === todayStr;
   chip.hidden = !isToday;
 }
+
+function isSameLocalDate_(a, b){
+  if(!(a instanceof Date) || isNaN(a.getTime())) return false;
+  return a.getFullYear() === b.getFullYear() &&
+         a.getMonth() === b.getMonth() &&
+         a.getDate() === b.getDate();
+}
+
+function getPacienteFranjaActual(rows){
+  const now = new Date();
+  const hoy = (Array.isArray(rows) ? rows : [])
+    .map(r => {
+      const d = r.compDate instanceof Date ? r.compDate : parseMaybeDate(r.compDate);
+      return { r, d };
+    })
+    .filter(x => x.d && !isNaN(x.d.getTime()) && isSameLocalDate_(x.d, now))
+    .sort((a,b)=>a.d.getTime() - b.d.getTime());
+
+  if(!hoy.length) return null;
+
+  const nowMs = now.getTime();
+  const pastWindowMs = AUTO_FRANJA_PASADA_MIN * 60 * 1000;
+  const nextWindowMs = AUTO_FRANJA_PROXIMA_MIN * 60 * 1000;
+
+  let anterior = null;
+  let proxima = null;
+
+  for(const item of hoy){
+    const t = item.d.getTime();
+    if(t <= nowMs) anterior = item;
+    if(t > nowMs && !proxima) proxima = item;
+  }
+
+  let selected = null;
+  let label = '';
+  let distanceMin = null;
+
+  if(anterior && (nowMs - anterior.d.getTime()) <= pastWindowMs){
+    selected = anterior;
+    label = 'Franja actual';
+    distanceMin = Math.max(0, Math.round((nowMs - anterior.d.getTime()) / 60000));
+  } else if(proxima && (proxima.d.getTime() - nowMs) <= nextWindowMs){
+    selected = proxima;
+    label = 'Próxima franja';
+    distanceMin = Math.max(0, Math.round((proxima.d.getTime() - nowMs) / 60000));
+  } else if(proxima){
+    selected = proxima;
+    label = 'Siguiente paciente de hoy';
+    distanceMin = Math.max(0, Math.round((proxima.d.getTime() - nowMs) / 60000));
+  } else {
+    selected = anterior || hoy[hoy.length - 1];
+    label = 'Última franja de hoy';
+    distanceMin = anterior ? Math.max(0, Math.round((nowMs - anterior.d.getTime()) / 60000)) : null;
+  }
+
+  if(!selected) return null;
+
+  return {
+    row: selected.r,
+    key: getRetrasoRowKey(selected.r),
+    label,
+    distanceMin,
+    horaActual: formatTime(now),
+    fechaActual: formatDate(now)
+  };
+}
+
+function scrollToFranjaPaciente(){
+  const target = document.querySelector('.row.franja-auto-active > div');
+  if(!target) return false;
+  target.scrollIntoView({ behavior:'smooth', block:'center' });
+  return true;
+}
+
+function renderFranjaPacienteCard(info, visibleInList){
+  const card = document.getElementById('franjaPacienteCard');
+  if(!card) return;
+
+  if(!info || !info.row){
+    card.hidden = false;
+    card.innerHTML = `
+      <div class="auto-slot-top">
+        <div>
+          <div class="auto-slot-kicker">⏱ Paciente según hora actual</div>
+          <div class="auto-slot-name">Sin pacientes para hoy</div>
+          <div class="auto-slot-meta">No hay citas cargadas para la fecha actual.</div>
+        </div>
+        <span class="auto-slot-badge">${escapeHtml(formatTime(new Date()))}</span>
+      </div>`;
+    return;
+  }
+
+  const r = info.row;
+  const distanciaTxt = info.distanceMin == null
+    ? ''
+    : (info.label === 'Franja actual'
+        ? ` · hace ${info.distanceMin} min aprox.`
+        : ` · en ${info.distanceMin} min aprox.`);
+
+  card.hidden = false;
+  card.innerHTML = `
+    <div class="auto-slot-top">
+      <div>
+        <div class="auto-slot-kicker">⏱ Paciente según hora actual</div>
+        <div class="auto-slot-name">${escapeHtml(formatPacienteDisplay(r) || 'Sin nombre')}</div>
+        <div class="auto-slot-meta">
+          ${escapeHtml(info.label)}${distanciaTxt}<br>
+          Hora cita: <b>${escapeHtml(r.horaFmt || '—')}</b> · Fecha: ${escapeHtml(r.fechaFmt || '—')} · RUN: ${escapeHtml(r.rut || '—')}
+        </div>
+      </div>
+      <span class="auto-slot-badge">Ahora ${escapeHtml(info.horaActual)}</span>
+    </div>
+    <div class="auto-slot-actions">
+      <button class="btn auto-slot-btn primary" id="franjaScrollBtn" type="button" ${visibleInList ? '' : 'disabled'}>🎯 Ir al paciente</button>
+      <button class="btn auto-slot-btn" id="franjaRefreshBtn" type="button">Actualizar ahora</button>
+    </div>`;
+
+  document.getElementById('franjaScrollBtn')?.addEventListener('click', () => scrollToFranjaPaciente());
+  document.getElementById('franjaRefreshBtn')?.addEventListener('click', () => {
+    autoScrollFranjaPending = true;
+    render();
+  });
+}
 function renderDocumentoStatus(){
   const nameEl = document.getElementById('documentoStatusName');
   const metaEl = document.getElementById('documentoStatusMeta');
@@ -1191,6 +1382,7 @@ async function loadDb_() {
     DATA = rows.map(prepRowFromDb_);
     poblarEstadosUnicos();
     applyTodayFilter();
+    autoScrollFranjaPending = true;
     if (st) st.textContent = '✅ BD cargada: ' + DATA.length + ' filas (' + sh + ').';
     render();
     saveCacheState();
@@ -1249,7 +1441,8 @@ async function onExcel(e){
   restoredFromCache = false;
   DATA = rows.map(prepRow);
   poblarEstadosUnicos();
-  clearDateFilterState();
+  applyTodayFilter();
+  autoScrollFranjaPending = true;
   alert(`✅ Excel cargado: ${DATA.length} filas. Se usarán enlaces por paciente si están en el Excel.`);
   render();
   saveCacheState();
@@ -1269,7 +1462,44 @@ function poblarEstadosUnicos(){
   if([...sel.options].some(o=>o.value===current)){ sel.value = current; }
 }
 
-function buildMessage(r, estadoLabel){
+
+function getTextoRetrasoWhatsapp(r, tipoRetraso, minutosEstimados=''){
+  const paciente = String(r?.paciente || '').trim();
+  const saludo = paciente ? `Hola ${paciente},` : 'Hola,';
+  const tipo = String(tipoRetraso || '').trim().toLowerCase();
+  const minutos = String(minutosEstimados || '').trim();
+  const fraseMinutos = minutos ? `, aproximadamente de ${minutos} minutos` : '';
+
+  if(tipo === 'llegada'){
+    return `${saludo} te aviso que vengo con retraso en mi llegada al centro médico, por lo que la atención podría iniciar más tarde de lo programado${fraseMinutos}.
+
+Te pido disculpas por la espera y agradezco mucho tu paciencia y comprensión.`;
+  }
+
+  if(tipo === 'atencion'){
+    return `${saludo} disculpa la demora. Estamos con retraso en la atención clínica${fraseMinutos}, pero seguimos avanzando con la agenda.
+
+Gracias por tu paciencia y comprensión.`;
+  }
+
+  return '';
+}
+
+function getRetrasoRowKey(r){
+  const rut = normalizeDocumentoRut(r?.rut);
+  const phone = cleanPhone(r?.telefono);
+  return [
+    rut || phone || String(r?.paciente || '').trim(),
+    String(r?.fechaFmt || '').trim(),
+    String(r?.horaFmt || '').trim(),
+    String(r?.motivo || '').trim()
+  ].join('|');
+}
+
+function buildMessage(r, estadoLabel, tipoRetraso='', minutosEstimados=''){
+  const avisoRetrasoExclusivo = getTextoRetrasoWhatsapp(r, tipoRetraso === true ? 'atencion' : tipoRetraso, minutosEstimados);
+  if(avisoRetrasoExclusivo) return avisoRetrasoExclusivo;
+
   const tipo = $('#tipoMensaje').value;
   let base = ($('#mensajeTipo').value||'').trim();
   const fechaStr = r.datetimeFmt || r.fechaFmt || '';
@@ -1301,6 +1531,7 @@ function buildMessage(r, estadoLabel){
 
   base = applyEncuestaToMessage_(base);
 
+
   base = base.replace(/\n?\s*\{\{ENCUESTA\}\}\s*\n?/g, '\n');
   base = base.replace(/\n{3,}/g,'\n\n');
 
@@ -1330,6 +1561,10 @@ function render(){
     return ad - bd;
   });
 
+  const franjaInfo = getPacienteFranjaActual(sorted);
+  const franjaKey = franjaInfo?.key || '';
+  let franjaTargetCell = null;
+
   const filtered = sorted.filter(r=>{
     const matchQ = !q || (String(r.paciente).toLowerCase().includes(q) || String(r.rut).toLowerCase().includes(q));
     const matchEstado = selEstado === '__todos__' ? true : (String(r.estado||'').trim() === selEstado);
@@ -1351,14 +1586,23 @@ function render(){
   for(const r of filtered){
     const isAusente = /citado|ausent/i.test(String(r.estado||''));
     const estadoLabel = isAusente ? 'Ausente' : (r.estado || '—');
-    const msg = buildMessage(r, estadoLabel);
     const phone = r.telefono;
+    const retrasoKey = getRetrasoRowKey(r);
+    const retrasoTipo = retrasoWhatsappKeys.get(retrasoKey) || '';
+    const retrasoMinutos = retrasoMinutosKeys.get(retrasoKey) || '';
+    const isRetrasoLlegadaActive = retrasoTipo === 'llegada';
+    const isRetrasoAtencionActive = retrasoTipo === 'atencion';
+    const isRetrasoActive = !!retrasoTipo;
+    const msg = buildMessage(r, estadoLabel, retrasoTipo, retrasoMinutos);
     const wa = phone ? buildWaUrl(phone, msg) : '';
     const rutKey = normalizeDocumentoRut(r.rut);
     const isUDCActive = !!rutKey && rutKey === activeDocumentoRut;
+    const isFranjaActive = !!franjaKey && getRetrasoRowKey(r) === franjaKey;
+    const waLabel = isRetrasoLlegadaActive ? 'Enviar llegada' : (isRetrasoAtencionActive ? 'Enviar atención' : 'WhatsApp');
+    const waModeClass = isRetrasoLlegadaActive ? 'wa-retraso-llegada' : (isRetrasoAtencionActive ? 'wa-retraso-atencion' : '');
 
     const row = document.createElement('div');
-    row.className = `row${isUDCActive ? ' udc-active' : ''}`;
+    row.className = `row${isUDCActive ? ' udc-active' : ''}${isRetrasoActive ? ' retraso-active' : ''}${isRetrasoLlegadaActive ? ' retraso-llegada-active' : ''}${isFranjaActive ? ' franja-auto-active' : ''}`;
     row.innerHTML = `
       <div>
         <div class="paciente-top">
@@ -1366,27 +1610,76 @@ function render(){
             <input class="udc-check" type="checkbox" ${isUDCActive ? 'checked' : ''} ${rutKey ? '' : 'disabled'} />
             <span class="udc-label">UDC</span>
           </label>
-          <div class="paciente-nombre">${escapeHtml(formatPacienteDisplay(r)||'Sin nombre')}</div>
+          <label class="retraso-wrap retraso-llegada ${isRetrasoLlegadaActive ? 'active' : ''}" title="Enviar SOLO aviso por retraso en llegada al centro médico">
+            <input class="retraso-check" data-retraso-tipo="llegada" type="checkbox" ${isRetrasoLlegadaActive ? 'checked' : ''} />
+            <span class="retraso-label">RET. LLEGADA</span>
+          </label>
+          <label class="retraso-wrap retraso-atencion ${isRetrasoAtencionActive ? 'active' : ''}" title="Enviar SOLO aviso por retraso en la atención clínica">
+            <input class="retraso-check" data-retraso-tipo="atencion" type="checkbox" ${isRetrasoAtencionActive ? 'checked' : ''} />
+            <span class="retraso-label">RET. ATENCIÓN</span>
+          </label>
+          <label class="retraso-estimado-wrap ${isRetrasoActive ? 'active' : ''}" title="Tiempo estimado de retraso">
+            <span class="retraso-estimado-label">⏱</span>
+            <select class="retraso-minutos" ${isRetrasoActive ? '' : 'disabled'}>
+              <option value="" ${!retrasoMinutos ? 'selected' : ''}>Sin ETA</option>
+              <option value="10" ${retrasoMinutos === '10' ? 'selected' : ''}>+10 min</option>
+              <option value="20" ${retrasoMinutos === '20' ? 'selected' : ''}>+20 min</option>
+              <option value="30" ${retrasoMinutos === '30' ? 'selected' : ''}>+30 min</option>
+            </select>
+          </label>
         </div>
+        <div class="paciente-nombre">${escapeHtml(formatPacienteDisplay(r)||'Sin nombre')}</div>
         <div class="muted">${phone? '+'+escapeHtml(phone):'Sin teléfono'}</div>
+        <div class="wa-row-line">
+          ${wa ? `<a class="btn whatsapp wa-action ${waModeClass}" target="_blank" rel="noopener" href="${wa}">${waLabel}</a>` : '<span class="muted">Sin número</span>'}
+        </div>
       </div>
       <div>${r.rut ? escapeHtml(r.rut) : '—'}</div>
       <div>${escapeHtml(r.fechaFmt||'—')}</div>
       <div>${escapeHtml(r.horaFmt||'—')}</div>
       <div>${statusPill(r.estado)}</div>
       <div>${escapeHtml(r.motivo||'SIN REGISTRO')}</div>
-      <div class="right">
-        ${wa ? `<a class="btn whatsapp" target="_blank" rel="noopener" href="${wa}">WhatsApp</a>` : '<span class="muted">Sin número</span>'}
-      </div>
     `;
     const btn = row.querySelector('a.btn.whatsapp');
     if (btn) {
       btn.addEventListener('click', () => {
-        const freshMsg = buildMessage(r, estadoLabel);
+        const tipoActual = retrasoWhatsappKeys.get(retrasoKey) || '';
+        const minutosActuales = retrasoMinutosKeys.get(retrasoKey) || '';
+        const freshMsg = buildMessage(r, estadoLabel, tipoActual, minutosActuales);
         const freshUrl = buildWaUrl(phone, freshMsg);
         btn.setAttribute('href', freshUrl);
         btn.textContent = 'Enviando…';
         setTimeout(()=>{ btn.textContent='Enviado'; btn.classList.add('sent'); }, 300);
+        if(tipoActual){
+          setTimeout(()=>{
+            retrasoWhatsappKeys.delete(retrasoKey);
+            retrasoMinutosKeys.delete(retrasoKey);
+            render();
+          }, 900);
+        }
+      });
+    }
+
+    row.querySelectorAll('.retraso-check').forEach((retrasoCheck) => {
+      retrasoCheck.addEventListener('change', (event) => {
+        const checked = !!event.target.checked;
+        const tipoSeleccionado = String(event.target.dataset.retrasoTipo || '').trim();
+        if (checked && tipoSeleccionado) retrasoWhatsappKeys.set(retrasoKey, tipoSeleccionado);
+        else if (retrasoWhatsappKeys.get(retrasoKey) === tipoSeleccionado){
+          retrasoWhatsappKeys.delete(retrasoKey);
+          retrasoMinutosKeys.delete(retrasoKey);
+        }
+        render();
+      });
+    });
+
+    const retrasoMinutosSelect = row.querySelector('.retraso-minutos');
+    if (retrasoMinutosSelect) {
+      retrasoMinutosSelect.addEventListener('change', (event) => {
+        const valor = String(event.target.value || '').trim();
+        if(valor) retrasoMinutosKeys.set(retrasoKey, valor);
+        else retrasoMinutosKeys.delete(retrasoKey);
+        render();
       });
     }
 
@@ -1405,10 +1698,21 @@ function render(){
       });
     }
 
+    if(isFranjaActive && !franjaTargetCell){
+      franjaTargetCell = row.querySelector('div');
+    }
+
     listEl.appendChild(row);
   }
+  renderFranjaPacienteCard(franjaInfo, !!franjaTargetCell);
   renderDocumentoStatus();
   renderTodayLabel();
+  if(autoScrollFranjaPending){
+    autoScrollFranjaPending = false;
+    if(franjaTargetCell){
+      setTimeout(() => scrollToFranjaPaciente(), 90);
+    }
+  }
   saveCacheState();
 }
 
@@ -1540,6 +1844,13 @@ setTimeout(()=>{
   }catch(e){}
 }, 350);
 
+setInterval(()=>{
+  try{
+    if(document.hidden || !Array.isArray(DATA) || !DATA.length) return;
+    render();
+  }catch(e){}
+}, 60000);
+
 }); // DOMContentLoaded
 </script>
 
@@ -1552,8 +1863,8 @@ setTimeout(()=>{
   if(!isHttps && !isLocalhost) return;
 
   window.addEventListener('load', () => {
-    // ./sw.js apunta a la raíz del repo (p.ej. /orion-portal/sw.js)
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    // ../../sw.js apunta a la raíz del repo (p.ej. /orion-portal/sw.js)
+    navigator.serviceWorker.register('../../sw.js').catch(()=>{});
   });
 })();
 </script>
@@ -1563,3 +1874,4 @@ setTimeout(()=>{
 
 </body>
 </html>
+<!-- ORION v5.1: WhatsApp visible bajo paciente + módulo manual oculto -->
