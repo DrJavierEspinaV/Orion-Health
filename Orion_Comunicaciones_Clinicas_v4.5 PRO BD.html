@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-<title>ORION_Comunicaciones_Clinicas_v5.3 PRO BD — ETA EN LINEA + COLORES INTENSOS + FRANJA HORARIA</title>
+<title>ORION_Comunicaciones_Clinicas_v5.7 PRO BD — ETA + FRANJA HORARIA + WHATSAPP MANUAL VISIBLE</title>
 
 <!-- ✅ PWA (instalable) — rutas pensadas para /apps/comunicaciones/index.html -->
 <link rel="manifest" href="../../manifest.webmanifest">
@@ -87,7 +87,20 @@
     .right{justify-content:flex-end; width:100%; overflow:visible}
 
     .header > div:nth-child(7), .row > div:nth-child(7){display:none !important}
-    #whatsappManualCard{display:none !important}
+    #whatsappManualCard{display:none}
+    #whatsappManualCard.manual-visible{
+      display:block !important;
+      border:2px solid rgba(37,211,102,.45) !important;
+      background:linear-gradient(135deg,#f0fdf4 0%,#ffffff 100%) !important;
+    }
+    #whatsappManualCard .manual-title{
+      font-size:13px;
+      font-weight:900;
+      color:#166534;
+      text-transform:uppercase;
+      letter-spacing:.25px;
+      margin-bottom:10px;
+    }
     .wa-row-line{width:100%; display:flex; justify-content:flex-start; margin-top:7px}
     .row > div:nth-child(2), .row > div:nth-child(3), .row > div:nth-child(4), .row > div:nth-child(5), .row > div:nth-child(6){justify-content:center; text-align:center}
     .row > div:nth-child(6){font-size:10.8px; line-height:1.06; word-break:break-word}
@@ -321,7 +334,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
   <!-- ✅ Si lo publicas en /apps/comunicaciones/, deja los logos dentro de ESTA carpeta o ajusta a ../../assets/... -->
   <img alt="Orion Comunicaciones" src="orion-logo.png"/>
   <div class="hgroup">
-    <h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v5.3 PRO_BD</h1>
+    <h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v5.7 PRO_BD</h1>
     <p>Mensajería Clínica · Estados · Plantillas · Enlaces</p>
   </div>
 </header>
@@ -417,15 +430,16 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
         </div>
       </div>
 
-      <div class="card editable" id="whatsappManualCard" style="display:none !important">
+      <div class="card editable" id="whatsappManualCard" style="display:none">
+        <div class="manual-title">📲 WhatsApp manual para paciente fuera de lista</div>
         <div class="bar-2">
           <div>
-            <label class="small">📞 N° WhatsApp Manual (Out BD)</label>
+            <label class="small">📞 N° WhatsApp Manual (fuera de BD/lista)</label>
             <input id="manualPhone" placeholder="912345678 o 56912345678" type="tel"/>
             <div class="muted" id="manualPhoneHint" style="margin-top:6px"></div>
           </div>
           <div>
-            <label class="small">👤 Nombre - Apellidos {{PACIENTE}})</label>
+            <label class="small">👤 Nombre y apellidos {{PACIENTE}}</label>
             <input id="manualName" placeholder="Ej: Juan Pérez" type="text"/>
           </div>
         </div>
@@ -787,7 +801,16 @@ function setPlantilla(){
     const d = document.getElementById('derivador'); if(d) d.value='';
     const i = document.getElementById('indicacion'); if(i) i.value='';
   }
-  if(wm) wm.style.display = 'none';
+  if(wm){
+    if(show){
+      wm.style.setProperty('display', 'block', 'important');
+      wm.classList.add('manual-visible');
+      if(typeof refreshManualPreview === 'function') refreshManualPreview();
+    } else {
+      wm.style.setProperty('display', 'none', 'important');
+      wm.classList.remove('manual-visible');
+    }
+  }
 }
 setPlantilla();
 $('#tipoMensaje').addEventListener('change', setPlantilla);
