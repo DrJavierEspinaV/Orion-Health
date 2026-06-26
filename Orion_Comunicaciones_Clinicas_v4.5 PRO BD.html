@@ -582,7 +582,11 @@ Notamos que no asististe a tu cita del {{FECHA_HORA}}.
 Si deseas reprogramarla, puedes hacerlo aquí:
 📅 https://agenda.bupa.cl/integramedica/agenda-consulta-dental/reserva-consulta-dental
 
-Podemos conversar vía Whatsapp, para conocer su Motivo de Consulta?`,
+Podemos conversar vía Whatsapp, para conocer su Motivo de Consulta?
+
+Para mayor comodidad, si cuenta con un examen radiográfico, podemos enviar una orientación de presupuesto por este mismo medio, evitando una asistencia presencial innecesaria.
+
+La consulta presencial quedaría recomienda solo si hay dolor, inflamación, infección, antecedentes médicos relevantes o si se requiere una evaluación clínica más detallada.`,
 
   consentimiento: `Hola {{PACIENTE}}, Adjunto encontrará el Consentimiento Informado correspondiente a su procedimiento.
 Le recomiendo leerlo con calma antes de la cita del día {{FECHA_HORA}}, ya que contiene información importante sobre el tratamiento, sus beneficios y posibles riesgos.
@@ -590,6 +594,7 @@ Le recomiendo leerlo con calma antes de la cita del día {{FECHA_HORA}}, ya que 
 Cualquier duda que tenga será resuelta personalmente el día del procedimiento, para que pueda sentirse seguro(a) y con toda la información necesaria.
 
 Muchas gracias por su confianza.
+
 {{ADJUNTOS}}`,
 
   indicaciones: `Hola {{PACIENTE}}, te envío las Indicaciones Pre y Postoperatorias relacionadas con tu procedimiento.
@@ -611,11 +616,17 @@ Te envío el detalle en la imagen adjunta 📄.
 Si te interesa reservar tu hora, respóndeme a este WhatsApp y coordinamos.
 {{ADJUNTOS}}`,
 
-  derivacion_whatsapp: `Estimado(a) {{PACIENTE}}, le escribe el Dr. Javier Espina, por derivación de {{DERIVADOR}}.
+  derivacion_whatsapp: `Estimado(a) {{PACIENTE}}, le escribe el Dr. Javier Espina, por Indicación y/o Derivación del(a) {{DERIVADOR}}. para la Evaluación y Tratamiento de
 {{INDICACION}}
 
-Adjunto su Presupuesto, Indicaciones y Examen Radiológico. Quedo atento(a) a sus comentarios por este medio.
-`
+Con el Examen Radiográfico (adjunto) y Evaluación de la Ficha Clínica, es posible realizar una revisión preliminar y enviar una orientación de presupuesto por este medio, sin necesidad de asistir presencialmente si no existen síntomas o dudas clínicas específicas.
+
+La evaluación presencial queda indicada en caso de dolor, inflamación, infección, antecedentes médicos relevantes o si se requiere una revisión clínica directa.
+
+
+Quedo atento(a) a sus comentarios.
+
+Adjunto Documentos.`
 };
 
 let DATA = [];
@@ -658,8 +669,8 @@ const ENCUESTAS = {
 2) ¿Fiebre? (sí/no):
 3) ¿Inflamación visible? (sí/no):
 4) ¿Alergias medicamentosas? (cuáles):
-5) Enfermedades sistémicas (HTA/DM/etc):
-6) Medicación habitual:`,
+5) Enfermedades sistémicas (Hipertensión/Diebetes/etc):
+6) Medicación Habitual:`,
 
   anticoagulantes:
 `🩸 *Encuesta Anticoagulantes:*
@@ -793,19 +804,27 @@ function setPlantilla(){
   $('#linksPublicos').value = (presetsLinks[tipo] || '').trim();
   actualizarPreviewLinks();
 
-  const show = (tipo === 'derivacion_whatsapp');
+  // ✅ Cambio único: WhatsApp Manual también aparece para “Paciente Ausente”.
+  // ✅ Derivación mantiene su bloque propio solo para “Derivación por WhatsApp”.
+  const showDerivacion = (tipo === 'derivacion_whatsapp');
+  const showWhatsappManual = (tipo === 'derivacion_whatsapp' || tipo === 'ausente');
+
   const bd = document.getElementById('bloqueDerivacion');
   const wm = document.getElementById('whatsappManualCard');
-  if(bd) bd.style.display = show ? '' : 'none';
-  if(!show){
+
+  if(bd) bd.style.display = showDerivacion ? '' : 'none';
+
+  if(!showDerivacion){
     const d = document.getElementById('derivador'); if(d) d.value='';
     const i = document.getElementById('indicacion'); if(i) i.value='';
   }
+
   if(wm){
-    if(show){
+    if(showWhatsappManual){
       wm.style.setProperty('display', 'block', 'important');
       wm.classList.add('manual-visible');
-      if(typeof refreshManualPreview === 'function') refreshManualPreview();
+      // No se llama refreshManualPreview aquí porque esta función corre antes
+      // de inicializar las constantes del bloque manual. Así no se rompe la BD.
     } else {
       wm.style.setProperty('display', 'none', 'important');
       wm.classList.remove('manual-visible');
@@ -1494,15 +1513,15 @@ function getTextoRetrasoWhatsapp(r, tipoRetraso, minutosEstimados=''){
   const fraseMinutos = minutos ? `, aproximadamente de ${minutos} minutos` : '';
 
   if(tipo === 'llegada'){
-    return `${saludo} te aviso que vengo con retraso en mi llegada al centro médico, por lo que la atención podría iniciar más tarde de lo programado${fraseMinutos}.
+    return `${saludo} Le escribe el Dr. Javier Espina Videla de Cirugía Maxilofacial del CCMM Integramédica Tobalaba. Le aviso que vengo con retraso en mi llegada al Centro Médico, por lo que la Atención podría iniciar más tarde de lo programado${fraseMinutos}.
 
-Te pido disculpas por la espera y agradezco mucho tu paciencia y comprensión.`;
+Le pido disculpas por la Espera y Agradezco su Paciencia y Comprensión.`;
   }
 
   if(tipo === 'atencion'){
-    return `${saludo} disculpa la demora. Estamos con retraso en la atención clínica${fraseMinutos}, pero seguimos avanzando con la agenda.
+    return `${saludo} Le escribe el Dr. Javier Espina Videla de Cirugía Maxilofacial del CCMM Integramédica Tobalaba. Estamos con retraso en la Atención Clínica${fraseMinutos}, pero seguimos avanzando con la Agenda.
 
-Gracias por tu paciencia y comprensión.`;
+Gracias por su Paciencia y Comprensión.`;
   }
 
   return '';
