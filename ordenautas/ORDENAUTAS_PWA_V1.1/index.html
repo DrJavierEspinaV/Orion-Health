@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1f33" />
+  <meta name="description" content="Ordenautas convierte pequeños hábitos familiares en misiones, energía y aventuras." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ordenautas" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Ordenautas · Pequeñas misiones, grandes aventuras</title>
+  <style>
+    :root{
+      --navy:#0b1f33;--navy2:#123a59;--cyan:#28c3c9;--sky:#dff8f8;--orange:#ffb347;
+      --cream:#f7f8f4;--white:#ffffff;--ink:#14202b;--muted:#667684;--line:#dbe4ea;
+      --green:#23a66f;--red:#d9534f;--shadow:0 12px 34px rgba(11,31,51,.12);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#eaf0f4;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    .app{max-width:460px;margin:0 auto;min-height:100vh;background:var(--cream);position:relative;padding-bottom:90px;box-shadow:0 0 40px rgba(11,31,51,.12)}
+    .hero{background:linear-gradient(150deg,var(--navy),var(--navy2));color:white;padding:22px 20px 28px;border-radius:0 0 28px 28px;position:relative;overflow:hidden}
+    .hero:after{content:"";position:absolute;right:-55px;top:-45px;width:160px;height:160px;border-radius:50%;background:rgba(40,195,201,.16)}
+    .brandrow{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:42px;height:42px;border-radius:14px;background:var(--cyan);display:grid;place-items:center;font-size:23px;box-shadow:0 8px 18px rgba(40,195,201,.26)}
+    .brand h1{font-size:18px;margin:0;line-height:1.05}.brand p{margin:4px 0 0;font-size:12px;color:#c7e2ef}
+    .header-actions{display:flex;gap:7px;align-items:center}.parent-btn{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);color:#fff;border-radius:12px;padding:9px 11px;font-weight:700;font-size:12px}
+    .screen{display:none}.screen.active{display:block}
+    .content{padding:18px 16px}
+    .profile-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:-28px;position:relative;z-index:2;padding:0 16px}
+    .profile-tab{background:#fff;border:2px solid transparent;border-radius:18px;padding:12px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;text-align:left}
+    .profile-tab.active{border-color:var(--cyan);background:#f7ffff}
+    .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;background:var(--navy2)}
+    .profile-tab:nth-child(2) .avatar{background:#a8558f}
+    .profile-tab strong{display:block;font-size:14px}.profile-tab span{font-size:12px;color:var(--muted)}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:16px}
+    .metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center}
+    .metric b{display:block;font-size:21px;color:var(--navy)}.metric small{font-size:10px;color:var(--muted)}
+    .section-title{display:flex;justify-content:space-between;align-items:end;margin:20px 0 10px}.section-title h2{font-size:16px;margin:0}.section-title span{font-size:11px;color:var(--muted)}
+    .progress-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px}
+    .progress-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.progress-head strong{font-size:14px}.badge{background:var(--sky);color:#08767b;font-weight:800;font-size:11px;padding:5px 8px;border-radius:99px}
+    .bar{height:10px;background:#e7edf1;border-radius:99px;overflow:hidden;margin:12px 0 8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),#63d9b4);border-radius:99px}
+    .muted{font-size:12px;color:var(--muted)}
+    .quick-grid,.mission-grid,.reward-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .action-card,.mission-card,.reward-card{background:#fff;border:1px solid var(--line);border-radius:17px;padding:13px;text-align:left;min-height:112px;display:flex;flex-direction:column;justify-content:space-between;transition:.16s}
+    .action-card:active,.mission-card:active,.reward-card:active{transform:scale(.98)}
+    .icon{font-size:25px}.card-title{font-weight:800;font-size:13px;margin-top:8px}.points{align-self:flex-end;background:var(--sky);color:#08767b;font-weight:900;font-size:12px;padding:5px 8px;border-radius:99px}
+    .team-card{background:linear-gradient(145deg,#fff7e8,#fff);border:1px solid #f2d9a8;border-radius:18px;padding:15px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .team-card h3{margin:0 0 5px;font-size:14px}.team-score{font-size:28px;font-weight:900;color:#9b5b00}
+    .reward-card.locked{opacity:.68}.reward-top{display:flex;justify-content:space-between;gap:8px}.reward-cost{font-size:12px;font-weight:900;color:#925800}.reward-card button{border:0;border-radius:10px;padding:8px 10px;font-weight:800;background:var(--navy);color:white;margin-top:10px}.reward-card button:disabled{background:#b7c1c8;cursor:not-allowed}
+    .filter-row{display:flex;gap:8px;overflow:auto;padding-bottom:3px}.chip{border:1px solid var(--line);background:white;border-radius:999px;padding:8px 11px;white-space:nowrap;font-size:12px;font-weight:700}.chip.active{background:var(--navy);color:white;border-color:var(--navy)}
+    .history-list{display:flex;flex-direction:column;gap:9px}.history-item{background:#fff;border:1px solid var(--line);border-radius:15px;padding:12px;display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center}.history-icon{width:36px;height:36px;border-radius:12px;background:#edf5f7;display:grid;place-items:center}.history-item strong{display:block;font-size:13px}.history-item small{color:var(--muted);font-size:10px}.delta{font-weight:900;font-size:13px}.plus{color:var(--green)}.minus{color:var(--red)}
+    .empty{padding:28px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:18px}
+    .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(460px,100%);background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 10px calc(8px + env(safe-area-inset-bottom));z-index:20}
+    .nav-btn{border:0;background:transparent;color:#71808d;padding:6px 4px;border-radius:12px;font-size:10px;font-weight:800}.nav-btn span{display:block;font-size:20px;margin-bottom:2px}.nav-btn.active{color:var(--navy);background:#eef6f7}
+    .toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,25px);width:min(420px,calc(100% - 32px));background:var(--navy);color:#fff;padding:13px 15px;border-radius:15px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:50;font-size:13px}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .modal{position:fixed;inset:0;background:rgba(4,16,28,.62);display:none;align-items:flex-end;justify-content:center;z-index:60}.modal.open{display:flex}.sheet{width:min(460px,100%);background:#fff;border-radius:24px 24px 0 0;padding:20px 18px 28px;max-height:88vh;overflow:auto}.sheet h2{margin:0 0 5px;font-size:18px}.sheet p{margin:0 0 16px;color:var(--muted);font-size:12px}.field{margin:12px 0}.field label{display:block;font-weight:800;font-size:12px;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:white}.btn-row{display:flex;gap:9px;margin-top:16px}.btn{flex:1;border:0;border-radius:12px;padding:11px 12px;font-weight:900}.btn.primary{background:var(--navy);color:white}.btn.secondary{background:#eef2f4;color:var(--navy)}
+    .parent-panel{display:none}.parent-panel.unlocked{display:block}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.admin-card{background:white;border:1px solid var(--line);border-radius:16px;padding:14px}.admin-card h3{margin:0 0 8px;font-size:13px}.admin-card button{width:100%;border:0;border-radius:10px;background:#edf3f5;padding:9px;font-weight:800;font-size:12px;margin-top:6px}.danger{color:var(--red)}
+    .install-btn{background:var(--cyan);color:var(--navy);border-color:transparent}.demo-note{background:#fff5da;border:1px solid #f2d799;border-radius:14px;padding:11px 12px;font-size:11px;color:#76530b;margin-top:12px}
+    @media (max-width:360px){.quick-grid,.mission-grid,.reward-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.metrics .metric:last-child{grid-column:1/-1}.brand p{display:none}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div class="brandrow">
+      <div class="brand"><div class="logo">🚀</div><div><h1>ORDENAUTAS</h1><p>Pequeñas misiones. Grandes aventuras.</p></div></div>
+      <div class="header-actions"><button class="parent-btn install-btn" id="installApp" hidden>⬇ Instalar</button><button class="parent-btn" id="openParent">🛰️ Central</button></div>
+    </div>
+  </header>
+
+  <div class="profile-tabs">
+    <button class="profile-tab active" data-player="cristobal"><div class="avatar">C</div><div><strong>Cristóbal</strong><span id="tabPointsC">0 puntos</span></div></button>
+    <button class="profile-tab" data-player="isidora"><div class="avatar">I</div><div><strong>Isidora</strong><span id="tabPointsI">0 puntos</span></div></button>
+  </div>
+
+  <main>
+    <section id="home" class="screen active">
+      <div class="content">
+        <div class="metrics">
+          <div class="metric"><b id="available">0</b><small>ENERGÍA</small></div>
+          <div class="metric"><b id="historical">0</b><small>XP TOTAL</small></div>
+          <div class="metric"><b id="streak">0</b><small>RACHA</small></div>
+        </div>
+
+        <div class="section-title"><h2>Rango Ordenauta</h2><span id="levelText">Cadete Ordenauta</span></div>
+        <div class="progress-card">
+          <div class="progress-head"><strong id="nextLevelText">Próximo nivel</strong><span class="badge" id="levelBadge">Nivel 1</span></div>
+          <div class="bar"><i id="levelBar" style="width:0%"></i></div>
+          <div class="muted" id="levelDetail">Completa misiones para avanzar.</div>
+        </div>
+
+        <div class="section-title"><h2>Misiones rápidas</h2><span>Un toque para registrar</span></div>
+        <div class="quick-grid" id="quickMissions"></div>
+
+        <div class="section-title"><h2>Expedición familiar</h2><span>Energía de la base</span></div>
+        <div class="team-card">
+          <div><h3>🏔️ Expedición a la montaña</h3><div class="muted">Meta: 45 puntos de energía colectiva</div><div class="bar" style="margin-bottom:0"><i id="teamBar" style="width:0%"></i></div></div>
+          <div class="team-score" id="teamScore">0</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="missions" class="screen">
+      <div class="content">
+        <div class="section-title"><h2>Todas las misiones</h2><span id="missionPlayerLabel">Para Cristóbal</span></div>
+        <div class="filter-row" id="missionFilters"></div>
+        <div class="mission-grid" id="missionGrid" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <section id="rewards" class="screen">
+      <div class="content">
+        <div class="section-title"><h2>Recompensas</h2><span>Desbloqueo desde la Central</span></div>
+        <div class="reward-grid" id="rewardGrid"></div>
+        <div class="demo-note">Los desbloqueos solicitan el PIN de la Central de mando. En el piloto el PIN inicial es <strong>2026</strong>.</div>
+      </div>
+    </section>
+
+    <section id="history" class="screen">
+      <div class="content">
+        <div class="section-title"><h2>Bitácora</h2><span>Registro de la misión</span></div>
+        <div class="history-list" id="historyList"></div>
+      </div>
+    </section>
+      <div class="content" style="padding-top:0"><div class="muted" style="text-align:center">ORDENAUTAS · Piloto familiar V1.1</div></div>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-screen="home"><span>🏠</span>Inicio</button>
+    <button class="nav-btn" data-screen="missions"><span>✅</span>Misiones</button>
+    <button class="nav-btn" data-screen="rewards"><span>🎁</span>Premios</button>
+    <button class="nav-btn" data-screen="history"><span>📋</span>Bitácora</button>
+  </nav>
+</div>
+
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<div class="modal" id="parentModal">
+  <div class="sheet">
+    <div id="pinGate">
+      <h2>Central de mando</h2><p>Ingresa el PIN para administrar misiones, energía y recompensas.</p>
+      <div class="field"><label for="pinInput">PIN parental</label><input id="pinInput" type="password" inputmode="numeric" maxlength="6" placeholder="••••" /></div>
+      <div class="btn-row"><button class="btn secondary close-modal">Cancelar</button><button class="btn primary" id="unlockParent">Ingresar</button></div>
+    </div>
+    <div class="parent-panel" id="parentPanel">
+      <h2>Central de mando</h2><p>Control parental de energía, rachas, respaldo y configuración.</p>
+      <div class="admin-grid">
+        <div class="admin-card"><h3>⚡ Ajustar energía</h3><button data-adjust="1">+1 punto</button><button data-adjust="5">+5 puntos</button><button data-adjust="-1">−1 corrección</button></div>
+        <div class="admin-card"><h3>🔥 Racha</h3><button id="addStreak">+1 día</button><button id="resetStreak">Reiniciar racha</button></div>
+        <div class="admin-card"><h3>↩️ Bitácora</h3><button id="undoLast">Deshacer último</button><button id="exportData">Exportar respaldo</button></div>
+        <div class="admin-card"><h3>⚙️ Sistema</h3><button id="changePin">Cambiar PIN</button><button id="resetAll" class="danger">Reiniciar piloto</button></div>
+      </div>
+      <div class="btn-row"><button class="btn primary close-modal">Cerrar panel</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="confirmModal">
+  <div class="sheet">
+    <h2 id="confirmTitle">Confirmar canje</h2><p id="confirmText"></p>
+    <div class="field"><label for="confirmPin">PIN parental</label><input id="confirmPin" type="password" inputmode="numeric" maxlength="6" placeholder="••••" /></div>
+    <div class="btn-row"><button class="btn secondary close-confirm">Cancelar</button><button class="btn primary" id="confirmReward">Confirmar</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const defaultState = {
+    pin:'2026', activePlayer:'cristobal', teamPoints:0,
+    players:{
+      cristobal:{name:'Cristóbal',available:0,historical:0,streak:0},
+      isidora:{name:'Isidora',available:0,historical:0,streak:0}
+    },
+    history:[]
+  };
+  const missions = [
+    {id:'shoes',icon:'👟',name:'Zapatos ordenados',points:1,cat:'Orden'},
+    {id:'trash',icon:'🗑️',name:'Recoger mi basura',points:1,cat:'Orden'},
+    {id:'toys',icon:'🧸',name:'Guardar juguetes',points:2,cat:'Orden'},
+    {id:'desk',icon:'🧹',name:'Ordenar escritorio',points:2,cat:'Orden'},
+    {id:'backpack',icon:'🎒',name:'Preparar mochila',points:2,cat:'Responsabilidad'},
+    {id:'pets',icon:'🐾',name:'Alimentar mascotas',points:2,cat:'Mascotas'},
+    {id:'read',icon:'📚',name:'Leer 20 minutos',points:3,cat:'Estudios'},
+    {id:'study',icon:'✏️',name:'Estudiar 20 minutos',points:3,cat:'Estudios'},
+    {id:'help',icon:'🤝',name:'Ayuda espontánea',points:3,cat:'Cooperación'},
+    {id:'room',icon:'🛏️',name:'Ordenar habitación',points:5,cat:'Orden'},
+    {id:'team',icon:'🛸',name:'Misión de la base',points:3,team:3,cat:'Cooperación'},
+    {id:'noreminder',icon:'⚡',name:'Sin recordatorio',points:1,cat:'Bonificación'}
+  ];
+  const rewards = [
+    {id:'music',icon:'🎵',name:'Elegir la música',cost:5},
+    {id:'dessert',icon:'🍨',name:'Postre especial',cost:8},
+    {id:'games',icon:'🎮',name:'30 min videojuegos',cost:12},
+    {id:'movie',icon:'🎬',name:'Elegir película',cost:15},
+    {id:'dadgame',icon:'🕹️',name:'Noche gamer con papá',cost:20},
+    {id:'food',icon:'🍔',name:'Comida especial',cost:25},
+    {id:'icecream',icon:'🍦',name:'Salida por helado',cost:30},
+    {id:'cinema',icon:'🍿',name:'Ir al cine',cost:40}
+  ];
+  const levels = [
+    {name:'Cadete Ordenauta',min:0,max:29},
+    {name:'Explorador Estelar',min:30,max:69},
+    {name:'Guardián de la Base',min:70,max:119},
+    {name:'Capitán de Misiones',min:120,max:199},
+    {name:'Comandante Ordenauta',min:200,max:349},
+    {name:'Leyenda Galáctica',min:350,max:999999}
+  ];
+  let state = load();
+  let missionFilter = 'Todas';
+  let pendingReward = null;
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+
+  function load(){ try{return {...structuredClone(defaultState),...JSON.parse(localStorage.getItem('ordenautas_state')||'{}')};}catch(e){return structuredClone(defaultState);} }
+  function save(){localStorage.setItem('ordenautas_state',JSON.stringify(state));}
+  function now(){return new Date().toLocaleString('es-CL',{dateStyle:'short',timeStyle:'short'});}
+  function player(){return state.players[state.activePlayer];}
+  function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2400);}
+  function levelInfo(points){let idx=levels.findIndex(l=>points>=l.min&&points<=l.max);if(idx<0)idx=levels.length-1;const l=levels[idx];const next=levels[Math.min(idx+1,levels.length-1)];const span=l.max-l.min+1;const progress=idx===levels.length-1?100:Math.max(0,Math.min(100,((points-l.min)/span)*100));return {idx,l,next,progress};}
+  function addHistory(type,label,delta,who,meta={}){state.history.unshift({id:Date.now()+Math.random(),type,label,delta,who,date:now(),meta});state.history=state.history.slice(0,200);}
+  function completeMission(m){const p=player();p.available+=m.points;p.historical+=m.points;if(m.team){state.teamPoints+=m.team;}addHistory('mission',m.name,m.points,state.activePlayer,{team:m.team||0});save();render();toast(`¡Misión completada! ${p.name} ganó ${m.points} punto${m.points===1?'':'s'} de energía.`);}
+  function redeem(r){const p=player();if(p.available<r.cost){toast(`Faltan ${r.cost-p.available} puntos de energía para desbloquear esta recompensa.`);return;}pendingReward=r;$('#confirmTitle').textContent=`Canjear: ${r.name}`;$('#confirmText').textContent=`Se descontarán ${r.cost} puntos de energía de ${p.name}.`;$('#confirmPin').value='';$('#confirmModal').classList.add('open');}
+  function doRedeem(){if($('#confirmPin').value!==state.pin){toast('PIN incorrecto.');return;}const r=pendingReward;if(!r)return;const p=player();p.available-=r.cost;addHistory('reward',r.name,-r.cost,state.activePlayer);save();$('#confirmModal').classList.remove('open');render();toast(`Recompensa desbloqueada: ${r.name}.`);pendingReward=null;}
+  function renderProfiles(){
+    $$('.profile-tab').forEach(b=>b.classList.toggle('active',b.dataset.player===state.activePlayer));
+    $('#tabPointsC').textContent=`${state.players.cristobal.available} energía`;
+    $('#tabPointsI').textContent=`${state.players.isidora.available} energía`;
+  }
+  function renderHome(){const p=player();$('#available').textContent=p.available;$('#historical').textContent=p.historical;$('#streak').textContent=p.streak;const li=levelInfo(p.historical);$('#levelText').textContent=li.l.name;$('#levelBadge').textContent=`Rango ${li.idx+1}`;$('#levelBar').style.width=`${li.progress}%`;if(li.idx===levels.length-1){$('#nextLevelText').textContent='Rango máximo alcanzado';$('#levelDetail').textContent='Tu entrenamiento Ordenauta está consolidado.';}else{$('#nextLevelText').textContent=`Rumbo a ${li.next.name}`;$('#levelDetail').textContent=`Faltan ${li.next.min-p.historical} puntos de XP.`;}$('#teamScore').textContent=state.teamPoints;$('#teamBar').style.width=`${Math.min(100,state.teamPoints/45*100)}%`;
+    $('#quickMissions').innerHTML=missions.slice(0,4).map(m=>`<button class="action-card" data-mission="${m.id}"><span class="icon">${m.icon}</span><span class="card-title">${m.name}</span><span class="points">+${m.points}</span></button>`).join('');
+    $$('#quickMissions [data-mission]').forEach(b=>b.addEventListener('click',()=>completeMission(missions.find(m=>m.id===b.dataset.mission))));
+  }
+  function renderMissions(){const cats=['Todas',...new Set(missions.map(m=>m.cat))];$('#missionFilters').innerHTML=cats.map(c=>`<button class="chip ${c===missionFilter?'active':''}" data-cat="${c}">${c}</button>`).join('');$$('#missionFilters [data-cat]').forEach(b=>b.addEventListener('click',()=>{missionFilter=b.dataset.cat;renderMissions();}));const filtered=missionFilter==='Todas'?missions:missions.filter(m=>m.cat===missionFilter);$('#missionGrid').innerHTML=filtered.map(m=>`<button class="mission-card" data-mission="${m.id}"><span class="icon">${m.icon}</span><span class="card-title">${m.name}</span><span class="points">+${m.points}${m.team?` / +${m.team} equipo`:''}</span></button>`).join('');$$('#missionGrid [data-mission]').forEach(b=>b.addEventListener('click',()=>completeMission(missions.find(m=>m.id===b.dataset.mission))));$('#missionPlayerLabel').textContent=`Para ${player().name}`;}
+  function renderRewards(){const p=player();$('#rewardGrid').innerHTML=rewards.map(r=>{const ok=p.available>=r.cost;return `<div class="reward-card ${ok?'':'locked'}"><div class="reward-top"><span class="icon">${r.icon}</span><span class="reward-cost">${r.cost} pts</span></div><span class="card-title">${r.name}</span><button data-reward="${r.id}" ${ok?'':'disabled'}>${ok?'Canjear':`Faltan ${r.cost-p.available}`}</button></div>`}).join('');$$('#rewardGrid [data-reward]').forEach(b=>b.addEventListener('click',()=>redeem(rewards.find(r=>r.id===b.dataset.reward))));}
+  function renderHistory(){const list=state.history.filter(h=>h.who===state.activePlayer||h.who==='team');if(!list.length){$('#historyList').innerHTML='<div class="empty">Todavía no hay movimientos para este perfil.</div>';return;}$('#historyList').innerHTML=list.map(h=>`<div class="history-item"><div class="history-icon">${h.type==='mission'?'✅':h.type==='reward'?'🎁':'⚙️'}</div><div><strong>${h.label}</strong><small>${h.date}${h.meta?.team?` · +${h.meta.team} equipo`:''}</small></div><div class="delta ${h.delta>=0?'plus':'minus'}">${h.delta>=0?'+':''}${h.delta}</div></div>`).join('');}
+  function render(){renderProfiles();renderHome();renderMissions();renderRewards();renderHistory();save();}
+
+  $$('.profile-tab').forEach(b=>b.addEventListener('click',()=>{state.activePlayer=b.dataset.player;render();}));
+  $$('.nav-btn').forEach(b=>b.addEventListener('click',()=>{$$('.nav-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.screen').forEach(s=>s.classList.toggle('active',s.id===b.dataset.screen));}));
+  $('#openParent').addEventListener('click',()=>{$('#parentModal').classList.add('open');$('#pinGate').style.display='block';$('#parentPanel').classList.remove('unlocked');$('#pinInput').value='';});
+  $('#unlockParent').addEventListener('click',()=>{if($('#pinInput').value!==state.pin){toast('PIN incorrecto.');return;}$('#pinGate').style.display='none';$('#parentPanel').classList.add('unlocked');});
+  $$('.close-modal').forEach(b=>b.addEventListener('click',()=>$('#parentModal').classList.remove('open')));
+  $$('.close-confirm').forEach(b=>b.addEventListener('click',()=>$('#confirmModal').classList.remove('open')));
+  $('#confirmReward').addEventListener('click',doRedeem);
+  $$('[data-adjust]').forEach(b=>b.addEventListener('click',()=>{const d=Number(b.dataset.adjust),p=player();p.available=Math.max(0,p.available+d);if(d>0)p.historical+=d;addHistory('admin',`Ajuste parental ${d>0?'+':''}${d}`,d,state.activePlayer);save();render();toast('Ajuste de energía registrado.');}));
+  $('#addStreak').addEventListener('click',()=>{player().streak++;addHistory('admin','Racha actualizada',0,state.activePlayer);render();toast('Racha aumentada.');});
+  $('#resetStreak').addEventListener('click',()=>{player().streak=0;addHistory('admin','Racha reiniciada',0,state.activePlayer);render();toast('Racha reiniciada.');});
+  $('#undoLast').addEventListener('click',()=>{const h=state.history.shift();if(!h){toast('No hay movimientos para deshacer.');return;}if(h.who==='cristobal'||h.who==='isidora'){const p=state.players[h.who];p.available=Math.max(0,p.available-h.delta);if(h.type==='mission'||(h.type==='admin'&&h.delta>0))p.historical=Math.max(0,p.historical-h.delta);if(h.meta?.team)state.teamPoints=Math.max(0,state.teamPoints-h.meta.team);}save();render();toast('Último movimiento deshecho.');});
+  $('#exportData').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ordenautas-respaldo.json';a.click();URL.revokeObjectURL(a.href);toast('Respaldo exportado.');});
+  $('#changePin').addEventListener('click',()=>{const n=prompt('Nuevo PIN numérico (4 a 6 dígitos):');if(/^\d{4,6}$/.test(n||'')){state.pin=n;save();toast('PIN actualizado.');}else if(n!==null)toast('PIN inválido.');});
+  $('#resetAll').addEventListener('click',()=>{if(confirm('¿Reiniciar toda la energía y la bitácora del piloto?')){state=structuredClone(defaultState);save();render();$('#parentModal').classList.remove('open');toast('Piloto reiniciado.');}});
+  [$('#parentModal'),$('#confirmModal')].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+  let deferredInstallPrompt = null;
+  const installButton = $('#installApp');
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    installButton.hidden = false;
+  });
+  installButton.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) {
+      toast('Para instalar, abre Ordenautas desde Chrome usando una dirección HTTPS.');
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installButton.hidden = true;
+  });
+  window.addEventListener('appinstalled', () => {
+    installButton.hidden = true;
+    toast('Ordenautas quedó instalado en este dispositivo.');
+  });
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(() => {
+        console.warn('No fue posible registrar el modo sin conexión.');
+      });
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+ORDENAUTAS PWA
+Versión: 1.1-piloto
+Fecha: 2026-07-24
