@@ -1,12 +1,19 @@
 ORDENAUTAS PWA
-Versión: 1.3-piloto-configurable
-Fecha: 2026-07-24
+Versión: 1.4-piloto-base-familiar-dinamica
+Fecha: 2026-07-25
 
 Cambios principales:
-- Edición de nombres y avatares.
-- Creación, edición y eliminación de misiones.
-- Configuración de misiones rápidas, categorías, puntajes y energía de equipo.
-- Creación, edición y eliminación de recompensas.
-- Configuración de tipos y costos de recompensas.
-- Reinicio separado de progreso y catálogos.
-- Migración automática conservando progreso local existente.
+- Participantes dinámicos: entre 1 y 6 integrantes activos.
+- Creación, edición, archivo y restauración de participantes.
+- Nombre, avatar y color personalizados por integrante.
+- Migración automática desde los perfiles de V1.3 conservando progreso.
+- Generador de lámina familiar con misiones, puntajes, premios y canjes.
+- Inclusión seleccionable de participantes, nombres y avatares en la lámina.
+- Expedición, meta, título, subtítulo, reglas y fecha configurables.
+- Descarga de la lámina en PNG.
+- Impresión directa y opción Guardar como PDF desde el navegador.
+- Actualización del caché PWA y corrección de la ruta del manifiesto.
+
+Alcance del piloto:
+- Configuración y datos guardados localmente en el dispositivo principal.
+- Sincronización en la nube prevista para la etapa posterior al día 30.
