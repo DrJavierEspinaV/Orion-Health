@@ -1,19 +1,12 @@
 ORDENAUTAS PWA
-Versión: 1.4-piloto-base-familiar-dinamica
+Versión: 1.4.1-piloto-lamina-oficial
 Fecha: 2026-07-25
 
 Cambios principales:
-- Participantes dinámicos: entre 1 y 6 integrantes activos.
-- Creación, edición, archivo y restauración de participantes.
-- Nombre, avatar y color personalizados por integrante.
-- Migración automática desde los perfiles de V1.3 conservando progreso.
-- Generador de lámina familiar con misiones, puntajes, premios y canjes.
-- Inclusión seleccionable de participantes, nombres y avatares en la lámina.
-- Expedición, meta, título, subtítulo, reglas y fecha configurables.
-- Descarga de la lámina en PNG.
-- Impresión directa y opción Guardar como PDF desde el navegador.
-- Actualización del caché PWA y corrección de la ruta del manifiesto.
+- Generador de lámina rediseñado según el modelo visual oficial.
+- Encabezado espacial, paneles de misiones y premios, expedición y reglas.
+- Nombres, avatares y colores dinámicos para 1 a 6 participantes.
+- Descarga PNG e impresión optimizada para PDF.
+- Caché PWA actualizado para celulares.
 
-Alcance del piloto:
-- Configuración y datos guardados localmente en el dispositivo principal.
-- Sincronización en la nube prevista para la etapa posterior al día 30.
+Los datos continúan almacenados localmente durante el piloto.
