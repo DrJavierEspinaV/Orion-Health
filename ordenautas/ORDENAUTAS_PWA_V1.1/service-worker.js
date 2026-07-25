@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ordenautas-v1-4';
+const CACHE_NAME = 'ordenautas-v1-4-1';
 const APP_SHELL = [
   './',
   './index.html',
