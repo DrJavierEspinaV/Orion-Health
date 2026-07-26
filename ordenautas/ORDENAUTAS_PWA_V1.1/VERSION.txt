@@ -1,13 +1,15 @@
 ORDENAUTAS PWA
-Versión: 1.5-piloto-rangos-premio-familiar
+Versión: 1.6-piloto-doble-interfaz-parental
 Fecha: 2026-07-25
 
 Cambios principales:
-- Animación oficial para desbloqueo y entrega del Premio Familiar.
-- Entrega parental desde Central con reinicio controlado de la expedición.
-- Seis rangos Ordenautas explicados con XP, beneficios y bonos automáticos.
-- Registro de ascensos y premios familiares en la bitácora.
-- Persistencia compatible con los datos existentes del piloto.
+- Modo Adulto establecido como experiencia principal de la aplicación.
+- Panel parental rápido para seleccionar participante y registrar misiones.
+- Acceso directo a rangos, expedición, Premio Familiar, Central y lámina oficial.
+- Modo Ordenauta opcional para visualización o uso supervisado.
+- Validación obligatoria mediante PIN para sumar puntos desde el Modo Ordenauta.
+- Desbloqueo parental conservado únicamente durante la sesión activa.
+- Compatibilidad con participantes, progreso, rangos, premios y datos existentes.
 - Caché PWA actualizado para celulares.
 
 Los datos continúan almacenados localmente durante el piloto.
