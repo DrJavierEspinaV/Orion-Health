@@ -14,6 +14,7 @@
         /const url = \(document\.getElementById\('dbWebappUrl'\)\?\.value \|\| ''\)\.trim\(\);\s*if\(!url\) return;\s*loadDb_\(\);/,
         "const url = (document.getElementById('dbWebappUrl')?.value || '').trim(); const tok = (document.getElementById('dbToken')?.value || '').trim(); if(!url || !tok) return; loadDb_();"
       )
+      .replace('</head>','<link rel="stylesheet" href="./responsive-fixes.css?v=1.2.3"></head>')
       .replace('</body>','<script src="../../assets/shared/session-config.js?v=1.2.2"></script></body>');
     document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e)}
