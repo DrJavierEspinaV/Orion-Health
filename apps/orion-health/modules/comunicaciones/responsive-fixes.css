@@ -1,0 +1,87 @@
+/* ORION Comunicaciones — ajuste para ejecución dentro del portal */
+html,body{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  overflow-x:hidden !important;
+}
+body{margin:0 !important;}
+
+header#orionHdr{
+  display:flex !important;
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  padding:8px 12px !important;
+  gap:10px !important;
+}
+header#orionHdr img{
+  height:52px !important;
+  width:auto !important;
+  flex:0 0 auto;
+}
+header#orionHdr .hgroup{min-width:0 !important;}
+header#orionHdr .hgroup h1{
+  font-size:clamp(18px,2.6vw,26px) !important;
+  line-height:1.08 !important;
+  overflow-wrap:anywhere;
+}
+header#orionHdr .hgroup p{
+  font-size:12px !important;
+  margin-top:2px !important;
+}
+
+main{
+  width:100% !important;
+  max-width:none !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:10px !important;
+}
+.crm-layout{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  grid-template-columns:minmax(0,1fr) !important;
+  gap:12px !important;
+}
+.crm-layout > *{
+  min-width:0 !important;
+  max-width:100% !important;
+}
+.crm-sidebar{
+  width:100% !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  position:relative !important;
+  top:auto !important;
+  max-height:none !important;
+  overflow:visible !important;
+  padding-right:0 !important;
+}
+.card{max-width:100% !important;}
+.table{max-width:100% !important; overflow-x:auto !important;}
+.bar,.bar-2,.grid2{min-width:0 !important;}
+input,select,textarea,button{max-width:100%;}
+
+@media (min-width:1250px){
+  .crm-layout{
+    grid-template-columns:minmax(0,1fr) minmax(520px,760px) !important;
+    gap:18px !important;
+  }
+  .crm-sidebar{
+    position:sticky !important;
+    top:10px !important;
+    max-height:calc(100vh - 20px) !important;
+    overflow:auto !important;
+    padding-right:4px !important;
+  }
+}
+
+@media (max-width:760px){
+  header#orionHdr img{height:42px !important;}
+  header#orionHdr .hgroup h1{font-size:18px !important;}
+  header#orionHdr .hgroup p{display:none;}
+  main{padding:8px !important;}
+  .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;}
+}
