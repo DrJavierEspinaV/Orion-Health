@@ -1,4 +1,4 @@
-const CACHE_NAME = 'orion-dental-app-v1.2.1';
+const CACHE_NAME = 'orion-dental-app-v1.2.4';
 const SHELL = [
   './',
   './index.html',
@@ -6,12 +6,16 @@ const SHELL = [
   './script-1.js',
   './manifest.webmanifest',
   './VERSION.json',
+  './data/catalogo-insumos.json',
   './assets/brand/orion-health.png',
   './assets/brand/orion-comunicaciones.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png',
   './assets/shared/patient-bridge.js',
-  './assets/shared/session-config.js'
+  './assets/shared/session-config.js',
+  './modules/insumos/index.html',
+  './modules/insumos/loader.js',
+  './modules/insumos/source.html'
 ];
 
 self.addEventListener('install', event => {
