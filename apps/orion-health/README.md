@@ -13,25 +13,32 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Rendimiento y navegación V1.2.6
+## Página continua V1.2.7
+
+- El portal utiliza una sola barra de desplazamiento vertical.
+- El iframe ajusta automáticamente su altura al contenido real del módulo.
+- Se elimina el scroll interno que recortaba formularios y tablas.
+- El menú lateral permanece visible en escritorio mediante posición `sticky`.
+- Cada cambio o recarga de módulo vuelve al inicio del portal.
+- Los cambios dinámicos dentro de cada módulo actualizan la altura mediante `ResizeObserver` y `MutationObserver`.
+
+## Rendimiento
 
 - Comunicaciones restaura inmediatamente la agenda guardada durante la sesión.
 - La actualización desde Drive ocurre en segundo plano.
-- La vigencia de la caché de agenda es de cuatro horas dentro de la sesión.
-- La librería XLSX deja de bloquear el inicio y se carga únicamente al seleccionar un Excel.
-- El service worker aplica caché inmediata con actualización silenciosa.
-- Cada módulo reinicia su posición al abrirse o recargarse.
+- La vigencia de la caché de agenda se amplía a cuatro horas dentro de la sesión.
+- La librería XLSX deja de bloquear el inicio y se carga únicamente cuando se selecciona un Excel.
+- El service worker aplica caché inmediata con actualización silenciosa para los recursos internos.
 
-## ORION Insumos V4.5.2
+## ORION Insumos
 
 - Catálogo Maestro ORION con 538 insumos activos.
 - Catálogo incorporado automáticamente; no requiere seleccionar Excel.
 - Caché local por 24 horas.
 - Drive solo puede reemplazar el catálogo cuando entrega al menos 500 registros válidos.
-- Una base parcial o vacía se descarta automáticamente.
+- Una base parcial o vacía es descartada automáticamente.
 - La importación Excel queda disponible en `Administración avanzada del catálogo`.
-- Los errores genéricos de recursos externos no se muestran como fallas del módulo.
-- Los datos incompletos para generar Excel producen un aviso informativo, no una alerta roja.
+- Los avisos por datos incompletos para Excel son informativos y no se presentan como fallas del catálogo.
 
 ## Seguridad aplicada al piloto
 
