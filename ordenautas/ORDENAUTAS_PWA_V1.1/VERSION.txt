@@ -1,12 +1,13 @@
 ORDENAUTAS PWA
-Versión: 1.4.1-piloto-lamina-oficial
+Versión: 1.5-piloto-rangos-premio-familiar
 Fecha: 2026-07-25
 
 Cambios principales:
-- Generador de lámina rediseñado según el modelo visual oficial.
-- Encabezado espacial, paneles de misiones y premios, expedición y reglas.
-- Nombres, avatares y colores dinámicos para 1 a 6 participantes.
-- Descarga PNG e impresión optimizada para PDF.
+- Animación oficial para desbloqueo y entrega del Premio Familiar.
+- Entrega parental desde Central con reinicio controlado de la expedición.
+- Seis rangos Ordenautas explicados con XP, beneficios y bonos automáticos.
+- Registro de ascensos y premios familiares en la bitácora.
+- Persistencia compatible con los datos existentes del piloto.
 - Caché PWA actualizado para celulares.
 
 Los datos continúan almacenados localmente durante el piloto.
