@@ -1,11 +1,12 @@
 (async()=>{
   'use strict';
 
-  const MODULE_VERSION = '4.5.0';
-  const CATALOG_URL = '../../data/catalogo-insumos.json?v=1.0';
+  const MODULE_VERSION = '4.5.1';
+  const CATALOG_URL = '../../data/catalogo-insumos.json?v=1.1';
   const SOURCE_URL = './source.html';
-  const CACHE_KEY = 'orion_insumos_catalogo_v1';
+  const CACHE_KEY = 'orion_insumos_catalogo_v2';
   const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+  const MIN_VALID_ITEMS = 500;
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGEsLJQMTkzq4G7XhEleNVfWhji2QlY_e75jruADK2NAwrv6uXoDSJP8PqXPAjfzAY/exec';
 
   const normalizeText = value => String(value ?? '').trim();
@@ -13,7 +14,7 @@
   function readCache(){
     try{
       const saved = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-      if(!saved || !Array.isArray(saved.items) || !saved.items.length) return null;
+      if(!saved || !Array.isArray(saved.items) || saved.items.length < MIN_VALID_ITEMS) return null;
       if(Date.now() - Number(saved.savedAt || 0) > CACHE_TTL_MS) return null;
       return saved;
     }catch(_){ return null; }
@@ -21,6 +22,7 @@
 
   function saveCache(catalog){
     try{
+      if(!catalog || !Array.isArray(catalog.items) || catalog.items.length < MIN_VALID_ITEMS) return;
       localStorage.setItem(CACHE_KEY, JSON.stringify({
         version: catalog.version || '1.0',
         updated: catalog.updated || new Date().toISOString(),
@@ -39,7 +41,7 @@
     const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0));
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
     const decoded = JSON.parse(await new Response(stream).text());
-    if(!decoded || !Array.isArray(decoded.items)) throw new Error('Catálogo vacío');
+    if(!decoded || !Array.isArray(decoded.items) || decoded.items.length < MIN_VALID_ITEMS) throw new Error('Catálogo maestro incompleto');
     return {
       version: decoded.version || meta.version || '1.0',
       updated: decoded.updated || meta.updated || '',
@@ -84,7 +86,7 @@
     try{
       const data = await jsonpFetch(APPS_SCRIPT_URL, {action:'list', token, sheet:'INSUMOS'});
       const rows = data && data.ok && Array.isArray(data.rows) ? data.rows : [];
-      if(rows.length < 10) return null;
+      if(rows.length < MIN_VALID_ITEMS) return null;
       const items = rows.map(row => [
         normalizeText(getValue(row, ['CODIGO_SAP','CODIGO','SAP'])),
         normalizeText(getValue(row, ['TIPO','CATEGORIA'])),
@@ -92,7 +94,7 @@
         normalizeText(getValue(row, ['PROVEEDOR'])),
         getValue(row, ['COSTO_NETO','COSTO','VALOR_NETO']) || null
       ]).filter(item => item[0] && item[2]);
-      if(items.length < 10) return null;
+      if(items.length < MIN_VALID_ITEMS) return null;
       return {version:'Drive', updated:new Date().toISOString(), source:'ORION_DB_SAP · INSUMOS', items};
     }catch(_){ return null; }
   }
