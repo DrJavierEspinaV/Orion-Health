@@ -82,16 +82,33 @@ const APPS = {
       syncBadge.textContent=p?"Documento listo":"Sin paciente activo"; syncBadge.classList.toggle("ready",!!p); syncBadge.classList.toggle("idle",!p);
     }
     function setActive(appKey){menuButtons.forEach(b=>b.classList.toggle("active",b.dataset.app===appKey));}
-    function loadApp(appKey){const app=APPS[appKey];if(!app)return;state.currentApp=appKey;currentAppTitle.textContent=app.title;currentAppDesc.textContent=app.desc;setActive(appKey);appFrame.src=app.src;}
+    function resetModuleViewport(){
+      try{ appFrame.contentWindow?.scrollTo({top:0,left:0,behavior:"instant"}); }catch(_){ }
+      try{ appFrame.contentDocument?.documentElement?.scrollTo({top:0,left:0,behavior:"instant"}); }catch(_){ }
+      try{ document.querySelector(".main")?.scrollTo({top:0,left:0,behavior:"instant"}); }catch(_){ }
+    }
+    function loadApp(appKey){
+      const app=APPS[appKey]; if(!app)return;
+      state.currentApp=appKey;
+      currentAppTitle.textContent=app.title;
+      currentAppDesc.textContent=app.desc;
+      setActive(appKey);
+      resetModuleViewport();
+      appFrame.src=app.src;
+    }
     function sendPatient(target){if(!target)return;target.postMessage({type:EVENT_SYNC,payload:readPatient()},targetOrigin());}
     function sendActive(){sendPatient(appFrame.contentWindow);}
 
     menuButtons.forEach(btn=>btn.addEventListener("click",()=>loadApp(btn.dataset.app)));
     document.getElementById("btnGoCMF").addEventListener("click",()=>loadApp("cmf"));
     document.getElementById("btnOpenStandalone").addEventListener("click",()=>window.open(APPS[state.currentApp]?.src||"","_blank","noopener"));
-    document.getElementById("btnReloadApp").addEventListener("click",()=>{const src=appFrame.src;appFrame.src=src;});
+    document.getElementById("btnReloadApp").addEventListener("click",()=>{const src=appFrame.src;appFrame.src=src;resetModuleViewport();});
     document.getElementById("btnClearPaciente").addEventListener("click",()=>{clearPatient();sendActive();});
-    appFrame.addEventListener("load",()=>setTimeout(sendActive,180));
+    appFrame.addEventListener("load",()=>{
+      resetModuleViewport();
+      setTimeout(resetModuleViewport,80);
+      setTimeout(sendActive,180);
+    });
 
     window.addEventListener("message",event=>{
       if(!trustedFrameMessage(event)) return;
