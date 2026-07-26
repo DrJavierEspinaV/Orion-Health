@@ -8,8 +8,8 @@ const APP_SHELL = [
   './app-v1.4-ui.js',
   './app-v1.4-poster.js',
   './app-v1.4-events.js',
-  './app-v1.5-enhancements.js',
-  './app-v1.6-parent-mode.js',
+  './app-v1.5-enhancements.js?v=1.6',
+  './app-v1.6-parent-mode.js?v=1.6',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
