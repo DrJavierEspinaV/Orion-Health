@@ -140,7 +140,11 @@ function measureFrameHeight(){
 
     if(measured > 0){
       const minimum = window.innerWidth <= 640 ? 620 : 720;
-      appFrame.style.height = Math.max(minimum, Math.ceil(measured) + 8) + "px";
+      const nextHeight = Math.max(minimum, Math.ceil(measured));
+      const currentHeight = Math.round(appFrame.getBoundingClientRect().height || 0);
+      if(Math.abs(nextHeight - currentHeight) > 2){
+        appFrame.style.height = nextHeight + "px";
+      }
     }
   }catch(error){
     console.warn("No fue posible ajustar la altura del módulo.", error);
