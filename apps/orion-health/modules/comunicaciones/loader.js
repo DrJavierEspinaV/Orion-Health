@@ -60,7 +60,7 @@ setTimeout(()=>{
     event.stopImmediatePropagation();
     try{
       await ensureXlsx();
-      if(typeof window.onExcel==='function') await window.onExcel(event);
+      input.dispatchEvent(new Event('change',{bubbles:true}));
     }catch(error){
       alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');
       console.error(error);
