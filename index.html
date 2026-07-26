@@ -1,234 +1,60 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ORION — Portal</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0E4A66">
+  <title>ORION Health · Aplicaciones</title>
   <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#F6F3EE;
-    }
-
-    header{
-      background:#0E4A66;
-      color:white;
-      padding:12px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    button{
-      padding:10px 14px;
-      border:none;
-      cursor:pointer;
-      background:white;
-      border-radius:6px;
-      font-weight:bold;
-    }
-
-    iframe{
-      width:100%;
-      height:calc(100vh - 60px);
-      border:none;
-      display:none;
-      background:#fff;
-    }
-
-    iframe.active{
-      display:block;
-    }
+    :root{--navy:#0e4a66;--deep:#082f49;--cyan:#35c6ca;--orange:#f59e42;--paper:#f6f3ee;--text:#10263b;--muted:#64748b;--line:#d9e3e8}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Inter,Arial,sans-serif;background:radial-gradient(circle at 20% 0,rgba(53,198,202,.15),transparent 32%),var(--paper);color:var(--text)}
+    .shell{width:min(1080px,calc(100% - 32px));margin:0 auto;padding:44px 0 56px}
+    .hero{display:flex;align-items:center;gap:20px;margin-bottom:34px}
+    .hero img{width:112px;height:112px;object-fit:contain}
+    .hero h1{margin:0;font-size:clamp(30px,5vw,52px);letter-spacing:-.04em;color:var(--navy)}
+    .hero p{margin:8px 0 0;color:var(--muted);font-size:16px;line-height:1.5}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .card{display:flex;flex-direction:column;min-height:310px;padding:26px;border:1px solid var(--line);border-radius:26px;background:rgba(255,255,255,.92);box-shadow:0 20px 50px rgba(8,47,73,.10);text-decoration:none;color:inherit;transition:transform .18s ease,box-shadow .18s ease}
+    .card:hover{transform:translateY(-4px);box-shadow:0 26px 62px rgba(8,47,73,.16)}
+    .icon{width:64px;height:64px;display:grid;place-items:center;border-radius:20px;font-size:32px;background:#e8f7f8}
+    .card.family .icon{background:#fff1df}
+    .eyebrow{margin:22px 0 7px;font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#08757a}
+    .family .eyebrow{color:#b35b00}
+    h2{margin:0;font-size:29px;letter-spacing:-.03em}
+    .description{margin:12px 0 24px;color:var(--muted);line-height:1.55}
+    .open{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--line);font-weight:900;color:var(--navy)}
+    .open span:last-child{font-size:22px}
+    footer{margin-top:28px;color:var(--muted);font-size:13px;text-align:center}
+    @media(max-width:720px){.shell{padding-top:28px}.hero{align-items:flex-start}.hero img{width:78px;height:78px}.grid{grid-template-columns:1fr}.card{min-height:260px}}
   </style>
 </head>
-
 <body>
-
-<header>
-  <button type="button" onclick="showApp('comunicaciones')">Comunicaciones</button>
-  <button type="button" onclick="showApp('recetas')">Receta</button>
-</header>
-
-<iframe id="frame-comunicaciones" title="Comunicaciones"></iframe>
-<iframe id="frame-recetas" title="Receta"></iframe>
-
-<script>
-/***************************************************
- * CONFIG GITHUB
- ***************************************************/
-const BASE = '/Orion-Health/';
-
-const URLS = {
-  comunicaciones: BASE + 'Orion_Comunicaciones_Clinicas_v4.5 PRO BD.html',
-  recetas: BASE + 'orion-recetas-v4.3_20.html'
-};
-
-/***************************************************
- * EVENTOS ORION
- ***************************************************/
-const EVENT_SET_NEW = 'ORION_SET_DOCUMENTO_PACIENTE';
-const EVENT_CLEAR_NEW = 'ORION_CLEAR_DOCUMENTO_PACIENTE';
-const EVENT_SET_LEGACY = 'ORION_SET_RECETA_PACIENTE';
-const EVENT_CLEAR_LEGACY = 'ORION_CLEAR_RECETA_PACIENTE';
-const EVENT_GET_NEW = 'ORION_GET_DOCUMENTO_PACIENTE';
-const EVENT_GET_LEGACY = 'ORION_GET_RECETA_PACIENTE';
-const EVENT_NAV = 'ORION_NAVIGATE_TO_APP';
-
-const EVENT_SYNC_NEW = 'ORION_DOCUMENTO_PACIENTE_SYNC';
-const EVENT_SYNC_LEGACY = 'ORION_RECETA_PACIENTE_SYNC';
-
-/***************************************************
- * ESTADO GLOBAL
- ***************************************************/
-let activeApp = null;
-let documentoPaciente = null;
-
-/***************************************************
- * HELPERS
- ***************************************************/
-function normalizePayload(payload){
-  if (!payload || typeof payload !== 'object') return null;
-
-  return {
-    nombre: String(payload.nombre || payload.nombreCompleto || payload.paciente || '').trim(),
-    rut: String(payload.rut || payload.run || '').trim(),
-    edad: String(payload.edad || '').trim()
-  };
-}
-
-function getFrame(app){
-  return document.getElementById(`frame-${app}`);
-}
-
-function ensureFrameSrc(app){
-  const frame = getFrame(app);
-  if (!frame) return null;
-
-  const expected = URLS[app];
-  if (!expected) return frame;
-
-  const current = frame.getAttribute('src');
-  if (!current) {
-    frame.setAttribute('src', expected);
-  }
-
-  return frame;
-}
-
-function sendPacienteToReceta(){
-  if (!documentoPaciente) return;
-
-  const frame = getFrame('recetas');
-  if (!frame || !frame.contentWindow) return;
-
-  const payload = normalizePayload(documentoPaciente);
-  if (!payload) return;
-
-  frame.contentWindow.postMessage({
-    type: EVENT_SYNC_NEW,
-    payload
-  }, '*');
-
-  frame.contentWindow.postMessage({
-    type: EVENT_SYNC_LEGACY,
-    payload
-  }, '*');
-}
-
-/***************************************************
- * NAVEGACIÓN
- ***************************************************/
-function showApp(app) {
-  activeApp = app;
-
-  const frame = ensureFrameSrc(app);
-  if (!frame) return;
-
-  document.querySelectorAll('iframe').forEach(f => f.classList.remove('active'));
-  frame.classList.add('active');
-
-  if (app === 'recetas' && documentoPaciente) {
-    setTimeout(sendPacienteToReceta, 1200);
-  }
-}
-
-/***************************************************
- * PUENTE ENTRE IFRAMES
- ***************************************************/
-window.addEventListener('message', (event) => {
-  const data = event.data || {};
-  if (!data || typeof data !== 'object' || !data.type) return;
-
-  console.log('📡 Portal recibe:', data.type, data);
-
-  switch (data.type) {
-    case EVENT_SET_NEW:
-    case EVENT_SET_LEGACY: {
-      documentoPaciente = normalizePayload(data.payload || null);
-      console.log('🧠 Paciente guardado en portal:', documentoPaciente);
-      break;
-    }
-
-    case EVENT_CLEAR_NEW:
-    case EVENT_CLEAR_LEGACY: {
-      documentoPaciente = null;
-      console.log('🧹 Paciente activo limpiado');
-      break;
-    }
-
-    case EVENT_GET_NEW:
-    case EVENT_GET_LEGACY: {
-      if (!documentoPaciente || !event.source) return;
-
-      const payload = normalizePayload(documentoPaciente);
-
-      event.source.postMessage({
-        type: EVENT_SYNC_NEW,
-        payload
-      }, '*');
-
-      event.source.postMessage({
-        type: EVENT_SYNC_LEGACY,
-        payload
-      }, '*');
-
-      console.log('📤 Portal respondió con paciente activo');
-      break;
-    }
-
-    case EVENT_NAV: {
-      const appKey = String(data.appKey || '').toLowerCase();
-
-      if (appKey === 'cmf' || appKey === 'recetas' || appKey === 'receta') {
-        showApp('recetas');
-        setTimeout(sendPacienteToReceta, 1200);
-      }
-      break;
-    }
-
-    default:
-      console.log('⚠️ Mensaje no manejado:', data.type);
-      break;
-  }
-});
-
-/***************************************************
- * CUANDO RECETA TERMINA DE CARGAR
- ***************************************************/
-window.addEventListener('DOMContentLoaded', () => {
-  const recetaFrame = getFrame('recetas');
-  if (recetaFrame) {
-    recetaFrame.addEventListener('load', () => {
-      setTimeout(sendPacienteToReceta, 350);
-    });
-  }
-
-  showApp('comunicaciones');
-});
-</script>
-
+  <main class="shell">
+    <header class="hero">
+      <img src="./apps/orion-health/orion-logo.png" alt="ORION Health">
+      <div>
+        <h1>ORION Health</h1>
+        <p>Portal central de aplicaciones clínicas y proyectos digitales.</p>
+      </div>
+    </header>
+    <section class="grid" aria-label="Aplicaciones disponibles">
+      <a class="card" href="./apps/orion-health/">
+        <div class="icon">✦</div>
+        <div class="eyebrow">Aplicación clínica</div>
+        <h2>ORION Health App</h2>
+        <p class="description">Portal operativo para comunicaciones clínicas, recetas, documentos y herramientas de apoyo asistencial.</p>
+        <div class="open"><span>Abrir aplicación</span><span>→</span></div>
+      </a>
+      <a class="card family" href="./apps/ordenautas/">
+        <div class="icon">🚀</div>
+        <div class="eyebrow">Piloto familiar V1.6</div>
+        <h2>ORDENAUTAS</h2>
+        <p class="description">Sistema familiar de misiones, energía, rangos, recompensas y control parental.</p>
+        <div class="open"><span>Abrir aplicación</span><span>→</span></div>
+      </a>
+    </section>
+    <footer>Orion Health SpA · Repositorio de aplicaciones</footer>
+  </main>
 </body>
 </html>

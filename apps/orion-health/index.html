@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0E4A66">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <title>ORION Health App</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,sans-serif;background:#f6f3ee;color:#10263b}
+    header{min-height:64px;background:#0e4a66;color:#fff;padding:10px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    header strong{margin-right:auto;font-size:18px}
+    button{padding:10px 14px;border:0;cursor:pointer;background:#fff;color:#10263b;border-radius:8px;font-weight:800}
+    button.active{background:#35c6ca;color:#082f49}
+    iframe{width:100%;height:calc(100vh - 64px);border:0;display:none;background:#fff}
+    iframe.active{display:block}
+  </style>
+</head>
+<body>
+<header>
+  <strong>ORION Health App</strong>
+  <button type="button" data-app="comunicaciones" onclick="showApp('comunicaciones')">Comunicaciones</button>
+  <button type="button" data-app="recetas" onclick="showApp('recetas')">Receta</button>
+</header>
+<iframe id="frame-comunicaciones" title="Comunicaciones"></iframe>
+<iframe id="frame-recetas" title="Receta"></iframe>
+<script>
+const URLS={
+  comunicaciones:'./Orion_Comunicaciones_Clinicas_v4.5 PRO BD.html',
+  recetas:'./orion-recetas-v4.3_20.html'
+};
+const EVENT_SET_NEW='ORION_SET_DOCUMENTO_PACIENTE';
+const EVENT_CLEAR_NEW='ORION_CLEAR_DOCUMENTO_PACIENTE';
+const EVENT_SET_LEGACY='ORION_SET_RECETA_PACIENTE';
+const EVENT_CLEAR_LEGACY='ORION_CLEAR_RECETA_PACIENTE';
+const EVENT_GET_NEW='ORION_GET_DOCUMENTO_PACIENTE';
+const EVENT_GET_LEGACY='ORION_GET_RECETA_PACIENTE';
+const EVENT_NAV='ORION_NAVIGATE_TO_APP';
+const EVENT_SYNC_NEW='ORION_DOCUMENTO_PACIENTE_SYNC';
+const EVENT_SYNC_LEGACY='ORION_RECETA_PACIENTE_SYNC';
+let activeApp=null;
+let documentoPaciente=null;
+function normalizePayload(payload){
+  if(!payload||typeof payload!=='object')return null;
+  return{nombre:String(payload.nombre||payload.nombreCompleto||payload.paciente||'').trim(),rut:String(payload.rut||payload.run||'').trim(),edad:String(payload.edad||'').trim()};
+}
+function getFrame(app){return document.getElementById(`frame-${app}`)}
+function ensureFrameSrc(app){
+  const frame=getFrame(app);if(!frame)return null;
+  if(URLS[app]&&!frame.getAttribute('src'))frame.setAttribute('src',URLS[app]);
+  return frame;
+}
+function sendPacienteToReceta(){
+  if(!documentoPaciente)return;
+  const frame=getFrame('recetas');if(!frame||!frame.contentWindow)return;
+  const payload=normalizePayload(documentoPaciente);if(!payload)return;
+  frame.contentWindow.postMessage({type:EVENT_SYNC_NEW,payload},'*');
+  frame.contentWindow.postMessage({type:EVENT_SYNC_LEGACY,payload},'*');
+}
+function showApp(app){
+  activeApp=app;
+  const frame=ensureFrameSrc(app);if(!frame)return;
+  document.querySelectorAll('iframe').forEach(item=>item.classList.remove('active'));
+  document.querySelectorAll('[data-app]').forEach(item=>item.classList.toggle('active',item.dataset.app===app));
+  frame.classList.add('active');
+  if(app==='recetas'&&documentoPaciente)setTimeout(sendPacienteToReceta,1200);
+}
+window.addEventListener('message',event=>{
+  const data=event.data||{};if(!data||typeof data!=='object'||!data.type)return;
+  switch(data.type){
+    case EVENT_SET_NEW:
+    case EVENT_SET_LEGACY:
+      documentoPaciente=normalizePayload(data.payload||null);break;
+    case EVENT_CLEAR_NEW:
+    case EVENT_CLEAR_LEGACY:
+      documentoPaciente=null;break;
+    case EVENT_GET_NEW:
+    case EVENT_GET_LEGACY:{
+      if(!documentoPaciente||!event.source)return;
+      const payload=normalizePayload(documentoPaciente);
+      event.source.postMessage({type:EVENT_SYNC_NEW,payload},'*');
+      event.source.postMessage({type:EVENT_SYNC_LEGACY,payload},'*');
+      break;
+    }
+    case EVENT_NAV:{
+      const appKey=String(data.appKey||'').toLowerCase();
+      if(appKey==='cmf'||appKey==='recetas'||appKey==='receta'){showApp('recetas');setTimeout(sendPacienteToReceta,1200)}
+      break;
+    }
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const recetaFrame=getFrame('recetas');
+  if(recetaFrame)recetaFrame.addEventListener('load',()=>setTimeout(sendPacienteToReceta,350));
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  showApp('comunicaciones');
+});
+</script>
+</body>
+</html>
