@@ -19,6 +19,7 @@
   function storeUnlock(){try{sessionStorage.setItem(SESSION_KEY,adultUnlocked?"1":"0")}catch(e){}}
   function setInterfaceMode(mode){
     interfaceMode=mode==="child"?"child":"adult";
+    if(interfaceMode==="child"){adultUnlocked=false;storeUnlock()}
     storeMode();
     render();
     window.scrollTo({top:0,behavior:"smooth"});
@@ -57,7 +58,7 @@
       .adult-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adult-action{border:0;border-radius:14px;padding:11px 8px;font-size:10px;font-weight:900;background:#edf2f4;color:var(--navy)}.adult-action.primary{background:var(--navy);color:#fff}.adult-action.orange{background:var(--orange);color:#fff}.adult-action.cyan{background:var(--cyan);color:var(--navy)}
       .adult-control-note{font-size:9px;line-height:1.45;color:#526a77;background:#eef7f7;border:1px solid #d4e9e9;border-radius:13px;padding:10px}
       .mission-approval-sheet{text-align:center}.mission-approval-icon{width:72px;height:72px;margin:3px auto 10px;border-radius:23px;background:var(--cyan-soft);display:grid;place-items:center;font-size:38px}.mission-approval-sheet h2{font-size:18px}.mission-approval-sheet p{line-height:1.45}.mission-approval-sheet .field{text-align:left}
-      @media(max-width:400px){.interface-mode-btn{padding:7px 6px;font-size:8px}.adult-stats{grid-template-columns:1fr 1fr}.adult-actions{grid-template-columns:1fr}.adult-mission-grid{grid-template-columns:1fr 1fr}}
+      @media(max-width:430px){.hero .brandrow{align-items:flex-start;flex-wrap:wrap}.header-actions{width:100%;justify-content:space-between}.interface-switch{flex:1}.interface-mode-btn{flex:1;padding:7px 6px;font-size:8px}.adult-stats{grid-template-columns:1fr 1fr}.adult-actions{grid-template-columns:1fr}.adult-mission-grid{grid-template-columns:1fr 1fr}}
     `;
     document.head.appendChild(style);
   }
