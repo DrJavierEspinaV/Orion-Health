@@ -1,0 +1,179 @@
+<!-- ===== Encabezado Orion (NO se imprime) ===== -->
+<header class="bg-white border-b border-slate-200 no-print">
+  <div class="max-w-6xl mx-auto px-4 md:px-6 py-4 flex items-center gap-4">
+    <img src="../../assets/brand/orion-health.png" alt="Orion Comunicaciones" 
+         class="w-16 h-16 md:w-20 md:h-20 object-contain select-none" />
+    <div class="leading-tight">
+      <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800">
+        ORION Comunicaciones - Plataforma Clínica
+        <span class="align-baseline text-xl md:text-2xl font-black">®</span> — v4.3.24 PRO
+      </h1>
+      <p class="text-sm md:text-base text-slate-500">Recetas e Indicaciónes PreQx y PostQx</p>
+    </div>
+  </div>
+</header>
+
+
+<main class="max-w-6xl mx-auto px-4 pb-24">
+  <!-- (1) Datos del Paciente — UI -->
+  <section class="card p-6 mb-6 no-print">
+    <h2 class="font-bold mb-4">1) Datos del Paciente</h2>
+    <div class="grid md:grid-cols-5 gap-4">
+      <div class="md:col-span-2">
+        <label class="text-sm text-slate-600">Nombre</label>
+        <input id="p_nombre" class="mt-1 w-full rounded-xl border p-2" placeholder="Ej. Ana Pérez Soto"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">RUN / RUT</label>
+        <input id="p_rut" class="mt-1 w-full rounded-xl border p-2" placeholder="12.345.678-9"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">Edad (años)</label>
+        <input id="p_edad" type="number" min="0" class="mt-1 w-full rounded-xl border p-2"/>
+      </div>
+      <div>
+        <label class="text-sm text-slate-600">Peso (kg)</label>
+        <input id="p_peso" type="number" min="0" step="0.1" class="mt-1 w-full rounded-xl border p-2" placeholder="kg"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- (2) Tipo de Receta — UI -->
+  <section class="card p-6 mb-6 no-print">
+    <div class="mb-4 flex items-center justify-between gap-3">
+      <h2 class="font-bold">2) Tipo de Receta</h2>
+      <div class="flex flex-wrap items-center justify-end gap-2">
+        <div class="flex items-center gap-2 mr-2">
+          <label for="fechaCertificado" class="text-xs text-slate-500 whitespace-nowrap">Fecha certificado</label>
+          <input id="fechaCertificado" type="date" class="w-36 rounded-lg border p-1 text-sm" title="Fecha que aparecerá en el Certificado de Atención"/>
+        </div>
+        <div class="flex items-center gap-2 mr-2">
+          <label for="reposoDias" class="text-xs text-slate-500">Reposo&nbsp;(días)</label>
+          <input id="reposoDias" type="number" min="0" class="w-16 rounded-lg border p-1 text-sm" placeholder="0"/>
+        </div>
+        <button id="btnDocCert" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Certificado de Atención (reposo/justificación)">Certificado de Atención</button>
+        <button id="btnDocBiopsia" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Orden de Biopsia">Orden de Biopsia</button>
+        <button id="btnDocExams" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Desplegar selección de exámenes (laboratorio / imagenología)">Exámenes</button>
+        <button id="btnDocInter" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm" title="Interconsulta a otras especialidades">Interconsulta</button>
+      </div>
+    </div>
+
+    <!-- Editor del texto tipo del Certificado de Atención -->
+    <details id="certificadoEditorBox" class="mb-4 rounded-2xl border border-slate-200 bg-slate-50 p-4 no-print">
+      <summary class="cursor-pointer font-semibold text-slate-700">Editar texto tipo del Certificado de Atención</summary>
+      <p class="mt-2 text-xs text-slate-500">
+        Variables disponibles: <b>{nombre}</b>, <b>{run}</b>, <b>{fecha}</b>, <b>{dias}</b> y <b>{reposo}</b>.
+      </p>
+      <textarea id="certificadoTextoTipo" rows="8" class="mt-2 w-full rounded-xl border p-3 text-sm" spellcheck="true">CERTIFICADO DE ATENCIÓN
+
+Fecha de emisión: {fecha}.
+
+El profesional que suscribe certifica que {nombre} (RUN {run}) fue atendid@ en el servicio de Cirugía y Traumatología Bucomaxilofacial del Centro Médico Integramédica Tobalaba.
+
+Este certificado se emite a solicitud del/la interesad@ para fines de reposo o justificación de atención médica según corresponda.{reposo}</textarea>
+      <p class="mt-2 text-xs text-slate-500">
+        El texto generado también queda editable directamente en la hoja del certificado antes de imprimir o exportar a PDF.
+      </p>
+    </details>
+
+    <div class="flex gap-2 mb-4">
+      <label class="chip cursor-pointer"><input type="radio" name="modo" value="plantillas" id="modoPlant" class="mr-2" checked>Plantillas/Combinaciones</label>
+      <label class="chip cursor-pointer"><input type="radio" name="modo" value="componentes" id="modoComp" class="mr-2">Por Fármacos / Familias</label>
+    </div>
+
+    <!-- Plantillas -->
+    <div id="panelPlantillas">
+      <div class="grid md:grid-cols-3 gap-4">
+        <div>
+          <label class="text-sm text-slate-600">Plantilla — Adulto</label>
+          <select id="tplAdulto" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <option value="Post_Qx1">POST-QUIRÚRGICO 1</option>
+            <option value="Post_Qx2">POST-QUIRÚRGICO 2</option>
+            <option value="PRE_QX">PRE-QUIRURGICOS</option>
+            <option value="alergia_penicilina">Alergia a Penicilinas</option>
+            <option value="hipertenso">Paciente HTA</option>
+            <option value="diabetico">Paciente DM</option>
+            <option value="embarazo">Embarazo/Puerperio (Seguridad)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm text-slate-600">Plantilla — Pediátrico</label>
+          <select id="tplPedia" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <option value="pedia_dolor">Dolor/ Fiebre (Paracetamol/Ibuprofeno)</option>
+            <option value="pedia_amoxi">Amoxicilina (mg/kg/día)</option>
+          </select>
+          <p class="text-xs text-slate-500 mt-1">Usa el campo <b>kg</b> para calcular dosis.</p>
+        </div>
+        <div>
+          <label class="text-sm text-slate-600">Diagnóstico / Procedimiento</label>
+          <input id="p_dx" class="mt-1 w-full rounded-xl border p-2" placeholder="Ej. Exodoncia 3.8 / Terceros molares"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- Componentes (catálogo de fármacos) -->
+    <div id="panelComponentes" class="hidden mt-4">
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Analgésicos -->
+        <div>
+          <label class="text-sm text-slate-600">Analgésicos</label>
+          <select id="selAnalgesico" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <optgroup label="Analgésicos">
+
+
+              <!-- EDITA AQUÍ (posología analgésicos) -->
+              <option value="PARACETAMOL 1 gr
+1 Comprimido cada 6–8 hr por 3–5 días">Paracetamol 1 gr (adulto)</option>
+              <option value="PARACETAMOL (PED)
+10–15 mg/kg cada 4–6 hr (máx. 60 mg/kg/día) por 3–5 días">Paracetamol (pediátrico, gotas/susp)</option>
+              <option value="IBUPROFENO 400–600 mg
+1 Comprimido cada 6–8 hr por 3–5 días">Ibuprofeno 400–600 mg</option>
+              <option value="NAPROXENO SÓDICO 550 mg
+1 Comprimido cada 12 hr por 5–7 días">Naproxeno Sódico 550 mg</option>
+              <option value="CLONIXINATO DE LISINA 125 mg
+1 Comprimido cada 6–8 hr (máx. 750 mg/día) por 3–5 días">Clonixinato de Lisina 125 mg</option>
+              <option value="KETOPROFENO 50 mg
+1 Comprimido cada 6-8 hr por 3–5 días">Ketoprofeno 50 mg</option>
+              <option value="KETOROLACO 10 mg SL/VO
+1 Comprimido cada 6-8 hr (máx. 40 mg/día; ≤7 días)">Ketorolaco 10 mg SL/VO</option>
+              <option value="MELOXICAM 7,5 mg
+1 Comprimido cada 24 hr por 3–5 días (máx. 15 mg/día)">Meloxicam 7,5–15 mg</option>
+              <option value="CELECOXIB 200 mg
+1 Comprimido cada 12 hr en dolor agudo (o 200 mg/día) por 3–5 días">Celecoxib 200 mg</option>
+              <option value="TRAMADOL 50–100 mg
+1 Comprimido cada 6–8 hr (máx. 400 mg/día) por 3–5 días">Tramadol 50–100 mg</option>
+            </optgroup>
+          </select>
+          <button class="chip mt-2" id="addAnalgesico">Agregar</button>
+        </div>
+
+        <!-- Antibióticos -->
+        <div>
+          <label class="text-sm text-slate-600">Antibióticos</label>
+          <select id="selATB" class="mt-1 w-full rounded-xl border p-2">
+            <option value="">— Selecciona —</option>
+            <optgroup label="Antibióticos VO">
+              <!-- EDITA AQUÍ (posología antibióticos) -->
+              <option value="AMOXICILINA 500 mg
+1 Comprimido cada 8 hr por 7 días">Amoxicilina 500 mg c/8 hr</option>
+              <option value="AMOXICILINA 1 g
+1 Comprimido cada 12 hr por 7 días">Amoxicilina 1 g c/12 hr</option>
+              <option value="AMOXICILINA/CLAVULÁNICO 875/125 mg
+1 Comprimido cada 12 hr por 7-14 días">Amoxi/Clav 875/125 mg c/12 hr</option>
+              <option value="FENOXIMETILPENICILINA 500 mg
+1 Comprimido cada 6 hr por 3–7 días">Penicilina V 500 mg c/6 hr</option>
+              <option value="CLINDAMICINA 300 mg
+1 Comprimido cada 6–8 hr por 7 días">Clindamicina 300 mg c/6–8 hr</option>
+              <option value="AZITROMICINA 500 mg
+1 Comprimido cada 24 hr por 3-5 días">Azitromicina 500 mg/día (3-5 días)</option>
+              <option value="METRONIDAZOL 500 mg
+1 Comprimido cada 8 hr por 7 días">Metronidazol 500 mg c/8 hr</option>
+            </optgroup>
+            <optgroup label="Parenterales (referencia)">
+              <option value="AMPICILINA/SULBACTAM IV
+1,5–3 g c/6–8 h">Ampicilina/Sulbactam IV</option>
+              <option value="CEFAZOLINA IV
+1 g c/6–8 h">Cefazolina IV</option>

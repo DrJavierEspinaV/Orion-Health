@@ -1,0 +1,16 @@
+{
+  "product": "ORION Dental App",
+  "version": "1.2.1-piloto-seis-modulos",
+  "date": "2026-07-26",
+  "modules": {
+    "portal": "1.2.1",
+    "comunicaciones": "5.7",
+    "insumos": "4.4.1",
+    "cmf": "4.3.24",
+    "endodoncia": "4.6",
+    "ortodoncia": "1.2",
+    "odontopediatria": "1.5.1"
+  },
+  "clinical_status": "PILOTO CONTROLADO — pendiente auditoría clínica integral",
+  "security_status": "PILOTO — tokens excluidos del código y conservados solo durante la sesión; JSONP heredado pendiente migración"
+}
