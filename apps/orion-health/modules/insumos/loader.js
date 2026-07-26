@@ -1,7 +1,7 @@
 (async()=>{
   'use strict';
 
-  const MODULE_VERSION = '4.5.1';
+  const MODULE_VERSION = '4.5.2';
   const CATALOG_URL = '../../data/catalogo-insumos.json?v=1.1';
   const SOURCE_URL = './source.html';
   const CACHE_KEY = 'orion_insumos_catalogo_v2';
@@ -153,7 +153,27 @@
       .replace(/let CODES = \[[\s\S]*?\n\s*\];/, 'let CODES = ' + catalogLiteral + ';')
       .replace(
         /if \(typeof XLSX === "undefined"\)\{[\s\S]*?return;\s*\}/,
-        'if (typeof XLSX === "undefined"){ errStatus("Catálogo disponible. La importación y exportación Excel requieren conexión a la librería XLSX."); }'
+        'if (typeof XLSX === "undefined"){ okStatus("Catálogo activo. Excel se habilitará cuando sea necesario."); }'
+      )
+      .replace(
+        /errStatus\("Faltan datos mínimos para Excel, pero el mensaje fue preparado\."\);/g,
+        'okStatus("Mensaje preparado. Completa los datos obligatorios cuando quieras generar el Excel.");'
+      )
+      .replace(
+        /window\.addEventListener\('error', \(e\) => \{[\s\S]*?if \(st\)\{ st\.textContent = msg; st\.className = "mb-4 p-3 md:p-4 rounded-xl bg-rose-50 border border-rose-300 text-sm text-rose-700"; \}\n\s*\}\);/,
+        `window.addEventListener('error', (e) => {
+    const rawMessage = String(e.message || '');
+    let externalResource = false;
+    try { externalResource = !!e.filename && new URL(e.filename, location.href).origin !== location.origin; } catch(_) {}
+    if(rawMessage === 'Script error.' || externalResource){
+      console.warn('Recurso externo no disponible; ORION Insumos mantiene el catálogo local.', e.filename || rawMessage);
+      return;
+    }
+    const msg = 'JS error: ' + (rawMessage || e.error || e.filename || 'desconocido');
+    console.error(msg);
+    const st = document.getElementById('jsStatus');
+    if (st){ st.textContent = msg; st.className = 'mb-4 p-3 md:p-4 rounded-xl bg-rose-50 border border-rose-300 text-sm text-rose-700'; }
+  });`
       );
 
     const styles = `
@@ -178,6 +198,7 @@ window.addEventListener('DOMContentLoaded', function(){
     card.innerHTML = '<div><strong>Catálogo Maestro ORION disponible</strong><div class="orion-catalog-meta">Fuente: ' + meta.source + ' · Versión ' + meta.version + ' · Actualizado ' + updated + '</div></div><span class="orion-catalog-badge">' + meta.count + ' insumos</span>';
     status.insertAdjacentElement('afterend', card);
     status.textContent = 'Listo. El catálogo se cargó automáticamente; no necesitas importar Excel.';
+    status.className = 'mb-4 p-3 md:p-4 rounded-xl bg-white/70 border text-sm text-slate-700';
   }
 
   const fileInput = document.getElementById('fileInput');
