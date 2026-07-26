@@ -1,11 +1,11 @@
 {
   "product": "ORION Dental App",
-  "version": "1.2.5-piloto-rendimiento",
+  "version": "1.2.6-piloto-estabilidad-visual",
   "date": "2026-07-26",
   "modules": {
-    "portal": "1.2.5",
+    "portal": "1.2.6",
     "comunicaciones": "5.7.1",
-    "insumos": "4.5.1",
+    "insumos": "4.5.2",
     "cmf": "4.3.24",
     "endodoncia": "4.6",
     "ortodoncia": "1.2",
@@ -13,7 +13,7 @@
   },
   "clinical_status": "PILOTO CONTROLADO — pendiente auditoría clínica integral",
   "security_status": "PILOTO — conexión Drive asistida; credencial conservada solo en sessionStorage; JSONP heredado pendiente migración",
-  "layout_status": "Portal e iframe clínico adaptados para escritorio, notebook y móvil",
-  "insumos_status": "Catálogo maestro persistente de 538 insumos, caché local por 24 horas, validación mínima de 500 registros para Drive e importación Excel relegada a administración avanzada",
+  "layout_status": "Los módulos reinician su posición al abrirse y el portal conserva la adaptación para escritorio, notebook y móvil",
+  "insumos_status": "Catálogo persistente de 538 insumos; alertas externas genéricas filtradas y avisos por datos incompletos convertidos en mensajes informativos",
   "performance_status": "Comunicaciones inicia desde caché de sesión, actualiza Drive en segundo plano y carga la librería Excel solo cuando se solicita una importación"
 }
