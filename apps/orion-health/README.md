@@ -5,7 +5,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 ## Arquitectura vigente
 
 - `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.1.
-- `modules/insumos/` — Insumos V4.5.1.
+- `modules/insumos/` — Insumos V4.5.2.
 - `modules/cmf/` — Clínico CMF V4.3.24.
 - `modules/endodoncia/` — Endodoncia V4.6.
 - `modules/ortodoncia/` — Ortodoncia V1.2.
@@ -13,22 +13,25 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Rendimiento V1.2.5
+## Rendimiento y navegación V1.2.6
 
 - Comunicaciones restaura inmediatamente la agenda guardada durante la sesión.
 - La actualización desde Drive ocurre en segundo plano.
-- La vigencia de la caché de agenda se amplía a cuatro horas dentro de la sesión.
-- La librería XLSX deja de bloquear el inicio y se carga únicamente cuando se selecciona un Excel.
-- El service worker aplica caché inmediata con actualización silenciosa para los recursos internos.
+- La vigencia de la caché de agenda es de cuatro horas dentro de la sesión.
+- La librería XLSX deja de bloquear el inicio y se carga únicamente al seleccionar un Excel.
+- El service worker aplica caché inmediata con actualización silenciosa.
+- Cada módulo reinicia su posición al abrirse o recargarse.
 
-## ORION Insumos
+## ORION Insumos V4.5.2
 
 - Catálogo Maestro ORION con 538 insumos activos.
 - Catálogo incorporado automáticamente; no requiere seleccionar Excel.
 - Caché local por 24 horas.
 - Drive solo puede reemplazar el catálogo cuando entrega al menos 500 registros válidos.
-- Una base parcial o vacía es descartada automáticamente.
+- Una base parcial o vacía se descarta automáticamente.
 - La importación Excel queda disponible en `Administración avanzada del catálogo`.
+- Los errores genéricos de recursos externos no se muestran como fallas del módulo.
+- Los datos incompletos para generar Excel producen un aviso informativo, no una alerta roja.
 
 ## Seguridad aplicada al piloto
 
