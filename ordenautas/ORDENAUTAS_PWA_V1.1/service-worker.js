@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ordenautas-v1-4-1';
+const CACHE_NAME = 'ordenautas-v1-5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const APP_SHELL = [
   './app-v1.4-ui.js',
   './app-v1.4-poster.js',
   './app-v1.4-events.js',
+  './app-v1.5-enhancements.js',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];
