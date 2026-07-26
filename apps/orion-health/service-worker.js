@@ -1,4 +1,4 @@
-const CACHE_NAME = 'orion-dental-app-v1.2.4';
+const CACHE_NAME = 'orion-dental-app-v1.2.5';
 const SHELL = [
   './',
   './index.html',
@@ -13,9 +13,11 @@ const SHELL = [
   './assets/icons/icon-512.png',
   './assets/shared/patient-bridge.js',
   './assets/shared/session-config.js',
+  './modules/comunicaciones/index.html',
+  './modules/comunicaciones/loader.js',
+  './modules/comunicaciones/responsive-fixes.css',
   './modules/insumos/index.html',
-  './modules/insumos/loader.js',
-  './modules/insumos/source.html'
+  './modules/insumos/loader.js'
 ];
 
 self.addEventListener('install', event => {
@@ -39,13 +41,16 @@ self.addEventListener('fetch', event => {
   const dynamic = request.mode === 'navigate' || /\.(?:html|js|css|part|json)$/.test(url.pathname);
   if (dynamic) {
     event.respondWith(
-      fetch(request)
-        .then(response => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(request, copy)).catch(() => {});
-          return response;
-        })
-        .catch(() => caches.match(request))
+      caches.match(request).then(cached => {
+        const network = fetch(request)
+          .then(response => {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(request, copy)).catch(() => {});
+            return response;
+          })
+          .catch(() => cached);
+        return cached || network;
+      })
     );
     return;
   }
