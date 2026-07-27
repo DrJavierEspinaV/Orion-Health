@@ -1,0 +1,257 @@
+:root{
+    --bg:#f7fbff; --card:#fff; --text:#0f172a; --muted:#64748b; --pri:#2563eb;
+
+    --top-offset: 18mm;        /* cabecera vertical */
+    --footer-bottom: 20mm;     /* pie vertical */
+
+    --firma-h: 100px;          /* altura firma */
+    --firma-line-w: 180px;     /* ancho línea firma */
+
+    --receta-font: 11pt;  --receta-line: 1.20;
+    --ind-font: 11pt;     --ind-line: 1.20;
+    --doc-font: 11pt;     --doc-line: 1.20; /* Hoja 3/Órdenes */
+
+    --hdr-row-gap: 0.25rem;
+    --safe-gap-over-footer: calc(var(--firma-h) + 10mm);
+
+    /* --- NUEVO: control de tamaños del pie --- */
+    --brand-logo-h: 32px;      /* alto logo por defecto (hojas 1–2) */
+    /* overrides solo para Hoja 3 (se activan en #printDoc) */
+    /* --brand-logo-h-3: 36px; */
+    /* --firma-h-3: 110px; */
+  }
+
+  body{background:var(--bg);color:var(--text)}
+  .card{background:var(--card);border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 8px 24px rgba(15,23,42,.06)}
+  .chip{border:1px dashed #cbd5e1;border-radius:999px;padding:.25rem .6rem;font-size:.8rem}
+  #printSheet, #printSheet2, .card{ border:0 !important; box-shadow:none !important; border-radius:0 !important; }
+  .actions-bottom{ position:sticky; bottom:0; z-index:40; background:#ffffffE6; backdrop-filter:saturate(180%) blur(4px); }
+
+  #printSheet pre, #printSheet2 pre, #printDoc pre, #printExamLab pre, #printExamImg pre, #printInter pre{
+    white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; font-family:inherit;
+    font-size:13px; line-height:1.16; margin-top:.2rem;
+  }
+  .dateBox{ white-space:nowrap; font-size:12px }
+  #printSheet hr, #printSheet2 hr{ margin:2px 0 4px 0; }
+  .section{ margin-top:10px; }
+  .diagline{ margin-top:8px; margin-bottom:8px; }
+
+  .hdrgrid{
+    display:grid;
+    grid-template-columns: 70% 30%;
+    column-gap: 1rem;
+    row-gap: var(--hdr-row-gap);
+  }
+  .hdrgrid p{ margin:0; text-align:left !important; justify-self:start; line-height:1.12; }
+  .wrap{ overflow-wrap: normal; word-break: normal; white-space: normal; }
+
+  #contentWrap, #contentWrap2{ padding-bottom: var(--safe-gap-over-footer); }
+  #v_receta{ font-size: var(--receta-font); line-height: var(--receta-line); }
+  #v_ind, #v_ind2{ font-size: var(--ind-font); line-height: var(--ind-line); }
+  .avoid-break{ break-inside:avoid; page-break-inside:avoid; }
+
+  /* ==== CAMBIO: selectores generalizados para cualquier pie (#fixedFoot, #fixedFoot2, #fixedFoot3) ==== */
+  [id^="fixedFoot"]{
+    position:absolute; left:0; right:0; bottom: var(--footer-bottom);
+    display:grid; grid-template-columns:1fr auto; align-items:end; column-gap:10px;
+  }
+  [id^="fixedFoot"] .brand{
+    display:inline-flex; gap:8px; align-items:center; color:#475569; font-size:.80rem; line-height:1;
+  }
+  [id^="fixedFoot"] .brand .logo{
+    /* usa override 3 si existe, si no el global */
+    max-height: var(--brand-logo-h-3, var(--brand-logo-h));
+    width:auto; display:block;
+  }
+  [id^="fixedFoot"] .sigBox{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; }
+  [id^="fixedFoot"] .sigBox .firmaimg{
+    height: var(--firma-h-3, var(--firma-h));
+    width:auto; display:block; opacity:.98; margin-bottom:4px;
+  }
+  [id^="fixedFoot"] .sigBox .sig-line{ width: var(--firma-line-w); border-top:1px solid #94a3b8; margin:4px auto; }
+  [id^="fixedFoot"] .sigBox .name{ font-weight:700; color:#000; font-size:.95rem; }
+
+  /* Drawer: grupos desplegables (details/summary) */
+  details > summary{ list-style:none; }
+  details > summary::-webkit-details-marker{ display:none; }
+
+  .page{
+    position:relative;
+    box-sizing:border-box;
+    height:8.5in;
+    padding-top:var(--top-offset);
+    page-break-after:auto;
+  }
+  .force-break{ page-break-after:always !important; }
+  #printSheet2.hidden{ display:none !important; }
+
+  @media print{
+    @page { size:5.5in 8.5in; margin:7mm }
+    .no-print{ display:none !important }
+    #examBackdrop, #examDrawer{ display:none !important }
+    body { background:#fff !important }
+
+    .page{
+      box-sizing: border-box;
+      height: calc(8.5in - 14mm);
+      padding-top: var(--top-offset);
+    }
+
+    #printSheet, #printSheet2{ position:relative; min-height:0; }
+    #printSheet h3, #printSheet2 h3{ font-size:17px; margin:0 0 2px 0 }
+    #printSheet h4, #printSheet2 h4{ font-size:13px; margin:4px 0 2px 0 }
+    #printSheet pre, #printSheet2 pre, #printDoc pre, #printExamLab pre, #printExamImg pre, #printInter pre{ font-size:11px; line-height:1.2; margin-top:2px }
+    #v_receta{ font-size:11px; line-height:1.20 }
+    .dateBox{ font-size:10px }
+    #printSheet hr, #printSheet2 hr{ margin:1px 0 3px 0 }
+    .diagline{ margin-top:3mm; margin-bottom:3mm; }
+    .section{ margin-top:3mm; }
+
+    /* ==== CAMBIO: selector print generalizado ==== */
+    [id^="fixedFoot"]{ position:absolute; left:0; right:0; bottom: var(--footer-bottom); break-inside:avoid; page-break-inside:avoid; }
+
+    img,svg{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* Botonera PRE/POST */
+  .fase-actions{ display:flex; gap:.5rem; flex-wrap:wrap; margin:.5rem 0 0; }
+  .chip{ display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border:1px solid rgba(0,0,0,.08); border-radius:999px; font-size:.9rem; }
+  .cta-insert{ font-weight:600; background:#16a34a; color:#fff; border-color:#16a34a; }
+  .cta-insert:hover{ filter:brightness(0.97); }
+  #btnInsertInd{ display:none !important; } /* ocultamos el botón antiguo */
+  @media print { .no-print { display:none !important; } }
+
+  /* ==== NUEVO: overrides SOLO para la Hoja 3 (Certificado / Biopsia) ==== */
+  #printDoc{
+    --brand-logo-h-3: 36px;  /* ajusta a gusto: 32/36/40 */
+    --firma-h-3: 110px;      /* alto de la firma en Hoja 3 */
+  }
+
+  /* ==== NUEVO: área segura para documentos (Hoja 3 y Órdenes) ==== */
+  #printDoc .docWrap, #printExamLab .docWrap, #printExamImg .docWrap, #printInter .docWrap{ padding-bottom: var(--safe-gap-over-footer); }
+  #printDoc #v_doc, #printExamLab #v_doc_lab, #printExamImg #v_doc_img, #printInter pre{
+    font-size: var(--doc-font);
+    line-height: var(--doc-line);
+    font-family: inherit;
+  }
+  /* Cajas de contenido en órdenes/documentos (evita que el texto se “coma” el pie) */
+  .docBox{ border:1px solid #e2e8f0; border-radius:14px; padding:10px 12px; background:#fff; }
+  .docLabel{ font-weight:700; margin-bottom:6px; }
+  .docListPre{ margin:0; white-space:pre-wrap; }
+  .docListBox{ max-height: 92mm; overflow:auto; }
+  .docObs{ width:100%; min-height:28mm; resize:vertical; border:1px solid #e2e8f0; border-radius:12px; padding:8px 10px; }
+  @media print{
+    .docListBox{ overflow:hidden; }
+    .docObs{ resize:none; min-height:26mm; max-height:34mm; }
+  }
+
+
+
+/* ===== ORION PRO: tipografía homogénea en TODAS las hojas ===== */
+:root{
+  --orion-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  --orion-base: 12px;
+  --orion-small: 10.5px;
+  --orion-title: 16px;
+  --orion-subtitle: 12.5px;
+}
+body, input, select, textarea, button{ font-family: var(--orion-font) !important; }
+.page, .page *{ font-family: var(--orion-font) !important; }
+.page{ font-size: var(--orion-base); line-height: 1.25; }
+.page .doc-title{ font-size: var(--orion-title); font-weight: 800; letter-spacing: .2px; }
+.page .doc-subtitle{ font-size: var(--orion-subtitle); font-weight: 700; }
+.page .doc-meta, .page .doc-meta *{ font-size: var(--orion-small); }
+.page .doc-body, .page .doc-body *{ font-size: var(--orion-base); }
+
+/* Fecha alineada de forma consistente (evita salto de línea tipo 09-02-
+2026) */
+.dateBox{ white-space:nowrap; }
+.dateBox span{ white-space:nowrap; display:inline-block; min-width: 92px; text-align:right; }
+
+/* Compatibilidad con IDs/clases usadas en distintas hojas */
+#v_fecha, .v_fecha2, .v_fecha3, .v_fecha_lab, .v_fecha_img, .v_fecha_inter{
+  white-space:nowrap; display:inline-block; min-width: 92px; text-align:right;
+}
+
+/* Subtítulo bajo el nombre (firma) */
+[id^="fixedFoot"] .sigBox .name-sub{
+  font-weight:600; color:#111; font-size: .78rem; line-height:1.15;
+  margin-top:2px; text-align:center;
+}
+
+
+.subtitulo-academico{
+  font-size: 9px;
+  line-height: 1.15;
+  text-align: center;
+  max-width: 240px;
+  margin: 4px auto 0 auto;
+  color: #222;
+  font-weight: 600;
+}
+.subtitulo-academico div{
+  white-space: nowrap;
+}
+
+
+
+/* Placeholders NO imprimibles para contenteditable */
+.editable[data-ph]:empty:before{ content: attr(data-ph); color:#94a3b8; }
+@media print{ .editable[data-ph]:empty:before{ content:""; } }
+
+/* Certificado: permite editar el cuerpo generado sin afectar la impresión */
+#v_doc[contenteditable="true"]{
+  cursor:text;
+  min-height:120px;
+  padding:8px;
+  border:1px dashed #cbd5e1;
+  border-radius:12px;
+  background:#ffffff;
+}
+@media print{
+  #v_doc[contenteditable="true"]{
+    border:0;
+    padding:0;
+    min-height:0;
+    background:transparent;
+  }
+}
+
+
+
+/* Interconsulta: Área/Especialidad separada + caja clínica única */
+#printInter .docWrap{ padding-bottom: calc(var(--safe-gap-over-footer) + 8mm); }
+#printInter .interAreaBox{
+  min-height: 14mm;
+  overflow: hidden;
+}
+#printInter .interFreeBox{
+  min-height: 78mm;
+  max-height: 88mm;
+  overflow: hidden;
+}
+#printInter #v_inter_text{
+  margin:0;
+  white-space:pre-wrap;
+  word-break:normal;
+  overflow-wrap:anywhere;
+}
+@media print{
+  #printInter .interAreaBox{
+    min-height: 12mm;
+    overflow:hidden;
+  }
+  #printInter .interFreeBox{
+    min-height: 76mm;
+    max-height: 86mm;
+    overflow:hidden;
+  }
+}
+
+/* Afinar tamaños para que títulos/membretas queden homogéneos (similar a RECETA) */
+.page h3{ font-size: 16px !important; }
+.page h3.text-xl{ font-size: 16px !important; }
+.page .text-xl{ font-size: 16px !important; }
+.page .text-sm{ font-size: 12px !important; }
+.page .text-slate-600, .page .text-slate-500{ font-size: 12px !important; }
+.page hr{ border-color: #d6deea !important; }

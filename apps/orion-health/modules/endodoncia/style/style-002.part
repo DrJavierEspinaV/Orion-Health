@@ -1,0 +1,25 @@
+m; margin-bottom:3mm; }
+    .section{ margin-top:3mm; }
+
+    /* ==== CAMBIO: selector print generalizado ==== */
+    [id^="fixedFoot"]{ position:absolute; left:0; right:0; bottom: var(--footer-bottom); break-inside:avoid; page-break-inside:avoid; }
+
+    img,svg{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+  /* Botonera PRE/POST */
+  .fase-actions{ display:flex; gap:.5rem; flex-wrap:wrap; margin:.5rem 0 0; }
+  .chip{ display:inline-flex; align-items:center; gap:.4rem; padding:.35rem .6rem; border:1px solid rgba(0,0,0,.08); border-radius:999px; font-size:.9rem; }
+  .cta-insert{ font-weight:600; background:#16a34a; color:#fff; border-color:#16a34a; }
+  .cta-insert:hover{ filter:brightness(0.97); }
+  #btnInsertInd{ display:none !important; } /* ocultamos el botón antiguo */
+  @media print { .no-print { display:none !important; } }
+
+  /* Tamaño 12pt para Hoja 3 */
+  #printDoc #v_doc { font-size: 12pt !important; line-height: 1.28 !important; }
+
+  /* ==== NUEVO: overrides SOLO para la Hoja 3 (Certificado / Biopsia) ==== */
+  #printDoc{
+    --brand-logo-h-3: 36px;  /* ajusta a gusto: 32/36/40 */
+    --firma-h-3: 110px;      /* alto de la firma en Hoja 3 */
+  }

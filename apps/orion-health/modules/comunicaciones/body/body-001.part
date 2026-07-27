@@ -1,0 +1,96 @@
+
+<header id="orionHdr">
+<!-- ✅ Si lo publicas en /apps/comunicaciones/, deja los logos dentro de ESTA carpeta o ajusta a ../../assets/... -->
+<img alt="Orion Comunicaciones" src="../../assets/brand/orion-comunicaciones.png"/>
+<div class="hgroup">
+<h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v5.7 PRO_BD</h1>
+<p>Mensajería Clínica · Estados · Plantillas · Enlaces</p>
+</div>
+</header>
+<main>
+<div class="crm-layout">
+<div class="crm-left">
+<div class="card">
+<div class="bar-2 editable">
+<div>
+<label class="small">2️⃣ TIPO DE MENSAJES</label>
+<select id="tipoMensaje">
+<option value="ausente">🦷 Paciente Ausente</option>
+<option value="consentimiento">📄 Consentimiento Informado</option>
+<option value="indicaciones">📋 Indicaciones Pre y Postoperatorias</option>
+<option value="infografia">📢 Infografía Educativa</option>
+<option value="promocion">🎁 Promoción Clínica</option>
+<option value="derivacion_whatsapp">💬 Derivación por WhatsApp</option>
+</select>
+</div>
+</div>
+<div class="surveyBox editable" id="bloqueEncuesta">
+<div class="surveyTop">
+<div class="left">
+<input id="encuestaOn" type="checkbox"/>
+<label class="small" for="encuestaOn" style="margin:0">🧠 Agregar Encuesta al Mensaje</label>
+</div>
+<button class="btn" id="encuestaInsertar" title="Inserta la encuesta al mensaje base (opcional)" type="button">
+              ➕ Insertar en Mensaje
+            </button>
+</div>
+<div class="surveyRow">
+<div>
+<label class="small">Tipo de Encuesta</label>
+<select id="encuestaTipo">
+<option value="salud_basica">Salud básica</option>
+<option value="anticoagulantes">Anticoagulantes</option>
+<option value="infeccion_urgencia">Infección / Urgencia</option>
+<option value="analgesicos_alergias">Analgésicos / Alergias</option>
+<option value="mini_ficha">Mini Ficha Clínica (Completa)</option>
+</select>
+<div class="surveyHint">Se adjunta al WhatsApp.</div>
+</div>
+<div>
+<label class="small">Modo</label>
+<!-- ✅ FIX: tu HTML estaba roto aquí -->
+<select id="encuestaModo">
+<option value="append">(+) Adjuntar al Mensaje</option>
+<option value="placeholder">Usar {{ENCUESTA}} (click "Insertar")</option>
+</select>
+</div>
+</div>
+<div style="margin-top:10px">
+<label class="small">Texto Editable de Encuesta</label>
+<textarea class="mono" id="encuestaTexto" rows="6"></textarea>
+</div>
+</div>
+<div class="card editable" id="bloqueDerivacion" style="display:none; margin-top:12px;">
+<div class="section-title">🩺 Derivación</div>
+<div class="grid2">
+<div>
+<label class="small">👨‍⚕️ Derivado por (Dra./Dr.) — <span class="mono">{{DERIVADOR}}</span></label>
+<input id="derivador" placeholder="Ej: Dra. Araneda" type="text">
+</input></div>
+<div>
+<label class="small">📝 Motivo / Indicación — <span class="mono">{{INDICACION}}</span></label>
+<input id="indicacion" placeholder="Ej: Extracción diente 2.7 / control / etc." type="text"/>
+</div>
+</div>
+<div class="hint">Este bloque aparece solo en “Derivación por WhatsApp” y se inserta automáticamente en el Mensaje.</div>
+</div>
+<textarea aria-hidden="true" class="mono" id="linksPublicos" rows="3" style="display:none"></textarea>
+<div aria-live="polite" class="mini-status mini-status-compact" id="linksStatus">ℹ️ Adjuntos/Enlaces: Control Automático</div>
+<div class="links-preview" hidden="" id="linksPreview"></div>
+<div class="muted" style="margin-top:6px">Los enlaces de Drive se convierten a Descarga Directa si son archivos.</div>
+<div class="editable" style="margin-top:12px">
+<label class="small">3️⃣ MENSAJES BASE (Editable)</label>
+<textarea class="mono" id="mensajeTipo" placeholder="Se carga automáticamente según 'Tipo de mensaje'"></textarea>
+</div>
+<div style="margin-top:12px; display:flex; gap:12px">
+<button class="btn" id="copiarMensaje" type="button">📋 Copiar Mensaje</button>
+<button class="btn primary" id="generar" type="button">5️⃣ REGENERAR LISTA</button>
+</div>
+</div>
+<div class="card editable" id="whatsappManualCard" style="display:none">
+<div class="manual-title">📲 WhatsApp manual para paciente fuera de lista</div>
+<div class="bar-2">
+<div>
+<label class="small">📞 N° WhatsApp Manual (fuera de BD/lista)</label>
+<input id="manualPhone" placeholder="912345678 o 56912345678" type="tel"/>
+<div class="muted" 
