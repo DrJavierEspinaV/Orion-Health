@@ -1,0 +1,50 @@
+name: ORION Dental App Final Pilot
+
+on:
+  pull_request:
+    paths:
+      - 'apps/orion-health/**'
+      - 'tests/**'
+      - 'tools/**'
+      - 'package.json'
+      - 'playwright.config.mjs'
+      - '.github/workflows/orion-pilot-final.yml'
+  push:
+    branches: [agent/reorganizar-aplicaciones, main]
+    paths:
+      - 'apps/orion-health/**'
+      - 'tests/**'
+      - 'tools/**'
+      - 'package.json'
+      - 'playwright.config.mjs'
+      - '.github/workflows/orion-pilot-final.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: package.json
+      - name: Install test dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Static validation
+        run: npm run check:orion
+      - name: Functional and mobile tests
+        run: npm run test:e2e
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: orion-playwright-report
+          path: playwright-report
+          retention-days: 14
