@@ -44,10 +44,20 @@ for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
 }
 if(/MELOXICAM 15 mg[\s\S]{0,80}cada 12/i.test(cmfAudit))failures.push('Pauta insegura de meloxicam en auditoría CMF');
 
-const source=read('modules/comunicaciones/source.html');
-const inputToken=source.match(/<input\b[^>]*\bid=["']dbToken["'][^>]*>/i)?.[0]||'';
-const value=inputToken.match(/\bvalue=["']([^"']*)["']/i)?.[1]||'';
-if(value.trim())failures.push('Comunicaciones conserva una credencial predeterminada en HTML');
+for(const candidate of fs.readdirSync(root,{recursive:true})){
+  const relative=String(candidate);
+  const full=path.join(root,relative);
+  if(!fs.statSync(full).isFile())continue;
+  if(/firma_tinta|firmaimg/i.test(relative))failures.push(`Firma manuscrita publicada: ${relative}`);
+  if(!/\.(?:html|js|part)$/i.test(relative))continue;
+  const text=fs.readFileSync(full,'utf8');
+  for(const match of text.matchAll(/<input\b[^>]*(?:id|name)=["'][^"']*token[^"']*["'][^>]*>/gi)){
+    const value=match[0].match(/\bvalue=["']([^"']*)["']/i)?.[1]||'';
+    if(value.trim())failures.push(`Credencial predeterminada en ${relative}`);
+  }
+  if(/(?:#|\?|&)orion[-_]?token=/i.test(text))failures.push(`Credencial admitida por URL en ${relative}`);
+  if(/ORION-[A-Z0-9]{4,}-[A-Z0-9-]{4,}/.test(text))failures.push(`Posible secreto ORION incrustado en ${relative}`);
+}
 
 const catalogMeta=JSON.parse(read('data/catalogo-insumos.json'));
 if(catalogMeta.encoding!=='gzip+base64'||!catalogMeta.data)failures.push('Catálogo de Insumos no tiene formato esperado');
@@ -59,16 +69,9 @@ else{
 const serviceWorker=read('service-worker.js');
 if(!serviceWorker.includes('orion-dental-app-v1.3.0'))failures.push('Service worker no usa caché V1.3.0');
 
-const signatureMatches=[];
-for(const candidate of fs.readdirSync(root,{recursive:true})){
-  const relative=String(candidate);
-  if(/firma_tinta|firmaimg/i.test(relative))signatureMatches.push(relative);
-}
-if(signatureMatches.length)failures.push(`Firma manuscrita publicada: ${signatureMatches.join(', ')}`);
-
 if(failures.length){
   console.error('\nORION V1.3 — VERIFICACIÓN FALLIDA');
-  failures.forEach(item=>console.error(`- ${item}`));
+  [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
 console.log('ORION V1.3 — verificación estática aprobada');
