@@ -2,12 +2,12 @@ import {test,expect} from '@playwright/test';
 
 const appUrl='/apps/orion-health/index.html';
 const modules=[
-  ['comunicaciones','comunicaciones','Comunicaciones'],
-  ['insumos','insumos','538 insumos'],
-  ['cmf','cmf','Control clínico CMF'],
-  ['endo','endodoncia','Control clínico Endodoncia'],
-  ['orto','ortodoncia','Ortodoncia'],
-  ['odontopediatria','odontopediatria','Odontopediatría']
+  ['comunicaciones','comunicaciones',/Comunicaciones/i],
+  ['insumos','insumos',/538 insumos/i],
+  ['cmf','cmf',/Control clínico CMF/i],
+  ['endo','endodoncia',/Control clínico Endodoncia/i],
+  ['orto','ortodoncia',/Ortodoncia/i],
+  ['odontopediatria','odontopediatria',/Odontopediatría/i]
 ];
 
 async function openPortal(page){
@@ -36,7 +36,7 @@ test('portal carga y navega los seis módulos',async({page})=>{
 
 test('Insumos abre con catálogo persistente y sin importar Excel',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'insumos','insumos','538 insumos');
+  const frame=await selectModule(page,'insumos','insumos',/538 insumos/i);
   await expect(frame.locator('#search')).toBeVisible();
   await frame.locator('#search').fill('membrana');
   await expect(frame.locator('#selector')).toContainText(/MEMBRANA/i);
@@ -44,18 +44,18 @@ test('Insumos abre con catálogo persistente y sin importar Excel',async({page})
 
 test('CMF y Endodoncia exigen confirmación clínica',async({page})=>{
   await openPortal(page);
-  let frame=await selectModule(page,'cmf','cmf','Control clínico CMF');
+  let frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
   await expect(frame.locator('#orionClinicalConfirmCMF')).toBeVisible();
   await expect(frame.locator('#modoComp')).toBeDisabled();
 
-  frame=await selectModule(page,'endo','endodoncia','Control clínico Endodoncia');
+  frame=await selectModule(page,'endo','endodoncia',/Control clínico Endodoncia/i);
   await expect(frame.locator('#orionClinicalConfirmENDO')).toBeVisible();
   await expect(frame.locator('#modoComp')).toBeDisabled();
 });
 
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{
   await openPortal(page);
-  await selectModule(page,'insumos','insumos','538 insumos');
+  await selectModule(page,'insumos','insumos',/538 insumos/i);
   await page.waitForTimeout(1000);
   const metrics=await page.evaluate(()=>({
     bodyScrollWidth:document.body.scrollWidth,
