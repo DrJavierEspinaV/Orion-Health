@@ -1,29 +1,32 @@
-/* ORION Dental App — V1.2.7 · página continua y altura automática */
+/* ORION Dental App — V1.3.0 · página continua y altura automática */
 
-/* La identidad principal ya está presente en el lateral. */
 .hero{display:none !important;}
 .topbar{grid-template-columns:minmax(0,1fr) !important;margin-bottom:10px !important;}
-
 .sync-card{padding:10px 14px !important;border-radius:16px !important;}
 .sync-head{margin-bottom:8px !important;}
 .field{min-height:52px !important;padding:8px 10px !important;}
 
-/* Un solo desplazamiento: el documento principal controla toda la página. */
-html,body{height:auto !important;min-height:100%;overflow-x:hidden;}
-.shell{align-items:start;min-height:100dvh;}
+html,body{height:auto !important;min-height:100%;overflow-x:clip !important;max-width:100%;}
+.shell{align-items:start;min-height:100dvh;max-width:100%;min-width:0;overflow-x:clip;}
 .sidebar{
   position:sticky !important;
   top:0;
   height:100dvh;
   overflow-y:auto !important;
+  overflow-x:hidden !important;
   overscroll-behavior:contain;
+  min-width:0;
+  max-width:100%;
 }
 .main{
   height:auto !important;
   min-height:100dvh !important;
   overflow:visible !important;
   display:block !important;
+  min-width:0 !important;
+  max-width:100%;
 }
+.topbar,.sync-card,.patient-grid,.stage-wrap,.stage-head,.stage-tools{min-width:0;max-width:100%;}
 
 .stage-wrap{
   display:block !important;
@@ -39,14 +42,15 @@ html,body{height:auto !important;min-height:100%;overflow-x:hidden;}
   top:0;
   z-index:5;
 }
+.stage-title{min-width:0;}
 .stage-title span{display:none !important;}
 .stage-tools{gap:6px !important;}
-.tool-btn{padding:7px 10px !important;font-size:11px !important;white-space:nowrap;}
+.tool-btn{padding:7px 10px !important;font-size:11px !important;white-space:nowrap;min-width:0;}
 
-/* El alto real lo controla script-1.js según el contenido del módulo. */
 #appFrame{
   display:block !important;
   width:100% !important;
+  max-width:100% !important;
   height:720px;
   min-height:720px !important;
   overflow:hidden !important;
@@ -64,18 +68,28 @@ html,body{height:auto !important;min-height:100%;overflow-x:hidden;}
 }
 
 @media (max-width:980px){
+  .shell{width:100% !important;grid-template-columns:minmax(0,1fr) !important;}
   .sidebar{
     position:relative !important;
     top:auto;
+    width:100% !important;
     height:auto;
     max-height:none;
     overflow:visible !important;
   }
-  .main{min-height:100dvh !important;padding:12px !important;}
+  .main{width:100% !important;min-height:100dvh !important;padding:12px !important;}
   .stage-head{position:relative;top:auto;}
   #appFrame{min-height:680px !important;height:680px;}
 }
 
 @media (max-width:640px){
+  .sidebar,.main,.topbar,.sync-card,.stage-wrap,.stage-head,#appFrame{width:100% !important;max-width:100% !important;min-width:0 !important;}
+  .sidebar{padding-left:12px !important;padding-right:12px !important;}
+  .main{padding:8px !important;}
+  .sync-card{padding:10px !important;}
+  .patient-grid{grid-template-columns:minmax(0,1fr) !important;}
+  .stage-head{align-items:stretch !important;}
+  .stage-tools{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));width:100% !important;}
+  .tool-btn{width:100% !important;white-space:normal !important;padding:8px 6px !important;line-height:1.15;}
   #appFrame{min-height:620px !important;height:620px;}
 }
