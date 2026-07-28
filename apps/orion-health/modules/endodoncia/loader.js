@@ -9,7 +9,7 @@
     h=h
       .replace(/<img[^>]*class="firmaimg"[^>]*>/g,'')
       .replace(/localStorage/g,'sessionStorage')
-      .replace('</body>','<script src="../../assets/shared/clinical-audit-endo.js?v=1.3.0"></script><script src="../../assets/shared/patient-bridge.js?v=1.3.0"></script></body>');
+      .replace('</body>','<script src="../../assets/shared/clinical-audit-endo.js?v=1.3.1"></script><script src="../../assets/shared/clinical-components-restore.js?v=1.3.1"></script><script src="../../assets/shared/patient-bridge.js?v=1.3.1"></script></body>');
     document.open();document.write(h);document.close();
   }catch(e){
     document.body.textContent='No se pudo cargar ORION Endodoncia.';
