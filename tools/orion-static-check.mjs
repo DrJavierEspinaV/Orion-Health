@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.3'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.4'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -33,6 +33,7 @@ const endoLoader=read('modules/endodoncia/loader.js');
 if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.push('Comunicaciones no carga el layout con prioridad de pacientes');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
+if(!cmfLoader.includes('clinical-output-cmf-v134.js'))failures.push('CMF no carga salidas V1.3.4');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
@@ -59,6 +60,12 @@ for(const required of ['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPRO
   if(!cmfTemplates.includes(required))failures.push(`Plantillas CMF V1.3.2 sin contenido requerido: ${required}`);
 }
 if(!cmfTemplates.includes('solo si fue indicada por el clínico'))failures.push('Dexametasona sin control de indicación clínica');
+
+const cmfOutput=read('assets/shared/clinical-output-cmf-v134.js');
+for(const required of ['orion-actions-top','api.whatsapp.com/send?text=','whatsapp://send?text=','format:[5.5,8.5]','--brand-logo-h:52px','ORION_CMF_OUTPUT_V134']){
+  if(!cmfOutput.includes(required))failures.push(`Salida CMF V1.3.4 incompleta: ${required}`);
+}
+if(!cmfOutput.includes("event.stopImmediatePropagation()"))failures.push('Salida CMF no reemplaza los controladores antiguos');
 
 const componentRestore=read('assets/shared/clinical-components-restore.js');
 if(!componentRestore.includes('ACTIVO CON CONTROL CLÍNICO'))failures.push('Catálogo farmacológico restaurado sin estado de control clínico');
@@ -87,15 +94,16 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.3'))failures.push('Service worker no usa caché V1.3.3');
+if(!serviceWorker.includes('orion-dental-app-v1.3.4'))failures.push('Service worker no usa caché V1.3.4');
 if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
 if(!serviceWorker.includes('clinical-templates-cmf-v132.js'))failures.push('Service worker no incluye plantillas CMF V1.3.2');
+if(!serviceWorker.includes('clinical-output-cmf-v134.js'))failures.push('Service worker no incluye salidas CMF V1.3.4');
 
 if(failures.length){
-  console.error('\nORION V1.3.3 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.4 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.3 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | Catálogo insumos: 538 | PWA: ${manifest.display}`);
+console.log('ORION V1.3.4 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | CMF: PDF Statement + WhatsApp | PWA: ${manifest.display}`);

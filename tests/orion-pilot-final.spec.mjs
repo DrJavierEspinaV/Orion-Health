@@ -109,6 +109,31 @@ test('CMF usa las tres plantillas breves auditadas V1.3.2',async({page})=>{
   await expect(receta).toHaveValue(/Dosis única 1 hora antes/i);
 });
 
+test('CMF ubica acciones arriba y configura PDF Statement y WhatsApp',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const actions=frame.locator('.orion-actions-top');
+  await expect(actions).toBeVisible();
+  await expect(actions.locator('#btnPrint')).toBeVisible();
+  await expect(actions.locator('#btnPdf')).toBeVisible();
+  await expect(actions.locator('#btnWA')).toBeVisible();
+  await expect(actions.locator('#btnCopy')).toBeVisible();
+
+  const output=await frame.locator('body').evaluate(()=>{
+    const actions=document.querySelector('.orion-actions-top');
+    const firstCard=document.querySelector('main > section.card');
+    return{
+      config:window.ORION_CMF_OUTPUT_V134||null,
+      beforeContent:!!actions&&!!firstCard&&Boolean(actions.compareDocumentPosition(firstCard)&Node.DOCUMENT_POSITION_FOLLOWING),
+      logoHeight:getComputedStyle(document.documentElement).getPropertyValue('--brand-logo-h').trim()
+    };
+  });
+  expect(output.beforeContent).toBeTruthy();
+  expect(output.config?.pdf).toBe('statement-5.5x8.5');
+  expect(output.config?.whatsapp).toBe('api+scheme');
+  expect(output.logoHeight).toBe('52px');
+});
+
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{
   await openPortal(page);
   await selectModule(page,'insumos','insumos',/538 insumos/i);
