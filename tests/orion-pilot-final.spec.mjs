@@ -109,6 +109,33 @@ test('CMF usa las tres plantillas breves auditadas V1.3.2',async({page})=>{
   await expect(receta).toHaveValue(/Dosis única 1 hora antes/i);
 });
 
+test('CMF mantiene el NPS una sola vez en plantillas y recetas manuales',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const selector=frame.locator('#tplAdulto');
+  const receta=frame.locator('#receta');
+  const nps=/Encuesta de satisfacción \(NPS\): Puede recibir una encuesta aleatoria sobre su experiencia de hoy\./;
+
+  for(const option of ['Post_Qx1','Post_Qx2','PRE_QX']){
+    await selector.selectOption(option);
+    await expect(receta).toHaveValue(nps);
+    const count=await receta.evaluate(el=>(el.value.match(/Encuesta de satisfacción \(NPS\):/g)||[]).length);
+    expect(count).toBe(1);
+  }
+
+  await receta.fill('PARACETAMOL 1 g\n1 comprimido cada 8 horas.');
+  await receta.blur();
+  await expect(receta).toHaveValue(nps);
+  const manualCount=await receta.evaluate(el=>(el.value.match(/Encuesta de satisfacción \(NPS\):/g)||[]).length);
+  expect(manualCount).toBe(1);
+
+  await frame.locator('#orionClinicalTabPreview').click();
+  await expect(frame.locator('#v_receta')).toContainText('Encuesta de satisfacción (NPS):');
+
+  const config=await frame.locator('body').evaluate(()=>window.ORION_CMF_NPS_V136||null);
+  expect(config?.mandatory).toBeTruthy();
+});
+
 test('CMF ubica acciones arriba y configura PDF Statement y WhatsApp',async({page})=>{
   await openPortal(page);
   const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
