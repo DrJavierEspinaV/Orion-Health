@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.4'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.5'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -34,6 +34,7 @@ if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
 if(!cmfLoader.includes('clinical-output-cmf-v134.js'))failures.push('CMF no carga salidas V1.3.4');
+if(!cmfLoader.includes('clinical-preview-cmf-v135.js'))failures.push('CMF no carga pestañas de vista previa V1.3.5');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
@@ -65,7 +66,13 @@ const cmfOutput=read('assets/shared/clinical-output-cmf-v134.js');
 for(const required of ['orion-actions-top','api.whatsapp.com/send?text=','whatsapp://send?text=','format:[5.5,8.5]','--brand-logo-h:52px','ORION_CMF_OUTPUT_V134']){
   if(!cmfOutput.includes(required))failures.push(`Salida CMF V1.3.4 incompleta: ${required}`);
 }
-if(!cmfOutput.includes("event.stopImmediatePropagation()"))failures.push('Salida CMF no reemplaza los controladores antiguos');
+if(!cmfOutput.includes('event.stopImmediatePropagation()'))failures.push('Salida CMF no reemplaza los controladores antiguos');
+
+const cmfPreview=read('assets/shared/clinical-preview-cmf-v135.js');
+for(const required of ['orionClinicalTabEdit','orionClinicalTabPreview','orionClinicalEditPane','orionPrintPreviewPane','orionPrintPreviewPages','ORION_CMF_PREVIEW_V135','defaultTab:\'edit\'','preview:\'on-demand\'']){
+  if(!cmfPreview.includes(required))failures.push(`Vista previa CMF V1.3.5 incompleta: ${required}`);
+}
+if(!cmfPreview.includes('@media print'))failures.push('Vista previa CMF no fuerza las hojas durante impresión');
 
 const componentRestore=read('assets/shared/clinical-components-restore.js');
 if(!componentRestore.includes('ACTIVO CON CONTROL CLÍNICO'))failures.push('Catálogo farmacológico restaurado sin estado de control clínico');
@@ -94,16 +101,17 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.4'))failures.push('Service worker no usa caché V1.3.4');
+if(!serviceWorker.includes('orion-dental-app-v1.3.5'))failures.push('Service worker no usa caché V1.3.5');
 if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
 if(!serviceWorker.includes('clinical-templates-cmf-v132.js'))failures.push('Service worker no incluye plantillas CMF V1.3.2');
 if(!serviceWorker.includes('clinical-output-cmf-v134.js'))failures.push('Service worker no incluye salidas CMF V1.3.4');
+if(!serviceWorker.includes('clinical-preview-cmf-v135.js'))failures.push('Service worker no incluye vista previa CMF V1.3.5');
 
 if(failures.length){
-  console.error('\nORION V1.3.4 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.5 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.4 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | CMF: PDF Statement + WhatsApp | PWA: ${manifest.display}`);
+console.log('ORION V1.3.5 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | CMF: edición + vista previa bajo demanda | PWA: ${manifest.display}`);

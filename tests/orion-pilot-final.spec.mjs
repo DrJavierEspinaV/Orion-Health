@@ -121,17 +121,47 @@ test('CMF ubica acciones arriba y configura PDF Statement y WhatsApp',async({pag
 
   const output=await frame.locator('body').evaluate(()=>{
     const actions=document.querySelector('.orion-actions-top');
-    const firstCard=document.querySelector('main > section.card');
+    const tabs=document.getElementById('orionClinicalTabs');
     return{
       config:window.ORION_CMF_OUTPUT_V134||null,
-      beforeContent:!!actions&&!!firstCard&&Boolean(actions.compareDocumentPosition(firstCard)&Node.DOCUMENT_POSITION_FOLLOWING),
+      beforeTabs:!!actions&&!!tabs&&Boolean(actions.compareDocumentPosition(tabs)&Node.DOCUMENT_POSITION_FOLLOWING),
       logoHeight:getComputedStyle(document.documentElement).getPropertyValue('--brand-logo-h').trim()
     };
   });
-  expect(output.beforeContent).toBeTruthy();
+  expect(output.beforeTabs).toBeTruthy();
   expect(output.config?.pdf).toBe('statement-5.5x8.5');
   expect(output.config?.whatsapp).toBe('api+scheme');
   expect(output.logoHeight).toBe('52px');
+});
+
+test('CMF oculta las hojas impresas en una pestaña y las abre bajo demanda',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const editTab=frame.locator('#orionClinicalTabEdit');
+  const previewTab=frame.locator('#orionClinicalTabPreview');
+  const editPane=frame.locator('#orionClinicalEditPane');
+  const previewPane=frame.locator('#orionPrintPreviewPane');
+
+  await expect(editTab).toHaveAttribute('aria-selected','true');
+  await expect(previewTab).toHaveAttribute('aria-selected','false');
+  await expect(editPane).toBeVisible();
+  await expect(previewPane).toBeHidden();
+  await expect(frame.locator('#orionPrintPreviewPages #printSheet')).toHaveCount(1);
+  await expect(frame.locator('#orionPrintPreviewPages #printSheet2')).toHaveCount(1);
+
+  await previewTab.click();
+  await expect(previewTab).toHaveAttribute('aria-selected','true');
+  await expect(editPane).toBeHidden();
+  await expect(previewPane).toBeVisible();
+  await expect(previewPane.locator('#printSheet')).toBeVisible();
+
+  await editTab.click();
+  await expect(editPane).toBeVisible();
+  await expect(previewPane).toBeHidden();
+
+  const config=await frame.locator('body').evaluate(()=>window.ORION_CMF_PREVIEW_V135||null);
+  expect(config?.defaultTab).toBe('edit');
+  expect(config?.preview).toBe('on-demand');
 });
 
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{
