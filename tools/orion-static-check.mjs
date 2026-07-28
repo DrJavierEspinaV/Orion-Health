@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.0'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -31,6 +31,8 @@ const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
+if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
+if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
 
 const sessionConfig=read('assets/shared/session-config.js');
 if(/extractTokenFromHash|HASH_KEYS|orion-token|location\.hash/i.test(sessionConfig))failures.push('La conexión Drive aún admite credenciales por URL/hash');
@@ -43,6 +45,10 @@ for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
   if(!text.includes('C. difficile'))failures.push(`${name} no registra cautela de clindamicina`);
 }
 if(/MELOXICAM 15 mg[\s\S]{0,80}cada 12/i.test(cmfAudit))failures.push('Pauta insegura de meloxicam en auditoría CMF');
+
+const componentRestore=read('assets/shared/clinical-components-restore.js');
+if(!componentRestore.includes('ACTIVO CON CONTROL CLÍNICO'))failures.push('Catálogo farmacológico restaurado sin estado de control clínico');
+if(!componentRestore.includes('invalidateConfirmation'))failures.push('Catálogo farmacológico no reinicia la confirmación clínica al editar');
 
 for(const candidate of fs.readdirSync(root,{recursive:true})){
   const relative=String(candidate);
@@ -67,12 +73,13 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.0'))failures.push('Service worker no usa caché V1.3.0');
+if(!serviceWorker.includes('orion-dental-app-v1.3.1'))failures.push('Service worker no usa caché V1.3.1');
+if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
 
 if(failures.length){
   console.error('\nORION V1.3 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Catálogo: 538 | PWA: ${manifest.display}`);
+console.log('ORION V1.3.1 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Catálogo insumos: 538 | Catálogo farmacológico: activo | PWA: ${manifest.display}`);
