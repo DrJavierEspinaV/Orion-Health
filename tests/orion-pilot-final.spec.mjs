@@ -42,15 +42,27 @@ test('Insumos abre con catálogo persistente y sin importar Excel',async({page})
   await expect(frame.locator('#selector')).toContainText(/MEMBRANA/i);
 });
 
-test('CMF y Endodoncia exigen confirmación clínica',async({page})=>{
+test('CMF y Endodoncia conservan auditoría y catálogo por fármacos',async({page})=>{
   await openPortal(page);
   let frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
   await expect(frame.locator('#orionClinicalConfirmCMF')).toBeVisible();
-  await expect(frame.locator('#modoComp')).toBeDisabled();
+  await expect(frame.locator('#modoComp')).toBeEnabled();
+  await frame.locator('#modoComp').check();
+  await expect(frame.locator('#panelComponentes')).toBeVisible();
+  await expect(frame.locator('#selAnalgesico')).toBeVisible();
+  await expect(frame.locator('#selATB')).toBeVisible();
+  await expect(frame.locator('#selCorti')).toBeVisible();
+  await expect(frame.locator('#orionComponentCatalogNotice')).toBeVisible();
 
   frame=await selectModule(page,'endo','endodoncia',/Control clínico Endodoncia/i);
   await expect(frame.locator('#orionClinicalConfirmENDO')).toBeVisible();
-  await expect(frame.locator('#modoComp')).toBeDisabled();
+  await expect(frame.locator('#modoComp')).toBeEnabled();
+  await frame.locator('#modoComp').check();
+  await expect(frame.locator('#panelComponentes')).toBeVisible();
+  await expect(frame.locator('#selAnalgesico')).toBeVisible();
+  await expect(frame.locator('#selATB')).toBeVisible();
+  await expect(frame.locator('#selCorti')).toBeVisible();
+  await expect(frame.locator('#orionComponentCatalogNotice')).toBeVisible();
 });
 
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{

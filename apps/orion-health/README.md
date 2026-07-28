@@ -1,4 +1,4 @@
-# ORION Dental App V1.3 — Final Piloto
+# ORION Dental App V1.3.1 — Final Piloto
 
 Plataforma clínica modular desarrollada por ORION Health SpA.
 
@@ -6,8 +6,8 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 - `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.2.
 - `modules/insumos/` — Insumos V4.5.3.
-- `modules/cmf/` — Clínico CMF V4.3.25.
-- `modules/endodoncia/` — Endodoncia V4.6.1.
+- `modules/cmf/` — Clínico CMF V4.3.26.
+- `modules/endodoncia/` — Endodoncia V4.6.2.
 - `modules/ortodoncia/` — Ortodoncia V1.2.
 - `modules/odontopediatria/` — Odontopediatría V1.5.1.
 
@@ -20,7 +20,7 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 - Menú lateral visible en escritorio.
 - Comunicaciones restaura la agenda desde caché de sesión y actualiza Drive en segundo plano.
 - XLSX se carga bajo demanda.
-- Service worker V1.3 con soporte offline para el núcleo y los seis módulos.
+- Service worker V1.3.1 con soporte offline para el núcleo y los seis módulos.
 
 ## ORION Insumos
 
@@ -30,13 +30,15 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 - Drive solo reemplaza el catálogo cuando entrega al menos 500 registros válidos.
 - Importación Excel relegada a administración avanzada.
 
-## Auditoría clínica
+## Auditoría clínica y catálogo farmacológico
 
 - Plantillas principales de CMF y Endodoncia revisadas para el piloto.
-- Se eliminan combinaciones automáticas de AINE, antibiótico y corticoide.
+- Se eliminan combinaciones automáticas indiscriminadas de AINE, antibiótico y corticoide en las plantillas predeterminadas.
 - Se restringen antibióticos a indicaciones clínicas concretas.
 - Se incorporan límites de dosis y controles pediátricos.
-- El catálogo libre `Por Fármacos / Familias` queda deshabilitado.
+- El modo `Por Fármacos / Familias` está activo nuevamente en CMF y Endodoncia.
+- El profesional puede construir una receta seleccionando Analgesia, Antibióticos y Corticoides/Otros.
+- Cada cambio en el catálogo invalida la confirmación previa y exige una nueva revisión clínica antes de emitir.
 - Imprimir, PDF, copiar o enviar exige confirmación profesional.
 - Registros de auditoría disponibles en `docs/`.
 
@@ -53,15 +55,14 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 - Verificación estática de arquitectura, versión, manifiesto, catálogo y controles clínicos.
 - Pruebas Playwright en escritorio y emulación Pixel 7.
 - Navegación de los seis módulos.
-- Catálogo persistente, controles clínicos, página continua y recursos PWA.
+- Catálogo persistente, catálogo farmacológico restaurado, controles clínicos, página continua y recursos PWA.
 - GitHub Actions ejecuta las pruebas antes de fusionar.
 
 ## Limitaciones conocidas
 
 - Google Apps Script continúa usando JSONP heredado.
-- La rotación efectiva del secreto servidor requiere acceso al proyecto de Apps Script; no puede realizarse desde el repositorio.
 - Algunas funciones de Excel y PDF dependen todavía de CDN.
-- V1.3 es una versión final del piloto personal, no una plataforma clínica multiusuario certificada.
+- V1.3.1 es una versión final del piloto personal, no una plataforma clínica multiusuario certificada.
 
 ## Estado
 
