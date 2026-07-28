@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.5'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.6'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -31,6 +31,7 @@ const comunicacionesLoader=read('modules/comunicaciones/loader.js');
 const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
 if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.push('Comunicaciones no carga el layout con prioridad de pacientes');
+if(!cmfLoader.includes('clinical-nps-cmf-v136.js'))failures.push('CMF no carga NPS obligatorio V1.3.6');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
 if(!cmfLoader.includes('clinical-output-cmf-v134.js'))failures.push('CMF no carga salidas V1.3.4');
@@ -61,6 +62,19 @@ for(const required of ['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPRO
   if(!cmfTemplates.includes(required))failures.push(`Plantillas CMF V1.3.2 sin contenido requerido: ${required}`);
 }
 if(!cmfTemplates.includes('solo si fue indicada por el clínico'))failures.push('Dexametasona sin control de indicación clínica');
+
+const cmfNps=read('assets/shared/clinical-nps-cmf-v136.js');
+for(const required of [
+  'Encuesta de satisfacción (NPS):',
+  'Puede recibir una encuesta aleatoria sobre su experiencia de hoy.',
+  'Responderla toma 1 min y nos ayuda a mejorar.',
+  'ensureNps',
+  'mandatory:true',
+  'ORION_CMF_NPS_V136'
+]){
+  if(!cmfNps.includes(required))failures.push(`NPS CMF V1.3.6 incompleto: ${required}`);
+}
+if(!cmfNps.includes("new Set(['btnPrint','btnPdf','btnWA','btnCopy','orionClinicalTabPreview'])"))failures.push('NPS CMF no se asegura antes de todas las salidas');
 
 const cmfOutput=read('assets/shared/clinical-output-cmf-v134.js');
 for(const required of ['orion-actions-top','api.whatsapp.com/send?text=','whatsapp://send?text=','format:[5.5,8.5]','--brand-logo-h:52px','ORION_CMF_OUTPUT_V134']){
@@ -101,17 +115,18 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.5'))failures.push('Service worker no usa caché V1.3.5');
+if(!serviceWorker.includes('orion-dental-app-v1.3.6'))failures.push('Service worker no usa caché V1.3.6');
 if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
+if(!serviceWorker.includes('clinical-nps-cmf-v136.js'))failures.push('Service worker no incluye NPS CMF V1.3.6');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
 if(!serviceWorker.includes('clinical-templates-cmf-v132.js'))failures.push('Service worker no incluye plantillas CMF V1.3.2');
 if(!serviceWorker.includes('clinical-output-cmf-v134.js'))failures.push('Service worker no incluye salidas CMF V1.3.4');
 if(!serviceWorker.includes('clinical-preview-cmf-v135.js'))failures.push('Service worker no incluye vista previa CMF V1.3.5');
 
 if(failures.length){
-  console.error('\nORION V1.3.5 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.6 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.5 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | CMF: edición + vista previa bajo demanda | PWA: ${manifest.display}`);
+console.log('ORION V1.3.6 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | CMF: NPS obligatorio + edición/vista previa | PWA: ${manifest.display}`);
