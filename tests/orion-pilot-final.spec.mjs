@@ -42,6 +42,32 @@ test('Insumos abre con catálogo persistente y sin importar Excel',async({page})
   await expect(frame.locator('#selector')).toContainText(/MEMBRANA/i);
 });
 
+test('Comunicaciones prioriza búsqueda, fechas y pacientes sobre la conexión Drive',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'comunicaciones','comunicaciones',/Comunicaciones/i);
+  await expect(frame.locator('#orionPatientPriorityControls')).toBeVisible();
+  await expect(frame.locator('#orionPatientPriorityControls #q')).toBeVisible();
+  await expect(frame.locator('#orionPatientPriorityControls #fFechaFrom')).toBeVisible();
+  await expect(frame.locator('#orionPatientPriorityControls #fFechaTo')).toBeVisible();
+  await expect(frame.locator('.card.table')).toBeVisible();
+  await expect(frame.locator('#orionDataSourcePanel > summary')).toBeVisible();
+  await expect(frame.locator('#orionDataSourceStatus')).toBeVisible();
+
+  const layout=await frame.locator('body').evaluate(()=>{
+    const priority=document.getElementById('orionPatientPriorityControls');
+    const table=document.querySelector('.crm-sidebar > .card.table');
+    const data=document.getElementById('orionDataSourcePanel');
+    return{
+      dataCollapsed:!!data&&!data.open,
+      priorityBeforeTable:!!priority&&!!table&&Boolean(priority.compareDocumentPosition(table)&Node.DOCUMENT_POSITION_FOLLOWING),
+      tableBeforeData:!!table&&!!data&&Boolean(table.compareDocumentPosition(data)&Node.DOCUMENT_POSITION_FOLLOWING)
+    };
+  });
+  expect(layout.dataCollapsed).toBeTruthy();
+  expect(layout.priorityBeforeTable).toBeTruthy();
+  expect(layout.tableBeforeData).toBeTruthy();
+});
+
 test('CMF y Endodoncia conservan auditoría y catálogo por fármacos',async({page})=>{
   await openPortal(page);
   let frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);

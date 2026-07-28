@@ -64,6 +64,32 @@ main{
 .bar,.bar-2,.grid2{min-width:0 !important;}
 input,select,textarea,button{max-width:100%;}
 
+/* Prioridad operativa: pacientes primero */
+.orion-patient-priority-controls{display:flex;flex-direction:column;gap:12px;}
+.orion-priority-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #dbe7ff;padding-bottom:10px;}
+.orion-priority-heading strong{display:block;color:#0f3f5f;font-size:15px;line-height:1.1;}
+.orion-priority-heading span{display:block;margin-top:3px;color:#64748b;font-size:11px;}
+.orion-priority-search{display:grid;grid-template-columns:minmax(260px,2fr) minmax(180px,1fr) auto;gap:12px;align-items:end;}
+.orion-priority-search > div{min-width:0;}
+.orion-priority-search #export{min-height:44px;white-space:nowrap;}
+
+.orion-data-source-panel{padding:0 !important;margin-top:12px !important;overflow:hidden;box-shadow:none !important;border-style:dashed !important;}
+.orion-data-source-panel > summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 14px;cursor:pointer;background:#f8fbff;list-style:none;}
+.orion-data-source-panel > summary::-webkit-details-marker{display:none;}
+.orion-data-source-title{font-size:12px;font-weight:900;color:#334155;text-transform:uppercase;letter-spacing:.2px;}
+.orion-data-source-status{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:999px;font-size:11px;font-weight:900;white-space:nowrap;}
+.orion-data-source-status.ready{background:#dcfce7;color:#166534;}
+.orion-data-source-status.error{background:#fee2e2;color:#991b1b;}
+.orion-data-source-status.pending{background:#fef3c7;color:#92400e;}
+.orion-data-source-body{padding:12px 14px 14px;border-top:1px solid #dbe7ff;background:#fff;}
+.orion-data-source-grid{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(320px,1.4fr);gap:12px;align-items:start;}
+.orion-data-source-grid > div{min-width:0;}
+.orion-data-source-panel .orion-drive-card{margin:0 !important;padding:10px 12px !important;box-shadow:none !important;}
+.orion-data-source-panel .orion-drive-actions{margin-top:8px !important;}
+.orion-data-source-panel .orion-drive-btn{padding:7px 10px !important;font-size:11px !important;}
+.orion-data-source-panel .bdDetails{margin-top:8px;}
+.orion-data-source-panel #toggleTheme{margin-left:0;}
+
 @media (min-width:1250px){
   .crm-layout{
     grid-template-columns:minmax(0,1fr) minmax(520px,760px) !important;
@@ -84,4 +110,8 @@ input,select,textarea,button{max-width:100%;}
   header#orionHdr .hgroup p{display:none;}
   main{padding:8px !important;}
   .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;}
+  .orion-priority-search{grid-template-columns:1fr;}
+  .orion-priority-search #export{width:100%;}
+  .orion-data-source-grid{grid-template-columns:1fr;}
+  .orion-data-source-panel > summary{align-items:flex-start;flex-direction:column;gap:6px;}
 }
