@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.2'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.3'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -27,8 +27,10 @@ for(const moduleName of modules){
   if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
 }
 
+const comunicacionesLoader=read('modules/comunicaciones/loader.js');
 const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
+if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.push('Comunicaciones no carga el layout con prioridad de pacientes');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
@@ -38,6 +40,11 @@ if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodon
 const sessionConfig=read('assets/shared/session-config.js');
 if(/extractTokenFromHash|HASH_KEYS|orion-token|location\.hash/i.test(sessionConfig))failures.push('La conexión Drive aún admite credenciales por URL/hash');
 if(!sessionConfig.includes('sessionStorage'))failures.push('La credencial no está limitada a sessionStorage');
+
+const communicationsLayout=read('assets/shared/communications-priority-layout.js');
+for(const required of ['orionPatientPriorityControls','orionDataSourcePanel','orionDataSourceStatus','PATIENTS_FIRST']){
+  if(!communicationsLayout.includes(required))failures.push(`Layout de Comunicaciones incompleto: ${required}`);
+}
 
 const cmfAudit=read('assets/shared/clinical-audit-cmf.js');
 const endoAudit=read('assets/shared/clinical-audit-endo.js');
@@ -80,14 +87,15 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.2'))failures.push('Service worker no usa caché V1.3.2');
+if(!serviceWorker.includes('orion-dental-app-v1.3.3'))failures.push('Service worker no usa caché V1.3.3');
+if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
 if(!serviceWorker.includes('clinical-templates-cmf-v132.js'))failures.push('Service worker no incluye plantillas CMF V1.3.2');
 
 if(failures.length){
-  console.error('\nORION V1.3.2 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.3 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.2 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Catálogo insumos: 538 | Plantillas CMF: auditadas | PWA: ${manifest.display}`);
+console.log('ORION V1.3.3 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Comunicaciones: pacientes primero | Catálogo insumos: 538 | PWA: ${manifest.display}`);
