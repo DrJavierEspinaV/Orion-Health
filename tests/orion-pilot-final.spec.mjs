@@ -65,6 +65,24 @@ test('CMF y Endodoncia conservan auditoría y catálogo por fármacos',async({pa
   await expect(frame.locator('#orionComponentCatalogNotice')).toBeVisible();
 });
 
+test('CMF usa las tres plantillas breves auditadas V1.3.2',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const selector=frame.locator('#tplAdulto');
+  const receta=frame.locator('#receta');
+
+  await selector.selectOption('Post_Qx1');
+  await expect(receta).toHaveValue(/PARACETAMOL 1 g[\s\S]*KETOPROFENO 50 mg[\s\S]*DEXAMETASONA 8 mg/);
+  await expect(receta).toHaveValue(/solo si fue indicada por el clínico/i);
+
+  await selector.selectOption('Post_Qx2');
+  await expect(receta).toHaveValue(/IBUPROFENO 400 mg[\s\S]*PARACETAMOL 500 mg[\s\S]*CLORHEXIDINA 0,12%/);
+
+  await selector.selectOption('PRE_QX');
+  await expect(receta).toHaveValue(/PARACETAMOL 1 g[\s\S]*comenzar 24 horas antes[\s\S]*KETOPROFENO 50 mg[\s\S]*DEXAMETASONA 8 mg/);
+  await expect(receta).toHaveValue(/Dosis única 1 hora antes/i);
+});
+
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{
   await openPortal(page);
   await selectModule(page,'insumos','insumos',/538 insumos/i);

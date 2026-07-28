@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.3.1';
+const CACHE_NAME='orion-dental-app-v1.3.2';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
@@ -6,7 +6,7 @@ const SHELL=[
   './assets/brand/orion-health.png','./assets/brand/orion-comunicaciones.png',
   './assets/icons/icon-192.png','./assets/icons/icon-512.png',
   './assets/shared/patient-bridge.js','./assets/shared/session-config.js',
-  './assets/shared/clinical-audit-cmf.js','./assets/shared/clinical-audit-endo.js','./assets/shared/clinical-components-restore.js',
+  './assets/shared/clinical-audit-cmf.js','./assets/shared/clinical-audit-endo.js','./assets/shared/clinical-components-restore.js','./assets/shared/clinical-templates-cmf-v132.js',
   './modules/comunicaciones/index.html','./modules/comunicaciones/loader.js','./modules/comunicaciones/responsive-fixes.css','./modules/comunicaciones/source.html',
   './modules/insumos/index.html','./modules/insumos/loader.js','./modules/insumos/source.html',
   './modules/cmf/index.html','./modules/cmf/loader.js','./modules/cmf/source.html',

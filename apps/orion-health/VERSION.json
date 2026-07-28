@@ -1,18 +1,18 @@
 {
   "product": "ORION Dental App",
-  "version": "1.3.1-final-piloto",
+  "version": "1.3.2-final-piloto",
   "date": "2026-07-28",
   "modules": {
-    "portal": "1.3.1",
+    "portal": "1.3.2",
     "comunicaciones": "5.7.2",
     "insumos": "4.5.3",
-    "cmf": "4.3.26",
+    "cmf": "4.3.27",
     "endodoncia": "4.6.2",
     "ortodoncia": "1.2",
     "odontopediatria": "1.5.1"
   },
   "release_status": "FINAL PILOTO — uso profesional personal y supervisado",
-  "clinical_status": "Plantillas principales CMF y Endodoncia auditadas; catálogo por fármacos/familias restaurado con confirmación profesional obligatoria antes de emitir",
+  "clinical_status": "Plantillas CMF ajustadas: Post-Qx 1 con paracetamol, ketoprofeno y dexametasona 8 mg opcional; Post-Qx 2 conserva pauta auditada; Pre-Qx incorpora protocolo breve y confirmación profesional obligatoria",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage",
   "layout_status": "Página continua con un solo desplazamiento vertical, menú lateral fijo y altura automática de módulos",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",

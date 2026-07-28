@@ -15,7 +15,7 @@ const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odont
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.2'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -30,6 +30,7 @@ for(const moduleName of modules){
 const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
+if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
@@ -45,6 +46,12 @@ for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
   if(!text.includes('C. difficile'))failures.push(`${name} no registra cautela de clindamicina`);
 }
 if(/MELOXICAM 15 mg[\s\S]{0,80}cada 12/i.test(cmfAudit))failures.push('Pauta insegura de meloxicam en auditoría CMF');
+
+const cmfTemplates=read('assets/shared/clinical-templates-cmf-v132.js');
+for(const required of ['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPROFENO 50 mg','DEXAMETASONA 8 mg','Dosis única 1 hora antes']){
+  if(!cmfTemplates.includes(required))failures.push(`Plantillas CMF V1.3.2 sin contenido requerido: ${required}`);
+}
+if(!cmfTemplates.includes('solo si fue indicada por el clínico'))failures.push('Dexametasona sin control de indicación clínica');
 
 const componentRestore=read('assets/shared/clinical-components-restore.js');
 if(!componentRestore.includes('ACTIVO CON CONTROL CLÍNICO'))failures.push('Catálogo farmacológico restaurado sin estado de control clínico');
@@ -73,13 +80,14 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.1'))failures.push('Service worker no usa caché V1.3.1');
+if(!serviceWorker.includes('orion-dental-app-v1.3.2'))failures.push('Service worker no usa caché V1.3.2');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
+if(!serviceWorker.includes('clinical-templates-cmf-v132.js'))failures.push('Service worker no incluye plantillas CMF V1.3.2');
 
 if(failures.length){
-  console.error('\nORION V1.3 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.2 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.1 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Catálogo insumos: 538 | Catálogo farmacológico: activo | PWA: ${manifest.display}`);
+console.log('ORION V1.3.2 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Catálogo insumos: 538 | Plantillas CMF: auditadas | PWA: ${manifest.display}`);
