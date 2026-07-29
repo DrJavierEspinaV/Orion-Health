@@ -191,6 +191,87 @@ test('CMF oculta las hojas impresas en una pestaña y las abre bajo demanda',asy
   expect(config?.preview).toBe('on-demand');
 });
 
+test('CMF restaura firma solo en receta y autoriza con folio, fecha, código y auditoría',async({page})=>{
+  await openPortal(page);
+  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const receta=frame.locator('#receta');
+  const confirmation=frame.locator('#orionClinicalConfirmCMF');
+
+  await frame.locator('#p_nombre').fill('Paciente Prueba');
+  await frame.locator('#p_rut').fill('11.111.111-1');
+  await receta.fill('PARACETAMOL 1 g\n1 comprimido cada 8 horas.');
+  await receta.blur();
+  await frame.locator('#orionClinicalTabPreview').click();
+
+  const recipeSignature=frame.locator('#printSheet .firmaimg');
+  await expect(recipeSignature).toHaveCount(1);
+  await expect(recipeSignature).toHaveAttribute('src',/firma-javier-espina-navy\.svg/);
+  await expect(recipeSignature).toBeVisible();
+
+  const signatureScope=await frame.locator('body').evaluate(()=>({
+    recipeVisible:getComputedStyle(document.querySelector('#printSheet .firmaimg')).display!=='none',
+    otherHidden:Array.from(document.querySelectorAll('.page:not(#printSheet) .firmaimg')).every(image=>getComputedStyle(image).display==='none'),
+    noExtraVisibleBlock:!document.querySelector('.orion-rx-visible-metadata,.orion-rx-visible-verification')
+  }));
+  expect(signatureScope.recipeVisible).toBeTruthy();
+  expect(signatureScope.otherHidden).toBeTruthy();
+  expect(signatureScope.noExtraVisibleBlock).toBeTruthy();
+
+  await frame.locator('#orionClinicalTabEdit').click();
+  await confirmation.check();
+  const authorization=await frame.locator('body').evaluate(async()=>{
+    const record=await window.ORION_CMF_RX_AUTH.authorize('TEST');
+    const page=document.getElementById('printSheet');
+    return{
+      record,
+      dataset:{
+        folio:page.dataset.orionRxFolio,
+        issuedAt:page.dataset.orionRxIssuedAt,
+        verification:page.dataset.orionRxVerification,
+        hash:page.dataset.orionRxContentHash
+      },
+      authConfig:window.ORION_CMF_RX_AUTH,
+      shareConfig:window.ORION_CMF_RX_SHARE
+    };
+  });
+
+  expect(authorization.record.folio).toMatch(/^ORH-CMF-RX-\d{8}-\d{6}-[A-F0-9]{4}$/);
+  expect(authorization.record.verificationCode).toMatch(/^VC-[A-F0-9]{12}$/);
+  expect(authorization.record.issuedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+  expect(authorization.record.issuedLabel.length).toBeGreaterThan(10);
+  expect(authorization.record.contentHash).toMatch(/^[a-f0-9]{64}$/);
+  expect(authorization.dataset.folio).toBe(authorization.record.folio);
+  expect(authorization.dataset.issuedAt).toBe(authorization.record.issuedAt);
+  expect(authorization.dataset.verification).toBe(authorization.record.verificationCode);
+  expect(authorization.dataset.hash).toBe(authorization.record.contentHash);
+  expect(authorization.authConfig.signature).toBe('recipe-only');
+  expect(authorization.authConfig.audit).toBe('indexeddb-local');
+  expect(authorization.shareConfig.pdf).toBe('signed-statement');
+  expect(authorization.shareConfig.whatsapp).toBe('file-share+fallback');
+
+  const auditCount=await frame.locator('body').evaluate(()=>new Promise((resolve,reject)=>{
+    const request=indexedDB.open('orion_cmf_audit_v1');
+    request.onerror=()=>reject(request.error);
+    request.onsuccess=()=>{
+      const db=request.result;
+      const transaction=db.transaction('events','readonly');
+      const countRequest=transaction.objectStore('events').count();
+      countRequest.onsuccess=()=>{resolve(countRequest.result);db.close();};
+      countRequest.onerror=()=>{reject(countRequest.error);db.close();};
+    };
+  }));
+  expect(auditCount).toBeGreaterThan(0);
+
+  await receta.fill('RECETA MODIFICADA');
+  await expect(confirmation).not.toBeChecked();
+  const invalidated=await frame.locator('body').evaluate(()=>({
+    current:window.ORION_CMF_RX_AUTH.current(),
+    folio:document.getElementById('printSheet').dataset.orionRxFolio||''
+  }));
+  expect(invalidated.current).toBeNull();
+  expect(invalidated.folio).toBe('');
+});
+
 test('portal usa una sola página continua sin desborde horizontal',async({page})=>{
   await openPortal(page);
   await selectModule(page,'insumos','insumos',/538 insumos/i);
