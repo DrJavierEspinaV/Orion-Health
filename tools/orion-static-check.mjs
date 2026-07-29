@@ -16,26 +16,58 @@ for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 requireFile('assets/brand/maxilofacial-pro-plus.svg');
 requireFile('assets/brand/orion-health.png');
 requireFile('assets/brand/firma-javier-espina-navy.svg');
+requireFile('assets/shared/orion-identity-system-v140.css');
 requireFile('assets/shared/clinical-prescription-auth-cmf-v139.js');
 requireFile('assets/shared/clinical-prescription-share-cmf-v139.js');
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.9'))failures.push(`Versión inesperada: ${version.version}`);
-if(version.modules?.cmf!=='4.3.33')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(!String(version.version).startsWith('1.4.0'))failures.push(`Versión inesperada: ${version.version}`);
+if(version.modules?.cmf!=='4.3.34')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
 if(manifest.scope!=='./')failures.push('scope PWA incorrecto');
 if(manifest.display!=='standalone')failures.push('display PWA debe ser standalone');
 
+const portalHtml=read('index.html');
 const portal=read('script-1.js');
 for(const moduleName of modules){
   if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
 }
+if(!portalHtml.includes('orion-identity-system-v140.css'))failures.push('Portal no carga el sistema visual ORION V1.4.0');
+if(!portalHtml.includes('class="orion-portal"'))failures.push('Portal no activa el alcance visual ORION');
+
+const identity=read('assets/shared/orion-identity-system-v140.css');
+for(const required of [
+  "--orion-blue:#1F3F5B",
+  "--orion-gray:#8C8C8C",
+  "--orion-white:#FFFFFF",
+  "--orion-surface:#F3F3F3",
+  "--orion-font:'Montserrat'",
+  'min-width:160px',
+  'background-image:none!important'
+]){
+  if(!identity.includes(required))failures.push(`Sistema visual ORION incompleto: ${required}`);
+}
+if(!identity.includes("@import url('https://fonts.googleapis.com/css2?family=Montserrat"))failures.push('Sistema visual ORION no carga Montserrat');
 
 const comunicacionesLoader=read('modules/comunicaciones/loader.js');
+const insumosLoader=read('modules/insumos/loader.js');
 const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
+const ortoLoader=read('modules/ortodoncia/loader.js');
+const odontoLoader=read('modules/odontopediatria/loader.js');
+for(const [name,text] of [
+  ['Comunicaciones',comunicacionesLoader],
+  ['Insumos',insumosLoader],
+  ['CMF',cmfLoader],
+  ['Endodoncia',endoLoader],
+  ['Ortodoncia',ortoLoader],
+  ['Odontopediatría',odontoLoader]
+]){
+  if(!text.includes('orion-identity-system-v140.css'))failures.push(`${name} no carga el sistema visual ORION V1.4.0`);
+}
 if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.push('Comunicaciones no carga el layout con prioridad de pacientes');
 if(!cmfLoader.includes('clinical-nps-cmf-v136.js'))failures.push('CMF no carga NPS obligatorio V1.3.6');
 if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga auditoría clínica');
@@ -151,7 +183,8 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.9'))failures.push('Service worker no usa caché V1.3.9');
+if(!serviceWorker.includes('orion-dental-app-v1.4.0'))failures.push('Service worker no usa caché V1.4.0');
+if(!serviceWorker.includes('orion-identity-system-v140.css'))failures.push('Service worker no incluye el sistema visual ORION V1.4.0');
 if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
 if(!serviceWorker.includes('clinical-nps-cmf-v136.js'))failures.push('Service worker no incluye NPS CMF V1.3.6');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
@@ -165,9 +198,9 @@ if(!serviceWorker.includes('maxilofacial-pro-plus.svg'))failures.push('Service w
 if(serviceWorker.includes('maxilofacial-pro-plus-compact.svg'))failures.push('Service worker aún distribuye un logo CMF para documentos');
 
 if(failures.length){
-  console.error('\nORION V1.3.9 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.4.0 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.9 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | CMF: firma solo en receta + folio + auditoría + PDF/WhatsApp firmado | PWA: ${manifest.display}`);
+console.log('ORION V1.4.0 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Identidad: Montserrat + Azul ORION + retícula de logos | CMF: documentos preservados | PWA: ${manifest.display}`);
