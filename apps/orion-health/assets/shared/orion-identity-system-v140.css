@@ -37,6 +37,79 @@ html,body,input,select,textarea,button{font-family:var(--orion-font)!important;}
 
   body:not(.orion-portal),body.theme-orion{background-image:none!important;}
 
+  body.orion-portal{
+    background:var(--orion-surface)!important;
+    background-image:none!important;
+  }
+  body.orion-portal .sidebar{
+    background:var(--orion-blue)!important;
+    background-image:none!important;
+    border-right:1px solid var(--orion-blue-dark)!important;
+  }
+  body.orion-portal .sidebar::after{display:none!important;}
+  body.orion-portal .portal-corporate-logo{
+    display:block;
+    width:auto!important;
+    height:96px!important;
+    max-width:170px!important;
+    object-fit:contain!important;
+    background:transparent!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    padding:0!important;
+    margin:0 0 18px!important;
+  }
+  body.orion-portal .brand h1{
+    color:var(--orion-white)!important;
+    font-size:24px!important;
+    line-height:1.12!important;
+  }
+  body.orion-portal .brand p,
+  body.orion-portal .sidebar-footer{
+    color:rgba(255,255,255,.78)!important;
+  }
+  body.orion-portal .registered-mark{
+    font-size:.58em;
+    vertical-align:super;
+    font-weight:600;
+  }
+  body.orion-portal .menu-btn{
+    background:transparent!important;
+    background-image:none!important;
+    border:1px solid rgba(255,255,255,.24)!important;
+    border-radius:12px!important;
+    color:var(--orion-white)!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+    padding:14px!important;
+  }
+  body.orion-portal .menu-btn:hover{
+    transform:none!important;
+    background:rgba(255,255,255,.10)!important;
+  }
+  body.orion-portal .menu-btn.active{
+    background:var(--orion-white)!important;
+    color:var(--orion-blue)!important;
+    border-color:var(--orion-white)!important;
+    box-shadow:0 4px 12px rgba(0,0,0,.12)!important;
+  }
+  body.orion-portal .menu-btn .title{color:inherit!important;}
+  body.orion-portal .menu-btn .sub{color:inherit!important;opacity:.78!important;}
+  body.orion-portal .main{background:var(--orion-surface)!important;}
+  body.orion-portal .sync-card,
+  body.orion-portal .stage-wrap{
+    background:var(--orion-white)!important;
+    border:1px solid var(--orion-line)!important;
+    border-radius:14px!important;
+    box-shadow:var(--orion-shadow)!important;
+  }
+  body.orion-portal .stage-head{
+    background:var(--orion-white)!important;
+    background-image:none!important;
+    border-bottom:1px solid var(--orion-line)!important;
+  }
+
   h1,h2,h3,h4,h5,h6,.title,.manual-title,.doc-title{
     color:var(--orion-blue)!important;
     letter-spacing:0!important;
