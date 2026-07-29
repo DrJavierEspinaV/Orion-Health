@@ -1,12 +1,12 @@
 {
   "product": "ORION Dental App",
-  "version": "1.3.7-final-piloto",
+  "version": "1.3.8-final-piloto",
   "date": "2026-07-29",
   "modules": {
-    "portal": "1.3.7",
+    "portal": "1.3.8",
     "comunicaciones": "5.7.3",
     "insumos": "4.5.3",
-    "cmf": "4.3.31",
+    "cmf": "4.3.32",
     "endodoncia": "4.6.2",
     "ortodoncia": "1.2",
     "odontopediatria": "1.5.1"
@@ -14,7 +14,7 @@
   "release_status": "FINAL PILOTO — uso profesional personal y supervisado",
   "clinical_status": "Plantillas CMF auditadas y catálogo por fármacos activos; toda receta incorpora obligatoriamente el bloque institucional NPS y mantiene confirmación profesional antes de emitir",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage",
-  "layout_status": "CMF adopta la identidad clínica Maxilofacial PRO+ en encabezado y documentos, conservando ORION Health SpA como respaldo institucional",
+  "layout_status": "CMF utiliza el logo Maxilofacial PRO+ de doble perfil azul/verde con la firma ORION HEALTH SPA® integrada, en encabezado y documentos",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
   "performance_status": "PDF CMF se genera por páginas Statement 5,5 × 8,5 pulgadas; NPS se inserta una sola vez en impresión, PDF, vista previa y WhatsApp"
 }
