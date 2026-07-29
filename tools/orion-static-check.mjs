@@ -17,7 +17,7 @@ requireFile('assets/brand/maxilofacial-pro-plus.svg');
 requireFile('assets/brand/maxilofacial-pro-plus-compact.svg');
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.3.7'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.version).startsWith('1.3.8'))failures.push(`Versión inesperada: ${version.version}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -38,12 +38,20 @@ if(!cmfLoader.includes('clinical-audit-cmf.js'))failures.push('CMF no carga audi
 if(!cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF no carga plantillas V1.3.2');
 if(!cmfLoader.includes('clinical-output-cmf-v134.js'))failures.push('CMF no carga salidas V1.3.4');
 if(!cmfLoader.includes('clinical-preview-cmf-v135.js'))failures.push('CMF no carga pestañas de vista previa V1.3.5');
-if(!cmfLoader.includes('maxilofacial-pro-plus.svg'))failures.push('CMF no carga el logo horizontal Maxilofacial PRO+');
-if(!cmfLoader.includes('maxilofacial-pro-plus-compact.svg'))failures.push('CMF no carga el logo compacto Maxilofacial PRO+');
-if(!cmfLoader.includes('ORION Health SpA'))failures.push('CMF no conserva el respaldo institucional ORION Health SpA');
+if(!cmfLoader.includes('maxilofacial-pro-plus.svg'))failures.push('CMF no carga el logo Maxilofacial PRO+');
+if(!cmfLoader.includes('maxilofacial-pro-plus-compact.svg'))failures.push('CMF no carga el logo Maxilofacial PRO+ en documentos');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
+
+const cmfLogo=read('assets/brand/maxilofacial-pro-plus.svg');
+const cmfLogoCompact=read('assets/brand/maxilofacial-pro-plus-compact.svg');
+for(const [name,text] of [['principal',cmfLogo],['documentos',cmfLogoCompact]]){
+  for(const required of ['MAXILOFACIAL','PRO','ORION HEALTH SPA','double profile','#0A3D5B','#87C8A8']){
+    if(!text.includes(required))failures.push(`Logo CMF ${name} no contiene: ${required}`);
+  }
+  if(/skull|craneo|calavera|tooth/i.test(text))failures.push(`Logo CMF ${name} conserva una reconstrucción incorrecta`);
+}
 
 const sessionConfig=read('assets/shared/session-config.js');
 if(/extractTokenFromHash|HASH_KEYS|orion-token|location\.hash/i.test(sessionConfig))failures.push('La conexión Drive aún admite credenciales por URL/hash');
@@ -120,7 +128,7 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-if(!serviceWorker.includes('orion-dental-app-v1.3.7'))failures.push('Service worker no usa caché V1.3.7');
+if(!serviceWorker.includes('orion-dental-app-v1.3.8'))failures.push('Service worker no usa caché V1.3.8');
 if(!serviceWorker.includes('communications-priority-layout.js'))failures.push('Service worker no incluye el layout de Comunicaciones');
 if(!serviceWorker.includes('clinical-nps-cmf-v136.js'))failures.push('Service worker no incluye NPS CMF V1.3.6');
 if(!serviceWorker.includes('clinical-components-restore.js'))failures.push('Service worker no incluye el restaurador farmacológico');
@@ -130,9 +138,9 @@ if(!serviceWorker.includes('clinical-preview-cmf-v135.js'))failures.push('Servic
 if(!serviceWorker.includes('maxilofacial-pro-plus.svg')||!serviceWorker.includes('maxilofacial-pro-plus-compact.svg'))failures.push('Service worker no incluye la identidad Maxilofacial PRO+');
 
 if(failures.length){
-  console.error('\nORION V1.3.7 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.3.8 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.3.7 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | CMF: Maxilofacial PRO+ + NPS obligatorio | PWA: ${manifest.display}`);
+console.log('ORION V1.3.8 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | CMF: logo de doble perfil + NPS obligatorio | PWA: ${manifest.display}`);
