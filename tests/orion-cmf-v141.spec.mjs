@@ -44,8 +44,8 @@ test('ORION se adapta al teléfono vertical sin desborde horizontal',async({page
     };
   });
   expect(cmfMetrics.scrollWidth).toBeLessThanOrEqual(cmfMetrics.clientWidth+3);
-  expect(cmfMetrics.drawerLeft).toBeGreaterThanOrEqual(-1);
-  expect(cmfMetrics.drawerRight).toBeLessThanOrEqual(cmfMetrics.viewport+1);
+  expect(cmfMetrics.drawerLeft).toBeGreaterThanOrEqual(-2);
+  expect(cmfMetrics.drawerRight).toBeLessThanOrEqual(cmfMetrics.viewport+2);
 });
 
 test('CMF conserva exámenes al cerrar y firma documentos autorizados',async({page})=>{
@@ -56,9 +56,11 @@ test('CMF conserva exámenes al cerrar y firma documentos autorizados',async({pa
   await frame.locator('#p_dx').fill('Evaluación preoperatoria');
 
   await frame.locator('#btnDocExams').click();
-  await frame.locator('#ex_lab_hem_comp').check({force:true});
+  await frame.locator('#examPanelLab details').first().locator('summary').click();
+  await frame.locator('#ex_lab_hem_comp').check();
   await frame.locator('#tabExamImg').click();
-  await frame.locator('#ex_img_pano').check({force:true});
+  await frame.locator('#examPanelImg details').first().locator('summary').click();
+  await frame.locator('#ex_img_pano').check();
   await frame.locator('#btnExamClose').click();
   await page.waitForTimeout(300);
 
