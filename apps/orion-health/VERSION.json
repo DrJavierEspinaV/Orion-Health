@@ -14,7 +14,7 @@
   "release_status": "FINAL PILOTO — uso profesional personal y supervisado",
   "clinical_status": "Plantillas CMF auditadas y catálogo por fármacos activos; toda receta incorpora obligatoriamente el bloque institucional NPS y mantiene confirmación profesional antes de emitir",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage",
-  "layout_status": "CMF utiliza el logo Maxilofacial PRO+ de doble perfil azul/verde con la firma ORION HEALTH SPA® integrada, en encabezado y documentos",
+  "layout_status": "Maxilofacial PRO+ se utiliza exclusivamente en el encabezado del módulo CMF; recetas, indicaciones, certificados, órdenes, vista previa, impresión y PDF conservan el logo ORION anterior y su disposición previa",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
   "performance_status": "PDF CMF se genera por páginas Statement 5,5 × 8,5 pulgadas; NPS se inserta una sola vez en impresión, PDF, vista previa y WhatsApp"
 }
