@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+:root{
+  --orion-blue:#1F3F5B;
+  --orion-blue-dark:#17324D;
+  --orion-gray:#8C8C8C;
+  --orion-gray-dark:#5F6872;
+  --orion-white:#FFFFFF;
+  --orion-surface:#F3F3F3;
+  --orion-line:#D8DDE2;
+  --orion-ink:#17212B;
+  --orion-radius:14px;
+  --orion-shadow:0 6px 18px rgba(31,63,91,.08);
+  --orion-font:'Montserrat','Segoe UI',Arial,sans-serif;
+}
+
+html,body,input,select,textarea,button{font-family:var(--orion-font)!important;}
+
+@media screen{
+  html,body{
+    background:var(--orion-surface)!important;
+    color:var(--orion-ink)!important;
+  }
+
+  body,body.theme-orion{
+    --bg:var(--orion-surface)!important;
+    --card:var(--orion-white)!important;
+    --panel:var(--orion-white)!important;
+    --panel-2:var(--orion-surface)!important;
+    --text:var(--orion-ink)!important;
+    --muted:var(--orion-gray-dark)!important;
+    --primary:var(--orion-blue)!important;
+    --primary-2:var(--orion-blue-dark)!important;
+    --stroke:var(--orion-line)!important;
+    --stroke-2:#C8D0D8!important;
+  }
+
+  body:not(.orion-portal),body.theme-orion{background-image:none!important;}
+
+  h1,h2,h3,h4,h5,h6,.title,.manual-title,.doc-title{
+    color:var(--orion-blue)!important;
+    letter-spacing:0!important;
+  }
+  h1,.brand h1{font-weight:800!important;}
+  h2,h3,h4,.menu-btn .title,.stage-title strong{font-weight:600!important;}
+  p,.sub,.muted,.small,.hint,.field-label,label.small{color:var(--orion-gray-dark)!important;}
+
+  header,header.no-print,header#orionHdr,body.theme-orion header{
+    background:var(--orion-white)!important;
+    background-image:none!important;
+    border-bottom:3px solid var(--orion-blue)!important;
+    box-shadow:none!important;
+  }
+  header.no-print>div,header#orionHdr{
+    gap:24px!important;
+    padding-top:16px!important;
+    padding-bottom:16px!important;
+  }
+  header.no-print img,header#orionHdr img{
+    object-fit:contain!important;
+    background:transparent!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    padding:0!important;
+    margin:8px 12px 8px 4px!important;
+  }
+  header.no-print img[src*="maxilofacial-pro-plus"],header#orionHdr img[src*="maxilofacial-pro-plus"]{
+    min-width:160px!important;
+    width:clamp(180px,24vw,280px)!important;
+    height:auto!important;
+    max-height:112px!important;
+  }
+  header.no-print img[src*="orion-health"],header#orionHdr img[src*="orion-health"],header#orionHdr img[src*="orion-comunicaciones"]{
+    height:96px!important;
+    width:auto!important;
+    max-width:220px!important;
+  }
+
+  .card:not(.page),.sync-card,.stage-wrap,.editable,dialog,details{
+    background:var(--orion-white)!important;
+    background-image:none!important;
+    border:1px solid var(--orion-line)!important;
+    border-radius:var(--orion-radius)!important;
+    box-shadow:var(--orion-shadow)!important;
+  }
+  .stage-head,#orionCatalogCard,#whatsappManualCard,#whatsappManualCard.manual-visible,.row.udc-active>div:first-child,.row.retraso-active>div:first-child,.row.retraso-llegada-active>div:first-child{background-image:none!important;}
+  #orionCatalogCard{background:var(--orion-surface)!important;border-color:var(--orion-line)!important;}
+  #orionCatalogCard strong,.orion-catalog-meta{color:var(--orion-blue)!important;}
+  .orion-catalog-badge,.badge.ready{background:var(--orion-blue)!important;color:var(--orion-white)!important;}
+
+  .btn:not(.whatsapp):not(.sent),.tool-btn,button:not(.menu-btn):not(.whatsapp):not(.sent){
+    border:1px solid var(--orion-blue)!important;
+    background:var(--orion-white)!important;
+    background-image:none!important;
+    color:var(--orion-blue)!important;
+    border-radius:10px!important;
+    box-shadow:none!important;
+    font-weight:600!important;
+    text-decoration:none!important;
+  }
+  .btn.primary,.tool-btn.primary,button.primary,.cta-insert{
+    background:var(--orion-blue)!important;
+    border-color:var(--orion-blue)!important;
+    color:var(--orion-white)!important;
+  }
+  .btn:not(.whatsapp):not(.sent):hover,.tool-btn:hover,button:not(.menu-btn):not(.whatsapp):not(.sent):hover{
+    transform:none!important;
+    filter:none!important;
+    background:#E9EEF2!important;
+  }
+  .btn.primary:hover,.tool-btn.primary:hover,button.primary:hover,.cta-insert:hover{
+    background:var(--orion-blue-dark)!important;
+    color:var(--orion-white)!important;
+  }
+
+  input[type="text"],input[type="tel"],input[type="date"],input[type="number"],input[type="email"],input[type="password"],input[type="file"],select,textarea,[contenteditable="true"]{
+    background:var(--orion-white)!important;
+    color:var(--orion-ink)!important;
+    border:1px solid #C8D0D8!important;
+    border-radius:10px!important;
+    box-shadow:none!important;
+  }
+  input:focus,select:focus,textarea:focus,[contenteditable="true"]:focus{
+    outline:3px solid rgba(31,63,91,.18)!important;
+    border-color:var(--orion-blue)!important;
+  }
+
+  .table,table{border-color:var(--orion-line)!important;background:var(--orion-white)!important;}
+  .table .header>div,table thead th,th{
+    background:var(--orion-blue)!important;
+    color:var(--orion-white)!important;
+    border-color:var(--orion-line)!important;
+    font-weight:600!important;
+    text-transform:none!important;
+  }
+  table tbody tr:nth-child(even) td{background:var(--orion-surface)!important;}
+  .row>div,td{border-color:var(--orion-line)!important;}
+
+  .field,.links-preview,details#orionCatalogAdmin{
+    background:var(--orion-surface)!important;
+    border-color:var(--orion-line)!important;
+    box-shadow:none!important;
+  }
+  .field-label,label,.doc-meta{font-weight:600!important;}
+  .pill,.chip,.badge{border-radius:999px!important;box-shadow:none!important;}
+  .row.udc-active>div:first-child{background:#EAF1F6!important;}
+  .row.retraso-active>div:first-child{background:#FDECEF!important;}
+  .row.retraso-llegada-active>div:first-child{background:#FFF3E8!important;}
+  #whatsappManualCard.manual-visible{background:var(--orion-white)!important;}
+  .footer{border-top:1px solid var(--orion-line)!important;color:var(--orion-gray-dark)!important;}
+
+  .orion-actions-top{
+    background:var(--orion-white)!important;
+    border:1px solid var(--orion-line)!important;
+    border-radius:var(--orion-radius)!important;
+    box-shadow:var(--orion-shadow)!important;
+    backdrop-filter:none!important;
+  }
+  .orionClinicalTab,[role="tab"]{font-family:var(--orion-font)!important;}
+
+  @media(max-width:700px){
+    header.no-print>div,header#orionHdr{align-items:flex-start!important;gap:14px!important;}
+    header.no-print img[src*="maxilofacial-pro-plus"],header#orionHdr img[src*="maxilofacial-pro-plus"]{
+      min-width:160px!important;
+      width:180px!important;
+      max-height:92px!important;
+    }
+  }
+}
+
+@media print{
+  html,body,input,select,textarea,button{font-family:'Montserrat','Segoe UI',Arial,sans-serif!important;}
+}
