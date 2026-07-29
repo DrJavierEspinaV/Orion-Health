@@ -1,0 +1,329 @@
+/* ORION Dental App V1.4.1 — experiencia vertical móvil */
+
+@media screen and (max-width:700px){
+  html,body{
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+
+  /* Portal: navegación compacta y módulo a ancho completo */
+  body.orion-portal .shell{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  body.orion-portal .sidebar{
+    position:relative!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    padding:12px!important;
+    overflow:visible!important;
+  }
+  body.orion-portal .brand{
+    display:grid!important;
+    grid-template-columns:72px minmax(0,1fr)!important;
+    column-gap:12px!important;
+    row-gap:2px!important;
+    align-items:center!important;
+    margin-bottom:12px!important;
+  }
+  body.orion-portal .portal-corporate-logo{
+    grid-row:1 / span 2!important;
+    width:72px!important;
+    height:64px!important;
+    max-width:72px!important;
+    margin:0!important;
+  }
+  body.orion-portal .brand h1{
+    font-size:19px!important;
+    line-height:1.08!important;
+  }
+  body.orion-portal .brand p{
+    margin:2px 0 0!important;
+    font-size:11px!important;
+    line-height:1.25!important;
+  }
+  body.orion-portal .menu{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    margin-top:8px!important;
+  }
+  body.orion-portal .menu-btn{
+    min-width:0!important;
+    min-height:58px!important;
+    padding:10px!important;
+    border-radius:10px!important;
+  }
+  body.orion-portal .menu-btn .title{
+    font-size:12px!important;
+    line-height:1.15!important;
+    margin:0!important;
+    overflow-wrap:anywhere!important;
+  }
+  body.orion-portal .menu-btn .sub,
+  body.orion-portal .sidebar-footer{
+    display:none!important;
+  }
+  body.orion-portal .main{
+    width:100%!important;
+    min-width:0!important;
+    padding:8px!important;
+  }
+  body.orion-portal .topbar{
+    margin-bottom:8px!important;
+  }
+  body.orion-portal .sync-card{
+    padding:10px!important;
+    border-radius:12px!important;
+  }
+  body.orion-portal .sync-head{
+    align-items:flex-start!important;
+    gap:6px!important;
+  }
+  body.orion-portal .sync-head h3{
+    font-size:12px!important;
+  }
+  body.orion-portal .badge{
+    min-height:24px!important;
+    padding:0 8px!important;
+    font-size:10px!important;
+  }
+  body.orion-portal .patient-grid{
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+  body.orion-portal .field{
+    min-height:44px!important;
+    padding:7px 9px!important;
+  }
+  body.orion-portal .stage-wrap{
+    width:100%!important;
+    min-width:0!important;
+    border-radius:12px!important;
+  }
+  body.orion-portal .stage-head{
+    padding:9px!important;
+    gap:8px!important;
+  }
+  body.orion-portal .stage-title strong{
+    font-size:13px!important;
+  }
+  body.orion-portal .stage-tools{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:6px!important;
+  }
+  body.orion-portal .tool-btn{
+    width:100%!important;
+    min-width:0!important;
+    padding:8px 6px!important;
+    font-size:10.5px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+  }
+  body.orion-portal #appFrame{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:760px!important;
+    border:0!important;
+  }
+
+  /* Módulo CMF: edición cómoda en una sola columna */
+  body:not(.orion-portal) main{
+    width:100%!important;
+    max-width:100%!important;
+    padding-left:10px!important;
+    padding-right:10px!important;
+  }
+  header.no-print>div{
+    width:100%!important;
+    max-width:100%!important;
+    padding:12px 10px!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:8px!important;
+  }
+  header.no-print img[alt="Maxilofacial PRO+"]{
+    width:min(220px,76vw)!important;
+    min-width:160px!important;
+    max-width:220px!important;
+    max-height:88px!important;
+    margin:0!important;
+  }
+  header.no-print h1{
+    font-size:18px!important;
+    line-height:1.12!important;
+    overflow-wrap:anywhere!important;
+  }
+  header.no-print p{
+    font-size:12px!important;
+    line-height:1.25!important;
+  }
+  body:not(.orion-portal) .card.no-print{
+    padding:14px!important;
+    margin-bottom:12px!important;
+    border-radius:12px!important;
+  }
+  #btnDocCert,#btnDocBiopsia,#btnDocExams,#btnDocInter{
+    flex:1 1 calc(50% - 4px)!important;
+    width:calc(50% - 4px)!important;
+    min-width:0!important;
+    padding:9px 7px!important;
+    font-size:11px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+  }
+  div:has(>#fechaCertificado),div:has(>#reposoDias){
+    margin-right:0!important;
+    min-width:0!important;
+  }
+  div:has(>#fechaCertificado){
+    flex:1 1 calc(62% - 4px)!important;
+    width:calc(62% - 4px)!important;
+  }
+  div:has(>#reposoDias){
+    flex:1 1 calc(38% - 4px)!important;
+    width:calc(38% - 4px)!important;
+  }
+  #fechaCertificado,#reposoDias{
+    width:100%!important;
+    min-width:0!important;
+  }
+  #certificadoEditorBox{
+    padding:12px!important;
+    border-radius:12px!important;
+  }
+  #certificadoTextoTipo{
+    min-height:190px!important;
+    font-size:14px!important;
+  }
+  .fase-actions,.actions-bottom .max-w-6xl{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .actions-bottom{
+    position:sticky!important;
+    bottom:0!important;
+    z-index:45!important;
+  }
+  .actions-bottom .max-w-6xl{
+    padding:10px!important;
+  }
+  .actions-bottom button{
+    width:100%!important;
+    min-width:0!important;
+    padding:10px 6px!important;
+    font-size:12px!important;
+    white-space:normal!important;
+  }
+
+  /* Drawers: pantalla completa, sin recortes laterales */
+  #examDrawer,#interDrawer{
+    inset:0!important;
+    width:100%!important;
+    max-width:none!important;
+    height:100dvh!important;
+    border-left:0!important;
+    overflow:hidden!important;
+  }
+  #examDrawer>.p-4.border-b,#interDrawer>.p-4.border-b{
+    padding:12px!important;
+    align-items:flex-start!important;
+  }
+  #examDrawer>.p-4.space-y-3,#interDrawer>.p-4.space-y-3{
+    padding:12px!important;
+    overscroll-behavior:contain!important;
+  }
+  #examDrawer>.p-4.border-t,#interDrawer>.p-4.border-t{
+    padding:10px 12px!important;
+  }
+  #examDrawer h3,#interDrawer h3{
+    font-size:17px!important;
+  }
+  #examDrawer p,#interDrawer p{
+    font-size:11px!important;
+    line-height:1.25!important;
+  }
+  #examDrawer #btnExamClose,#interDrawer #btnInterClose{
+    flex:0 0 auto!important;
+  }
+  #examDrawer .p-4.border-t .flex,#interDrawer .p-4.border-t .flex{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    width:100%!important;
+  }
+  #btnExamOrderLab,#btnExamOrderImg,#btnInterGenerate{
+    width:100%!important;
+    min-height:44px!important;
+  }
+  #examPanelLab details,#examPanelImg details{
+    border-radius:12px!important;
+  }
+  #examPanelLab summary,#examPanelImg summary{
+    padding:11px 12px!important;
+  }
+
+  /* Hojas en pantalla: lectura vertical sin desborde; impresión permanece intacta */
+  #printSheet,#printSheet2,#printDoc,#printExamLab,#printExamImg,#printInter{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:690px!important;
+    padding:14px!important;
+    overflow:hidden!important;
+  }
+  .page .hdrgrid{
+    grid-template-columns:1fr!important;
+    column-gap:0!important;
+    row-gap:5px!important;
+  }
+  .page .hdrgrid .col-span-2{
+    grid-column:1!important;
+  }
+  .page .dateBox{
+    margin-left:8px!important;
+    font-size:10px!important;
+  }
+  .page h3,.page h3.text-xl,.page .text-xl{
+    font-size:14px!important;
+    line-height:1.18!important;
+  }
+  .page pre,.page textarea,.page .doc-body{
+    max-width:100%!important;
+    overflow-wrap:anywhere!important;
+  }
+  .page [id^="fixedFoot"]{
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    margin-top:24px!important;
+    padding-top:12px!important;
+    border-top:1px solid #D8DDE2!important;
+  }
+  .page [id^="fixedFoot"] .brand{
+    justify-content:flex-start!important;
+    flex-wrap:wrap!important;
+  }
+  .page [id^="fixedFoot"] .sigBox{
+    align-items:center!important;
+  }
+}
+
+@media screen and (min-width:701px) and (max-width:980px) and (orientation:portrait){
+  body.orion-portal .shell{grid-template-columns:220px minmax(0,1fr)!important;}
+  body.orion-portal .sidebar{padding:12px!important;}
+  body.orion-portal .menu-btn{padding:11px!important;}
+  body.orion-portal .main{padding:10px!important;}
+  #examDrawer,#interDrawer{max-width:92vw!important;}
+}

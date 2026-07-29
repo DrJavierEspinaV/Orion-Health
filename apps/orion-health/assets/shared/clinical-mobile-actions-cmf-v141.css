@@ -1,0 +1,56 @@
+/* ORION CMF V1.4.1 — acciones de órdenes siempre accesibles */
+@media screen and (max-width:700px){
+  #examDrawer,#interDrawer{
+    display:flex!important;
+    flex-direction:column!important;
+    inset-block:0!important;
+    inset-inline:0!important;
+    width:100vw!important;
+    max-width:100vw!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  #examDrawer:not(.translate-x-full),
+  #interDrawer:not(.translate-x-full){
+    transform:translateX(0)!important;
+  }
+  #examDrawer>*,#interDrawer>*{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  #examDrawer>.p-4.space-y-3,
+  #interDrawer>.p-4.space-y-3{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    padding-bottom:24px!important;
+  }
+  #examDrawer>.p-4.space-y-3 *,
+  #interDrawer>.p-4.space-y-3 *{
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  #examDrawer>.p-4.border-t,
+  #interDrawer>.p-4.border-t{
+    position:sticky!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    z-index:12!important;
+    flex:0 0 auto!important;
+    background:#FFFFFF!important;
+    border-top:1px solid #D8DDE2!important;
+    box-shadow:0 -8px 18px rgba(31,63,91,.10)!important;
+    padding:10px 12px max(10px,env(safe-area-inset-bottom))!important;
+  }
+  #btnExamOrderLab,#btnExamOrderImg,#btnInterGenerate{
+    min-height:48px!important;
+    font-size:13px!important;
+    font-weight:700!important;
+  }
+}
