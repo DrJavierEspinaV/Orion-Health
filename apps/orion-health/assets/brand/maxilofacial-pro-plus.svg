@@ -1,16 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" role="img" aria-labelledby="title desc">
-  <title id="title">Maxilofacial PRO+</title>
-  <desc id="desc">Identidad clínica horizontal de Maxilofacial PRO+.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-labelledby="title desc" preserveAspectRatio="xMidYMid meet">
+  <title id="title">Maxilofacial PRO+ — ORION Health SpA</title>
+  <desc id="desc">Logo oficial con doble perfil facial azul y verde, texto MAXILOFACIAL, PRO + y ORION HEALTH SPA.</desc>
   <g fill="none" fill-rule="evenodd">
-    <g transform="translate(18 12)">
-      <path d="M94 18c45 0 82 34 82 77 0 17-6 31-16 43-7 8-11 17-11 27v18c0 11-9 20-20 20h-15v-28H91v28H73c-11 0-20-9-20-20v-22c0-8-3-16-9-22-13-13-21-31-21-51 0-39 32-70 71-70Z" fill="#0B3B5A"/>
-      <path d="M113 91c13-18 31-27 54-25 4 0 7 4 6 8-2 13-8 24-18 33-7 6-11 14-11 23v8h-31c-12 0-22-10-22-22 0-10 8-20 22-25Z" fill="#FFFFFF"/>
-      <circle cx="76" cy="82" r="13" fill="#FFFFFF"/>
-      <path d="M62 126c18 8 38 8 58 0" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
-      <path d="M188 32v42M167 53h42" stroke="#15A6A6" stroke-width="13" stroke-linecap="round"/>
+    <g transform="translate(145 16)">
+      <path fill="#0A3D5B" fill-rule="evenodd" d="M205 0c82 0 149 62 149 139 0 39-16 70-43 95-22 20-33 43-31 75h-58c-6-39 1-73 26-101 16-19 39-31 55-47 14-14 21-31 20-50-2-32-25-57-58-69-35-13-79-8-109 15-36 27-52 70-42 111 8 34 30 62 61 79-25 27-60 43-99 43C51 290 0 238 0 174 0 78 83 0 205 0Zm27 83c28 0 50 21 50 47 0 20-12 36-29 44-18 9-29 25-28 47h-36c-3-28 8-52 31-68 14-10 24-19 28-30 5-13-1-25-16-40Z"/>
+      <path fill="#87C8A8" d="M235 102c31-8 63 0 82 22 18 21 20 50 5 73-12 18-31 29-53 31v31h-32c-27 0-49-19-53-45-4-22 4-43 21-58 9-8 18-13 30-16Zm42 30c-15 0-27 11-27 25 0 11 7 20 17 24 12 5 18 15 18 28h18v-18c12-5 20-16 20-29 0-17-15-30-34-30h-12Z"/>
+      <path fill="#0A3D5B" d="M279 118c18 0 32 13 32 29 0 12-7 22-18 27v18h-20c-17 0-31-12-33-28-2-13 3-25 13-34 7-7 15-11 26-12Z" opacity=".95"/>
     </g>
-    <text x="245" y="103" fill="#0B3B5A" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" letter-spacing="3.5">MAXILOFACIAL</text>
-    <text x="245" y="175" fill="#0B3B5A" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="900" letter-spacing="2">PRO</text>
-    <text x="385" y="175" fill="#15A6A6" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="900">+</text>
+    <text x="380" y="326" text-anchor="middle" fill="#0A3D5B" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="54" font-weight="800" letter-spacing="7">MAXILOFACIAL</text>
+    <text x="320" y="389" text-anchor="middle" fill="#87C8A8" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="66" font-weight="800" letter-spacing="2">PRO</text>
+    <text x="447" y="389" text-anchor="middle" fill="#0A3D5B" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="72" font-weight="800">+</text>
+    <text x="380" y="423" text-anchor="middle" fill="#7D8E99" font-family="Montserrat, Arial, Helvetica, sans-serif" font-size="22" font-weight="500" letter-spacing="7">ORION HEALTH SPA®</text>
   </g>
 </svg>
