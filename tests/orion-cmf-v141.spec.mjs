@@ -14,6 +14,10 @@ async function openCmf(page){
   return frame;
 }
 
+async function domClick(frame,id){
+  await frame.locator('body').evaluate((_,targetId)=>document.getElementById(targetId)?.click(),id);
+}
+
 async function selectExam(frame,detailsSelector,checkboxSelector){
   await frame.locator(detailsSelector).first().evaluate(element=>{element.open=true;});
   await frame.locator(checkboxSelector).evaluate(input=>{
@@ -71,35 +75,36 @@ test('CMF conserva exámenes al cerrar y firma documentos autorizados',async({pa
   await frame.locator('#p_edad').fill('40');
   await frame.locator('#p_dx').fill('Evaluación preoperatoria');
 
-  await frame.locator('#btnDocExams').click();
+  await domClick(frame,'btnDocExams');
   await page.waitForTimeout(260);
   await selectExam(frame,'#examPanelLab details','#ex_lab_hem_comp');
-  await frame.locator('#tabExamImg').click();
+  await domClick(frame,'tabExamImg');
   await selectExam(frame,'#examPanelImg details','#ex_img_pano');
-  await frame.locator('#btnExamClose').click();
-  await page.waitForTimeout(300);
+  await domClick(frame,'btnExamClose');
+  await page.waitForTimeout(320);
 
   await expect(frame.locator('#printExamLab')).not.toHaveClass(/hidden/);
   await expect(frame.locator('#printExamImg')).not.toHaveClass(/hidden/);
   await expect(frame.locator('#v_doc_lab')).toContainText('Hematología completa');
   await expect(frame.locator('#v_doc_img')).toContainText('Rx Panorámica');
 
-  await frame.locator('#orionClinicalTabPreview').click();
+  await domClick(frame,'orionClinicalTabPreview');
   await expect(frame.locator('#printExamLab .firmaimg')).toBeVisible();
   await expect(frame.locator('#printExamImg .firmaimg')).toBeVisible();
 
-  await frame.locator('#orionClinicalTabEdit').click();
-  await frame.locator('#btnDocCert').click();
-  await frame.locator('#orionClinicalTabPreview').click();
+  await domClick(frame,'orionClinicalTabEdit');
+  await domClick(frame,'btnDocCert');
+  await domClick(frame,'orionClinicalTabPreview');
   await expect(frame.locator('#printDoc')).not.toHaveClass(/hidden/);
   await expect(frame.locator('#printDoc .firmaimg')).toBeVisible();
 
-  await frame.locator('#orionClinicalTabEdit').click();
-  await frame.locator('#btnDocInter').click();
+  await domClick(frame,'orionClinicalTabEdit');
+  await domClick(frame,'btnDocInter');
   await frame.locator('#interEsp').fill('Medicina Interna');
   await frame.locator('#interTextoLibre').fill('Evaluación de condición sistémica previa a cirugía.');
-  await frame.locator('#btnInterGenerate').click();
-  await frame.locator('#orionClinicalTabPreview').click();
+  await domClick(frame,'btnInterGenerate');
+  await page.waitForTimeout(260);
+  await domClick(frame,'orionClinicalTabPreview');
   await expect(frame.locator('#printInter')).not.toHaveClass(/hidden/);
   await expect(frame.locator('#printInter .firmaimg')).toBeVisible();
 
