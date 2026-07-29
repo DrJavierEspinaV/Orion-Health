@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" role="img" aria-labelledby="title desc">
+  <title id="title">Maxilofacial PRO+</title>
+  <desc id="desc">Identidad clínica horizontal de Maxilofacial PRO+.</desc>
+  <g fill="none" fill-rule="evenodd">
+    <g transform="translate(18 12)">
+      <path d="M94 18c45 0 82 34 82 77 0 17-6 31-16 43-7 8-11 17-11 27v18c0 11-9 20-20 20h-15v-28H91v28H73c-11 0-20-9-20-20v-22c0-8-3-16-9-22-13-13-21-31-21-51 0-39 32-70 71-70Z" fill="#0B3B5A"/>
+      <path d="M113 91c13-18 31-27 54-25 4 0 7 4 6 8-2 13-8 24-18 33-7 6-11 14-11 23v8h-31c-12 0-22-10-22-22 0-10 8-20 22-25Z" fill="#FFFFFF"/>
+      <circle cx="76" cy="82" r="13" fill="#FFFFFF"/>
+      <path d="M62 126c18 8 38 8 58 0" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+      <path d="M188 32v42M167 53h42" stroke="#15A6A6" stroke-width="13" stroke-linecap="round"/>
+    </g>
+    <text x="245" y="103" fill="#0B3B5A" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="800" letter-spacing="3.5">MAXILOFACIAL</text>
+    <text x="245" y="175" fill="#0B3B5A" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="900" letter-spacing="2">PRO</text>
+    <text x="385" y="175" fill="#15A6A6" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="900">+</text>
+  </g>
+</svg>
