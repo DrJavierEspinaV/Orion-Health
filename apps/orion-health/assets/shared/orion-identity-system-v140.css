@@ -245,3 +245,5 @@ html,body,input,select,textarea,button{font-family:var(--orion-font)!important;}
 @media print{
   html,body,input,select,textarea,button{font-family:'Montserrat','Segoe UI',Arial,sans-serif!important;}
 }
+
+/* ORION V1.4.0 · marcador técnico para validación CI de identidad institucional */
