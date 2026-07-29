@@ -4,69 +4,67 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ORION Dental App — Plataforma Clínica</title>
-  <meta name="theme-color" content="#17324d">
+  <meta name="theme-color" content="#1F3F5B">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
 
   <link rel="stylesheet" href="./styles-1.css">
-  <link rel="stylesheet" href="./layout-fixes.css?v=1.2.7">
+  <link rel="stylesheet" href="./layout-fixes.css?v=1.4.0">
+  <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.0">
 </head>
-<body>
+<body class="orion-portal">
   <div class="shell">
     <aside class="sidebar">
       <div class="brand">
-        <img src="./assets/brand/orion-health.png" alt="ORION Health SpA" style="width:116px;max-height:92px;object-fit:contain;background:#fff;border-radius:16px;padding:8px;margin-bottom:12px">
-        <h1>ORION Dental App<span style="font-size:0.6em;vertical-align:super">®</span></h1>
-        <p>Plataforma clínica · ORION Health SpA</p>
+        <img class="portal-corporate-logo" src="./assets/brand/orion-health.png" alt="ORION Health — respaldo corporativo de salud">
+        <h1>ORION Dental App<span class="registered-mark">®</span></h1>
+        <p>Unidad tecnológica · respaldada por ORION Health</p>
       </div>
 
-      <nav class="menu" id="menuApps">
+      <nav class="menu" id="menuApps" aria-label="Módulos ORION Dental App">
         <button class="menu-btn active" data-app="comunicaciones">
           <span class="title">ORION Comunicaciones Clínicas</span>
-          <span class="sub">Base de Datos de Pacientes, Mensajería - Consulta On Line.</span>
+          <span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span>
         </button>
 
         <button class="menu-btn" data-app="insumos">
           <span class="title">ORION Insumos</span>
-          <span class="sub">Gestión y Solicitud de Biomateriales</span>
+          <span class="sub">Gestión y solicitud de biomateriales.</span>
         </button>
 
         <button class="menu-btn" data-app="cmf">
           <span class="title">ORION Clínico CMF</span>
-          <span class="sub">Documentos Clínicos para CMF</span>
+          <span class="sub">Documentos clínicos de Maxilofacial PRO+.</span>
         </button>
 
         <button class="menu-btn" data-app="endo">
           <span class="title">ORION Endodoncia</span>
-          <span class="sub">Módulo Clínico para Endodoncia</span>
+          <span class="sub">Recetas e indicaciones clínicas de Endodoncia.</span>
         </button>
 
         <button class="menu-btn" data-app="orto">
           <span class="title">ORION Ortodoncia</span>
-          <span class="sub">Módulo Clínico para Ortodoncia</span>
+          <span class="sub">Módulo clínico para Ortodoncia.</span>
         </button>
 
         <button class="menu-btn" data-app="odontopediatria">
           <span class="title">ORION Odontopediatría</span>
-          <span class="sub">Módulo Clínico para Odontopediatría</span>
+          <span class="sub">Módulo clínico para Odontopediatría.</span>
         </button>
       </nav>
 
       <div class="sidebar-footer">
-        La plataforma actúa como núcleo operativo del ecosistema ORION Dental App. En esta fase comparte el
+        Núcleo operativo de ORION Dental App. Comparte el
         <strong>Paciente Activo para Documento</strong> con sus datos mínimos:
-        <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>. Ortodoncia y
-        Odontopediatría se integran por ahora como Módulos navegables.
+        <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>.
       </div>
     </aside>
 
     <main class="main">
       <section class="topbar">
         <div class="hero">
-          <h2>ORION Dental App<span style="font-size:0.6em;vertical-align:super">®</span></h2>
-          <p>
-            Seis módulos clínicos integrados y un flujo documental centralizado para el paciente activo.
-          </p>
+          <h2>ORION Dental App<span class="registered-mark">®</span></h2>
+          <p>Seis módulos clínicos integrados y un flujo documental centralizado para el paciente activo.</p>
         </div>
 
         <div class="sync-card">
@@ -98,7 +96,7 @@
         <div class="stage-head">
           <div class="stage-title">
             <strong id="currentAppTitle">ORION Comunicaciones Clínicas</strong>
-            <span id="currentAppDesc">Módulo Activo en Pantalla</span>
+            <span id="currentAppDesc">Módulo activo en pantalla</span>
           </div>
 
           <div class="stage-tools">
@@ -121,6 +119,6 @@
     </main>
   </div>
 
-  <script src="./script-1.js?v=1.2.7"></script>
+  <script src="./script-1.js?v=1.4.0"></script>
 </body>
 </html>
