@@ -14,6 +14,14 @@ async function openCmf(page){
   return frame;
 }
 
+async function selectExam(frame,detailsSelector,checkboxSelector){
+  await frame.locator(detailsSelector).first().evaluate(element=>{element.open=true;});
+  await frame.locator(checkboxSelector).evaluate(input=>{
+    input.checked=true;
+    input.dispatchEvent(new Event('change',{bubbles:true}));
+  });
+}
+
 test('ORION se adapta al teléfono vertical sin desborde horizontal',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   const frame=await openCmf(page);
@@ -33,19 +41,27 @@ test('ORION se adapta al teléfono vertical sin desborde horizontal',async({page
 
   await frame.locator('#btnDocExams').click();
   await expect(frame.locator('#examDrawer')).toBeVisible();
+  await page.waitForTimeout(260);
+  await expect(frame.locator('#btnExamOrderLab')).toBeVisible();
+  await expect(frame.locator('#btnExamOrderImg')).toBeVisible();
+
   const cmfMetrics=await frame.locator('body').evaluate(()=>{
     const drawer=document.getElementById('examDrawer')?.getBoundingClientRect();
+    const actions=document.querySelector('#examDrawer>.p-4.border-t')?.getBoundingClientRect();
     return{
       scrollWidth:document.documentElement.scrollWidth,
       clientWidth:document.documentElement.clientWidth,
       drawerLeft:drawer?.left??-1,
       drawerRight:drawer?.right??-1,
-      viewport:window.innerWidth
+      actionsBottom:actions?.bottom??-1,
+      viewport:window.innerWidth,
+      viewportHeight:window.innerHeight
     };
   });
   expect(cmfMetrics.scrollWidth).toBeLessThanOrEqual(cmfMetrics.clientWidth+3);
   expect(cmfMetrics.drawerLeft).toBeGreaterThanOrEqual(-2);
   expect(cmfMetrics.drawerRight).toBeLessThanOrEqual(cmfMetrics.viewport+2);
+  expect(cmfMetrics.actionsBottom).toBeLessThanOrEqual(cmfMetrics.viewportHeight+2);
 });
 
 test('CMF conserva exámenes al cerrar y firma documentos autorizados',async({page})=>{
@@ -56,11 +72,10 @@ test('CMF conserva exámenes al cerrar y firma documentos autorizados',async({pa
   await frame.locator('#p_dx').fill('Evaluación preoperatoria');
 
   await frame.locator('#btnDocExams').click();
-  await frame.locator('#examPanelLab details').first().locator('summary').click();
-  await frame.locator('#ex_lab_hem_comp').check();
+  await page.waitForTimeout(260);
+  await selectExam(frame,'#examPanelLab details','#ex_lab_hem_comp');
   await frame.locator('#tabExamImg').click();
-  await frame.locator('#examPanelImg details').first().locator('summary').click();
-  await frame.locator('#ex_img_pano').check();
+  await selectExam(frame,'#examPanelImg details','#ex_img_pano');
   await frame.locator('#btnExamClose').click();
   await page.waitForTimeout(300);
 
