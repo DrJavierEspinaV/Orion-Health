@@ -1,7 +1,7 @@
 (async()=>{
   'use strict';
 
-  const MODULE_VERSION = '4.5.2';
+  const MODULE_VERSION = '4.5.4';
   const CATALOG_URL = '../../data/catalogo-insumos.json?v=1.1';
   const SOURCE_URL = './source.html';
   const CACHE_KEY = 'orion_insumos_catalogo_v2';
@@ -136,13 +136,13 @@
 
   function injectModuleEnhancements(html, catalog){
     const items = toModuleItems(catalog);
-    const catalogLiteral = JSON.stringify(items).replace(/</g, '\\u003c');
+    const catalogLiteral = JSON.stringify(items).replace(/</g, '\u003c');
     const metaLiteral = JSON.stringify({
       count: items.length,
       version: catalog.version || '1.0',
       updated: catalog.updated || '',
       source: catalog.source || 'Catálogo Maestro ORION'
-    }).replace(/</g, '\\u003c');
+    }).replace(/</g, '\u003c');
 
     let h = html
       .replace(/src="orion-logo\.png"/g,'src="../../assets/brand/orion-health.png"')
@@ -177,11 +177,12 @@
       );
 
     const styles = `
+<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.0">
 <style id="orionInsumosPersistentStyle">
-  #orionCatalogCard{margin:0 0 16px;padding:14px 16px;border:1px solid #bae6fd;border-radius:16px;background:linear-gradient(135deg,#ecfeff,#f8fafc);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  #orionCatalogCard strong{color:#0c4a6e}.orion-catalog-meta{font-size:12px;color:#475569;margin-top:4px}.orion-catalog-badge{padding:7px 12px;border-radius:999px;background:#0f766e;color:#fff;font-size:12px;font-weight:800}
-  details#orionCatalogAdmin{width:100%;margin-top:8px;border:1px dashed #cbd5e1;border-radius:12px;padding:8px 10px;background:#f8fafc}
-  details#orionCatalogAdmin summary{cursor:pointer;font-size:12px;font-weight:800;color:#475569}
+  #orionCatalogCard{margin:0 0 16px;padding:14px 16px;border:1px solid #D8DDE2;border-radius:14px;background:#F3F3F3;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  #orionCatalogCard strong{color:#1F3F5B}.orion-catalog-meta{font-size:12px;color:#5F6872;margin-top:4px}.orion-catalog-badge{padding:7px 12px;border-radius:999px;background:#1F3F5B;color:#fff;font-size:12px;font-weight:700}
+  details#orionCatalogAdmin{width:100%;margin-top:8px;border:1px solid #D8DDE2;border-radius:12px;padding:8px 10px;background:#F3F3F3}
+  details#orionCatalogAdmin summary{cursor:pointer;font-size:12px;font-weight:600;color:#1F3F5B}
   @media(max-width:700px){#orionCatalogCard{align-items:flex-start}.orion-catalog-badge{width:100%;text-align:center}}
 </style>`;
     h = h.replace('</head>', styles + '</head>');
@@ -198,7 +199,7 @@ window.addEventListener('DOMContentLoaded', function(){
     card.innerHTML = '<div><strong>Catálogo Maestro ORION disponible</strong><div class="orion-catalog-meta">Fuente: ' + meta.source + ' · Versión ' + meta.version + ' · Actualizado ' + updated + '</div></div><span class="orion-catalog-badge">' + meta.count + ' insumos</span>';
     status.insertAdjacentElement('afterend', card);
     status.textContent = 'Listo. El catálogo se cargó automáticamente; no necesitas importar Excel.';
-    status.className = 'mb-4 p-3 md:p-4 rounded-xl bg-white/70 border text-sm text-slate-700';
+    status.className = 'mb-4 p-3 md:p-4 rounded-xl bg-white border text-sm text-slate-700';
   }
 
   const fileInput = document.getElementById('fileInput');
@@ -234,7 +235,7 @@ window.addEventListener('DOMContentLoaded', function(){
     document.write(html);
     document.close();
   }catch(error){
-    document.body.innerHTML = '<main style="font-family:Segoe UI,Arial;padding:28px"><h1>ORION Insumos</h1><p>No se pudo cargar el catálogo persistente.</p><p style="color:#64748b">' + String(error && error.message ? error.message : error) + '</p></main>';
+    document.body.innerHTML = '<main style="font-family:Montserrat,Segoe UI,Arial;padding:28px;color:#17212B;background:#F3F3F3"><h1 style="color:#1F3F5B">ORION Insumos</h1><p>No se pudo cargar el catálogo persistente.</p><p style="color:#5F6872">' + String(error && error.message ? error.message : error) + '</p></main>';
     console.error(error);
   }
 })();
