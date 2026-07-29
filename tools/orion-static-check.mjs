@@ -46,7 +46,7 @@ if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no r
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
 
 const cmfLogo=read('assets/brand/maxilofacial-pro-plus.svg');
-for(const required of ['MAXILOFACIAL','PRO','maxilofacial-pro-plus-user-supplied']){
+for(const required of ['Maxilofacial PRO+','maxilofacial-pro-plus-user-supplied']){
   if(!cmfLogo.includes(required))failures.push(`Logo CMF no contiene: ${required}`);
 }
 
