@@ -10,11 +10,12 @@
   function init(){
     if(document.getElementById('orionPatientPriorityControls'))return;
 
+    const layout=document.querySelector('.crm-layout');
     const sidebar=document.querySelector('.crm-sidebar');
     const controlsCard=sidebar?.querySelector(':scope > .card:not(.table)');
     const tableCard=sidebar?.querySelector(':scope > .card.table');
     const bar=controlsCard?.querySelector('.bar');
-    if(!sidebar||!controlsCard||!tableCard||!bar)return;
+    if(!layout||!sidebar||!controlsCard||!tableCard||!bar)return;
 
     document.body.classList.add('orion-communications-patients-first');
     sidebar.setAttribute('aria-label','Pacientes, agenda y lista clínica');
@@ -45,8 +46,9 @@
     const dataPanel=document.createElement('details');
     dataPanel.id='orionDataSourcePanel';
     dataPanel.className='card orion-data-source-panel';
+    dataPanel.dataset.orionPlacement='layout-footer';
     dataPanel.innerHTML=`<summary><span class="orion-data-source-title">⚙️ Fuente de datos y conexión</span><span class="orion-data-source-status" id="orionDataSourceStatus">Estado pendiente</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>`;
-    sidebar.insertBefore(dataPanel,tableCard.nextSibling);
+    layout.appendChild(dataPanel);
 
     const dataGrid=dataPanel.querySelector('#orionDataSourceGrid');
     [fileBlock,driveBlock].filter(Boolean).forEach(node=>dataGrid.appendChild(node));
@@ -70,7 +72,11 @@
     syncStatus();
     [driveBadge,driveText].filter(Boolean).forEach(node=>new MutationObserver(syncStatus).observe(node,{childList:true,subtree:true,characterData:true}));
 
-    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.4.3',status:'PATIENTS_LIST_FIRST_MESSAGES_AFTER'};
+    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={
+      version:'1.4.3',
+      status:'PATIENTS_LIST_FIRST_MESSAGES_AFTER',
+      dataSourcePlacement:'layout-footer'
+    };
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
