@@ -1,7 +1,7 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-final-piloto",
-  "date": "2026-07-29",
+  "version": "1.4.4-r1-final-piloto",
+  "date": "2026-07-30",
   "modules": {
     "portal": "1.4.4",
     "comunicaciones": "5.7.6",
@@ -11,12 +11,12 @@
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2"
   },
-  "release_status": "FINAL PILOTO — uso profesional personal y supervisado",
+  "release_status": "FINAL PILOTO — revisión móvil R1",
   "clinical_status": "CMF mantiene confirmación profesional, folio, fecha/hora, código de verificación y auditoría local para recetas; las órdenes de exámenes seleccionadas se sincronizan automáticamente al cerrar el panel o emitir una salida",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage; auditoría de recetas almacenada localmente en IndexedDB",
   "identity_status": "Sistema visual alineado con el Plan Maestro y los anexos ORION: Montserrat, Azul ORION #1F3F5B, Gris ORION #8C8C8C, Blanco y Fondo Corporativo #F3F3F3",
-  "layout_status": "En Comunicaciones móviles, Pacientes y agenda y la lista clínica aparecen antes del editor de mensajes; la lista se transforma en fichas completas y Fuente de datos queda plegada al final. En CMF se corrigen controles laterales, scroll táctil del catálogo y acceso superior a las órdenes",
-  "signature_status": "Firma manuscrita rasterizada a PNG en tiempo de ejecución para receta, certificado/orden de biopsia, orden de laboratorio, orden de imágenes e interconsulta; permanece oculta en indicaciones",
+  "layout_status": "En Comunicaciones móviles, Pacientes y agenda y la lista clínica aparecen antes del editor de mensajes. En CMF, Tipo de Receta y los modos quedan dentro del ancho útil; Exámenes permite scroll táctil central y mantiene las órdenes bajo la búsqueda",
+  "signature_status": "Firma manuscrita preparada como PNG desde la carga para receta, certificado/orden de biopsia, orden de laboratorio, orden de imágenes e interconsulta; permanece oculta en indicaciones",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
-  "performance_status": "La caché PWA V1.4.4 distribuye inmediatamente las correcciones móviles de Comunicaciones y CMF"
+  "performance_status": "La caché PWA V1.4.4-r1 elimina referencias inexistentes, instala correctamente y reemplaza la versión móvil anterior en Android"
 }
