@@ -1,3 +1,4 @@
+// Migración de recursos móviles: v=1.4.2 → v=1.4.4
 (async()=>{
   try{
     let h=await fetch('./source.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()});
