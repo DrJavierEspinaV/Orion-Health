@@ -1,4 +1,4 @@
-/* ORION Comunicaciones — ajuste para ejecución dentro del portal */
+/* ORION Comunicaciones — portal, prioridad clínica y experiencia móvil */
 html,body{
   width:100% !important;
   max-width:100% !important;
@@ -49,10 +49,12 @@ main{
   min-width:0 !important;
   max-width:100% !important;
 }
-.crm-sidebar{
+.crm-left,.crm-sidebar{
   width:100% !important;
   max-width:100% !important;
   min-width:0 !important;
+}
+.crm-sidebar{
   position:relative !important;
   top:auto !important;
   max-height:none !important;
@@ -60,11 +62,11 @@ main{
   padding-right:0 !important;
 }
 .card{max-width:100% !important;}
-.table{max-width:100% !important; overflow-x:auto !important;}
+.table{max-width:100% !important;}
 .bar,.bar-2,.grid2{min-width:0 !important;}
 input,select,textarea,button{max-width:100%;}
 
-/* Prioridad operativa: pacientes primero */
+/* Prioridad operativa */
 .orion-patient-priority-controls{display:flex;flex-direction:column;gap:12px;}
 .orion-priority-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #dbe7ff;padding-bottom:10px;}
 .orion-priority-heading strong{display:block;color:#0f3f5f;font-size:15px;line-height:1.1;}
@@ -72,8 +74,11 @@ input,select,textarea,button{max-width:100%;}
 .orion-priority-search{display:grid;grid-template-columns:minmax(260px,2fr) minmax(180px,1fr) auto;gap:12px;align-items:end;}
 .orion-priority-search > div{min-width:0;}
 .orion-priority-search #export{min-height:44px;white-space:nowrap;}
+.orion-patient-list-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:2px 2px 12px;border-bottom:1px solid #dbe7ff;margin-bottom:10px;}
+.orion-patient-list-heading strong{font-size:14px;color:#1f3f5b;}
+.orion-patient-list-heading span{font-size:10px;color:#64748b;text-align:right;}
 
-.orion-data-source-panel{padding:0 !important;margin-top:12px !important;overflow:hidden;box-shadow:none !important;border-style:dashed !important;}
+.orion-data-source-panel{grid-column:1/-1;padding:0 !important;margin-top:0 !important;overflow:hidden;box-shadow:none !important;border-style:dashed !important;}
 .orion-data-source-panel > summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 14px;cursor:pointer;background:#f8fbff;list-style:none;}
 .orion-data-source-panel > summary::-webkit-details-marker{display:none;}
 .orion-data-source-title{font-size:12px;font-weight:900;color:#334155;text-transform:uppercase;letter-spacing:.2px;}
@@ -104,14 +109,189 @@ input,select,textarea,button{max-width:100%;}
   }
 }
 
+@media (max-width:900px){
+  /* Orden clínico móvil: agenda → lista → mensajes → conexión */
+  .crm-layout{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+  }
+  #orionPatientWorkspace{order:1 !important;}
+  #orionMessageWorkspace{order:2 !important;}
+  #orionDataSourcePanel{order:3 !important;}
+}
+
 @media (max-width:760px){
+  header#orionHdr{padding:8px 10px !important;}
   header#orionHdr img{height:42px !important;}
   header#orionHdr .hgroup h1{font-size:18px !important;}
   header#orionHdr .hgroup p{display:none;}
-  main{padding:8px !important;}
-  .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;}
-  .orion-priority-search{grid-template-columns:1fr;}
+  main{padding:7px !important;}
+
+  .card{
+    padding:12px !important;
+    border-radius:14px !important;
+    margin-bottom:10px !important;
+  }
+  .crm-left>.card,.crm-sidebar>.card{margin-bottom:10px !important;}
+  .editable,.surveyBox{padding:11px !important;}
+  .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;gap:9px !important;}
+
+  .orion-priority-heading{padding-bottom:8px;}
+  .orion-priority-heading strong{font-size:16px;}
+  .orion-priority-search{grid-template-columns:1fr;gap:9px;}
+  .orion-priority-search>div,
+  .orion-priority-search input,
+  .orion-priority-search select,
+  .orion-priority-search button{width:100% !important;min-width:0 !important;}
   .orion-priority-search #export{width:100%;}
+
+  .date-filter-row{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:9px !important;
+    margin-top:0 !important;
+  }
+  .date-filter-row>div{
+    min-width:0 !important;
+    width:100% !important;
+    flex:1 1 auto !important;
+  }
+  .date-filter-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr) !important;
+    gap:8px !important;
+  }
+  .date-filter-actions .btn{width:100% !important;}
+  .auto-slot-card{padding:12px !important;margin-top:4px !important;}
+  .doc-status{padding:10px !important;gap:8px !important;}
+
+  /* Lista de pacientes como tarjetas, sin columnas comprimidas */
+  #orionPatientListCard{
+    display:block !important;
+    overflow:visible !important;
+    padding:10px !important;
+  }
+  #orionPatientListCard .orion-patient-list-heading{
+    display:block !important;
+    margin:0 0 9px !important;
+    padding:0 2px 9px !important;
+  }
+  #orionPatientListCard .orion-patient-list-heading span{
+    display:block;
+    margin-top:3px;
+    text-align:left;
+  }
+  #orionPatientListCard>.header{display:none !important;}
+  #orionPatientListCard #list{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+    width:100% !important;
+  }
+  #orionPatientListCard .row{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px 12px !important;
+    width:100% !important;
+    min-width:0 !important;
+    padding:12px !important;
+    border:1px solid #d8dde2 !important;
+    border-radius:13px !important;
+    background:#fff !important;
+    box-shadow:0 4px 12px rgba(31,63,91,.06) !important;
+  }
+  #orionPatientListCard .row>div{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    text-align:left !important;
+    font-size:12px !important;
+    line-height:1.25 !important;
+    word-break:normal !important;
+    overflow-wrap:anywhere !important;
+  }
+  #orionPatientListCard .row>div:first-child{
+    grid-column:1/-1 !important;
+    padding-bottom:10px !important;
+    border-bottom:1px solid #e5e7eb !important;
+  }
+  #orionPatientListCard .row>div:nth-child(6){grid-column:1/-1 !important;}
+  #orionPatientListCard .row>div:nth-child(n+2)::before{
+    display:block;
+    margin-bottom:3px;
+    color:#64748b;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.35px;
+    text-transform:uppercase;
+  }
+  #orionPatientListCard .row>div:nth-child(2)::before{content:'RUN';}
+  #orionPatientListCard .row>div:nth-child(3)::before{content:'Fecha';}
+  #orionPatientListCard .row>div:nth-child(4)::before{content:'Hora';}
+  #orionPatientListCard .row>div:nth-child(5)::before{content:'Estado';}
+  #orionPatientListCard .row>div:nth-child(6)::before{content:'Motivo de consulta';}
+  #orionPatientListCard .paciente-top{
+    width:100% !important;
+    display:flex !important;
+    flex-wrap:wrap !important;
+    overflow:visible !important;
+    gap:6px !important;
+    padding:0 !important;
+    margin-bottom:9px !important;
+  }
+  #orionPatientListCard .paciente-nombre{
+    width:100% !important;
+    font-size:16px !important;
+    line-height:1.15 !important;
+  }
+  #orionPatientListCard .muted{font-size:12px !important;}
+  #orionPatientListCard .wa-row-line{margin-top:9px !important;}
+  #orionPatientListCard .wa-action{
+    width:min(100%,220px) !important;
+    max-width:220px !important;
+    min-height:42px !important;
+    font-size:13px !important;
+  }
+  #orionPatientListCard .pill{
+    max-width:100% !important;
+    white-space:normal !important;
+    font-size:11px !important;
+  }
+
+  /* Mensajería compacta después de la agenda */
+  #orionMessageWorkspace .card{padding:11px !important;}
+  #orionMessageWorkspace .surveyTop{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(145px,.8fr) !important;
+    gap:9px !important;
+    align-items:center !important;
+  }
+  #orionMessageWorkspace .surveyTop .btn{width:100% !important;}
+  #orionMessageWorkspace #encuestaTexto{min-height:170px !important;}
+  #orionMessageWorkspace #mensajeTipo{min-height:210px !important;}
+  #orionMessageWorkspace .card>div[style*="display:flex"]{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+  #orionMessageWorkspace .card>div[style*="display:flex"] .btn{
+    flex:1 1 150px !important;
+  }
+
   .orion-data-source-grid{grid-template-columns:1fr;}
-  .orion-data-source-panel > summary{align-items:flex-start;flex-direction:column;gap:6px;}
+  .orion-data-source-panel{margin-top:0 !important;}
+  .orion-data-source-panel>summary{align-items:flex-start;flex-direction:column;gap:6px;padding:10px 12px;}
+  .orion-data-source-body{padding:10px 12px 12px;}
+}
+
+@media (max-width:430px){
+  #orionMessageWorkspace .surveyTop{grid-template-columns:1fr !important;}
+  #orionPatientListCard .row{gap:8px 10px !important;padding:10px !important;}
+  .udc-wrap,.retraso-wrap,.retraso-estimado-wrap{max-width:100% !important;}
+  .retraso-minutos{min-width:72px !important;}
 }
