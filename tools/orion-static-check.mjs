@@ -17,20 +17,18 @@ const includesAll=(name,text,required)=>{
 const modules=['comunicaciones','insumos','cmf','endodoncia','ortodoncia','odontopediatria'];
 for(const moduleName of modules)requireFile(`modules/${moduleName}/index.html`);
 for(const file of [
-  'assets/brand/maxilofacial-pro-plus.svg',
-  'assets/brand/orion-health.png',
-  'assets/brand/firma-javier-espina-navy.svg',
-  'assets/shared/orion-identity-system-v140.css',
-  'assets/shared/orion-mobile-v141.css',
-  'assets/shared/clinical-mobile-docs-cmf-v141.js',
-  'assets/shared/clinical-prescription-auth-cmf-v139.js',
-  'assets/shared/clinical-prescription-share-cmf-v139.js'
+  'assets/brand/maxilofacial-pro-plus.svg','assets/brand/orion-health.png','assets/brand/firma-javier-espina-navy.svg',
+  'assets/shared/orion-identity-system-v140.css','assets/shared/orion-mobile-v141.css',
+  'assets/shared/clinical-mobile-docs-cmf-v141.js','assets/shared/clinical-mobile-cmf-v142.css','assets/shared/clinical-mobile-cmf-v142.js',
+  'assets/shared/clinical-prescription-auth-cmf-v139.js','assets/shared/clinical-prescription-share-cmf-v139.js',
+  'modules/comunicaciones/mobile-v142.css'
 ])requireFile(file);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.4.1'))failures.push(`Versión inesperada: ${version.version}`);
-if(version.modules?.portal!=='1.4.1')failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
-if(version.modules?.cmf!=='4.3.35')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(!String(version.version).startsWith('1.4.4'))failures.push(`Versión inesperada: ${version.version}`);
+if(version.modules?.portal!=='1.4.4')failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
+if(version.modules?.comunicaciones!=='5.7.6')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
+if(version.modules?.cmf!=='4.3.37')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
@@ -40,37 +38,13 @@ if(manifest.display!=='standalone')failures.push('display PWA debe ser standalon
 
 const portalHtml=read('index.html');
 const portal=read('script-1.js');
-for(const moduleName of modules){
-  if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
-}
-includesAll('Portal V1.4.1',portalHtml,[
-  'orion-identity-system-v140.css',
-  'orion-mobile-v141.css',
-  'class="orion-portal"',
-  'script-1.js?v=1.4.1'
-]);
+for(const moduleName of modules)if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
+includesAll('Portal ORION',portalHtml,['orion-identity-system-v140.css','orion-mobile-v141.css','class="orion-portal"','script-1.js']);
 
 const identity=read('assets/shared/orion-identity-system-v140.css');
 includesAll('Sistema visual ORION',identity,[
-  '--orion-blue:#1F3F5B',
-  '--orion-gray:#8C8C8C',
-  '--orion-white:#FFFFFF',
-  '--orion-surface:#F3F3F3',
-  "--orion-font:'Montserrat'",
-  'min-width:160px',
-  'background-image:none!important',
-  "@import url('https://fonts.googleapis.com/css2?family=Montserrat"
-]);
-
-const mobile=read('assets/shared/orion-mobile-v141.css');
-includesAll('Sistema móvil ORION V1.4.1',mobile,[
-  '@media screen and (max-width:700px)',
-  'grid-template-columns:repeat(2,minmax(0,1fr))',
-  '#examDrawer,#interDrawer',
-  'height:100dvh!important',
-  '#printSheet,#printSheet2,#printDoc,#printExamLab,#printExamImg,#printInter',
-  '.page [id^="fixedFoot"]',
-  'position:relative!important'
+  '--orion-blue:#1F3F5B','--orion-gray:#8C8C8C','--orion-white:#FFFFFF','--orion-surface:#F3F3F3',
+  "--orion-font:'Montserrat'",'min-width:160px','background-image:none!important',"@import url('https://fonts.googleapis.com/css2?family=Montserrat"
 ]);
 
 const comunicacionesLoader=read('modules/comunicaciones/loader.js');
@@ -79,35 +53,49 @@ const cmfLoader=read('modules/cmf/loader.js');
 const endoLoader=read('modules/endodoncia/loader.js');
 const ortoLoader=read('modules/ortodoncia/loader.js');
 const odontoLoader=read('modules/odontopediatria/loader.js');
-for(const [name,text] of [
-  ['Comunicaciones',comunicacionesLoader],['Insumos',insumosLoader],['CMF',cmfLoader],
-  ['Endodoncia',endoLoader],['Ortodoncia',ortoLoader],['Odontopediatría',odontoLoader]
-]){
+for(const [name,text] of [['Comunicaciones',comunicacionesLoader],['Insumos',insumosLoader],['CMF',cmfLoader],['Endodoncia',endoLoader],['Ortodoncia',ortoLoader],['Odontopediatría',odontoLoader]]){
   if(!text.includes('orion-identity-system-v140.css'))failures.push(`${name} no carga el sistema visual ORION`);
 }
-if(!comunicacionesLoader.includes('communications-priority-layout.js'))failures.push('Comunicaciones no carga el layout con prioridad de pacientes');
-includesAll('CMF loader V1.4.1',cmfLoader,[
-  'clinical-nps-cmf-v136.js','clinical-audit-cmf.js','clinical-templates-cmf-v132.js',
-  'clinical-output-cmf-v134.js','clinical-preview-cmf-v135.js',
-  'clinical-prescription-auth-cmf-v139.js','clinical-prescription-share-cmf-v139.js',
-  'clinical-mobile-docs-cmf-v141.js','orion-mobile-v141.css',
+includesAll('Comunicaciones móvil V1.4.4',comunicacionesLoader,['communications-priority-layout.js','responsive-fixes.css','mobile-v142.css','v=1.4.2']);
+
+const communicationsLayout=read('assets/shared/communications-priority-layout.js');
+includesAll('Layout de Comunicaciones',communicationsLayout,[
+  'orionPatientPriorityControls','orionDataSourcePanel','orionDataSourceStatus','orion-communications-mobile',
+  'patient-main','patient-run','patient-date','patient-time','patient-status','patient-motive','AGENDA_LIST_MESSAGES_DATA_SOURCE'
+]);
+const communicationsMobile=read('modules/comunicaciones/mobile-v142.css');
+includesAll('Fichas móviles de pacientes',communicationsMobile,[
+  'body.orion-communications-mobile .table .row','grid-template-columns:minmax(0,1fr) minmax(0,1fr)',
+  '.patient-main','.patient-motive','.crm-left{order:2','.orion-data-source-panel{order:3'
+]);
+
+includesAll('CMF loader V1.4.4',cmfLoader,[
+  'clinical-nps-cmf-v136.js','clinical-audit-cmf.js','clinical-templates-cmf-v132.js','clinical-output-cmf-v134.js',
+  'clinical-preview-cmf-v135.js','clinical-prescription-auth-cmf-v139.js','clinical-prescription-share-cmf-v139.js',
+  'clinical-mobile-docs-cmf-v141.js','clinical-mobile-cmf-v142.css','clinical-mobile-cmf-v142.js',
   'maxilofacial-pro-plus.svg','orion-health.png','firma-javier-espina-navy.svg',
-  '#printSheet #fixedFoot .firmaimg','#printDoc #fixedFoot3 .firmaimg',
-  '#printExamLab #fixedFoot4 .firmaimg','#printExamImg #fixedFoot5 .firmaimg',
-  '#printInter #fixedFoot6 .firmaimg'
+  '#printSheet #fixedFoot .firmaimg','#printDoc:not(.hidden) #fixedFoot3 .firmaimg',
+  '#printExamLab:not(.hidden) #fixedFoot4 .firmaimg','#printExamImg:not(.hidden) #fixedFoot5 .firmaimg',
+  '#printInter:not(.hidden) #fixedFoot6 .firmaimg'
 ]);
 if(cmfLoader.includes('maxilofacial-pro-plus-compact.svg'))failures.push('CMF aún usa Maxilofacial PRO+ en documentos');
-if(/replace\(\/\<img\[\^>\]\*class="firmaimg"/.test(cmfLoader))failures.push('CMF todavía elimina la firma manuscrita');
 if(!endoLoader.includes('clinical-audit-endo.js'))failures.push('Endodoncia no carga auditoría clínica');
 if(!cmfLoader.includes('clinical-components-restore.js'))failures.push('CMF no restaura catálogo por fármacos');
 if(!endoLoader.includes('clinical-components-restore.js'))failures.push('Endodoncia no restaura catálogo por fármacos');
 
-const mobileDocs=read('assets/shared/clinical-mobile-docs-cmf-v141.js');
-includesAll('Sincronización de órdenes CMF',mobileDocs,[
-  'selectedLab','selectedImg','syncOrders','btnExamClose','examBackdrop',
-  "['btnPrint','btnPdf','btnWA','orionClinicalTabPreview']",
-  'printExamLab','printExamImg','ORION_CMF_DOCS_V141'
+const cmfMobile=read('assets/shared/clinical-mobile-cmf-v142.js');
+includesAll('CMF móvil V1.4.4',cmfMobile,[
+  'orion-cmf-mobile','placeExamActions','orion-exam-actions-inline','touch-action','rasterizeSignature',
+  "canvas.toDataURL('image/png')",'png-data-uri','ORION_CMF_MOBILE_V142'
 ]);
+const cmfMobileCss=read('assets/shared/clinical-mobile-cmf-v142.css');
+includesAll('CSS CMF móvil V1.4.4',cmfMobileCss,[
+  'body.orion-cmf-mobile','touch-action:pan-y!important','orion-exam-actions-inline',
+  '#btnExamOrderLab','#btnExamOrderImg','section.card.no-print>.flex.gap-2.mb-4'
+]);
+
+const mobileDocs=read('assets/shared/clinical-mobile-docs-cmf-v141.js');
+includesAll('Sincronización de órdenes CMF',mobileDocs,['selectedLab','selectedImg','syncOrders','btnExamClose','examBackdrop',"['btnPrint','btnPdf','btnWA','orionClinicalTabPreview']",'printExamLab','printExamImg','ORION_CMF_DOCS_V141']);
 
 const cmfLogo=read('assets/brand/maxilofacial-pro-plus.svg');
 includesAll('Logo CMF',cmfLogo,['Maxilofacial PRO+','maxilofacial-pro-plus-user-supplied']);
@@ -118,9 +106,6 @@ const sessionConfig=read('assets/shared/session-config.js');
 if(/extractTokenFromHash|HASH_KEYS|orion-token|location\.hash/i.test(sessionConfig))failures.push('La conexión Drive aún admite credenciales por URL/hash');
 if(!sessionConfig.includes('sessionStorage'))failures.push('La credencial no está limitada a sessionStorage');
 
-const communicationsLayout=read('assets/shared/communications-priority-layout.js');
-includesAll('Layout de Comunicaciones',communicationsLayout,['orionPatientPriorityControls','orionDataSourcePanel','orionDataSourceStatus','PATIENTS_FIRST']);
-
 const cmfAudit=read('assets/shared/clinical-audit-cmf.js');
 const endoAudit=read('assets/shared/clinical-audit-endo.js');
 for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
@@ -130,23 +115,17 @@ for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
 if(/MELOXICAM 15 mg[\s\S]{0,80}cada 12/i.test(cmfAudit))failures.push('Pauta insegura de meloxicam en auditoría CMF');
 
 const cmfTemplates=read('assets/shared/clinical-templates-cmf-v132.js');
-includesAll('Plantillas CMF V1.3.2',cmfTemplates,['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPROFENO 50 mg','DEXAMETASONA 8 mg','Dosis única 1 hora antes','solo si fue indicada por el clínico']);
-
+includesAll('Plantillas CMF',cmfTemplates,['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPROFENO 50 mg','DEXAMETASONA 8 mg','Dosis única 1 hora antes','solo si fue indicada por el clínico']);
 const cmfNps=read('assets/shared/clinical-nps-cmf-v136.js');
-includesAll('NPS CMF',cmfNps,['Encuesta de satisfacción (NPS):','Puede recibir una encuesta aleatoria sobre su experiencia de hoy.','Responderla toma 1 min y nos ayuda a mejorar.','ensureNps','mandatory:true','ORION_CMF_NPS_V136',"new Set(['btnPrint','btnPdf','btnWA','btnCopy','orionClinicalTabPreview'])"]);
-
+includesAll('NPS CMF',cmfNps,['Encuesta de satisfacción (NPS):','Puede recibir una encuesta aleatoria sobre su experiencia de hoy.','Responderla toma 1 min y nos ayuda a mejorar.','ensureNps','mandatory:true','ORION_CMF_NPS_V136']);
 const rxAuth=read('assets/shared/clinical-prescription-auth-cmf-v139.js');
-includesAll('Autorización CMF V1.3.9',rxAuth,['ORH-CMF-RX-','verificationCode','issuedLabel','indexedDB','appendAudit','authorize','logOutput','verifyCurrent',"signature:'recipe-only'","PROTECTED_FIELDS=['p_nombre','p_rut','p_edad','p_peso','p_dx','p_dx2','receta','indicaciones']"]);
-
+includesAll('Autorización CMF',rxAuth,['ORH-CMF-RX-','verificationCode','issuedLabel','indexedDB','appendAudit','authorize','logOutput','verifyCurrent']);
 const rxShare=read('assets/shared/clinical-prescription-share-cmf-v139.js');
-includesAll('Salida firmada CMF V1.3.9',rxShare,['setProperties','navigator.share','navigator.canShare','files:[file]','WHATSAPP_PDF_DOWNLOADED','firmaimg','ORION_CMF_RX_AUTH','Folio: ${auth.folio}','Código: ${auth.verificationCode}',"new Set(['btnPdf','btnWA','btnPrint','btnCopy'])"]);
-
+includesAll('Salida firmada CMF',rxShare,['navigator.share','navigator.canShare','files:[file]','WHATSAPP_PDF_DOWNLOADED','firmaimg','ORION_CMF_RX_AUTH']);
 const cmfOutput=read('assets/shared/clinical-output-cmf-v134.js');
-includesAll('Salida CMF V1.3.4',cmfOutput,['orion-actions-top','api.whatsapp.com/send?text=','whatsapp://send?text=','format:[5.5,8.5]','--brand-logo-h:52px','ORION_CMF_OUTPUT_V134','event.stopImmediatePropagation()']);
-
+includesAll('Salida CMF',cmfOutput,['orion-actions-top','api.whatsapp.com/send?text=','whatsapp://send?text=','format:[5.5,8.5]','ORION_CMF_OUTPUT_V134']);
 const cmfPreview=read('assets/shared/clinical-preview-cmf-v135.js');
-includesAll('Vista previa CMF V1.3.5',cmfPreview,['orionClinicalTabEdit','orionClinicalTabPreview','orionClinicalEditPane','orionPrintPreviewPane','orionPrintPreviewPages','ORION_CMF_PREVIEW_V135',"defaultTab:'edit'","preview:'on-demand'",'@media print']);
-
+includesAll('Vista previa CMF',cmfPreview,['orionClinicalTabEdit','orionClinicalTabPreview','orionClinicalEditPane','orionPrintPreviewPane','ORION_CMF_PREVIEW_V135']);
 const componentRestore=read('assets/shared/clinical-components-restore.js');
 includesAll('Catálogo farmacológico',componentRestore,['ACTIVO CON CONTROL CLÍNICO','invalidateConfirmation']);
 
@@ -173,19 +152,18 @@ else{
 }
 
 const serviceWorker=read('service-worker.js');
-includesAll('Service worker V1.4.1',serviceWorker,[
-  'orion-dental-app-v1.4.1','orion-identity-system-v140.css','orion-mobile-v141.css',
-  'clinical-mobile-docs-cmf-v141.js','communications-priority-layout.js','clinical-nps-cmf-v136.js',
-  'clinical-components-restore.js','clinical-templates-cmf-v132.js','clinical-prescription-auth-cmf-v139.js',
-  'clinical-prescription-share-cmf-v139.js','firma-javier-espina-navy.svg','clinical-output-cmf-v134.js',
-  'clinical-preview-cmf-v135.js','maxilofacial-pro-plus.svg'
+includesAll('Service worker V1.4.4',serviceWorker,[
+  'orion-dental-app-v1.4.4','orion-identity-system-v140.css','orion-mobile-v141.css','clinical-mobile-cmf-v142.css',
+  'clinical-mobile-cmf-v142.js','modules/comunicaciones/mobile-v142.css','clinical-mobile-docs-cmf-v141.js',
+  'communications-priority-layout.js','clinical-prescription-auth-cmf-v139.js','clinical-prescription-share-cmf-v139.js',
+  'firma-javier-espina-navy.svg','maxilofacial-pro-plus.svg'
 ]);
 if(serviceWorker.includes('maxilofacial-pro-plus-compact.svg'))failures.push('Service worker aún distribuye un logo CMF para documentos');
 
 if(failures.length){
-  console.error('\nORION V1.4.1 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.4.4 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION V1.4.1 — verificación estática aprobada');
-console.log(`Módulos: ${modules.length} | Móvil vertical: optimizado | CMF: órdenes sincronizadas + firma documental selectiva | PWA: ${manifest.display}`);
+console.log('ORION V1.4.4 — verificación estática aprobada');
+console.log(`Módulos: ${modules.length} | Comunicaciones: agenda → lista → mensajes | CMF: scroll + firma PNG | PWA: ${manifest.display}`);

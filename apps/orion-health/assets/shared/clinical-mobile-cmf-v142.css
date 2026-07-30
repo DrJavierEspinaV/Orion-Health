@@ -1,0 +1,60 @@
+/* ORION CMF V1.4.2 — correcciones móviles dentro del portal/iframe */
+body.orion-cmf-mobile,
+body.orion-cmf-mobile *{box-sizing:border-box;}
+body.orion-cmf-mobile{width:100%!important;max-width:100%!important;overflow-x:hidden!important;}
+body.orion-cmf-mobile main{width:100%!important;max-width:100%!important;padding-left:8px!important;padding-right:8px!important;overflow-x:hidden!important;}
+body.orion-cmf-mobile .card.no-print{width:100%!important;max-width:100%!important;min-width:0!important;padding:12px!important;margin-bottom:10px!important;border-radius:12px!important;overflow:hidden!important;}
+body.orion-cmf-mobile header.no-print>div{width:100%!important;max-width:100%!important;min-width:0!important;padding:10px 8px!important;flex-direction:column!important;align-items:flex-start!important;gap:7px!important;}
+body.orion-cmf-mobile header.no-print img[alt="Maxilofacial PRO+"]{width:min(215px,72vw)!important;min-width:150px!important;max-width:215px!important;height:auto!important;margin:0!important;}
+
+/* Bloque Tipo de receta: ningún elemento puede salir lateralmente. */
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between{display:block!important;width:100%!important;max-width:100%!important;}
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>h2{width:100%!important;margin:0 0 9px!important;font-size:18px!important;line-height:1.2!important;}
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;max-width:100%!important;gap:8px!important;justify-content:stretch!important;}
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div>div{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;}
+body.orion-cmf-mobile #fechaCertificado,
+body.orion-cmf-mobile #reposoDias{width:100%!important;max-width:100%!important;min-width:0!important;margin-top:4px!important;padding:9px 8px!important;}
+body.orion-cmf-mobile #btnDocCert,
+body.orion-cmf-mobile #btnDocBiopsia,
+body.orion-cmf-mobile #btnDocExams,
+body.orion-cmf-mobile #btnDocInter{width:100%!important;max-width:100%!important;min-width:0!important;min-height:46px!important;padding:8px 6px!important;font-size:11px!important;line-height:1.15!important;white-space:normal!important;}
+body.orion-cmf-mobile #certificadoEditorBox{width:100%!important;max-width:100%!important;padding:11px!important;}
+body.orion-cmf-mobile section.card.no-print>.flex.gap-2.mb-4{display:grid!important;grid-template-columns:1fr!important;width:100%!important;max-width:100%!important;gap:8px!important;}
+body.orion-cmf-mobile section.card.no-print>.flex.gap-2.mb-4>label{display:flex!important;width:100%!important;max-width:100%!important;min-width:0!important;align-items:center!important;white-space:normal!important;overflow-wrap:anywhere!important;padding:11px 12px!important;}
+body.orion-cmf-mobile input,
+body.orion-cmf-mobile select,
+body.orion-cmf-mobile textarea,
+body.orion-cmf-mobile button{max-width:100%!important;min-width:0!important;}
+
+/* Drawer de exámenes: scroll táctil desde cualquier parte del catálogo. */
+body.orion-cmf-mobile #examDrawer,
+body.orion-cmf-mobile #interDrawer{display:flex!important;flex-direction:column!important;inset:0!important;width:100%!important;max-width:100%!important;min-width:0!important;height:100dvh!important;overflow:hidden!important;border-left:0!important;}
+body.orion-cmf-mobile #examDrawer:not(.translate-x-full),
+body.orion-cmf-mobile #interDrawer:not(.translate-x-full){transform:translateX(0)!important;}
+body.orion-cmf-mobile #examDrawer>.p-4.border-b,
+body.orion-cmf-mobile #interDrawer>.p-4.border-b{flex:0 0 auto!important;padding:10px!important;}
+body.orion-cmf-mobile #examDrawer>.p-4.space-y-3,
+body.orion-cmf-mobile #interDrawer>.p-4.space-y-3{flex:1 1 auto!important;min-height:0!important;width:100%!important;max-width:100%!important;overflow-x:hidden!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;overscroll-behavior-y:contain!important;padding:10px!important;padding-bottom:max(18px,env(safe-area-inset-bottom))!important;}
+body.orion-cmf-mobile #examDrawer>.p-4.space-y-3 *,
+body.orion-cmf-mobile #interDrawer>.p-4.space-y-3 *{max-width:100%!important;min-width:0!important;box-sizing:border-box!important;}
+body.orion-cmf-mobile #examPanelLab,
+body.orion-cmf-mobile #examPanelImg{touch-action:pan-y!important;}
+body.orion-cmf-mobile #examPanelLab details,
+body.orion-cmf-mobile #examPanelImg details,
+body.orion-cmf-mobile #examPanelLab summary,
+body.orion-cmf-mobile #examPanelImg summary,
+body.orion-cmf-mobile #examPanelLab label,
+body.orion-cmf-mobile #examPanelImg label{touch-action:pan-y!important;}
+body.orion-cmf-mobile .orion-exam-actions-inline{position:sticky!important;top:-10px!important;z-index:20!important;width:calc(100% + 20px)!important;max-width:none!important;margin:0 -10px 8px!important;padding:9px 10px!important;background:#fff!important;border-top:0!important;border-bottom:1px solid #d8dde2!important;box-shadow:0 7px 14px rgba(31,63,91,.08)!important;}
+body.orion-cmf-mobile .orion-exam-actions-inline>div{display:grid!important;grid-template-columns:1fr!important;width:100%!important;gap:7px!important;}
+body.orion-cmf-mobile #btnExamOrderLab,
+body.orion-cmf-mobile #btnExamOrderImg{width:100%!important;min-height:46px!important;font-size:13px!important;font-weight:800!important;}
+
+/* Hojas clínicas en pantalla: la vista móvil no altera la impresión. */
+body.orion-cmf-mobile #printSheet,
+body.orion-cmf-mobile #printSheet2,
+body.orion-cmf-mobile #printDoc,
+body.orion-cmf-mobile #printExamLab,
+body.orion-cmf-mobile #printExamImg,
+body.orion-cmf-mobile #printInter{width:100%!important;max-width:100%!important;min-width:0!important;height:auto!important;overflow:hidden!important;}
+body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180px!important;}

@@ -1,0 +1,64 @@
+/* ORION Comunicaciones V1.4.2 — móvil real dentro del portal/iframe */
+body.orion-communications-mobile,
+body.orion-communications-mobile *{box-sizing:border-box;}
+body.orion-communications-mobile{width:100%!important;max-width:100%!important;overflow-x:hidden!important;}
+body.orion-communications-mobile main{width:100%!important;max-width:100%!important;margin:0!important;padding:6px!important;}
+body.orion-communications-mobile .crm-layout{display:flex!important;flex-direction:column!important;width:100%!important;max-width:100%!important;gap:8px!important;}
+body.orion-communications-mobile .crm-sidebar{order:1!important;width:100%!important;max-width:100%!important;min-width:0!important;position:relative!important;overflow:visible!important;}
+body.orion-communications-mobile .crm-left{order:2!important;width:100%!important;max-width:100%!important;min-width:0!important;}
+body.orion-communications-mobile .orion-data-source-panel{order:3!important;width:100%!important;max-width:100%!important;margin:0 0 8px!important;}
+body.orion-communications-mobile .card{width:100%!important;max-width:100%!important;min-width:0!important;margin-bottom:8px!important;padding:10px!important;border-radius:12px!important;}
+body.orion-communications-mobile .orion-priority-search,
+body.orion-communications-mobile .orion-priority-search>*{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;}
+body.orion-communications-mobile .orion-priority-search{display:grid!important;grid-template-columns:1fr!important;gap:7px!important;}
+body.orion-communications-mobile .orion-priority-search input,
+body.orion-communications-mobile .orion-priority-search select,
+body.orion-communications-mobile .orion-priority-search button{width:100%!important;max-width:100%!important;}
+body.orion-communications-mobile .date-filter-row{display:grid!important;grid-template-columns:1fr!important;gap:7px!important;}
+body.orion-communications-mobile .date-filter-row>div{width:100%!important;min-width:0!important;max-width:100%!important;}
+body.orion-communications-mobile .date-filter-actions{display:grid!important;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr)!important;gap:7px!important;}
+body.orion-communications-mobile .date-filter-actions .btn{width:100%!important;}
+
+/* La tabla deja de existir como tabla en móvil y se transforma en tarjetas clínicas. */
+body.orion-communications-mobile .crm-sidebar>.card.table,
+body.orion-communications-mobile .crm-sidebar .card.table{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow:visible!important;padding:6px!important;}
+body.orion-communications-mobile .table>.header,
+body.orion-communications-mobile .table .header{display:none!important;}
+body.orion-communications-mobile .table>#list,
+body.orion-communications-mobile .table #list{display:flex!important;flex-direction:column!important;width:100%!important;max-width:100%!important;min-width:0!important;max-height:none!important;overflow:visible!important;gap:8px!important;}
+body.orion-communications-mobile .table .row{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;border:1px solid #d7e1ee!important;border-radius:12px!important;overflow:hidden!important;background:#fff!important;box-shadow:0 3px 9px rgba(15,23,42,.05)!important;}
+body.orion-communications-mobile .table .row>div{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;padding:8px 9px!important;border:0!important;border-top:1px solid #edf2f7!important;text-align:left!important;justify-content:flex-start!important;overflow-wrap:anywhere!important;word-break:break-word!important;font-size:11px!important;line-height:1.25!important;}
+body.orion-communications-mobile .table .row>.patient-main{grid-column:1/-1!important;border-top:0!important;background:#f8fbff!important;padding:9px!important;}
+body.orion-communications-mobile .table .row>.patient-run::before,
+body.orion-communications-mobile .table .row>.patient-date::before,
+body.orion-communications-mobile .table .row>.patient-time::before,
+body.orion-communications-mobile .table .row>.patient-status::before,
+body.orion-communications-mobile .table .row>.patient-motive::before{display:block!important;margin-bottom:3px!important;color:#64748b!important;font-size:8.5px!important;font-weight:900!important;letter-spacing:.35px!important;text-transform:uppercase!important;}
+body.orion-communications-mobile .patient-run::before{content:'RUN';}
+body.orion-communications-mobile .patient-date::before{content:'Fecha';}
+body.orion-communications-mobile .patient-time::before{content:'Hora';}
+body.orion-communications-mobile .patient-status::before{content:'Estado';}
+body.orion-communications-mobile .patient-motive::before{content:'Motivo';}
+body.orion-communications-mobile .table .row>.patient-motive{grid-column:1/-1!important;}
+body.orion-communications-mobile .paciente-top{display:flex!important;flex-wrap:wrap!important;width:100%!important;max-width:100%!important;gap:5px!important;overflow:visible!important;margin:0 0 7px!important;padding:0!important;}
+body.orion-communications-mobile .udc-wrap,
+body.orion-communications-mobile .retraso-wrap,
+body.orion-communications-mobile .retraso-estimado-wrap{flex:0 1 auto!important;max-width:100%!important;}
+body.orion-communications-mobile .paciente-nombre{font-size:14px!important;line-height:1.18!important;}
+body.orion-communications-mobile .wa-row-line{width:100%!important;}
+body.orion-communications-mobile .btn.whatsapp.wa-action{width:100%!important;max-width:none!important;min-height:38px!important;}
+
+/* Mensajes después de la lista y con menos altura/padding. */
+body.orion-communications-mobile .crm-left>.card{padding:10px!important;}
+body.orion-communications-mobile .crm-left .editable{padding:10px!important;margin-top:8px!important;}
+body.orion-communications-mobile .crm-left .bar-2,
+body.orion-communications-mobile .crm-left .grid2,
+body.orion-communications-mobile .crm-left .surveyRow{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;}
+body.orion-communications-mobile .crm-left #mensajeTipo{min-height:116px!important;}
+body.orion-communications-mobile .crm-left #encuestaTexto{min-height:170px!important;}
+body.orion-communications-mobile .surveyTop{gap:8px!important;align-items:center!important;}
+body.orion-communications-mobile .surveyTop .left{min-width:0!important;}
+body.orion-communications-mobile .surveyTop .btn{flex:0 0 44%!important;padding:9px 7px!important;}
+body.orion-communications-mobile .orion-data-source-panel>summary{padding:8px 10px!important;min-height:42px!important;}
+body.orion-communications-mobile .orion-data-source-body{padding:9px!important;}
+body.orion-communications-mobile .orion-data-source-grid{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;}
