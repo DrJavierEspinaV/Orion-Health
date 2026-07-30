@@ -12,6 +12,7 @@
       .replace(/\.\.\/\.\.\/sw\.js/g,'../../service-worker.js')
       .replace(/<script[^>]+xlsx@0\.18\.5[^>]*><\/script>/i,'')
       .replace(/const CACHE_TTL_MS = 10 \* 60 \* 1000;/,'const CACHE_TTL_MS = 4 * 60 * 60 * 1000;')
+      .replace(/Orion Comunicaciones Clínicas <span class="r">®<\/span> — v5\.7 PRO_BD/g,'Orion Comunicaciones Clínicas <span class="r">®</span> — v5.7.5 PRO_BD')
       .replace(
         /const url = \(document\.getElementById\('dbWebappUrl'\)\?\.value \|\| ''\)\.trim\(\);\s*if\(!url\) return;\s*loadDb_\(\);/,
         "const url = (document.getElementById('dbWebappUrl')?.value || '').trim(); const tok = (document.getElementById('dbToken')?.value || '').trim(); if(!url || !tok) return; loadDb_();"
@@ -32,7 +33,7 @@ setTimeout(()=>{
   }catch(e){}
 }, cacheRestoredOnStart ? 1400 : 220);`
       )
-      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.0"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.0"></head>')
+      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.2"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.2"></head>')
       .replace('</body>',`<script>
 (function(){
   const XLSX_URL='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
@@ -58,7 +59,7 @@ setTimeout(()=>{
     catch(error){alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');console.error(error);}
   },true);
 })();
-</script><script src="../../assets/shared/session-config.js?v=1.4.0"></script><script src="../../assets/shared/communications-priority-layout.js?v=1.4.0"></script></body>`);
+</script><script src="../../assets/shared/session-config.js?v=1.4.2"></script><script src="../../assets/shared/communications-priority-layout.js?v=1.4.2"></script></body>`);
     document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();
