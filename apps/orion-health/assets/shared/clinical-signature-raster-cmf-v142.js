@@ -21,11 +21,22 @@
     if(!pngData) return 0;
     const images=Array.from(root.querySelectorAll?.('.firmaimg')||[]);
     images.forEach(image=>{
-      image.removeAttribute('onerror');
       image.style.removeProperty('display');
-      image.src=pngData;
+      image.decoding='sync';
+      image.srcset=`${pngData} 1x`;
+      image.sizes='300px';
+      image.dataset.orionSignaturePng=pngData;
       image.dataset.orionSignatureFormat='png-v142';
       image.setAttribute(DATA_ATTRIBUTE,'png-v142');
+
+      if(image.dataset.orionPngFallback!=='1'){
+        image.dataset.orionPngFallback='1';
+        image.addEventListener('error',()=>{
+          if(!pngData||image.src===pngData) return;
+          image.removeAttribute('srcset');
+          image.src=pngData;
+        },{once:true});
+      }
     });
     return images.length;
   }
@@ -93,6 +104,6 @@
     version:'1.4.2',
     ready:()=>rasterize(),
     apply:()=>applyPng(document),
-    format:()=>pngData?'png-data-url':'svg-fallback'
+    format:()=>pngData?'png-srcset':'svg-fallback'
   };
 })();
