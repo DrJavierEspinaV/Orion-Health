@@ -88,9 +88,22 @@
     });
   };
 
-  const prepareOutput=async()=>{
+  const preparePreview=async()=>{
     await rasterizeSignature();
     ensureVisibleSignatures();
+  };
+
+  const prepareOutput=async()=>{
+    const png=await rasterizeSignature();
+    if(png){
+      document.querySelectorAll('img.firmaimg').forEach(image=>{
+        image.removeAttribute('srcset');
+        image.src=png;
+        image.dataset.orionSignatureFormat='png-data-uri';
+      });
+    }
+    ensureVisibleSignatures();
+    return png;
   };
 
   function init(){
@@ -98,20 +111,21 @@
     placeExamActions();
     installSignatureFallback();
     ensureVisibleSignatures();
-    rasterizeSignature().then(ensureVisibleSignatures);
+    preparePreview();
 
     window.addEventListener('resize',()=>{applyMobileClass();placeExamActions();},{passive:true});
 
     document.addEventListener('pointerdown',event=>{
-      const action=event.target instanceof Element?event.target.closest('#btnPrint,#btnPdf,#btnWA,#btnCopy,#orionClinicalTabPreview'):null;
-      if(action)prepareOutput();
+      if(!(event.target instanceof Element))return;
+      if(event.target.closest('#btnPrint,#btnPdf,#btnWA,#btnCopy'))prepareOutput();
+      else if(event.target.closest('#orionClinicalTabPreview'))preparePreview();
     },true);
 
     document.addEventListener('click',event=>{
       if(event.target instanceof Element&&event.target.closest('#btnDocExams'))setTimeout(placeExamActions,0);
     },true);
 
-    window.ORION_CMF_MOBILE_V142={version:'1.4.4-r1',effectiveWidth,prepareOutput,placeExamActions,signature:'svg-with-png-fallback'};
+    window.ORION_CMF_MOBILE_V142={version:'1.4.4-r1',effectiveWidth,preparePreview,prepareOutput,placeExamActions,signature:'svg-with-png-fallback'};
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
