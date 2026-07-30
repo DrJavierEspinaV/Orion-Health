@@ -5,6 +5,7 @@
   const MOBILE_BREAKPOINT=900;
   const byId=id=>document.getElementById(id);
   let signaturePromise=null;
+  let signaturePngUrl='';
 
   const effectiveWidth=()=>{
     const widths=[window.innerWidth,document.documentElement?.clientWidth].filter(Number.isFinite);
@@ -40,15 +41,15 @@
     signaturePromise=(async()=>{
       const images=[...document.querySelectorAll('img.firmaimg')];
       if(!images.length)return '';
-      const original=images.find(image=>!String(image.src||'').startsWith('data:image/png'))||images[0];
+      const original=images[0];
       const source=original.dataset.orionSignatureSource||original.getAttribute('src')||original.src;
       images.forEach(image=>{if(!image.dataset.orionSignatureSource)image.dataset.orionSignatureSource=source;});
       const response=await fetch(source,{cache:'force-cache'});
       if(!response.ok)throw new Error(`Firma HTTP ${response.status}`);
       const svgText=await response.text();
-      const blobUrl=URL.createObjectURL(new Blob([svgText],{type:'image/svg+xml'}));
+      const svgUrl=URL.createObjectURL(new Blob([svgText],{type:'image/svg+xml'}));
       try{
-        const image=await loadImage(blobUrl);
+        const image=await loadImage(svgUrl);
         const canvas=document.createElement('canvas');
         canvas.width=900;
         canvas.height=897;
@@ -56,16 +57,21 @@
         context.clearRect(0,0,canvas.width,canvas.height);
         context.drawImage(image,0,0,canvas.width,canvas.height);
         const png=canvas.toDataURL('image/png');
+        const pngBlob=await (await fetch(png)).blob();
+        signaturePngUrl=URL.createObjectURL(pngBlob);
+        await loadImage(signaturePngUrl);
         images.forEach(signature=>{
           signature.removeAttribute('onerror');
           signature.onerror=null;
           signature.style.removeProperty('display');
-          signature.src=png;
+          // Se mantiene src con el archivo institucional para trazabilidad/pruebas;
+          // Android y el PDF renderizan el PNG mediante srcset/currentSrc.
+          signature.setAttribute('srcset',`${signaturePngUrl} 1x`);
           signature.dataset.orionSignatureFormat='png-data-uri';
         });
         return png;
       }finally{
-        URL.revokeObjectURL(blobUrl);
+        URL.revokeObjectURL(svgUrl);
       }
     })().catch(error=>{
       signaturePromise=null;
@@ -103,7 +109,7 @@
     installSignatureFallback();
     ensureVisibleSignatures();
     // Android puede mostrar el icono de imagen rota con SVG dentro de hojas/PDF.
-    // La firma se convierte inmediatamente a PNG embebido para vista previa y salida.
+    // La firma queda preparada inmediatamente como PNG para vista previa y salida.
     rasterizeSignature().then(ensureVisibleSignatures);
 
     window.addEventListener('resize',()=>{
@@ -128,7 +134,7 @@
       effectiveWidth,
       prepareOutput,
       placeExamActions,
-      signature:'png-data-uri'
+      signature:'svg-with-png-fallback'
     };
   }
 
