@@ -73,7 +73,7 @@ input,select,textarea,button{max-width:100%;}
 .orion-priority-search > div{min-width:0;}
 .orion-priority-search #export{min-height:44px;white-space:nowrap;}
 
-.orion-data-source-panel{padding:0 !important;margin-top:12px !important;overflow:hidden;box-shadow:none !important;border-style:dashed !important;}
+.orion-data-source-panel{grid-column:1 / -1 !important;order:3 !important;padding:0 !important;margin-top:12px !important;overflow:hidden;box-shadow:none !important;border-style:dashed !important;}
 .orion-data-source-panel > summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;padding:10px 14px;cursor:pointer;background:#f8fbff;list-style:none;}
 .orion-data-source-panel > summary::-webkit-details-marker{display:none;}
 .orion-data-source-title{font-size:12px;font-weight:900;color:#334155;text-transform:uppercase;letter-spacing:.2px;}
@@ -108,6 +108,7 @@ input,select,textarea,button{max-width:100%;}
 @media (max-width:1249px){
   .crm-sidebar{order:1 !important;}
   .crm-left{order:2 !important;}
+  .orion-data-source-panel{order:3 !important;}
 }
 
 @media (max-width:760px){
@@ -219,7 +220,7 @@ input,select,textarea,button{max-width:100%;}
   .btn.whatsapp.wa-action{width:100% !important;max-width:none !important;min-height:38px !important;}
 
   .orion-data-source-grid{grid-template-columns:1fr;}
-  .orion-data-source-panel{margin-top:8px !important;margin-bottom:8px !important;}
+  .orion-data-source-panel{margin-top:0 !important;margin-bottom:8px !important;}
   .orion-data-source-panel > summary{align-items:flex-start;flex-direction:column;gap:4px;min-height:42px;padding:8px 10px;}
   .orion-data-source-body{padding:9px !important;}
 
