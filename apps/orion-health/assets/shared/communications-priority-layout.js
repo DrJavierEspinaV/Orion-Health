@@ -16,6 +16,10 @@
     const bar=controlsCard?.querySelector('.bar');
     if(!sidebar||!controlsCard||!tableCard||!bar)return;
 
+    document.body.classList.add('orion-communications-patients-first');
+    sidebar.setAttribute('aria-label','Pacientes, agenda y lista clínica');
+    tableCard.setAttribute('aria-label','Lista de pacientes');
+
     const qBlock=directChild(document.getElementById('q'),bar);
     const statusBlock=directChild(document.getElementById('showFilter'),bar);
     const exportBlock=directChild(document.getElementById('export'),bar);
@@ -31,7 +35,7 @@
     const priority=document.createElement('section');
     priority.id='orionPatientPriorityControls';
     priority.className='orion-patient-priority-controls';
-    priority.innerHTML=`<div class="orion-priority-heading"><div><strong>Pacientes y agenda</strong><span>Búsqueda, fechas y lista clínica</span></div></div><div class="orion-priority-search" id="orionPrioritySearch"></div>`;
+    priority.innerHTML=`<div class="orion-priority-heading"><div><strong>Pacientes y agenda</strong><span>Primero selecciona al paciente; después prepara el mensaje</span></div></div><div class="orion-priority-search" id="orionPrioritySearch"></div>`;
     controlsCard.prepend(priority);
 
     const searchGrid=priority.querySelector('#orionPrioritySearch');
@@ -66,7 +70,7 @@
     syncStatus();
     [driveBadge,driveText].filter(Boolean).forEach(node=>new MutationObserver(syncStatus).observe(node,{childList:true,subtree:true,characterData:true}));
 
-    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.3.3',status:'PATIENTS_FIRST'};
+    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.4.3',status:'PATIENTS_LIST_FIRST_MESSAGES_AFTER'};
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
