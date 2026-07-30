@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r2';
+const CACHE_NAME='orion-dental-app-v1.4.4-r3';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
