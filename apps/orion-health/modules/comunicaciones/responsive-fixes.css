@@ -1,4 +1,4 @@
-/* ORION Comunicaciones — ajuste para ejecución dentro del portal */
+/* ORION Comunicaciones V1.4.3 — agenda prioritaria y lista clínica móvil */
 html,body{
   width:100% !important;
   max-width:100% !important;
@@ -104,14 +104,127 @@ input,select,textarea,button{max-width:100%;}
   }
 }
 
+/* Cuando la interfaz trabaja en una sola columna, la selección del paciente precede al mensaje. */
+@media (max-width:1249px){
+  .crm-sidebar{order:1 !important;}
+  .crm-left{order:2 !important;}
+}
+
 @media (max-width:760px){
-  header#orionHdr img{height:42px !important;}
-  header#orionHdr .hgroup h1{font-size:18px !important;}
+  header#orionHdr{padding:7px 9px !important;gap:8px !important;}
+  header#orionHdr img{height:40px !important;}
+  header#orionHdr .hgroup h1{font-size:17px !important;}
   header#orionHdr .hgroup p{display:none;}
-  main{padding:8px !important;}
-  .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;}
-  .orion-priority-search{grid-template-columns:1fr;}
-  .orion-priority-search #export{width:100%;}
+  main{padding:6px !important;}
+  .crm-layout{gap:8px !important;}
+  .crm-left,.crm-sidebar{width:100% !important;min-width:0 !important;}
+  .card{padding:11px !important;margin-bottom:9px !important;border-radius:12px !important;}
+  .bar,.bar-2,.grid2,.surveyRow{grid-template-columns:1fr !important;gap:8px !important;}
+  .orion-patient-priority-controls{gap:8px !important;}
+  .orion-priority-heading{padding-bottom:7px !important;}
+  .orion-priority-heading strong{font-size:14px !important;}
+  .orion-priority-heading span{font-size:10px !important;}
+  .orion-priority-search{grid-template-columns:1fr;gap:7px !important;}
+  .orion-priority-search #export{width:100%;min-height:40px !important;}
+  .date-filter-row{gap:7px !important;}
+  input[type="file"],select,textarea,input[type="text"],input[type="tel"],input[type="date"]{padding:10px 11px !important;border-radius:10px !important;}
+  .btn{padding:10px 12px !important;border-radius:10px !important;}
+
+  /* La tabla clínica se convierte en fichas completas; no existe compresión lateral. */
+  .crm-sidebar > .card.table,
+  .crm-sidebar .card.table{
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    overflow:visible !important;
+    padding:7px !important;
+  }
+  .table > .header,
+  .table .header{display:none !important;}
+  .table > #list,
+  .table #list{
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+  }
+  .table .row{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:0 !important;
+    width:100% !important;
+    min-width:0 !important;
+    margin:0 0 8px 0 !important;
+    border:1px solid #d7e1ee !important;
+    border-radius:11px !important;
+    overflow:hidden !important;
+    background:#fff !important;
+    box-shadow:0 3px 9px rgba(15,23,42,.05) !important;
+  }
+  .table .row:last-child{margin-bottom:0 !important;}
+  .table .row > div{
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    padding:8px 9px !important;
+    border:0 !important;
+    border-top:1px solid #edf2f7 !important;
+    text-align:left !important;
+    justify-content:flex-start !important;
+    overflow-wrap:anywhere !important;
+    word-break:break-word !important;
+    font-size:11px !important;
+    line-height:1.25 !important;
+  }
+  .table .row > div:first-child{
+    grid-column:1 / -1 !important;
+    border-top:0 !important;
+    padding:9px !important;
+    background:#f8fbff !important;
+  }
+  .table .row > div:nth-child(2)::before,
+  .table .row > div:nth-child(3)::before,
+  .table .row > div:nth-child(4)::before,
+  .table .row > div:nth-child(5)::before,
+  .table .row > div:nth-child(6)::before{
+    display:block !important;
+    margin-bottom:3px !important;
+    color:#64748b !important;
+    font-size:8.5px !important;
+    font-weight:900 !important;
+    letter-spacing:.35px !important;
+    text-transform:uppercase !important;
+  }
+  .table .row > div:nth-child(2)::before{content:"RUN";}
+  .table .row > div:nth-child(3)::before{content:"Fecha";}
+  .table .row > div:nth-child(4)::before{content:"Hora";}
+  .table .row > div:nth-child(5)::before{content:"Estado";}
+  .table .row > div:nth-child(6)::before{content:"Motivo";}
+  .table .row > div:nth-child(6){grid-column:1 / -1 !important;}
+  .table .row > div:nth-child(7){display:none !important;}
+  .paciente-nombre{font-size:14px !important;line-height:1.18 !important;}
+  .paciente-top{
+    display:flex !important;
+    width:100% !important;
+    flex-wrap:wrap !important;
+    gap:5px !important;
+    overflow:visible !important;
+    padding:0 !important;
+    margin-bottom:7px !important;
+  }
+  .udc-wrap,.retraso-wrap,.retraso-estimado-wrap{max-width:100% !important;}
+  .retraso-estimado-wrap{flex-wrap:wrap !important;}
+  .retraso-minutos{min-width:64px !important;max-width:78px !important;}
+  .wa-row-line{width:100% !important;}
+  .btn.whatsapp.wa-action{width:100% !important;max-width:none !important;min-height:38px !important;}
+
   .orion-data-source-grid{grid-template-columns:1fr;}
-  .orion-data-source-panel > summary{align-items:flex-start;flex-direction:column;gap:6px;}
+  .orion-data-source-panel{margin-top:8px !important;margin-bottom:8px !important;}
+  .orion-data-source-panel > summary{align-items:flex-start;flex-direction:column;gap:4px;min-height:42px;padding:8px 10px;}
+  .orion-data-source-body{padding:9px !important;}
+
+  /* El editor de mensajes queda después de la agenda y usa menos altura inicial. */
+  .crm-left #mensajeTipo{min-height:118px !important;}
+  .crm-left .editable{padding:10px !important;}
+  .crm-left .surveyBox{margin-top:8px !important;}
 }
