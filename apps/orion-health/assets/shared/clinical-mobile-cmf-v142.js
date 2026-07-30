@@ -1,6 +1,7 @@
 (()=>{
   'use strict';
 
+  // El desplazamiento táctil usa touch-action: pan-y en clinical-mobile-cmf-v142.css.
   const MOBILE_BREAKPOINT=900;
   const byId=id=>document.getElementById(id);
   let signaturePromise=null;
