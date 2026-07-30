@@ -27,7 +27,6 @@
     if(searchRow?.nextSibling!==footer)content.insertBefore(footer,searchRow?.nextSibling||content.firstChild);
   };
 
-  const imageLoaded=image=>image.complete&&image.naturalWidth>0;
   const loadImage=src=>new Promise((resolve,reject)=>{
     const image=new Image();
     image.onload=()=>resolve(image);
@@ -40,7 +39,9 @@
     signaturePromise=(async()=>{
       const images=[...document.querySelectorAll('img.firmaimg')];
       if(!images.length)return '';
-      const source=images[0].getAttribute('src')||images[0].src;
+      const original=images.find(image=>!String(image.src||'').startsWith('data:image/png'))||images[0];
+      const source=original.dataset.orionSignatureSource||original.getAttribute('src')||original.src;
+      images.forEach(image=>{if(!image.dataset.orionSignatureSource)image.dataset.orionSignatureSource=source;});
       const response=await fetch(source,{cache:'force-cache'});
       if(!response.ok)throw new Error(`Firma HTTP ${response.status}`);
       const svgText=await response.text();
@@ -56,6 +57,7 @@
         const png=canvas.toDataURL('image/png');
         images.forEach(signature=>{
           signature.removeAttribute('onerror');
+          signature.onerror=null;
           signature.style.removeProperty('display');
           signature.src=png;
           signature.dataset.orionSignatureFormat='png-data-uri';
@@ -79,6 +81,16 @@
     });
   };
 
+  const installSignatureFallback=()=>{
+    document.querySelectorAll('img.firmaimg').forEach(image=>{
+      const source=image.getAttribute('src')||image.src;
+      image.dataset.orionSignatureSource=source;
+      image.removeAttribute('onerror');
+      image.onerror=()=>rasterizeSignature();
+      image.style.removeProperty('display');
+    });
+  };
+
   const prepareOutput=async()=>{
     await rasterizeSignature();
     ensureVisibleSignatures();
@@ -87,15 +99,19 @@
   function init(){
     applyMobileClass();
     placeExamActions();
-    rasterizeSignature();
+    installSignatureFallback();
+    ensureVisibleSignatures();
+
     window.addEventListener('resize',()=>{
       applyMobileClass();
       placeExamActions();
     },{passive:true});
 
     document.addEventListener('pointerdown',event=>{
-      const action=event.target instanceof Element?event.target.closest('#btnPrint,#btnPdf,#btnWA,#orionClinicalTabPreview,#btnExamOrderLab,#btnExamOrderImg'):null;
+      const action=event.target instanceof Element?event.target.closest('#btnPrint,#btnPdf,#btnWA,#btnCopy'):null;
       if(action)prepareOutput();
+      const preview=event.target instanceof Element?event.target.closest('#orionClinicalTabPreview'):null;
+      if(preview)ensureVisibleSignatures();
     },true);
 
     document.addEventListener('click',event=>{
@@ -104,11 +120,11 @@
     },true);
 
     window.ORION_CMF_MOBILE_V142={
-      version:'1.4.2',
+      version:'1.4.4',
       effectiveWidth,
       prepareOutput,
       placeExamActions,
-      signature:'png-data-uri'
+      signature:'svg-with-png-fallback'
     };
   }
 
