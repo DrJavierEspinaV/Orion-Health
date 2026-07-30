@@ -25,6 +25,8 @@ test('CMF móvil contiene Tipo de Receta y fecha completa dentro de pantalla',as
     const modes=section?.querySelector(':scope > .flex.gap-2.mb-4');
     const date=document.getElementById('fechaCertificado');
     const rest=document.getElementById('reposoDias');
+    const cert=document.getElementById('btnDocCert');
+    const biopsy=document.getElementById('btnDocBiopsia');
     const targets=[section,header,modes,...(header?[...header.querySelectorAll('button,input,label')]:[]),...(modes?[...modes.children]:[])].filter(Boolean);
     const rects=targets.map(element=>element.getBoundingClientRect());
     return{
@@ -37,6 +39,8 @@ test('CMF móvil contiene Tipo de Receta y fecha completa dentro de pantalla',as
       modesDisplay:modes?getComputedStyle(modes).display:'',
       dateWidth:date?.getBoundingClientRect().width||0,
       restWidth:rest?.getBoundingClientRect().width||0,
+      certWidth:cert?.getBoundingClientRect().width||0,
+      biopsyWidth:biopsy?.getBoundingClientRect().width||0,
       dateValue:date?.value||''
     };
   });
@@ -46,8 +50,9 @@ test('CMF móvil contiene Tipo de Receta y fecha completa dentro de pantalla',as
   expect(metrics.headerDisplay).toBe('block');
   expect(metrics.modesDisplay).toBe('grid');
   expect(metrics.dateValue).toBe('2026-07-30');
-  expect(metrics.dateWidth).toBeGreaterThanOrEqual(170);
-  expect(metrics.dateWidth).toBeGreaterThan(metrics.restWidth+35);
+  expect(metrics.dateWidth).toBeGreaterThanOrEqual(180);
+  expect(metrics.dateWidth).toBeGreaterThan(metrics.restWidth+60);
+  expect(Math.abs(metrics.certWidth-metrics.biopsyWidth)).toBeLessThanOrEqual(2);
 });
 
 test('CMF móvil deja órdenes arriba y scroll táctil en catálogo',async({page})=>{
@@ -93,7 +98,7 @@ test('PWA no referencia recursos móviles inexistentes',async({request})=>{
   const response=await request.get('/apps/orion-health/service-worker.js');
   expect(response.ok()).toBeTruthy();
   const serviceWorker=await response.text();
-  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r2');
+  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r3');
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.css'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.js'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-signature-raster-v142.js'");
