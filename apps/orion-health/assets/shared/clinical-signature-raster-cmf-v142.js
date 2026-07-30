@@ -3,6 +3,7 @@
 
   const OUTPUT_IDS=new Set(['btnPrint','btnPdf','btnWA','btnCopy','orionClinicalTabPreview']);
   const SVG_URL=new URL('../../assets/brand/firma-javier-espina-navy.svg',document.baseURI).href;
+  const DATA_ATTRIBUTE='data-orion-signature-format';
   let pngData='';
   let settled=false;
   let promise=null;
@@ -24,6 +25,7 @@
       image.style.removeProperty('display');
       image.src=pngData;
       image.dataset.orionSignatureFormat='png-v142';
+      image.setAttribute(DATA_ATTRIBUTE,'png-v142');
     });
     return images.length;
   }
