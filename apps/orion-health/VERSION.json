@@ -1,12 +1,12 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.1-final-piloto",
+  "version": "1.4.2-final-piloto",
   "date": "2026-07-29",
   "modules": {
-    "portal": "1.4.1",
+    "portal": "1.4.2",
     "comunicaciones": "5.7.4",
     "insumos": "4.5.4",
-    "cmf": "4.3.35",
+    "cmf": "4.3.36",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2"
@@ -15,8 +15,8 @@
   "clinical_status": "CMF mantiene confirmación profesional, folio, fecha/hora, código de verificación y auditoría local para recetas; las órdenes de exámenes seleccionadas se sincronizan automáticamente al cerrar el panel o emitir una salida",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage; auditoría de recetas almacenada localmente en IndexedDB",
   "identity_status": "Sistema visual alineado con el Plan Maestro y los anexos ORION: Montserrat, Azul ORION #1F3F5B, Gris ORION #8C8C8C, Blanco y Fondo Corporativo #F3F3F3",
-  "layout_status": "Experiencia vertical móvil optimizada en portal y CMF; Maxilofacial PRO+ permanece exclusivamente en el encabezado del módulo y los documentos mantienen identidad ORION",
-  "signature_status": "Firma manuscrita visible en receta, certificado/orden de biopsia, orden de laboratorio, orden de imágenes e interconsulta; permanece oculta en indicaciones",
+  "layout_status": "Corrección Android vertical: controles documentales dentro del ancho útil, selector de modo en una columna, desplazamiento táctil central en Exámenes y acciones de orden bajo pestañas y búsqueda",
+  "signature_status": "Firma manuscrita rasterizada a PNG en el navegador para receta, certificado/orden de biopsia, laboratorio, imágenes e interconsulta; permanece oculta en indicaciones",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
-  "performance_status": "La corrección móvil y documental se distribuye desde recursos compartidos sin modificar las plantillas clínicas base"
+  "performance_status": "Las correcciones V1.4.2 se cargan como recursos compartidos sin modificar las plantillas clínicas fuente"
 }
