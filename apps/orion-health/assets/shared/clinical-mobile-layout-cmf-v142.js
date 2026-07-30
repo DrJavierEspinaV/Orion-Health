@@ -3,6 +3,27 @@
 
   const byId=id=>document.getElementById(id);
 
+  function resolveMobileViewportHeight(){
+    const ownVisual=Math.round(window.visualViewport?.height||0);
+    let parentHeight=0;
+    let parentVisual=0;
+    try{
+      if(window.parent&&window.parent!==window){
+        parentHeight=Math.round(window.parent.innerHeight||0);
+        parentVisual=Math.round(window.parent.visualViewport?.height||0);
+      }
+    }catch(_){ }
+    const candidates=[ownVisual,parentVisual,parentHeight,Math.round(window.innerHeight||0)].filter(value=>value>=480);
+    return candidates.length?Math.min(...candidates):Math.max(560,Math.round(window.innerHeight||0));
+  }
+
+  function setMobileViewport(){
+    const height=resolveMobileViewportHeight();
+    document.documentElement.style.setProperty('--orion-mobile-viewport-h',`${height}px`);
+    document.documentElement.dataset.orionMobileViewport=String(height);
+    return height;
+  }
+
   function decorateDocumentControls(){
     const certButton=byId('btnDocCert');
     const row=certButton?.closest('.mb-4.flex.items-center.justify-between.gap-3');
@@ -53,6 +74,7 @@
     const drawer=byId('examDrawer');
     if(!drawer) return;
 
+    setMobileViewport();
     const scrollArea=Array.from(drawer.children).find(child=>child.classList.contains('space-y-3')&&child.classList.contains('grow'));
     const actionBar=Array.from(drawer.children).find(child=>child.classList.contains('border-t'));
     const firstPanel=byId('examPanelLab');
@@ -74,9 +96,15 @@
   }
 
   function apply(){
+    setMobileViewport();
     decorateDocumentControls();
     arrangeExamDrawer();
   }
+
+  const refreshViewport=()=>setMobileViewport();
+  window.addEventListener('resize',refreshViewport,{passive:true});
+  window.visualViewport?.addEventListener('resize',refreshViewport,{passive:true});
+  try{window.parent?.addEventListener?.('resize',refreshViewport,{passive:true});}catch(_){ }
 
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply,{once:true});
   else apply();
@@ -84,7 +112,9 @@
   window.ORION_CMF_MOBILE_V142={
     version:'1.4.2',
     apply,
+    setMobileViewport,
     touchScroll:'manual+native',
-    examActions:'below-tabs'
+    examActions:'below-tabs',
+    viewport:'parent-aware'
   };
 })();
