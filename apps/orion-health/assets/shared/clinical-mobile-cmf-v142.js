@@ -1,6 +1,7 @@
 (()=>{
   'use strict';
 
+  // El catálogo usa touch-action: pan-y desde el CSS móvil para permitir desplazamiento central en Android.
   const MOBILE_BREAKPOINT=900;
   const byId=id=>document.getElementById(id);
   let signaturePromise=null;
