@@ -10,11 +10,20 @@
   function init(){
     if(document.getElementById('orionPatientPriorityControls'))return;
 
-    const sidebar=document.querySelector('.crm-sidebar');
+    const layout=document.querySelector('.crm-layout');
+    const messageWorkspace=layout?.querySelector(':scope > .crm-left');
+    const sidebar=layout?.querySelector(':scope > .crm-sidebar');
     const controlsCard=sidebar?.querySelector(':scope > .card:not(.table)');
     const tableCard=sidebar?.querySelector(':scope > .card.table');
     const bar=controlsCard?.querySelector('.bar');
-    if(!sidebar||!controlsCard||!tableCard||!bar)return;
+    if(!layout||!messageWorkspace||!sidebar||!controlsCard||!tableCard||!bar)return;
+
+    messageWorkspace.id='orionMessageWorkspace';
+    messageWorkspace.classList.add('orion-message-workspace');
+    sidebar.id='orionPatientWorkspace';
+    sidebar.classList.add('orion-patient-workspace');
+    controlsCard.id='orionPatientControlsCard';
+    tableCard.id='orionPatientListCard';
 
     const qBlock=directChild(document.getElementById('q'),bar);
     const statusBlock=directChild(document.getElementById('showFilter'),bar);
@@ -38,11 +47,18 @@
     [qBlock,statusBlock,exportBlock].filter(Boolean).forEach(node=>searchGrid.appendChild(node));
     [dateRow,todayChip,slotCard,documentStatus].filter(Boolean).forEach(node=>priority.appendChild(node));
 
+    if(!tableCard.querySelector('.orion-patient-list-heading')){
+      const heading=document.createElement('div');
+      heading.className='orion-patient-list-heading';
+      heading.innerHTML='<strong>Lista de pacientes</strong><span>Selecciona UDC, retraso o WhatsApp desde cada ficha</span>';
+      tableCard.prepend(heading);
+    }
+
     const dataPanel=document.createElement('details');
     dataPanel.id='orionDataSourcePanel';
     dataPanel.className='card orion-data-source-panel';
     dataPanel.innerHTML=`<summary><span class="orion-data-source-title">⚙️ Fuente de datos y conexión</span><span class="orion-data-source-status" id="orionDataSourceStatus">Estado pendiente</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>`;
-    sidebar.insertBefore(dataPanel,tableCard.nextSibling);
+    layout.appendChild(dataPanel);
 
     const dataGrid=dataPanel.querySelector('#orionDataSourceGrid');
     [fileBlock,driveBlock].filter(Boolean).forEach(node=>dataGrid.appendChild(node));
@@ -66,7 +82,7 @@
     syncStatus();
     [driveBadge,driveText].filter(Boolean).forEach(node=>new MutationObserver(syncStatus).observe(node,{childList:true,subtree:true,characterData:true}));
 
-    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.3.3',status:'PATIENTS_FIRST'};
+    window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.4.2',status:'PATIENTS_LIST_MESSAGES_DATA'};
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
