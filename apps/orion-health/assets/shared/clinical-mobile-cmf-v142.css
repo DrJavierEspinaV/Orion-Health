@@ -1,4 +1,4 @@
-/* ORION CMF V1.4.2 — correcciones móviles dentro del portal/iframe */
+/* ORION CMF V1.4.4-r2 — correcciones móviles dentro del portal/iframe */
 body.orion-cmf-mobile,
 body.orion-cmf-mobile *{box-sizing:border-box;}
 body.orion-cmf-mobile{width:100%!important;max-width:100%!important;overflow-x:hidden!important;}
@@ -10,10 +10,14 @@ body.orion-cmf-mobile header.no-print img[alt="Maxilofacial PRO+"]{width:min(215
 /* Bloque Tipo de receta: ningún elemento puede salir lateralmente. */
 body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between{display:block!important;width:100%!important;max-width:100%!important;}
 body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>h2{width:100%!important;margin:0 0 9px!important;font-size:18px!important;line-height:1.2!important;}
-body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;width:100%!important;max-width:100%!important;gap:8px!important;justify-content:stretch!important;}
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div{display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(92px,.75fr)!important;width:100%!important;max-width:100%!important;gap:8px!important;justify-content:stretch!important;}
 body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div>div{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important;}
+body.orion-cmf-mobile div:has(>#fechaCertificado),
+body.orion-cmf-mobile div:has(>#reposoDias){flex:initial!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-right:0!important;}
+body.orion-cmf-mobile section.card.no-print>.mb-4.flex.items-center.justify-between>div>div>label{font-size:12px!important;line-height:1.15!important;white-space:nowrap!important;}
 body.orion-cmf-mobile #fechaCertificado,
 body.orion-cmf-mobile #reposoDias{width:100%!important;max-width:100%!important;min-width:0!important;margin-top:4px!important;padding:9px 8px!important;}
+body.orion-cmf-mobile #fechaCertificado{font-size:14px!important;letter-spacing:-.15px!important;padding-left:7px!important;padding-right:3px!important;}
 body.orion-cmf-mobile #btnDocCert,
 body.orion-cmf-mobile #btnDocBiopsia,
 body.orion-cmf-mobile #btnDocExams,

@@ -14,14 +14,17 @@ async function openCmf(page){
   return frame;
 }
 
-test('CMF móvil contiene Tipo de Receta y modos dentro de pantalla',async({page})=>{
+test('CMF móvil contiene Tipo de Receta y fecha completa dentro de pantalla',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   const frame=await openCmf(page);
   await expect(frame.locator('body')).toHaveClass(/orion-cmf-mobile/);
+  await frame.locator('#fechaCertificado').fill('2026-07-30');
   const metrics=await frame.locator('body').evaluate(()=>{
     const section=document.querySelector('section:has(#btnDocCert)');
     const header=section?.querySelector(':scope > .mb-4.flex.items-center.justify-between');
     const modes=section?.querySelector(':scope > .flex.gap-2.mb-4');
+    const date=document.getElementById('fechaCertificado');
+    const rest=document.getElementById('reposoDias');
     const targets=[section,header,modes,...(header?[...header.querySelectorAll('button,input,label')]:[]),...(modes?[...modes.children]:[])].filter(Boolean);
     const rects=targets.map(element=>element.getBoundingClientRect());
     return{
@@ -31,7 +34,10 @@ test('CMF móvil contiene Tipo de Receta y modos dentro de pantalla',async({page
       maxRight:Math.max(...rects.map(rect=>rect.right)),
       viewport:window.innerWidth,
       headerDisplay:header?getComputedStyle(header).display:'',
-      modesDisplay:modes?getComputedStyle(modes).display:''
+      modesDisplay:modes?getComputedStyle(modes).display:'',
+      dateWidth:date?.getBoundingClientRect().width||0,
+      restWidth:rest?.getBoundingClientRect().width||0,
+      dateValue:date?.value||''
     };
   });
   expect(metrics.scrollWidth).toBeLessThanOrEqual(metrics.clientWidth+3);
@@ -39,6 +45,9 @@ test('CMF móvil contiene Tipo de Receta y modos dentro de pantalla',async({page
   expect(metrics.maxRight).toBeLessThanOrEqual(metrics.viewport+2);
   expect(metrics.headerDisplay).toBe('block');
   expect(metrics.modesDisplay).toBe('grid');
+  expect(metrics.dateValue).toBe('2026-07-30');
+  expect(metrics.dateWidth).toBeGreaterThanOrEqual(170);
+  expect(metrics.dateWidth).toBeGreaterThan(metrics.restWidth+35);
 });
 
 test('CMF móvil deja órdenes arriba y scroll táctil en catálogo',async({page})=>{
@@ -84,7 +93,7 @@ test('PWA no referencia recursos móviles inexistentes',async({request})=>{
   const response=await request.get('/apps/orion-health/service-worker.js');
   expect(response.ok()).toBeTruthy();
   const serviceWorker=await response.text();
-  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r1');
+  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r2');
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.css'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.js'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-signature-raster-v142.js'");
