@@ -107,7 +107,12 @@
     flex:0 0 auto!important;
   }
 
-  /* Panel Exámenes: desplazamiento táctil desde cualquier punto del contenido. */
+  /* Panel Exámenes: altura visual real del teléfono y scroll central. */
+  #examDrawer,
+  #interDrawer{
+    height:var(--orion-mobile-viewport-h,100dvh)!important;
+    max-height:var(--orion-mobile-viewport-h,100dvh)!important;
+  }
   #examDrawer{
     touch-action:pan-y!important;
     overscroll-behavior:none!important;
