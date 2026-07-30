@@ -1,0 +1,183 @@
+/* ORION Dental App V1.4.2 — correcciones móviles verificadas en Android vertical */
+
+@media screen and (max-width:700px){
+  body:not(.orion-portal) main,
+  body:not(.orion-portal) #orionClinicalEditPane,
+  body:not(.orion-portal) #orionClinicalEditPane > *,
+  body:not(.orion-portal) .card.no-print{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    overflow-x:hidden!important;
+  }
+
+  body:not(.orion-portal) #orionClinicalEditPane *,
+  body:not(.orion-portal) .card.no-print *{
+    box-sizing:border-box!important;
+    min-width:0;
+  }
+
+  /* Encabezado de documentos: título en una fila y controles dentro del ancho útil. */
+  .orion-doc-type-controls{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin-bottom:16px!important;
+  }
+  .orion-doc-type-controls > h2{
+    width:100%!important;
+    margin:0 0 10px 0!important;
+    font-size:17px!important;
+    line-height:1.2!important;
+  }
+  .orion-doc-type-controls > .orion-doc-actions{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    align-items:stretch!important;
+    justify-content:stretch!important;
+  }
+  .orion-doc-type-controls > .orion-doc-actions > *{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+  }
+  .orion-doc-type-controls .orion-doc-meta-field{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    align-content:start!important;
+    gap:4px!important;
+  }
+  .orion-doc-type-controls .orion-doc-meta-field label{
+    display:block!important;
+    width:100%!important;
+    font-size:11px!important;
+    line-height:1.2!important;
+    white-space:normal!important;
+  }
+  .orion-doc-type-controls #fechaCertificado,
+  .orion-doc-type-controls #reposoDias{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-height:42px!important;
+    padding:8px!important;
+  }
+  .orion-doc-type-controls #btnDocCert,
+  .orion-doc-type-controls #btnDocBiopsia,
+  .orion-doc-type-controls #btnDocExams,
+  .orion-doc-type-controls #btnDocInter{
+    width:100%!important;
+    max-width:100%!important;
+    min-height:54px!important;
+    padding:8px 6px!important;
+    font-size:11px!important;
+    line-height:1.18!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere!important;
+  }
+
+  /* Selector de modo: una opción por fila; nunca queda cortado a la derecha. */
+  .orion-mode-switch{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin-bottom:16px!important;
+  }
+  .orion-mode-switch .chip{
+    display:flex!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-height:52px!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    border-radius:14px!important;
+    padding:10px 12px!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere!important;
+    line-height:1.2!important;
+  }
+  .orion-mode-switch input[type="radio"]{
+    flex:0 0 auto!important;
+  }
+
+  /* Panel Exámenes: desplazamiento táctil desde cualquier punto del contenido. */
+  #examDrawer{
+    touch-action:pan-y!important;
+    overscroll-behavior:none!important;
+  }
+  #examDrawer > .orion-exam-scroll-area{
+    position:relative!important;
+    display:block!important;
+    flex:1 1 auto!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+    overscroll-behavior-y:contain!important;
+    touch-action:pan-y!important;
+    padding:12px!important;
+  }
+  #examDrawer > .orion-exam-scroll-area,
+  #examDrawer > .orion-exam-scroll-area *{
+    touch-action:pan-y!important;
+  }
+  #examDrawer > .orion-exam-scroll-area button,
+  #examDrawer > .orion-exam-scroll-area input,
+  #examDrawer > .orion-exam-scroll-area textarea{
+    touch-action:manipulation!important;
+  }
+
+  /* Acciones de orden inmediatamente bajo pestañas y búsqueda. */
+  #examDrawer .orion-exam-actions-top{
+    position:sticky!important;
+    top:-12px!important;
+    z-index:20!important;
+    width:auto!important;
+    max-width:none!important;
+    margin:0 -12px 10px -12px!important;
+    padding:9px 12px!important;
+    background:#FFFFFF!important;
+    border-top:0!important;
+    border-bottom:1px solid #D8DDE2!important;
+    box-shadow:0 7px 16px rgba(31,63,91,.10)!important;
+  }
+  #examDrawer .orion-exam-actions-top .flex{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:8px!important;
+    width:100%!important;
+  }
+  #examDrawer .orion-exam-actions-top #btnExamOrderLab,
+  #examDrawer .orion-exam-actions-top #btnExamOrderImg{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:48px!important;
+    padding:8px 5px!important;
+    font-size:11.5px!important;
+    line-height:1.18!important;
+    font-weight:700!important;
+    white-space:normal!important;
+  }
+
+  #examPanelLab,
+  #examPanelImg,
+  #examPanelLab details,
+  #examPanelImg details,
+  #examPanelLab summary,
+  #examPanelImg summary{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+}
