@@ -1,22 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r3-final-piloto",
-  "date": "2026-07-30",
+  "version": "1.4.4-r4-final-piloto",
+  "date": "2026-07-31",
   "modules": {
     "portal": "1.4.4",
     "comunicaciones": "5.7.6",
     "insumos": "4.5.4",
-    "cmf": "4.3.37",
+    "cmf": "4.3.38",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2"
   },
-  "release_status": "FINAL PILOTO — revisión móvil R3",
+  "release_status": "FINAL PILOTO — revisión documental móvil R4",
   "clinical_status": "CMF mantiene confirmación profesional, folio, fecha/hora, código de verificación y auditoría local para recetas; las órdenes de exámenes seleccionadas se sincronizan automáticamente al cerrar el panel o emitir una salida",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage; auditoría de recetas almacenada localmente en IndexedDB",
   "identity_status": "Sistema visual alineado con el Plan Maestro y los anexos ORION: Montserrat, Azul ORION #1F3F5B, Gris ORION #8C8C8C, Blanco y Fondo Corporativo #F3F3F3",
-  "layout_status": "En Comunicaciones móviles, Pacientes y agenda y la lista clínica aparecen antes del editor de mensajes. En CMF, la fila superior reserva cuatro sextos para Fecha certificado y dos sextos para Reposo; la botonera conserva su distribución 2 × 2",
+  "layout_status": "La botonera Imprimir, PDF Statement, WhatsApp y Copiar Texto queda en flujo normal en móvil y por debajo de los drawers clínicos, evitando cubrir campos. Interconsulta reinicia su panel en la parte superior al abrirse",
   "signature_status": "Firma manuscrita preparada como PNG desde la carga para receta, certificado/orden de biopsia, orden de laboratorio, orden de imágenes e interconsulta; permanece oculta en indicaciones",
+  "output_status": "PDF Statement usa directamente html2pdf en formato 5,5 × 8,5 pulgadas, con respaldo mediante impresión del navegador si el motor externo no está disponible",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
-  "performance_status": "La caché PWA V1.4.4-r3 fuerza la actualización del ajuste móvil de fecha sin alterar documentos, impresión ni lógica clínica"
+  "performance_status": "La caché PWA V1.4.4-r4 fuerza la carga de los ajustes documentales sin modificar plantillas clínicas, dosis ni contenido de impresión"
 }
