@@ -1,0 +1,17 @@
+/* ORION Dental App V1.4.4-r7 — integración de Armonización Orofacial */
+body.route-selector-mode .menu-btn[data-app="armonizacion"]{
+  grid-column:1 / -1!important;
+  width:calc(50% - 7px)!important;
+  justify-self:center!important;
+  border-color:rgba(255,255,255,.22)!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.055))!important;
+}
+body.route-selector-mode .menu-btn[data-app="armonizacion"].active{
+  background:#fff!important;
+  color:#1f3f5b!important;
+}
+@media(max-width:640px){
+  body.route-selector-mode .menu-btn[data-app="armonizacion"]{
+    width:100%!important;
+  }
+}
