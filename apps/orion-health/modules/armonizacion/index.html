@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#1F3F5B">
+  <title>ORION Armonización Orofacial — V1.0</title>
+  <link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.4-r7">
+  <link rel="stylesheet" href="./styles.css?v=1.0.0">
+</head>
+<body>
+  <header class="module-header no-print">
+    <img src="../../assets/brand/orion-health.png" alt="ORION Health">
+    <div>
+      <p class="eyebrow">ORION Health · Unidad clínica estética</p>
+      <h1>ORION Armonización Orofacial<span>®</span></h1>
+      <p>Evaluación, trazabilidad, seguridad, consentimiento e indicaciones posteriores.</p>
+    </div>
+    <span class="version">V1.0 · PILOTO</span>
+  </header>
+
+  <main>
+    <section class="notice no-print" aria-label="Estado del módulo">
+      <strong>Versión clínica inicial.</strong>
+      <span>El profesional conserva la decisión clínica. No convierte unidades entre marcas ni propone dosis automáticas.</span>
+    </section>
+
+    <section class="card no-print">
+      <div class="section-head">
+        <div><span class="step">1</span><h2>Paciente y objetivo</h2></div>
+        <span class="status neutral" id="patientStatus">Datos pendientes</span>
+      </div>
+      <div class="grid grid-4">
+        <label class="field span-2">Nombre completo
+          <input id="p_nombre" autocomplete="name" placeholder="Nombre del paciente">
+        </label>
+        <label class="field">RUN / RUT
+          <input id="p_rut" placeholder="12.345.678-9">
+        </label>
+        <label class="field">Edad
+          <input id="p_edad" type="number" min="18" max="120" placeholder="Años">
+        </label>
+        <label class="field">Teléfono
+          <input id="p_telefono" type="tel" placeholder="+56 9 ...">
+        </label>
+        <label class="field span-3">Motivo de consulta y expectativa
+          <textarea id="motivo" rows="3" placeholder="Qué desea mejorar, resultado esperado y motivo principal"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section class="card no-print">
+      <div class="section-head">
+        <div><span class="step">2</span><h2>Evaluación previa</h2></div>
+        <span class="status neutral" id="riskBadge">Evaluación pendiente</span>
+      </div>
+      <p class="helper">Selecciona antecedentes presentes. ORION los estratifica como alertas de revisión; no sustituye la evaluación profesional.</p>
+      <div class="check-grid" id="riskChecks">
+        <label><input type="checkbox" value="embarazo"> Embarazo o lactancia</label>
+        <label><input type="checkbox" value="neuromuscular"> Enfermedad neuromuscular</label>
+        <label><input type="checkbox" value="sangrado"> Trastorno de coagulación</label>
+        <label><input type="checkbox" value="anticoagulante"> Anticoagulantes / antiagregantes</label>
+        <label><input type="checkbox" value="autoinmune"> Enfermedad autoinmune activa</label>
+        <label><input type="checkbox" value="inmunosupresion"> Inmunosupresión</label>
+        <label><input type="checkbox" value="infeccion"> Infección, herpes o inflamación activa</label>
+        <label><input type="checkbox" value="anafilaxia"> Anafilaxia o reacción grave previa</label>
+        <label><input type="checkbox" value="relleno_desconocido"> Relleno previo desconocido o permanente</label>
+        <label><input type="checkbox" value="dental_reciente"> Infección o procedimiento dental reciente</label>
+        <label><input type="checkbox" value="cicatrizacion"> Queloides / cicatrización patológica</label>
+        <label><input type="checkbox" value="expectativa"> Expectativa difícil o desproporcionada</label>
+      </div>
+      <div class="grid grid-2 compact-top">
+        <label class="field">Alergias y reacciones previas
+          <textarea id="alergias" rows="2" placeholder="Fármacos, lidocaína, productos inyectables, otros"></textarea>
+        </label>
+        <label class="field">Medicamentos y antecedentes relevantes
+          <textarea id="antecedentes" rows="2" placeholder="Incluye procedimientos estéticos previos y fechas"></textarea>
+        </label>
+      </div>
+      <div class="risk-panel neutral" id="riskPanel">
+        <strong>ORION Aesthetic Safety Engine</strong>
+        <p>Selecciona el tratamiento y los antecedentes para obtener una revisión dirigida.</p>
+        <ul id="riskList"></ul>
+      </div>
+    </section>
+
+    <section class="card no-print">
+      <div class="section-head">
+        <div><span class="step">3</span><h2>Procedimiento</h2></div>
+        <span class="status neutral" id="procedureStatus">Sin seleccionar</span>
+      </div>
+      <div class="procedure-grid" id="procedurePicker">
+        <button type="button" data-procedure="toxina">Toxina botulínica<span>Neuromodulación estética o funcional</span></button>
+        <button type="button" data-procedure="relleno">Ácido hialurónico / relleno<span>Volumen, soporte y contorno</span></button>
+        <button type="button" data-procedure="bioestimulador">Bioestimulación<span>Producto y protocolo específico</span></button>
+        <button type="button" data-procedure="prp">PRP / PRF<span>Registro autólogo y trazabilidad</span></button>
+        <button type="button" data-procedure="combinado">Procedimiento combinado<span>Más de una intervención</span></button>
+        <button type="button" data-procedure="otro">Otro<span>Prestación estética editable</span></button>
+      </div>
+      <input type="hidden" id="procedimiento" value="">
+
+      <div class="subcard" id="traceabilityBlock">
+        <h3>Trazabilidad obligatoria</h3>
+        <div class="grid grid-4">
+          <label class="field span-2">Producto / marca
+            <input id="producto" placeholder="Nombre exacto del envase">
+          </label>
+          <label class="field">Principio activo / material
+            <input id="material" placeholder="Ej. onabotulinumtoxinA / AH">
+          </label>
+          <label class="field">Registro sanitario / referencia
+            <input id="registro" placeholder="Registro ISP u otro identificador">
+          </label>
+          <label class="field">Lote
+            <input id="lote" placeholder="Lote">
+          </label>
+          <label class="field">Vencimiento
+            <input id="vencimiento" type="date">
+          </label>
+          <label class="field">Proveedor
+            <input id="proveedor" placeholder="Proveedor / distribuidor">
+          </label>
+          <label class="field">Fecha y hora
+            <input id="fechaProcedimiento" type="datetime-local">
+          </label>
+        </div>
+      </div>
+
+      <div class="procedure-panel hidden" id="panelToxina">
+        <h3>Toxina botulínica</h3>
+        <div class="safety-note"><strong>Unidades vinculadas al producto.</strong> ORION no realiza equivalencias entre preparaciones o marcas.</div>
+        <div class="grid grid-4">
+          <label class="field">Diluyente
+            <input id="toxDiluyente" placeholder="Solución utilizada">
+          </label>
+          <label class="field">Volumen de reconstitución
+            <input id="toxReconstitucion" placeholder="mL">
+          </label>
+          <label class="field">Fecha/hora de reconstitución
+            <input id="toxFechaReconstitucion" type="datetime-local">
+          </label>
+          <label class="field">Unidades totales
+            <input id="toxUnidades" type="number" min="0" step="0.1" placeholder="U del producto">
+          </label>
+          <label class="field span-2">Zonas y músculos tratados
+            <textarea id="toxZonas" rows="3" placeholder="Zona, músculo, lado y objetivo"></textarea>
+          </label>
+          <label class="field span-2">Mapa de puntos y unidades
+            <textarea id="toxMapa" rows="3" placeholder="Ej. punto / lado / unidades del producto"></textarea>
+          </label>
+        </div>
+      </div>
+
+      <div class="procedure-panel hidden" id="panelRelleno">
+        <h3>Relleno / ácido hialurónico</h3>
+        <div class="grid grid-4">
+          <label class="field">Volumen total
+            <input id="fillVolumen" type="number" min="0" step="0.01" placeholder="mL">
+          </label>
+          <label class="field">Zona
+            <input id="fillZona" placeholder="Zona tratada">
+          </label>
+          <label class="field">Plano
+            <input id="fillPlano" placeholder="Plano anatómico">
+          </label>
+          <label class="field">Técnica
+            <input id="fillTecnica" placeholder="Técnica utilizada">
+          </label>
+          <label class="field">Dispositivo
+            <select id="fillDispositivo"><option value="">Selecciona</option><option>Aguja</option><option>Cánula</option><option>Combinado</option></select>
+          </label>
+          <label class="field">Calibre
+            <input id="fillCalibre" placeholder="G / longitud">
+          </label>
+          <label class="field span-2">Puntos de entrada, lado y distribución
+            <textarea id="fillMapa" rows="2" placeholder="Detalle por zona y lado"></textarea>
+          </label>
+        </div>
+        <div class="readiness">
+          <label><input id="hialuronidasa" type="checkbox"> Hialuronidasa disponible y vigente cuando corresponde</label>
+          <label><input id="protocoloVascular" type="checkbox"> Protocolo de complicación vascular accesible</label>
+          <label><input id="derivacionUrgente" type="checkbox"> Ruta de derivación urgente verificada</label>
+        </div>
+      </div>
+
+      <div class="procedure-panel hidden" id="panelGeneral">
+        <h3>Detalle del procedimiento</h3>
+        <div class="grid grid-2">
+          <label class="field">Nombre específico
+            <input id="otroNombre" placeholder="Tratamiento realizado">
+          </label>
+          <label class="field">Cantidad / volumen / sesiones
+            <input id="otroCantidad" placeholder="Registro cuantitativo">
+          </label>
+          <label class="field span-2">Técnica, zonas y observaciones
+            <textarea id="otroDetalle" rows="3" placeholder="Descripción clínica completa"></textarea>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="card no-print">
+      <div class="section-head"><div><span class="step">4</span><h2>Consentimiento y registro</h2></div></div>
+      <div class="check-grid consent" id="consentChecks">
+        <label><input type="checkbox" value="objetivo"> Se explicó objetivo, alternativas y límites</label>
+        <label><input type="checkbox" value="resultado"> Se aclaró que el resultado no está garantizado</label>
+        <label><input type="checkbox" value="duracion"> Se explicó duración estimada y posible retoque</label>
+        <label><input type="checkbox" value="riesgos_comunes"> Se explicaron efectos frecuentes y transitorios</label>
+        <label><input type="checkbox" value="riesgos_graves"> Se explicaron complicaciones graves y conducta</label>
+        <label><input type="checkbox" value="producto"> Paciente conoce el producto y zona de aplicación</label>
+        <label><input type="checkbox" value="preguntas"> Se respondieron preguntas antes de proceder</label>
+        <label><input type="checkbox" value="control"> Se acordó control y canal de contacto</label>
+        <label><input type="checkbox" value="foto_clinica"> Autoriza fotografía para ficha clínica</label>
+        <label><input type="checkbox" value="foto_difusion"> Autoriza difusión independiente y específica</label>
+      </div>
+      <div class="grid grid-3 compact-top">
+        <label class="field">Profesional
+          <input id="profesional" value="Dra. Pía Coronado Madariaga">
+        </label>
+        <label class="field">Registro profesional
+          <input id="registroProfesional" placeholder="Registro / especialidad">
+        </label>
+        <label class="field">Control programado
+          <input id="controlFecha" type="date">
+        </label>
+      </div>
+    </section>
+
+    <section class="card no-print">
+      <div class="section-head"><div><span class="step">5</span><h2>Indicaciones y seguimiento</h2></div></div>
+      <div class="action-row">
+        <button type="button" class="primary" id="btnGenerate">Actualizar resumen e indicaciones</button>
+        <button type="button" id="btnSave">Guardar borrador en esta sesión</button>
+        <button type="button" id="btnRestore">Recuperar borrador</button>
+        <button type="button" class="danger-outline" id="btnClear">Limpiar</button>
+      </div>
+      <label class="field compact-top">Indicaciones posteriores editables
+        <textarea id="indicaciones" rows="12" placeholder="Se generan según el procedimiento seleccionado"></textarea>
+      </label>
+      <label class="field compact-top">Observaciones clínicas y plan de seguimiento
+        <textarea id="observaciones" rows="4" placeholder="Asimetrías previas, tolerancia, respuesta inmediata, controles y derivaciones"></textarea>
+      </label>
+    </section>
+
+    <section class="emergency no-print">
+      <div>
+        <strong>Complicación aguda</strong>
+        <p>Dolor inusual, blanqueamiento o cambio gris/azulado, alteración visual, déficit neurológico, disfagia, disnea o debilidad generalizada requieren evaluación inmediata y activación del protocolo correspondiente.</p>
+      </div>
+      <button type="button" id="btnEmergency">Registrar alerta clínica</button>
+    </section>
+
+    <section class="card output" id="printSheet">
+      <div class="output-head">
+        <div class="output-brand"><img src="../../assets/brand/orion-health.png" alt="ORION"><div><strong>ORION Armonización Orofacial</strong><span>Ficha clínica estética · V1.0</span></div></div>
+        <div class="folio"><span>Fecha</span><strong id="outFecha">—</strong></div>
+      </div>
+      <h2>Resumen clínico y trazabilidad</h2>
+      <div class="summary-grid">
+        <p><b>Paciente:</b> <span id="outNombre">—</span></p>
+        <p><b>RUN/RUT:</b> <span id="outRut">—</span></p>
+        <p><b>Edad:</b> <span id="outEdad">—</span></p>
+        <p><b>Procedimiento:</b> <span id="outProcedimiento">—</span></p>
+      </div>
+      <div class="output-section"><h3>Evaluación de seguridad</h3><pre id="outRiesgo">Pendiente</pre></div>
+      <div class="output-section"><h3>Producto y técnica</h3><pre id="outProducto">Pendiente</pre></div>
+      <div class="output-section"><h3>Consentimiento registrado</h3><pre id="outConsentimiento">Pendiente</pre></div>
+      <div class="output-section"><h3>Indicaciones posteriores</h3><pre id="outIndicaciones">Pendiente</pre></div>
+      <div class="output-section"><h3>Observaciones y seguimiento</h3><pre id="outObservaciones">Sin observaciones</pre></div>
+      <div class="signature-area"><div><span>Firma paciente</span></div><div><span id="outProfesional">Firma profesional</span></div></div>
+    </section>
+
+    <div class="bottom-actions no-print">
+      <button type="button" id="btnPrint">Imprimir ficha</button>
+      <button type="button" id="btnCopy">Copiar resumen</button>
+    </div>
+  </main>
+
+  <dialog id="emergencyDialog">
+    <form method="dialog">
+      <div class="dialog-head"><h2>Registro de alerta clínica</h2><button value="cancel" aria-label="Cerrar">×</button></div>
+      <p class="danger-text">Este registro no reemplaza la activación inmediata del protocolo clínico ni la derivación urgente.</p>
+      <div class="check-grid single" id="emergencyChecks">
+        <label><input type="checkbox" value="dolor_inusual"> Dolor inusual o desproporcionado</label>
+        <label><input type="checkbox" value="coloracion"> Blanqueamiento, livedo o cambio gris/azulado</label>
+        <label><input type="checkbox" value="visual"> Alteración visual</label>
+        <label><input type="checkbox" value="neurologico"> Síntomas neurológicos</label>
+        <label><input type="checkbox" value="respiratorio"> Disfagia, disnea o disfonía</label>
+        <label><input type="checkbox" value="debilidad"> Debilidad generalizada</label>
+      </div>
+      <label class="field">Hora, acciones y derivación
+        <textarea id="emergencyNotes" rows="5" placeholder="Hora de inicio, signos, medidas realizadas, contactos y destino"></textarea>
+      </label>
+      <menu><button value="cancel">Cancelar</button><button value="default" class="danger" id="btnEmergencySave">Registrar en observaciones</button></menu>
+    </form>
+  </dialog>
+
+  <script src="../../assets/shared/patient-bridge.js?v=1.4.4-r7"></script>
+  <script src="./script.js?v=1.0.0"></script>
+</body>
+</html>
