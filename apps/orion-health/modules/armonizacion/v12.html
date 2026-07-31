@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ORION Armonización Orofacial V1.2</title></head>
+<body>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('./index.html?base=1&v=1.1.0',{cache:'no-store'});
+    if(!response.ok)throw new Error('No fue posible cargar la base V1.1');
+    let html=await response.text();
+    html=html
+      .replace(/ORION Armonización Orofacial — V1\.1/g,'ORION Armonización Orofacial — V1.2')
+      .replace(/Documento clínico estético · V1\.1/g,'Documento clínico estético · V1.2')
+      .replace(/V1\.1 · PILOTO/g,'V1.2 · PILOTO')
+      .replace('</head>','<link rel="stylesheet" href="./enhancement-v12.css?v=1.2.0"></head>')
+      .replace('</body>','<script src="./enhancement-v12.js?v=1.2.0"><\/script></body>');
+    document.open();document.write(html);document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:Arial;padding:24px"><h1>ORION Armonización Orofacial</h1><p>No fue posible cargar la actualización V1.2.</p></main>';
+    console.error(error);
+  }
+})();
+</script>
+</body>
+</html>
