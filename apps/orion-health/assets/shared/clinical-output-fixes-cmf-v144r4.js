@@ -23,7 +23,6 @@
   };
 
   const visiblePages=()=>PAGE_IDS.map(id=>$(id)).filter(isVisible);
-
   const safeValue=id=>String($(id)?.value||'').trim();
 
   const cleanToken=value=>String(value||'')
@@ -31,11 +30,12 @@
     .replace(/[^a-zA-Z0-9]+/g,'_')
     .replace(/^_+|_+$/g,'');
 
-  const pdfFilename=pages=>{
+  const pdfFilename=(pages,auth)=>{
     const patient=cleanToken(safeValue('p_nombre'));
     const labels=[...new Set(pages.map(page=>PAGE_NAMES[page.id]||'Documento'))];
     const documentName=labels.length===1?labels[0]:'Documentos_Clinicos';
-    return `${documentName}_ORION${patient?`_${patient}`:''}.pdf`;
+    const folio=cleanToken(auth?.folio||'');
+    return `${documentName}_ORION${patient?`_${patient}`:''}${folio?`_${folio}`:''}.pdf`;
   };
 
   const loadPdfLibrary=()=>{
@@ -49,11 +49,11 @@
       };
       const existing=[...document.scripts].find(script=>String(script.src||'').includes('html2pdf'));
       if(existing){
-        if(existing.dataset.orionLoaded==='1')finish();
-        else{
-          existing.addEventListener('load',()=>{existing.dataset.orionLoaded='1';finish();},{once:true});
+        if(typeof window.html2pdf==='function'){
+          finish();
+        }else{
+          existing.addEventListener('load',finish,{once:true});
           existing.addEventListener('error',()=>reject(new Error('No fue posible cargar html2pdf.')),{once:true});
-          setTimeout(finish,0);
         }
         return;
       }
@@ -62,7 +62,7 @@
       script.src=PDF_BUNDLE_URL;
       script.async=true;
       script.dataset.orionPdfBundle='r4';
-      script.onload=()=>{script.dataset.orionLoaded='1';finish();};
+      script.onload=finish;
       script.onerror=()=>reject(new Error('No fue posible cargar el motor PDF.'));
       document.head.appendChild(script);
     }).catch(error=>{
@@ -159,6 +159,12 @@
     button.textContent=label;
   };
 
+  const authorizePdf=async()=>{
+    const api=window.ORION_CMF_RX_AUTH;
+    if(!api?.authorize)throw new Error('Módulo de autorización clínica no disponible.');
+    return api.authorize('PDF');
+  };
+
   async function generateStatementPdf(){
     if(pdfRunning)return;
     pdfRunning=true;
@@ -168,6 +174,9 @@
 
     let stage=null;
     try{
+      const auth=await authorizePdf();
+      if(!auth)return;
+
       try{if(typeof window.render==='function')window.render();}catch(_){ }
       await window.ORION_CMF_MOBILE_V142?.prepareOutput?.();
       const html2pdf=await loadPdfLibrary();
@@ -179,7 +188,7 @@
 
       const worker=html2pdf().set({
         margin:0,
-        filename:pdfFilename(pages),
+        filename:pdfFilename(pages,auth),
         image:{type:'jpeg',quality:.98},
         html2canvas:{
           scale:2,
@@ -197,6 +206,7 @@
       }).from(stage);
 
       await worker.save();
+      await window.ORION_CMF_RX_AUTH?.logOutput?.('PDF',auth);
     }catch(error){
       console.error('ORION PDF R4:',error);
       alert('No fue posible generar el PDF directo. Se abrirá la impresión en formato Statement para guardarlo como PDF.');
@@ -287,7 +297,7 @@
     installHandlers();
     window.ORION_CMF_OUTPUT_FIXES_R4={
       version:PATCH_VERSION,
-      pdf:'html2pdf-direct-statement',
+      pdf:'html2pdf-direct-statement-authorized',
       actions:'normal-flow-mobile',
       interconsulta:'drawer-top-reset'
     };
