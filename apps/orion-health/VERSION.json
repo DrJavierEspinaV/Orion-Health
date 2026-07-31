@@ -1,6 +1,6 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r7-final-piloto",
+  "version": "1.4.4-r8-final-piloto",
   "date": "2026-07-31",
   "modules": {
     "portal": "1.4.4-r7",
@@ -10,15 +10,15 @@
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.0.0-piloto"
+    "armonizacion_orofacial": "1.1.0-piloto"
   },
-  "release_status": "FINAL PILOTO — incorporación de ORION Armonización Orofacial V1.0 y séptima ruta clínica R7",
-  "clinical_status": "El nuevo módulo estético incorpora identificación del paciente, evaluación previa, ORION Aesthetic Safety Engine, registro diferenciado de toxina botulínica y rellenos, trazabilidad de producto/lote/vencimiento, consentimiento por ítems, indicaciones posteriores y registro de alertas clínicas",
-  "security_status": "Los borradores de Armonización se conservan únicamente durante la sesión mediante sessionStorage; no se almacenan fotografías ni documentos clínicos en servidores desde esta versión inicial",
-  "identity_status": "Sistema visual alineado con ORION Health: Montserrat, Azul ORION #1F3F5B, Fondo Corporativo, paneles clínicos y salida imprimible tipo ficha",
-  "layout_status": "El portal integra una séptima ruta centrada y a ancho completo en móvil. Armonización usa diseño responsive, formularios en una columna en teléfono y ficha resumen imprimible",
-  "signature_status": "La V1.0 deja áreas de firma de paciente y profesional preparadas; la firma digital y el consentimiento legal definitivo quedan para la siguiente etapa",
-  "output_status": "La ficha estética puede imprimirse y copiarse como resumen. La generación PDF firmada, el mapa anatómico visual y la integración fotográfica se programan para V1.1",
-  "insumos_status": "La trazabilidad exige producto, material, registro sanitario o referencia, lote, vencimiento, proveedor y cantidad utilizada; la integración automática con ORION Insumos queda preparada para una versión posterior",
-  "performance_status": "La caché PWA V1.4.4-r7 incluye el módulo estético completo y fuerza la actualización del portal sin modificar los módulos clínicos previamente estabilizados"
+  "release_status": "FINAL PILOTO — calculadora de reconstitución y mapa facial interactivo para ORION Armonización Orofacial V1.1",
+  "clinical_status": "Armonización V1.1 mantiene evaluación previa, Safety Engine, trazabilidad y consentimiento; incorpora cálculo matemático de concentración, unidades por volumen y graduación, remanente, planificación y registro real por punto, sin equivalencias entre marcas ni selección automática de dosis",
+  "security_status": "Los datos y mapas se conservan únicamente durante la sesión mediante sessionStorage; el módulo continúa siendo un generador documental y no una ficha clínica ni una base longitudinal de pacientes",
+  "identity_status": "Interfaz ORION responsive con mapa facial SVG, zonas seleccionables, puntos editables, totales por zona y salida imprimible tipo documento clínico",
+  "layout_status": "La calculadora y el mapa se distribuyen en dos columnas en escritorio y una columna completa en teléfono; la tabla de puntos mantiene desplazamiento horizontal controlado en pantallas estrechas",
+  "signature_status": "Se mantienen áreas de firma de paciente y profesional; la firma digital definitiva y el consentimiento legal firmado permanecen programados para una versión posterior",
+  "output_status": "El documento final incorpora trazabilidad, cálculo de reconstitución, mapa facial, tabla de puntos planificados y administrados, volumen real, consentimiento, indicaciones y seguimiento",
+  "insumos_status": "La V1.1 calcula unidades utilizadas y remanente matemático del vial; la conexión automática con inventario y descarte en ORION Insumos queda preparada para una versión posterior",
+  "performance_status": "La caché PWA V1.4.4-r8 fuerza la descarga del módulo Armonización V1.1 sin modificar los módulos clínicos previamente estabilizados"
 }
