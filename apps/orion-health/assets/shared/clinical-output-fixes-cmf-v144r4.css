@@ -1,0 +1,49 @@
+/* ORION CMF V1.4.4-r4 — botonera documental sin superposición */
+.orion-actions-top{
+  z-index:30!important;
+}
+
+@media screen and (max-width:900px){
+  body.orion-cmf-mobile .orion-actions-top{
+    position:relative!important;
+    top:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    left:auto!important;
+    z-index:20!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:0 0 12px!important;
+    overflow:visible!important;
+    backdrop-filter:none!important;
+  }
+
+  body.orion-cmf-mobile .orion-actions-top>div{
+    width:100%!important;
+    max-width:100%!important;
+    padding:10px!important;
+  }
+
+  body.orion-cmf-mobile #examBackdrop,
+  body.orion-cmf-mobile #interBackdrop{
+    z-index:80!important;
+  }
+
+  body.orion-cmf-mobile #examDrawer,
+  body.orion-cmf-mobile #interDrawer{
+    z-index:90!important;
+  }
+
+  body.orion-cmf-mobile #printSheet,
+  body.orion-cmf-mobile #printSheet2,
+  body.orion-cmf-mobile #printDoc,
+  body.orion-cmf-mobile #printExamLab,
+  body.orion-cmf-mobile #printExamImg,
+  body.orion-cmf-mobile #printInter{
+    scroll-margin-top:12px!important;
+  }
+}
+
+@media print{
+  .orion-actions-top{display:none!important;}
+}
