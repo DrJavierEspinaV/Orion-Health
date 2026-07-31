@@ -38,6 +38,7 @@ const EVENT_GET = "ORION_GET_DOCUMENTO_PACIENTE";
 const EVENT_CLEAR = "ORION_CLEAR_DOCUMENTO_PACIENTE";
 const EVENT_SYNC = "ORION_DOCUMENTO_PACIENTE_SYNC";
 const EVENT_NAVIGATE = "ORION_NAVIGATE_TO_APP";
+const EVENT_SCROLL_MODULE_TOP = "ORION_SCROLL_MODULE_TOP";
 
 const appFrame = document.getElementById("appFrame");
 const currentAppTitle = document.getElementById("currentAppTitle");
@@ -47,7 +48,7 @@ const syncRut = document.getElementById("syncRut");
 const syncEdad = document.getElementById("syncEdad");
 const syncBadge = document.getElementById("syncBadge");
 const menuButtons = Array.from(document.querySelectorAll(".menu-btn"));
-const state = { currentApp: "comunicaciones" };
+const state = { currentApp: null };
 
 let frameResizeObserver = null;
 let frameMutationObserver = null;
@@ -113,6 +114,14 @@ function setActive(appKey){
 function resetPortalViewport(){
   try{ window.scrollTo({top:0,left:0,behavior:"auto"}); }catch(_){ window.scrollTo(0,0); }
   try{ appFrame.contentWindow?.scrollTo(0,0); }catch(_){}
+}
+
+function scrollFrameToViewportTop(behavior = "smooth"){
+  requestAnimationFrame(() => {
+    const top = Math.max(0, appFrame.getBoundingClientRect().top + window.scrollY - 4);
+    try{ window.scrollTo({top,left:0,behavior}); }catch(_){ window.scrollTo(0,top); }
+    try{ appFrame.contentWindow?.scrollTo(0,0); }catch(_){}
+  });
 }
 
 function disconnectFrameObservers(){
@@ -190,6 +199,19 @@ function bindFrameAutoHeight(){
   }
 }
 
+function showRouteSelector(){
+  disconnectFrameObservers();
+  state.currentApp = null;
+  setActive(null);
+  document.body.classList.remove("module-selected");
+  document.body.classList.add("route-selector-mode");
+  currentAppTitle.textContent = "Módulo ORION";
+  currentAppDesc.textContent = "Selecciona una ruta para comenzar";
+  appFrame.src = "about:blank";
+  appFrame.style.height = "620px";
+  resetPortalViewport();
+}
+
 function loadApp(appKey){
   const app = APPS[appKey];
   if(!app) return;
@@ -198,6 +220,8 @@ function loadApp(appKey){
   currentAppDesc.textContent = app.desc;
   setActive(appKey);
   disconnectFrameObservers();
+  document.body.classList.remove("route-selector-mode");
+  document.body.classList.add("module-selected");
   resetPortalViewport();
   appFrame.style.height = (window.innerWidth <= 640 ? 620 : 720) + "px";
   appFrame.src = app.src;
@@ -211,18 +235,24 @@ function sendPatient(target){
 function sendActive(){ sendPatient(appFrame.contentWindow); }
 
 menuButtons.forEach(button => button.addEventListener("click",() => loadApp(button.dataset.app)));
+document.getElementById("btnChangeModule").addEventListener("click",showRouteSelector);
 document.getElementById("btnGoCMF").addEventListener("click",() => loadApp("cmf"));
-document.getElementById("btnOpenStandalone").addEventListener("click",() => window.open(APPS[state.currentApp]?.src || "","_blank","noopener"));
+document.getElementById("btnOpenStandalone").addEventListener("click",() => {
+  const app = APPS[state.currentApp];
+  if(app) window.open(app.src,"_blank","noopener");
+});
 document.getElementById("btnReloadApp").addEventListener("click",() => {
+  if(!state.currentApp) return;
   disconnectFrameObservers();
-  resetPortalViewport();
+  scrollFrameToViewportTop("auto");
   const src = appFrame.src;
   appFrame.src = src;
 });
 document.getElementById("btnClearPaciente").addEventListener("click",() => { clearPatient(); sendActive(); });
 
 appFrame.addEventListener("load",() => {
-  resetPortalViewport();
+  if(!state.currentApp) return;
+  try{ appFrame.contentWindow?.scrollTo(0,0); }catch(_){}
   bindFrameAutoHeight();
   setTimeout(sendActive,180);
 });
@@ -251,9 +281,12 @@ window.addEventListener("message",event => {
     case EVENT_NAVIGATE:
       if(APPS[String(msg.appKey || "").trim()]) loadApp(String(msg.appKey).trim());
       break;
+    case EVENT_SCROLL_MODULE_TOP:
+      scrollFrameToViewportTop("smooth");
+      break;
   }
 });
 
 if("serviceWorker" in navigator) navigator.serviceWorker.register("./service-worker.js").catch(console.warn);
 renderPatient(readPatient());
-loadApp("comunicaciones");
+showRouteSelector();
