@@ -1,11 +1,11 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r3';
+const CACHE_NAME='orion-dental-app-v1.4.4-r4';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
   './data/catalogo-insumos.json',
   './assets/brand/orion-health.png','./assets/brand/orion-comunicaciones.png','./assets/brand/maxilofacial-pro-plus.svg','./assets/brand/firma-javier-espina-navy.svg',
   './assets/icons/icon-192.png','./assets/icons/icon-512.png',
-  './assets/shared/orion-identity-system-v140.css','./assets/shared/orion-mobile-v141.css','./assets/shared/clinical-mobile-actions-cmf-v141.css','./assets/shared/clinical-mobile-cmf-v142.css','./assets/shared/clinical-mobile-cmf-v142.js','./assets/shared/patient-bridge.js','./assets/shared/session-config.js','./assets/shared/communications-priority-layout.js',
+  './assets/shared/orion-identity-system-v140.css','./assets/shared/orion-mobile-v141.css','./assets/shared/clinical-mobile-actions-cmf-v141.css','./assets/shared/clinical-mobile-cmf-v142.css','./assets/shared/clinical-mobile-cmf-v142.js','./assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js','./assets/shared/patient-bridge.js','./assets/shared/session-config.js','./assets/shared/communications-priority-layout.js',
   './assets/shared/clinical-nps-cmf-v136.js','./assets/shared/clinical-audit-cmf.js','./assets/shared/clinical-audit-endo.js','./assets/shared/clinical-components-restore.js','./assets/shared/clinical-templates-cmf-v132.js','./assets/shared/clinical-prescription-auth-cmf-v139.js','./assets/shared/clinical-prescription-share-cmf-v139.js','./assets/shared/clinical-output-cmf-v134.js','./assets/shared/clinical-preview-cmf-v135.js','./assets/shared/clinical-mobile-docs-cmf-v141.js',
   './modules/comunicaciones/index.html','./modules/comunicaciones/loader.js','./modules/comunicaciones/responsive-fixes.css','./modules/comunicaciones/mobile-v142.css','./modules/comunicaciones/source.html',
   './modules/insumos/index.html','./modules/insumos/loader.js','./modules/insumos/source.html',
