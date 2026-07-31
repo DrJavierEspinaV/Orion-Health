@@ -28,6 +28,11 @@ const APPS = {
     title: "ORION Odontopediatría",
     desc: "Mensajería clínica y control pediátrico.",
     src: "./modules/odontopediatria/index.html"
+  },
+  armonizacion: {
+    title: "ORION Armonización Orofacial",
+    desc: "Evaluación, trazabilidad, seguridad e indicaciones para procedimientos estéticos.",
+    src: "./modules/armonizacion/index.html"
   }
 };
 
