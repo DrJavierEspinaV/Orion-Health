@@ -1,0 +1,40 @@
+/* ORION Comunicaciones Clínicas V5.7.7 — equilibrio horizontal de Mensajes y Pacientes */
+@media (min-width:1250px){
+  main{
+    width:100%!important;
+    max-width:none!important;
+    padding-left:14px!important;
+    padding-right:14px!important;
+  }
+
+  .crm-layout{
+    width:100%!important;
+    max-width:none!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:16px!important;
+    align-items:start!important;
+  }
+
+  .crm-left,
+  .crm-sidebar{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+
+  .crm-sidebar{
+    padding-right:3px!important;
+  }
+
+  .orion-priority-search{
+    grid-template-columns:minmax(220px,1.55fr) minmax(165px,.95fr) auto!important;
+    gap:10px!important;
+  }
+}
+
+@media (min-width:1700px){
+  .crm-layout{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:18px!important;
+  }
+}
