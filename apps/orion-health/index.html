@@ -8,14 +8,14 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
 
-  <link rel="stylesheet" href="./styles-1.css">
-  <link rel="stylesheet" href="./layout-fixes.css?v=1.4.1">
-  <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.1">
-  <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.1">
+  <link rel="stylesheet" href="./styles-1.css?v=1.4.4-r5">
+  <link rel="stylesheet" href="./layout-fixes.css?v=1.4.4-r5">
+  <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.4-r5">
+  <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.4-r5">
 </head>
-<body class="orion-portal">
+<body class="orion-portal route-selector-mode">
   <div class="shell">
-    <aside class="sidebar">
+    <aside class="sidebar" id="routeSelector">
       <div class="brand">
         <img class="portal-corporate-logo" src="./assets/brand/orion-health.png" alt="ORION Health — respaldo corporativo de salud">
         <h1>ORION Dental App<span class="registered-mark">®</span></h1>
@@ -23,7 +23,7 @@
       </div>
 
       <nav class="menu" id="menuApps" aria-label="Módulos ORION Dental App">
-        <button class="menu-btn active" data-app="comunicaciones">
+        <button class="menu-btn" data-app="comunicaciones">
           <span class="title">ORION Comunicaciones Clínicas</span>
           <span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span>
         </button>
@@ -55,8 +55,8 @@
       </nav>
 
       <div class="sidebar-footer">
-        Núcleo operativo de ORION Dental App. Comparte el
-        <strong>Paciente Activo para Documento</strong> con sus datos mínimos:
+        Selecciona una ruta para abrir el módulo solicitado. El
+        <strong>Paciente Activo para Documento</strong> se conserva entre módulos con sus datos mínimos:
         <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>.
       </div>
     </aside>
@@ -96,11 +96,12 @@
       <section class="stage-wrap">
         <div class="stage-head">
           <div class="stage-title">
-            <strong id="currentAppTitle">ORION Comunicaciones Clínicas</strong>
-            <span id="currentAppDesc">Módulo activo en pantalla</span>
+            <strong id="currentAppTitle">Módulo ORION</strong>
+            <span id="currentAppDesc">Selecciona una ruta para comenzar</span>
           </div>
 
           <div class="stage-tools">
+            <button class="tool-btn route-change" id="btnChangeModule" type="button">Cambiar módulo</button>
             <button class="tool-btn primary" id="btnGoCMF" type="button">Ir a CMF</button>
             <button class="tool-btn" id="btnOpenStandalone" type="button">Abrir módulo completo</button>
             <button class="tool-btn" id="btnReloadApp" type="button">Recargar módulo</button>
@@ -111,7 +112,7 @@
         <iframe
           id="appFrame"
           title="Aplicación ORION"
-          src=""
+          src="about:blank"
           loading="eager"
           scrolling="no"
           referrerpolicy="no-referrer"
@@ -120,6 +121,6 @@
     </main>
   </div>
 
-  <script src="./script-1.js?v=1.4.1"></script>
+  <script src="./script-1.js?v=1.4.4-r5"></script>
 </body>
 </html>
