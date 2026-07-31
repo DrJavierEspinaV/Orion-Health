@@ -1,0 +1,240 @@
+/* ORION Dental App V1.4.4-r6 — selector de rutas a pantalla completa */
+body.route-selector-mode{
+  overflow:auto!important;
+  min-height:100vh!important;
+  min-height:100svh!important;
+  min-height:100dvh!important;
+  background:#1f3f5b!important;
+}
+
+body.route-selector-mode .shell{
+  display:block!important;
+  width:100%!important;
+  min-height:100vh!important;
+  min-height:100svh!important;
+  min-height:100dvh!important;
+  background:#1f3f5b!important;
+}
+
+body.route-selector-mode .sidebar{
+  width:100%!important;
+  height:auto!important;
+  min-height:100vh!important;
+  min-height:100svh!important;
+  min-height:100dvh!important;
+  border:0!important;
+  padding:clamp(20px,4vw,48px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:center!important;
+  overflow-y:auto!important;
+  background:linear-gradient(180deg,#16324b 0%,#1f3f5b 100%)!important;
+}
+
+body.route-selector-mode .sidebar::after{
+  width:360px;
+  height:360px;
+  right:-120px;
+  bottom:-120px;
+}
+
+body.route-selector-mode .brand,
+body.route-selector-mode .menu,
+body.route-selector-mode .sidebar-footer{
+  width:min(100%,960px);
+  margin-left:auto;
+  margin-right:auto;
+}
+
+body.route-selector-mode .brand{
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr)!important;
+  align-items:center!important;
+  column-gap:24px!important;
+  margin-bottom:28px!important;
+}
+
+body.route-selector-mode .brand .portal-corporate-logo{
+  grid-row:1 / span 2;
+  max-height:120px!important;
+  width:auto!important;
+  height:auto!important;
+}
+
+body.route-selector-mode .brand h1{
+  font-size:clamp(30px,5vw,48px)!important;
+}
+
+body.route-selector-mode .brand p{
+  font-size:clamp(15px,2.2vw,21px)!important;
+  margin-top:8px!important;
+}
+
+body.route-selector-mode .menu{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:14px!important;
+  margin-top:0!important;
+}
+
+body.route-selector-mode .menu-btn{
+  min-height:112px!important;
+  padding:20px!important;
+  border-radius:20px!important;
+}
+
+body.route-selector-mode .menu-btn .title{
+  font-size:clamp(17px,2vw,22px)!important;
+  margin-bottom:7px!important;
+}
+
+body.route-selector-mode .menu-btn .sub{
+  font-size:14px!important;
+}
+
+body.route-selector-mode .sidebar-footer{
+  margin-top:24px!important;
+  padding:0!important;
+  font-size:13px!important;
+  text-align:center!important;
+}
+
+body.route-selector-mode .main{
+  display:none!important;
+}
+
+body.module-selected{
+  overflow:auto;
+}
+
+body.module-selected .shell{
+  display:block;
+  min-height:100dvh;
+}
+
+body.module-selected .sidebar{
+  display:none!important;
+}
+
+body.module-selected .main{
+  width:100%;
+  height:auto;
+  min-height:100dvh;
+  overflow:visible;
+}
+
+body.module-selected .stage-wrap{
+  flex:none;
+  min-height:78dvh;
+}
+
+body.module-selected #appFrame{
+  display:block;
+  width:100%;
+}
+
+.tool-btn.route-change{
+  background:#eef3f7;
+  border-color:#c9d5df;
+  color:#17324d;
+}
+
+@media(max-width:640px){
+  body.route-selector-mode{
+    overflow:hidden!important;
+  }
+
+  body.route-selector-mode .shell{
+    height:100vh!important;
+    height:100svh!important;
+    height:100dvh!important;
+    min-height:100vh!important;
+    min-height:100svh!important;
+    min-height:100dvh!important;
+  }
+
+  body.route-selector-mode .sidebar{
+    height:100vh!important;
+    height:100svh!important;
+    height:100dvh!important;
+    min-height:100vh!important;
+    min-height:100svh!important;
+    min-height:100dvh!important;
+    max-height:100dvh!important;
+    justify-content:center!important;
+    overflow-y:auto!important;
+    padding:max(18px,env(safe-area-inset-top)) 22px max(18px,env(safe-area-inset-bottom))!important;
+  }
+
+  body.route-selector-mode .brand{
+    grid-template-columns:88px minmax(0,1fr)!important;
+    column-gap:18px!important;
+    margin-bottom:22px!important;
+  }
+
+  body.route-selector-mode .brand .portal-corporate-logo{
+    width:78px!important;
+    max-width:78px!important;
+    height:auto!important;
+    max-height:120px!important;
+  }
+
+  body.route-selector-mode .brand h1{
+    font-size:31px!important;
+  }
+
+  body.route-selector-mode .brand p{
+    font-size:16px!important;
+    line-height:1.35!important;
+  }
+
+  body.route-selector-mode .menu{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+
+  body.route-selector-mode .menu-btn{
+    min-height:106px!important;
+    padding:16px 14px!important;
+  }
+
+  body.route-selector-mode .menu-btn .title{
+    font-size:17px!important;
+  }
+
+  body.route-selector-mode .menu-btn .sub,
+  body.route-selector-mode .sidebar-footer{
+    display:none!important;
+  }
+
+  body.module-selected .main{
+    padding:0;
+  }
+
+  body.module-selected .topbar{
+    margin:0;
+    padding:12px;
+  }
+
+  body.module-selected .stage-wrap{
+    border-left:0;
+    border-right:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+
+  body.module-selected .stage-tools{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  body.module-selected .tool-btn{
+    width:100%;
+  }
+}
+
+@media(max-width:640px) and (max-height:700px){
+  body.route-selector-mode .sidebar{
+    justify-content:flex-start!important;
+  }
+}
