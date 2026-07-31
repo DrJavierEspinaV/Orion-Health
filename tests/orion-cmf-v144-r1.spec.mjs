@@ -78,6 +78,33 @@ test('CMF móvil deja órdenes arriba y scroll táctil en catálogo',async({page
   expect(state.touchAction).toContain('pan-y');
 });
 
+test('Interconsulta abre arriba y la botonera documental no cubre el drawer',async({page})=>{
+  await page.setViewportSize({width:390,height:844});
+  const frame=await openCmf(page);
+  await frame.locator('#btnDocInter').click();
+  await expect(frame.locator('#interDrawer')).toBeVisible();
+  await page.waitForTimeout(300);
+
+  const state=await frame.locator('#interDrawer').evaluate(drawer=>{
+    const content=drawer.querySelector(':scope > .p-4.space-y-3');
+    const actions=document.querySelector('.orion-actions-top');
+    const drawerStyle=getComputedStyle(drawer);
+    const actionStyle=actions?getComputedStyle(actions):null;
+    return{
+      drawerScroll:drawer.scrollTop,
+      contentScroll:content?.scrollTop||0,
+      drawerZ:Number.parseInt(drawerStyle.zIndex||'0',10)||0,
+      actionsZ:Number.parseInt(actionStyle?.zIndex||'0',10)||0,
+      actionsPosition:actionStyle?.position||''
+    };
+  });
+
+  expect(state.drawerScroll).toBeLessThanOrEqual(2);
+  expect(state.contentScroll).toBeLessThanOrEqual(2);
+  expect(state.drawerZ).toBeGreaterThan(state.actionsZ);
+  expect(state.actionsPosition).not.toBe('sticky');
+});
+
 test('CMF prepara firma PNG sin perder referencia institucional',async({page})=>{
   await page.setViewportSize({width:390,height:844});
   const frame=await openCmf(page);
@@ -94,11 +121,20 @@ test('CMF prepara firma PNG sin perder referencia institucional',async({page})=>
   expect(signature.display).not.toBe('none');
 });
 
-test('PWA no referencia recursos móviles inexistentes',async({request})=>{
+test('PDF Statement R4 usa html2pdf directo y la PWA carga los recursos nuevos',async({request})=>{
+  const patchResponse=await request.get('/apps/orion-health/assets/shared/clinical-output-fixes-cmf-v144r4.js');
+  expect(patchResponse.ok()).toBeTruthy();
+  const patch=await patchResponse.text();
+  expect(patch).toContain("const worker=html2pdf().set");
+  expect(patch).toContain("format:[5.5,8.5]");
+  expect(patch).toContain("control.id==='btnPdf'");
+
   const response=await request.get('/apps/orion-health/service-worker.js');
   expect(response.ok()).toBeTruthy();
   const serviceWorker=await response.text();
-  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r3');
+  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r4');
+  expect(serviceWorker).toContain('clinical-output-fixes-cmf-v144r4.css');
+  expect(serviceWorker).toContain('clinical-output-fixes-cmf-v144r4.js');
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.css'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.js'");
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-signature-raster-v142.js'");
