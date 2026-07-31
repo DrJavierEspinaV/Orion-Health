@@ -31,8 +31,8 @@ const APPS = {
   },
   armonizacion: {
     title: "ORION Armonización Orofacial",
-    desc: "Evaluación, trazabilidad, seguridad e indicaciones para procedimientos estéticos.",
-    src: "./modules/armonizacion/index.html"
+    desc: "Estudio facial, cálculo, mapa de punción y documento clínico estético.",
+    src: "./modules/armonizacion/v12.html"
   }
 };
 
