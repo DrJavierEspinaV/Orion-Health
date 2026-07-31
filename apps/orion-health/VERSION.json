@@ -1,23 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r5-final-piloto",
+  "version": "1.4.4-r6-final-piloto",
   "date": "2026-07-31",
   "modules": {
-    "portal": "1.4.4-r5",
-    "comunicaciones": "5.7.6",
+    "portal": "1.4.4-r6",
+    "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2"
   },
-  "release_status": "FINAL PILOTO — selector de rutas y navegación documental móvil R5",
+  "release_status": "FINAL PILOTO — pantalla previa móvil completa y distribución de Comunicaciones equilibrada R6",
   "clinical_status": "CMF mantiene confirmación profesional, folio, fecha/hora, código de verificación y auditoría local para recetas; las órdenes de exámenes seleccionadas se sincronizan automáticamente al cerrar el panel o emitir una salida",
   "security_status": "Credencial excluida de URL y conservada solo en sessionStorage; auditoría de recetas almacenada localmente en IndexedDB",
   "identity_status": "Sistema visual alineado con el Plan Maestro y los anexos ORION: Montserrat, Azul ORION #1F3F5B, Gris ORION #8C8C8C, Blanco y Fondo Corporativo #F3F3F3",
-  "layout_status": "La sección azul funciona como pantalla previa para elegir la ruta. Tras seleccionar un módulo, el selector se oculta y aparece un control Cambiar módulo. Interconsulta solicita al portal posicionar el inicio del iframe y reinicia el drawer en su cabecera",
+  "layout_status": "En teléfonos, el selector azul ocupa toda la altura visible y elimina el espacio blanco inferior. En escritorio, ORION Comunicaciones distribuye Mensajes y Pacientes en dos columnas equivalentes, conservando agenda prioritaria y panel lateral fijo",
   "signature_status": "Firma manuscrita preparada como PNG desde la carga para receta, certificado/orden de biopsia, orden de laboratorio, orden de imágenes e interconsulta; permanece oculta en indicaciones",
   "output_status": "PDF Statement usa directamente html2pdf en formato 5,5 × 8,5 pulgadas, con respaldo mediante impresión del navegador si el motor externo no está disponible",
   "insumos_status": "Catálogo maestro de 538 insumos sincronizado físicamente en ORION_DB_SAP/INSUMOS y respaldado dentro de la aplicación",
-  "performance_status": "La caché PWA V1.4.4-r5 fuerza la carga del selector previo y la corrección de navegación de Interconsulta sin modificar plantillas clínicas, dosis ni contenido de impresión"
+  "performance_status": "La caché PWA V1.4.4-r6 fuerza la carga del selector a pantalla completa y del balance horizontal de Comunicaciones sin modificar plantillas clínicas, dosis ni contenido de impresión"
 }
