@@ -8,12 +8,12 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
 
-  <link rel="stylesheet" href="./styles-1.css?v=1.4.4-r12">
-  <link rel="stylesheet" href="./layout-fixes.css?v=1.4.4-r12">
-  <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.4-r12">
-  <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.4-r12">
-  <link rel="stylesheet" href="./assets/shared/portal-route-selector-v144r6.css?v=1.4.4-r12">
-  <link rel="stylesheet" href="./assets/shared/portal-aesthetic-v144r7.css?v=1.4.4-r12">
+  <link rel="stylesheet" href="./styles-1.css?v=1.4.4-r13">
+  <link rel="stylesheet" href="./layout-fixes.css?v=1.4.4-r13">
+  <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.4-r13">
+  <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.4-r13">
+  <link rel="stylesheet" href="./assets/shared/portal-route-selector-v144r6.css?v=1.4.4-r13">
+  <link rel="stylesheet" href="./assets/shared/portal-aesthetic-v144r7.css?v=1.4.4-r13">
 </head>
 <body class="orion-portal route-selector-mode">
   <div class="shell">
@@ -25,88 +25,34 @@
       </div>
 
       <nav class="menu" id="menuApps" aria-label="Módulos ORION Dental App">
-        <button class="menu-btn" data-app="comunicaciones">
-          <span class="title">ORION Comunicaciones Clínicas</span>
-          <span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span>
-        </button>
-
-        <button class="menu-btn" data-app="insumos">
-          <span class="title">ORION Insumos</span>
-          <span class="sub">Gestión y solicitud de biomateriales.</span>
-        </button>
-
-        <button class="menu-btn" data-app="cmf">
-          <span class="title">ORION Clínico CMF</span>
-          <span class="sub">Documentos clínicos de Maxilofacial PRO+.</span>
-        </button>
-
-        <button class="menu-btn" data-app="endo">
-          <span class="title">ORION Endodoncia</span>
-          <span class="sub">Recetas e indicaciones clínicas de Endodoncia.</span>
-        </button>
-
-        <button class="menu-btn" data-app="orto">
-          <span class="title">ORION Ortodoncia</span>
-          <span class="sub">Módulo clínico para Ortodoncia.</span>
-        </button>
-
-        <button class="menu-btn" data-app="odontopediatria">
-          <span class="title">ORION Odontopediatría</span>
-          <span class="sub">Módulo clínico para Odontopediatría.</span>
-        </button>
-
-        <button class="menu-btn" data-app="armonizacion">
-          <span class="title">ORION Armonización Orofacial</span>
-          <span class="sub">Toxina botulínica, rellenos, bioestimulación y seguridad estética.</span>
-        </button>
+        <button class="menu-btn" data-app="comunicaciones"><span class="title">ORION Comunicaciones Clínicas</span><span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span></button>
+        <button class="menu-btn" data-app="insumos"><span class="title">ORION Insumos</span><span class="sub">Gestión y solicitud de biomateriales.</span></button>
+        <button class="menu-btn" data-app="cmf"><span class="title">ORION Clínico CMF</span><span class="sub">Documentos clínicos de Maxilofacial PRO+.</span></button>
+        <button class="menu-btn" data-app="endo"><span class="title">ORION Endodoncia</span><span class="sub">Recetas e indicaciones clínicas de Endodoncia.</span></button>
+        <button class="menu-btn" data-app="orto"><span class="title">ORION Ortodoncia</span><span class="sub">Módulo clínico para Ortodoncia.</span></button>
+        <button class="menu-btn" data-app="odontopediatria"><span class="title">ORION Odontopediatría</span><span class="sub">Módulo clínico para Odontopediatría.</span></button>
+        <button class="menu-btn" data-app="armonizacion"><span class="title">ORION Armonización Orofacial</span><span class="sub">Toxina botulínica, rellenos, bioestimulación y seguridad estética.</span></button>
       </nav>
 
-      <div class="sidebar-footer">
-        Selecciona una ruta para abrir el módulo solicitado. El
-        <strong>Paciente Activo para Documento</strong> se conserva entre módulos con sus datos mínimos:
-        <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>.
-      </div>
+      <div class="sidebar-footer">Selecciona una ruta para abrir el módulo solicitado. El <strong>Paciente Activo para Documento</strong> se conserva entre módulos con sus datos mínimos: <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>.</div>
     </aside>
 
     <main class="main">
       <section class="topbar">
-        <div class="hero">
-          <h2>ORION Dental App<span class="registered-mark">®</span></h2>
-          <p>Siete módulos clínicos integrados y un flujo documental centralizado para el paciente activo.</p>
-        </div>
-
+        <div class="hero"><h2>ORION Dental App<span class="registered-mark">®</span></h2><p>Siete módulos clínicos integrados y un flujo documental centralizado para el paciente activo.</p></div>
         <div class="sync-card">
-          <div class="sync-head">
-            <h3>Paciente Activo para Documento</h3>
-            <span class="badge idle" id="syncBadge">Sin paciente activo</span>
-          </div>
-
+          <div class="sync-head"><h3>Paciente Activo para Documento</h3><span class="badge idle" id="syncBadge">Sin paciente activo</span></div>
           <div class="patient-grid">
-            <div class="field">
-              <span class="field-label">Nombre</span>
-              <span class="field-value empty" id="syncNombre">Sin paciente</span>
-            </div>
-
-            <div class="field">
-              <span class="field-label">RUN / RUT</span>
-              <span class="field-value empty" id="syncRut">—</span>
-            </div>
-
-            <div class="field">
-              <span class="field-label">Edad</span>
-              <span class="field-value empty" id="syncEdad">—</span>
-            </div>
+            <div class="field"><span class="field-label">Nombre</span><span class="field-value empty" id="syncNombre">Sin paciente</span></div>
+            <div class="field"><span class="field-label">RUN / RUT</span><span class="field-value empty" id="syncRut">—</span></div>
+            <div class="field"><span class="field-label">Edad</span><span class="field-value empty" id="syncEdad">—</span></div>
           </div>
         </div>
       </section>
 
       <section class="stage-wrap">
         <div class="stage-head">
-          <div class="stage-title">
-            <strong id="currentAppTitle">Módulo ORION</strong>
-            <span id="currentAppDesc">Selecciona una ruta para comenzar</span>
-          </div>
-
+          <div class="stage-title"><strong id="currentAppTitle">Módulo ORION</strong><span id="currentAppDesc">Selecciona una ruta para comenzar</span></div>
           <div class="stage-tools">
             <button class="tool-btn route-change" id="btnChangeModule" type="button">Cambiar módulo</button>
             <button class="tool-btn primary" id="btnGoCMF" type="button">Ir a CMF</button>
@@ -115,19 +61,10 @@
             <button class="tool-btn" id="btnClearPaciente" type="button">Limpiar paciente activo</button>
           </div>
         </div>
-
-        <iframe
-          id="appFrame"
-          title="Aplicación ORION"
-          src="about:blank"
-          loading="eager"
-          scrolling="no"
-          referrerpolicy="no-referrer"
-        ></iframe>
+        <iframe id="appFrame" title="Aplicación ORION" src="about:blank" loading="eager" scrolling="no" referrerpolicy="no-referrer"></iframe>
       </section>
     </main>
   </div>
-
-  <script src="./script-1.js?v=1.4.4-r12"></script>
+  <script src="./script-1.js?v=1.4.4-r13"></script>
 </body>
 </html>
