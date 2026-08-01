@@ -1,0 +1,100 @@
+/* ORION Armonización Orofacial V1.4.4 — flujo clínico simplificado */
+html.v144-simple-flow .v14-shell{
+  grid-template-columns:minmax(0,1.45fr) minmax(350px,.55fr);
+  gap:14px;
+}
+html.v144-simple-flow .v14-left{display:none!important;}
+html.v144-simple-flow .v14-center{order:1;overflow:visible;}
+html.v144-simple-flow .v14-right{order:2;}
+html.v144-simple-flow .v14-top-row{display:none!important;}
+
+.v144-calculator-card{margin-bottom:12px;}
+.v144-planner{
+  margin-bottom:12px;
+  padding:16px;
+  border:1px solid #d7e2ee;
+  border-radius:18px;
+  background:linear-gradient(180deg,#fff 0%,#f8fbff 100%);
+}
+.v144-planner-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:14px;}
+.v144-planner-head h3{margin:0;color:#153e68;font-size:20px;line-height:1.15;}
+.v144-planner-head p{margin:5px 0 0;color:#627d98;font-size:13px;line-height:1.4;max-width:720px;}
+.v144-step-badge{flex:0 0 auto;border-radius:999px;padding:7px 10px;background:#e8f2ff;color:#145ba8;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;}
+.v144-planner-grid{display:grid;grid-template-columns:minmax(220px,1.5fr) repeat(3,minmax(120px,.65fr));gap:10px;align-items:end;}
+.v144-field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.v144-field label{font-size:11px;font-weight:900;color:#456684;text-transform:uppercase;letter-spacing:.02em;}
+.v144-field select,.v144-field input{width:100%;min-height:44px;border:1px solid #cbd9e8;border-radius:11px;background:#fff;padding:9px 11px;color:#17395e;font:inherit;box-sizing:border-box;}
+.v144-plan-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px;}
+.v144-preview-item{padding:11px 12px;border:1px solid #dbe6f1;border-radius:12px;background:#fff;}
+.v144-preview-item span{display:block;font-size:10px;font-weight:900;text-transform:uppercase;color:#708aa3;}
+.v144-preview-item strong{display:block;margin-top:4px;font-size:17px;color:#123e6b;}
+.v144-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px;}
+.v144-actions button{min-height:46px;border-radius:12px;padding:10px 14px;font-weight:900;font-size:14px;cursor:pointer;}
+.v144-plan-btn{border:1px solid #0d4d90;background:#fff;color:#0d4d90;}
+.v144-admin-btn{border:1px solid #0d579c;background:#0d579c;color:#fff;}
+.v144-helper{margin:10px 0 0;color:#637d98;font-size:12px;line-height:1.4;}
+.v144-helper strong{color:#1a4d7c;}
+.v144-feedback{margin-top:9px;min-height:18px;font-size:12px;font-weight:800;color:#237046;}
+.v144-feedback.error{color:#a53636;}
+
+.v144-map-card{margin-bottom:12px;border:1px solid #d8e3ef;border-radius:18px;background:#fff;overflow:hidden;}
+.v144-map-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;background:#f6f9fc;padding:14px 16px;color:#183e65;text-align:left;cursor:pointer;}
+.v144-map-toggle strong{display:block;font-size:15px;}
+.v144-map-toggle span{display:block;margin-top:3px;font-size:12px;color:#6d849d;font-weight:600;}
+.v144-map-toggle b{font-size:20px;line-height:1;transition:transform .18s ease;}
+.v144-map-card.open .v144-map-toggle b{transform:rotate(180deg);}
+.v144-map-body{display:none;padding:12px;}
+.v144-map-card.open .v144-map-body{display:block;}
+.v144-map-card .v14-portrait-stage{width:min(100%,540px);margin-inline:auto;}
+.v144-map-card .v14-center-tools{max-width:540px;margin:9px auto 0;}
+
+.v144-clinical-toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:0;background:transparent;padding:0;color:#123d66;cursor:pointer;text-align:left;}
+.v144-clinical-toggle b{font-size:18px;transition:transform .18s ease;}
+.v144-clinical-optional.open .v144-clinical-toggle b{transform:rotate(180deg);}
+.v144-clinical-body{display:none;margin-top:12px;}
+.v144-clinical-optional.open .v144-clinical-body{display:block;}
+
+html.v144-simple-flow .v14-table-card{margin-top:0;}
+html.v144-simple-flow .v14-table-head{font-size:19px;}
+html.v144-simple-flow .v14-zone-label{opacity:0!important;}
+html.v144-simple-flow .g-zone.active .v14-zone-label{opacity:1!important;}
+
+@media (max-width:1100px){
+  html.v144-simple-flow .v14-shell{grid-template-columns:minmax(0,1fr) minmax(320px,390px);}
+  .v144-planner-grid{grid-template-columns:1fr 1fr;}
+  .v144-field:first-child{grid-column:1/-1;}
+}
+
+@media (max-width:920px){
+  html.v144-simple-flow .v14-shell{display:flex;flex-direction:column;gap:10px;}
+  html.v144-simple-flow .v14-center{order:1;width:100%;padding:0;background:transparent;border:0;box-shadow:none;}
+  html.v144-simple-flow .v14-right{order:2;width:100%;}
+  .v144-calculator-card{order:0;margin:0 0 10px;}
+  .v144-planner{order:1;margin:0 0 10px;padding:13px;border-radius:15px;}
+  .v144-map-card{order:2;margin:0 0 10px;border-radius:15px;}
+  html.v144-simple-flow .v14-table-card{order:3;}
+  .v144-planner-head{display:block;}
+  .v144-step-badge{display:inline-flex;margin-top:9px;}
+  .v144-planner-grid{grid-template-columns:1fr 1fr;gap:8px;}
+  .v144-field:first-child{grid-column:1/-1;}
+  .v144-plan-preview{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+  .v144-preview-item{padding:9px;}
+  .v144-preview-item strong{font-size:15px;}
+  .v144-actions{grid-template-columns:1fr;}
+  .v144-actions button{min-height:48px;}
+  .v144-map-body{padding:8px;}
+  .v144-map-card .v14-portrait-stage{width:min(100%,430px);}
+  html.v144-simple-flow .v14-right>.v14-card{border-radius:15px;}
+}
+
+@media (max-width:520px){
+  .v144-planner-grid{grid-template-columns:1fr;}
+  .v144-field:first-child{grid-column:auto;}
+  .v144-plan-preview{grid-template-columns:1fr 1fr;}
+  .v144-preview-item:last-child{grid-column:1/-1;}
+  .v144-planner-head h3{font-size:18px;}
+  .v144-map-toggle{padding:13px;}
+  .v144-map-toggle strong{font-size:14px;}
+  .v144-map-toggle span{font-size:11px;}
+  html.v144-simple-flow .v14-table-head{font-size:18px;}
+}
