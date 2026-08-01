@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r9-final-piloto",
+  "version": "1.4.4-r10-final-piloto",
   "date": "2026-07-31",
   "modules": {
-    "portal": "1.4.4-r7",
+    "portal": "1.4.4-r10",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.2.0-piloto"
+    "armonizacion_orofacial": "1.3.0-piloto"
   },
-  "release_status": "FINAL PILOTO — modelos faciales diferenciados y asistente clínico por zona para ORION Armonización Orofacial V1.2",
-  "clinical_status": "Armonización V1.2 conserva Safety Engine, trazabilidad, calculadora y registro por punto; incorpora modelos visuales clínicos femenino y masculino, visualización de líneas activas y pasivas, estudio facial general y análisis independiente de cada zona",
-  "security_status": "Los datos, puntos y estudios por zona permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa siendo un generador documental y no una ficha clínica longitudinal",
-  "identity_status": "El mapa facial fue reemplazado por dos modelos clínicos ORION más expresivos, con líneas de expresión tenues, zonas superpuestas y controles segmentados para modelo y dinámica facial",
-  "layout_status": "En escritorio el mapa y el asistente por zona mantienen distribución equilibrada; en teléfono los controles, el mapa y el estudio se apilan a ancho completo sin perder la interacción por puntos",
-  "signature_status": "Se mantienen áreas de firma de paciente y profesional; la firma digital definitiva y los consentimientos legales por producto permanecen programados para una etapa posterior",
-  "output_status": "El documento final conserva cálculo, mapa y tabla de puntos e incorpora el perfil facial general y el resumen de hallazgos, lateralidad, tipo de línea y objetivo de cada zona estudiada",
-  "insumos_status": "La V1.2 mantiene cálculo de unidades utilizadas y remanente matemático; la conexión automática con ORION Insumos continúa preparada para una versión posterior",
-  "performance_status": "La caché PWA V1.4.4-r9 incorpora el cargador V1.2 y sus recursos, preservando intacta la base funcional V1.1 y los demás módulos clínicos estabilizados"
+  "release_status": "FINAL PILOTO — interfaz fotográfica funcional y mapa facial clínico reorganizado para ORION Armonización Orofacial V1.3",
+  "clinical_status": "Armonización V1.3 conserva Safety Engine, trazabilidad, cálculo de reconstitución y registro real por punto; reorganiza toxina botulínica en una vista de trabajo con modelo, mapa, asistente de zona, cálculo y plan de puntos integrados",
+  "security_status": "Los datos, puntos y análisis de zona permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa siendo un generador documental y no una ficha clínica longitudinal",
+  "identity_status": "El modelo caricaturesco fue retirado. La vista piloto utiliza dos referencias fotográficas clínicas diferenciadas para mujer y hombre, con zonas transparentes y puntos interactivos superpuestos",
+  "asset_status": "Las fotografías de referencia de esta fase piloto se cargan desde Pexels; deben reemplazarse por activos originales ORION antes de distribución comercial definitiva",
+  "layout_status": "La vista de toxina integra barra lateral de modelo y expresión, retrato central, cálculo y asistente clínico a la derecha, resumen y plan de puntos en la sección inferior; en móvil se apila a ancho completo",
+  "output_status": "El documento final conserva cálculo, trazabilidad y tabla de puntos e incorpora el perfil de estudio facial y el análisis escrito de cada zona guardada",
+  "insumos_status": "La V1.3 mantiene cálculo de unidades utilizadas, volumen real y remanente matemático; la conexión automática con ORION Insumos continúa preparada para una versión posterior",
+  "performance_status": "La caché PWA V1.4.4-r10 incorpora el cargador y recursos V1.3; las imágenes fotográficas requieren conexión durante esta fase piloto"
 }
