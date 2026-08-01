@@ -12,8 +12,8 @@
       .replace(/ORION Armonización Orofacial — V1\.1/g,'ORION Armonización Orofacial — V1.4')
       .replace(/Documento clínico estético · V1\.1/g,'Documento clínico estético · V1.4')
       .replace(/V1\.1 · PILOTO/g,'V1.4 · PILOTO')
-      .replace('</head>','<link rel="stylesheet" href="./enhancement-v14.css?v=1.4.0"></head>')
-      .replace('</body>','<script src="./enhancement-v14.js?v=1.4.0"><\/script></body>');
+      .replace('</head>','<link rel="stylesheet" href="./enhancement-v14.css?v=1.4.1"></head>')
+      .replace('</body>','<script src="./enhancement-v14.js?v=1.4.1"><\/script><script src="./portrait-overrides-v14.js?v=1.4.1"><\/script></body>');
     document.open();document.write(html);document.close();
   }catch(error){
     document.body.innerHTML='<main style="font-family:Arial;padding:24px"><h1>ORION Armonización Orofacial</h1><p>No fue posible cargar la actualización V1.4.</p></main>';
