@@ -1,22 +1,22 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r14-final-piloto",
+  "version": "1.4.4-r15-final-piloto",
   "date": "2026-08-01",
   "modules": {
-    "portal": "1.4.4-r14",
+    "portal": "1.4.4-r15",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.3-piloto"
+    "armonizacion_orofacial": "1.4.4-piloto"
   },
-  "release_status": "FINAL PILOTO — reemplazo del mapa facial genérico por una capa anatómica clínica interactiva en ORION Armonización Orofacial V1.4.3",
-  "clinical_status": "El mapa diferencia frontal, corrugadores, prócer, orbiculares, nasal, elevadores, orbicular oral, DAO, mentoniano, maseteros y platisma; conserva selección por zona, cálculo de reconstitución, trazabilidad, necesidad terapéutica y plan de puntos",
+  "release_status": "FINAL PILOTO — rediseño del flujo de planificación de toxina: calculadora primero, selección por indicación, distribución automática de puntos y mapa anatómico opcional",
+  "clinical_status": "ORION no asigna dosis universales. El profesional define las unidades totales por zona o lado; la aplicación calcula la distribución por punto y permite registrar el conjunto como planificado o administrado",
   "security_status": "Los datos permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
-  "identity_status": "Se mantienen retratos diferenciados de mujer y hombre en fase piloto, ahora presentados completos mediante encuadre contain y fondo clínico atenuado",
-  "layout_status": "En móvil se ocultan los paneles laterales redundantes, se compactan modelo y tipo de estudio, se evita el desborde de botones y el retrato conserva su proporción completa. Las etiquetas aparecen solo en la zona activa para no cubrir el rostro",
-  "output_status": "El documento final conserva cálculo, trazabilidad, tabla de puntos, análisis por zona y referencias editables",
-  "performance_status": "La caché PWA V1.4.4-r14 incorpora clinical-map-v143.css y clinical-map-v143.js"
+  "identity_status": "Los modelos mujer y hombre permanecen disponibles dentro del mapa opcional, sin interferir con el flujo principal",
+  "layout_status": "Se elimina el mapa como paso obligatorio. En móvil aparecen primero la calculadora y el planificador rápido; el mapa se mantiene cerrado por defecto y la evaluación clínica detallada se presenta como sección desplegable",
+  "output_status": "La tabla de puntos, los totales, el volumen calculado y el documento final se actualizan desde la planificación simplificada",
+  "performance_status": "La caché PWA V1.4.4-r15 incorpora simple-planner-v144.css y simple-planner-v144.js"
 }
