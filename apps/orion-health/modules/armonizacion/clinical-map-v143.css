@@ -1,0 +1,324 @@
+/* ORION Armonización Orofacial V1.4.3 — mapa anatómico clínico y móvil compacto */
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+.v14-portrait-stage{
+  --v143-portrait-image:none;
+  background:#eaf0f5;
+  box-shadow:inset 0 0 0 1px rgba(14,52,89,.04);
+}
+.v14-portrait-stage::before{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  background-image:linear-gradient(rgba(232,240,247,.70),rgba(232,240,247,.70)),var(--v143-portrait-image);
+  background-size:cover;
+  background-position:center;
+  filter:blur(14px) saturate(.78);
+  transform:scale(1.06);
+  z-index:0;
+  pointer-events:none;
+}
+.v14-portrait{
+  background-size:contain !important;
+  background-position:center center !important;
+  z-index:1;
+}
+#v14PortraitStage{
+  left:5.5%;
+  right:5.5%;
+  width:auto;
+  z-index:2;
+}
+.v14-map-svg{overflow:visible;}
+
+/* La geometría original queda como área táctil; la visualización la aporta la capa anatómica. */
+.v14-zone-shape{
+  fill:transparent !important;
+  stroke:transparent !important;
+  stroke-width:0 !important;
+  pointer-events:all;
+}
+.v143-anatomy{
+  pointer-events:none;
+  opacity:.94;
+  transition:opacity .18s ease,filter .18s ease;
+}
+.v143-muscle{
+  fill:rgba(29,111,163,.16);
+  stroke:rgba(20,79,124,.56);
+  stroke-width:1.25;
+  vector-effect:non-scaling-stroke;
+}
+.v143-muscle-frontal{fill:rgba(36,118,167,.13);}
+.v143-muscle-corrugator,.v143-muscle-procerus{fill:rgba(134,71,154,.17);stroke:rgba(98,49,119,.58);}
+.v143-muscle-orbicular{fill:rgba(31,127,153,.15);}
+.v143-muscle-nasalis{fill:rgba(123,78,151,.15);}
+.v143-muscle-oris,.v143-muscle-levator{fill:rgba(178,91,116,.15);stroke:rgba(127,62,82,.52);}
+.v143-muscle-dao,.v143-muscle-mentalis{fill:rgba(150,83,137,.16);stroke:rgba(105,56,97,.54);}
+.v143-muscle-masseter{fill:rgba(46,113,164,.17);stroke:rgba(29,78,120,.60);}
+.v143-muscle-platysma{fill:rgba(53,130,150,.13);stroke:rgba(31,89,105,.50);}
+.v143-cutout{
+  fill:rgba(255,255,255,.34);
+  stroke:rgba(255,255,255,.52);
+  stroke-width:1;
+  vector-effect:non-scaling-stroke;
+}
+.v143-fibre{
+  fill:none;
+  stroke:rgba(29,75,114,.32);
+  stroke-width:1.1;
+  stroke-linecap:round;
+  vector-effect:non-scaling-stroke;
+}
+.g-zone{cursor:pointer;}
+.g-zone:hover .v143-anatomy,.g-zone.active .v143-anatomy{
+  opacity:1;
+  filter:drop-shadow(0 0 5px rgba(19,95,158,.36));
+}
+.g-zone.active .v143-muscle{
+  fill:rgba(31,111,185,.25);
+  stroke:rgba(9,70,132,.85);
+  stroke-width:1.8;
+}
+.v143-anatomy-hidden .v143-anatomy{opacity:0 !important;}
+
+/* Líneas de expresión diferenciadas por estudio. */
+.v143-expression-lines{pointer-events:none;}
+.v143-expression-set{
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+  transition:opacity .18s ease;
+}
+.v143-expression-set path{vector-effect:non-scaling-stroke;}
+.v143-expression-active{
+  stroke:rgba(30,77,126,.53);
+  stroke-width:1.45;
+}
+.v143-expression-passive{
+  stroke:rgba(122,74,132,.42);
+  stroke-width:1.15;
+  stroke-dasharray:3 4;
+}
+#v14Svg[data-study="active"] .v143-expression-passive,
+#v14Svg[data-study="passive"] .v143-expression-active{opacity:0;}
+
+/* Etiquetas solo cuando aportan información: selección activa. */
+.v14-zone-label{
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .16s ease;
+}
+.g-zone.active .v14-zone-label{opacity:1;}
+.v14-zone-label rect{
+  fill:rgba(18,61,103,.88) !important;
+  stroke:rgba(255,255,255,.5);
+  stroke-width:.7;
+}
+.v14-zone-label text{
+  font-size:11px !important;
+  letter-spacing:0;
+}
+.v14-count,.v14-count-text{
+  opacity:.78;
+  transition:opacity .16s ease;
+}
+.g-zone.active .v14-count,.g-zone.active .v14-count-text{opacity:1;}
+
+/* Información contextual flotante, sin tapar el rostro. */
+.v143-map-tag,.v143-selected-zone{
+  position:absolute;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  border:1px solid rgba(255,255,255,.72);
+  background:rgba(16,50,83,.76);
+  color:#fff;
+  box-shadow:0 5px 16px rgba(14,38,66,.14);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  pointer-events:none;
+}
+.v143-map-tag{
+  top:12px;
+  left:12px;
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:11px;
+}
+.v143-map-tag strong{font-size:11px;}
+.v143-map-mode{opacity:.74;}
+.v143-map-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#76d4e7;
+  box-shadow:0 0 0 3px rgba(118,212,231,.18);
+}
+.v143-selected-zone{
+  right:12px;
+  bottom:12px;
+  padding:7px 11px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:800;
+}
+
+/* Controles: tamaño explícito para impedir autoscaling y desbordes. */
+.v14-center-tools{align-items:start;}
+.v14-inline-btn,
+.v14-tool-btn,
+.v14-model-btn,
+.v14-study-btn{
+  font-size:13px;
+  line-height:1.2;
+}
+.v14-inline-btn{
+  min-height:42px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.v14-zoom button{
+  min-width:42px;
+  min-height:42px;
+  padding:8px 12px;
+  font-size:18px;
+}
+.v14-zoom span{
+  min-width:62px;
+  padding:0 10px;
+  text-align:center;
+  font-size:12px;
+}
+
+/* El plan de puntos no debe dominar la pantalla antes de registrar puntos. */
+.v14-table-head{
+  font-size:20px;
+  line-height:1.15;
+}
+.v14-table td[colspan]{
+  padding:20px 16px;
+  font-size:13px;
+  line-height:1.45;
+  text-align:center;
+  color:#647e99;
+}
+.v14-totals .v14-metric span{font-size:10px;}
+.v14-totals .v14-metric strong{font-size:18px;}
+
+@media (max-width:920px){
+  .v14-shell{gap:10px;}
+  .v14-left{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  .v14-left>.v14-side-card:nth-child(3),
+  .v14-left>.v14-side-card:nth-child(4){display:none;}
+  .v14-model-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .v14-model-btn{padding:8px;}
+  .v14-model-thumb{width:42px;height:52px;border-radius:8px;}
+  .v14-model-text span{display:none;}
+  .v14-study-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;}
+  .v14-study-btn{justify-content:center;padding:9px 6px;text-align:center;}
+  .v14-study-icon{display:none;}
+  .v14-portrait-stage{
+    width:min(100%,560px);
+    margin-inline:auto;
+  }
+}
+
+@media (max-width:640px){
+  .v14-shell{gap:9px;}
+  .v14-left{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .v14-side-card{padding:10px;}
+  .v14-side-title{font-size:11px;margin-bottom:8px;}
+  .v14-model-thumb{width:38px;height:46px;}
+  .v14-model-text strong{font-size:12px;}
+  .v14-study-btn{min-height:38px;font-size:11px;border-radius:10px;}
+
+  .v14-center{
+    padding:8px;
+    overflow:visible;
+  }
+  .v14-portrait-stage{
+    width:min(100%,460px);
+    aspect-ratio:600 / 760;
+    max-height:none;
+    border-radius:14px;
+  }
+  #v14PortraitStage{
+    left:4.5%;
+    right:4.5%;
+  }
+  .v143-map-tag{
+    top:8px;
+    left:8px;
+    max-width:calc(100% - 16px);
+    padding:6px 8px;
+    font-size:9px;
+  }
+  .v143-map-tag strong{font-size:10px;}
+  .v143-map-mode{display:none;}
+  .v143-selected-zone{
+    right:8px;
+    bottom:8px;
+    padding:6px 8px;
+    font-size:10px;
+  }
+  .v14-zone-label text{font-size:9.5px !important;}
+  .v14-zone-label rect{opacity:.9;}
+  .v14-count-text{font-size:9px;}
+
+  .v14-center-tools{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    margin-top:8px;
+  }
+  .v14-tool-inline{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  .v14-tool-inline .v14-inline-btn:last-child{grid-column:1 / -1;}
+  .v14-inline-btn{
+    min-height:40px;
+    width:100%;
+    padding:8px 7px;
+    white-space:normal;
+    overflow:visible;
+    text-overflow:clip;
+    font-size:clamp(11px,3.2vw,13px);
+    border-radius:10px;
+  }
+  .v14-zoom{
+    justify-self:center;
+    width:auto;
+    border-radius:10px;
+  }
+  .v14-zoom button{min-width:40px;min-height:40px;font-size:17px;}
+  .v14-zoom span{min-width:58px;font-size:11px;}
+
+  .v14-table-card{margin-top:10px;border-radius:14px;}
+  .v14-table-head{padding:13px 14px 8px;font-size:19px;}
+  .v14-table td[colspan]{padding:16px 14px;font-size:12px;}
+  .v14-totals{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:10px;}
+  .v14-totals .v14-metric{padding:9px;min-height:62px;}
+  .v14-totals .v14-metric span{font-size:9px;line-height:1.2;}
+  .v14-totals .v14-metric strong{font-size:17px;}
+}
+
+@media (max-width:390px){
+  .v14-study-list{grid-template-columns:1fr;}
+  .v14-model-list{grid-template-columns:1fr 1fr;}
+  .v143-map-tag{display:none;}
+}
