@@ -1,24 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r10-final-piloto",
-  "date": "2026-07-31",
+  "version": "1.4.4-r11-final-piloto",
+  "date": "2026-08-01",
   "modules": {
-    "portal": "1.4.4-r10",
+    "portal": "1.4.4-r11",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.3.0-piloto"
+    "armonizacion_orofacial": "1.4.0-piloto"
   },
-  "release_status": "FINAL PILOTO — interfaz fotográfica funcional y mapa facial clínico reorganizado para ORION Armonización Orofacial V1.3",
-  "clinical_status": "Armonización V1.3 conserva Safety Engine, trazabilidad, cálculo de reconstitución y registro real por punto; reorganiza toxina botulínica en una vista de trabajo con modelo, mapa, asistente de zona, cálculo y plan de puntos integrados",
-  "security_status": "Los datos, puntos y análisis de zona permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa siendo un generador documental y no una ficha clínica longitudinal",
-  "identity_status": "El modelo caricaturesco fue retirado. La vista piloto utiliza dos referencias fotográficas clínicas diferenciadas para mujer y hombre, con zonas transparentes y puntos interactivos superpuestos",
-  "asset_status": "Las fotografías de referencia de esta fase piloto se cargan desde Pexels; deben reemplazarse por activos originales ORION antes de distribución comercial definitiva",
-  "layout_status": "La vista de toxina integra barra lateral de modelo y expresión, retrato central, cálculo y asistente clínico a la derecha, resumen y plan de puntos en la sección inferior; en móvil se apila a ancho completo",
-  "output_status": "El documento final conserva cálculo, trazabilidad y tabla de puntos e incorpora el perfil de estudio facial y el análisis escrito de cada zona guardada",
-  "insumos_status": "La V1.3 mantiene cálculo de unidades utilizadas, volumen real y remanente matemático; la conexión automática con ORION Insumos continúa preparada para una versión posterior",
-  "performance_status": "La caché PWA V1.4.4-r10 incorpora el cargador y recursos V1.3; las imágenes fotográficas requieren conexión durante esta fase piloto"
+  "release_status": "FINAL PILOTO — rediseño más fiel al mockup aprobado, con mapa facial centrado, panel clínico por sector y cálculo reorganizado en ORION Armonización Orofacial V1.4",
+  "clinical_status": "Armonización V1.4 conserva cálculo de reconstitución, trazabilidad y registro documental, y reorganiza la guía clínica por zona según indicación y necesidad terapéutica: líneas dinámicas, hipertonía, sonrisa gingival, DAO, mentalis, masetero y platisma",
+  "literature_status": "La UI se basa en un enfoque individualizado y etiológico: toxina cuando la hiperactividad muscular es la causa principal, análisis del músculo objetivo junto a los músculos adyacentes, diferenciación de líneas dinámicas y estáticas, y cautelas específicas por región. Las unidades siguen ligadas al producto y no se convierten entre marcas.",
+  "security_status": "Los datos, puntos y análisis de zona permanecen únicamente durante la sesión mediante sessionStorage; ORION sigue siendo un generador documental y no una ficha clínica longitudinal",
+  "identity_status": "Se mantiene el uso piloto de retratos fotográficos externos para mujer y hombre; deben reemplazarse posteriormente por activos ORION definitivos para distribución comercial",
+  "layout_status": "La vista V1.4 se acerca al diseño de referencia aprobado: selector lateral, mapa facial central, cálculo a la derecha, asistente por sector y plan de puntos inferior, con apilamiento móvil responsivo",
+  "output_status": "El documento final mantiene cálculo, trazabilidad, tabla de puntos y análisis escrito por zona, con referencias mínimas y máximas editables",
+  "performance_status": "La caché PWA V1.4.4-r11 incorpora el cargador y recursos V1.4 para toxina botulínica"
 }
