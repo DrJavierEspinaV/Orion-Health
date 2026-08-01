@@ -31,8 +31,8 @@ const APPS = {
   },
   armonizacion: {
     title: "ORION Armonización Orofacial",
-    desc: "Estudio facial fotográfico, cálculo, mapa de punción y documento clínico estético.",
-    src: "./modules/armonizacion/v13.html"
+    desc: "Estudio facial por sector, cálculo, mapa de punción y documento clínico estético.",
+    src: "./modules/armonizacion/v14.html"
   }
 };
 
