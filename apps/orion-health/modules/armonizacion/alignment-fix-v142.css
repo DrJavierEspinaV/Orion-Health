@@ -1,0 +1,157 @@
+/* ORION Armonización Orofacial V1.4.2 — corrección de geometría foto/SVG */
+.v14-shell{
+  grid-template-columns:148px minmax(500px,1fr) minmax(380px,460px);
+  gap:12px;
+  width:100%;
+  align-items:start;
+}
+
+.v14-left,.v14-center,.v14-right{min-width:0;}
+.v14-center{overflow:hidden;}
+
+.v14-top-row{
+  grid-template-columns:minmax(0,1.25fr) minmax(180px,.75fr);
+  gap:10px;
+}
+.v14-top-note,.v14-mini-help{min-height:112px;}
+
+/* Foto y mapa usan el mismo rectángulo clínico 600 × 760. */
+.v14-portrait-stage{
+  position:relative;
+  width:100%;
+  aspect-ratio:600 / 760;
+  min-height:0;
+  max-height:none;
+  overflow:hidden;
+  background:#f7fafc;
+  isolation:isolate;
+}
+.v14-portrait{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-position:center 16% !important;
+  transform-origin:center top;
+  will-change:transform;
+  z-index:1;
+}
+#v14PortraitStage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  transform-origin:center top !important;
+  will-change:transform;
+  z-index:2;
+}
+.v14-map-svg{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+/* Mejor lectura sin cubrir rasgos del retrato. */
+.v14-zone-shape{
+  fill:rgba(52,112,186,.025);
+  stroke:#4d86ca;
+  stroke-width:1.65;
+  stroke-dasharray:5 5;
+  vector-effect:non-scaling-stroke;
+}
+.g-zone:hover .v14-zone-shape,.g-zone.active .v14-zone-shape{
+  fill:rgba(45,108,223,.09);
+  stroke:#175fc3;
+  stroke-width:2.25;
+}
+.v14-zone-label rect{fill:rgba(49,94,151,.92);}
+.v14-zone-label text{font-size:11.5px;}
+.v14-count{vector-effect:non-scaling-stroke;}
+.v14-point{vector-effect:non-scaling-stroke;}
+
+/* Herramientas alineadas y sin saltos arbitrarios. */
+.v14-center-tools{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:center;
+}
+.v14-tool-inline{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  min-width:0;
+}
+.v14-inline-btn{
+  width:100%;
+  min-width:0;
+  padding:10px 9px;
+  white-space:nowrap;
+  text-align:center;
+}
+.v14-zoom{justify-self:end;white-space:nowrap;}
+
+/* El plan ocupa el ancho útil del centro y mantiene columnas estables. */
+.v14-table-card{width:100%;}
+.v14-table{table-layout:fixed;}
+.v14-table th,.v14-table td{overflow:hidden;text-overflow:ellipsis;}
+.v14-totals{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;}
+.v14-totals .v14-metric{min-width:0;padding:10px;}
+.v14-totals .v14-metric strong{font-size:21px;}
+
+.v14-right .v14-card{overflow:hidden;}
+.v14-field-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.v14-field-grid>.v14-field:nth-child(3){grid-column:1 / -1;}
+.v14-metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.v14-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.v14-summary-grid>div:nth-child(2n){border-right:none;}
+.v14-summary-grid>div:nth-child(-n+2){border-bottom:1px solid #dfe9f3;}
+
+@media (min-width:1500px){
+  .v14-shell{grid-template-columns:160px minmax(570px,1fr) minmax(420px,500px);gap:14px;}
+  .v14-field-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .v14-field-grid>.v14-field:nth-child(3){grid-column:auto;}
+  .v14-metrics-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .v14-summary-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+  .v14-summary-grid>div{border-bottom:none !important;border-right:1px solid #dfe9f3 !important;}
+  .v14-summary-grid>div:last-child{border-right:none !important;}
+}
+
+@media (max-width:1180px){
+  .v14-shell{grid-template-columns:138px minmax(440px,1fr) minmax(330px,390px);}
+  .v14-top-row{grid-template-columns:1fr;}
+  .v14-top-note,.v14-mini-help{min-height:0;}
+  .v14-center-tools{grid-template-columns:1fr;}
+  .v14-zoom{justify-self:start;}
+  .v14-totals{grid-template-columns:repeat(3,minmax(0,1fr));}
+}
+
+@media (max-width:920px){
+  .v14-shell{display:flex;flex-direction:column;}
+  .v14-left{order:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;}
+  .v14-center{order:2;width:100%;}
+  .v14-right{order:3;width:100%;}
+  .v14-portrait-stage{aspect-ratio:600 / 760;max-height:760px;}
+  .v14-field-grid,.v14-clinical-grid,.v14-guidance,.v14-zone-header{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+
+@media (max-width:640px){
+  .v14-left{grid-template-columns:1fr;}
+  .v14-top-row{display:none;}
+  .v14-center{padding:8px;}
+  .v14-portrait-stage{aspect-ratio:3 / 4;border-radius:14px;}
+  .v14-center-tools{display:flex;flex-direction:column;align-items:stretch;}
+  .v14-tool-inline{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .v14-tool-inline .v14-inline-btn:last-child{grid-column:1 / -1;}
+  .v14-zoom{align-self:center;}
+  .v14-totals{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .v14-field-grid,.v14-clinical-grid,.v14-guidance,.v14-zone-header,.v14-metrics-grid,.v14-summary-grid{grid-template-columns:1fr;}
+  .v14-field-grid>.v14-field:nth-child(3){grid-column:auto;}
+  .v14-summary-grid>div{border-right:none !important;border-bottom:1px solid #dfe9f3 !important;}
+  .v14-summary-grid>div:last-child{border-bottom:none !important;}
+}
