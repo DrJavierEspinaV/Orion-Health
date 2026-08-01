@@ -1,23 +1,22 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r12-final-piloto",
+  "version": "1.4.4-r13-final-piloto",
   "date": "2026-08-01",
   "modules": {
-    "portal": "1.4.4-r12",
+    "portal": "1.4.4-r13",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.1-piloto"
+    "armonizacion_orofacial": "1.4.2-piloto"
   },
-  "release_status": "FINAL PILOTO — corrección directa del diseño aprobado, retratos frontales diferenciados y asistente clínico por sector en ORION Armonización Orofacial V1.4.1",
-  "clinical_status": "Armonización V1.4.1 conserva cálculo de reconstitución, trazabilidad y registro documental, y reorganiza la guía clínica por zona según indicación y necesidad terapéutica: líneas dinámicas, hipertonía, sonrisa gingival, DAO, mentalis, masetero y platisma",
-  "literature_status": "La UI se basa en un enfoque individualizado y etiológico: toxina cuando la hiperactividad muscular es la causa principal, análisis del músculo objetivo junto a músculos adyacentes, diferenciación de líneas dinámicas y estáticas, y cautelas específicas por región. Las unidades siguen ligadas al producto y no se convierten entre marcas.",
-  "security_status": "Los datos, puntos y análisis de zona permanecen únicamente durante la sesión mediante sessionStorage; ORION sigue siendo un generador documental y no una ficha clínica longitudinal",
-  "identity_status": "La V1.4.1 sustituye las referencias anteriores por retratos frontales de mujer y hombre más cercanos al mockup clínico aprobado; continúan como activos externos de fase piloto y deberán reemplazarse por activos ORION definitivos antes de la distribución comercial",
-  "layout_status": "La vista se aproxima al diseño de referencia: selector lateral, retrato central dominante, cálculo a la derecha, asistente clínico por sector y plan de puntos inferior, con adaptación móvil responsiva",
-  "output_status": "El documento final mantiene cálculo, trazabilidad, tabla de puntos y análisis escrito por zona, con referencias mínimas y máximas editables",
-  "performance_status": "La caché PWA V1.4.4-r12 incorpora el cargador, la interfaz V1.4.1 y el reemplazo de retratos"
+  "release_status": "FINAL PILOTO — corrección geométrica del mapa facial: fotografía y SVG comparten proporción, encuadre y zoom; columnas y herramientas se redistribuyen en ORION Armonización Orofacial V1.4.2",
+  "clinical_status": "Se preservan cálculo de reconstitución, trazabilidad, asistente por zona, necesidad terapéutica y plan de puntos",
+  "security_status": "Los datos permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
+  "identity_status": "Se mantienen retratos diferenciados de mujer y hombre en fase piloto",
+  "layout_status": "La fotografía y el mapa SVG ocupan el mismo marco 600 × 760; se elimina el espacio inferior vacío y se sincroniza el zoom de ambas capas. En escritorio las herramientas quedan alineadas y en móvil el contenido se apila en orden clínico",
+  "output_status": "El documento final conserva cálculo, trazabilidad, tabla de puntos, análisis por zona y referencias editables",
+  "performance_status": "La caché PWA V1.4.4-r13 incorpora los recursos alignment-fix-v142"
 }
