@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r12';
+const CACHE_NAME='orion-dental-app-v1.4.4-r13';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
@@ -14,7 +14,7 @@ const SHELL=[
   './modules/endodoncia/source/source-001.part','./modules/endodoncia/source/source-002.part','./modules/endodoncia/source/source-003.part','./modules/endodoncia/source/source-004.part',
   './modules/ortodoncia/index.html','./modules/ortodoncia/loader.js','./modules/ortodoncia/source/source-001.part','./modules/ortodoncia/source/source-002.part',
   './modules/odontopediatria/index.html','./modules/odontopediatria/loader.js','./modules/odontopediatria/source/source-001.part','./modules/odontopediatria/source/source-002.part','./modules/odontopediatria/source/source-003.part','./modules/odontopediatria/source/source-004.part',
-  './modules/armonizacion/index.html','./modules/armonizacion/styles.css','./modules/armonizacion/script.js','./modules/armonizacion/v12.html','./modules/armonizacion/enhancement-v12.css','./modules/armonizacion/enhancement-v12.js','./modules/armonizacion/v13.html','./modules/armonizacion/enhancement-v13.css','./modules/armonizacion/enhancement-v13.js','./modules/armonizacion/v14.html','./modules/armonizacion/enhancement-v14.css','./modules/armonizacion/enhancement-v14.js','./modules/armonizacion/portrait-overrides-v14.js'
+  './modules/armonizacion/index.html','./modules/armonizacion/styles.css','./modules/armonizacion/script.js','./modules/armonizacion/v12.html','./modules/armonizacion/enhancement-v12.css','./modules/armonizacion/enhancement-v12.js','./modules/armonizacion/v13.html','./modules/armonizacion/enhancement-v13.css','./modules/armonizacion/enhancement-v13.js','./modules/armonizacion/v14.html','./modules/armonizacion/enhancement-v14.css','./modules/armonizacion/enhancement-v14.js','./modules/armonizacion/portrait-overrides-v14.js','./modules/armonizacion/alignment-fix-v142.css','./modules/armonizacion/alignment-fix-v142.js'
 ];
 
 self.addEventListener('install',event=>{
