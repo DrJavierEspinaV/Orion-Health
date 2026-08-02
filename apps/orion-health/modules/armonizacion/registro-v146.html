@@ -10,7 +10,7 @@
 <script>
 (async()=>{
   try{
-    const response=await fetch('./registro-v145.html?base=1&v=1.4.6',{cache:'no-store'});
+    const response=await fetch('./registro-v145.html',{cache:'no-store'});
     if(!response.ok)throw new Error('No fue posible cargar el registro base');
     let html=await response.text();
     html=html
