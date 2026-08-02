@@ -1,22 +1,22 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r15-final-piloto",
-  "date": "2026-08-01",
+  "version": "1.4.4-r16-final-piloto",
+  "date": "2026-08-02",
   "modules": {
-    "portal": "1.4.4-r15",
+    "portal": "1.4.4-r16",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.4-piloto"
+    "armonizacion_orofacial": "1.4.5-piloto"
   },
-  "release_status": "FINAL PILOTO — rediseño del flujo de planificación de toxina: calculadora primero, selección por indicación, distribución automática de puntos y mapa anatómico opcional",
-  "clinical_status": "ORION no asigna dosis universales. El profesional define las unidades totales por zona o lado; la aplicación calcula la distribución por punto y permite registrar el conjunto como planificado o administrado",
-  "security_status": "Los datos permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
-  "identity_status": "Los modelos mujer y hombre permanecen disponibles dentro del mapa opcional, sin interferir con el flujo principal",
-  "layout_status": "Se elimina el mapa como paso obligatorio. En móvil aparecen primero la calculadora y el planificador rápido; el mapa se mantiene cerrado por defecto y la evaluación clínica detallada se presenta como sección desplegable",
-  "output_status": "La tabla de puntos, los totales, el volumen calculado y el documento final se actualizan desde la planificación simplificada",
-  "performance_status": "La caché PWA V1.4.4-r15 incorpora simple-planner-v144.css y simple-planner-v144.js"
+  "release_status": "FINAL PILOTO — nuevo registro de toxina sobre atlas anatómico raster, con puntos sugeridos modificables y trazabilidad individual de planificación y administración",
+  "clinical_status": "Los presets representan ubicaciones habituales de referencia y permanecen sin unidades asignadas. Cada punto puede moverse, agregarse, omitirse, planificarse o registrarse como administrado bajo criterio profesional",
+  "security_status": "El registro se conserva únicamente durante la sesión mediante sessionStorage; ORION no se convierte en ficha clínica longitudinal ni crea una base clínica autónoma",
+  "identity_status": "Se incorpora una ilustración anatómica original tipo atlas clínico, no vectorizada y sin reproducir láminas editoriales protegidas",
+  "layout_status": "En escritorio se utiliza una distribución de tres segmentos equivalente al diseño aprobado: controles y zonas, atlas anatómico y registro del procedimiento. En móvil el flujo se divide en Mapa, Registro y Resumen",
+  "output_status": "La impresión/PDF contiene paciente, vial, imagen anatómica con puntos, planificación, administración, volumen calculado y tabla del procedimiento",
+  "performance_status": "La caché PWA V1.4.4-r16 publica registro-v145, su imagen raster embebida y los recursos responsive"
 }
