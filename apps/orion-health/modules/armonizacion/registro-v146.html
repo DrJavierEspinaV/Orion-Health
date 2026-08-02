@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061a38">
+  <title>ORION Armonización Orofacial V1.4.6</title>
+</head>
+<body>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('./registro-v145.html?base=1&v=1.4.6',{cache:'no-store'});
+    if(!response.ok)throw new Error('No fue posible cargar el registro base');
+    let html=await response.text();
+    html=html
+      .replace(/registro-v145\.css\?v=[^"']+/,'registro-v145.css?v=1.4.6')
+      .replace('</head>','<link rel="stylesheet" href="./anatomy-calibration-v146.css?v=1.4.6"></head>')
+      .replace('<span class="oa-brand-mark" aria-hidden="true">✦</span>','<img class="oa-brand-logo" src="../../assets/brand/orion-health.png" alt="ORION Health">')
+      .replace(/V1\.4\.5-r2/g,'V1.4.6')
+      .replace('Los puntos son presets editables; deben ajustarse a la evaluación dinámica y anatómica.','Presets anatómico-funcionales editables. Confirma cada ubicación mediante evaluación dinámica, palpación y criterio profesional.')
+      .replace(/<script src="\.\/registro-v145\.js\?v=[^"]+"><\/script>/,'<script src="./anatomy-presets-v146.js?v=1.4.6"><\\/script><script src="./registro-v145.js?v=1.4.6"><\\/script>');
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:Arial;padding:24px"><h1>ORION Armonización Orofacial</h1><p>No fue posible cargar la actualización V1.4.6.</p></main>';
+    console.error(error);
+  }
+})();
+</script>
+</body>
+</html>
