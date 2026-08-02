@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r15';
+const CACHE_NAME='orion-dental-app-v1.4.4-r16';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
@@ -10,11 +10,11 @@ const SHELL=[
   './modules/comunicaciones/index.html','./modules/comunicaciones/loader.js','./modules/comunicaciones/responsive-fixes.css','./modules/comunicaciones/mobile-v142.css','./modules/comunicaciones/desktop-balance-v144r6.css','./modules/comunicaciones/source.html',
   './modules/insumos/index.html','./modules/insumos/loader.js','./modules/insumos/source.html',
   './modules/cmf/index.html','./modules/cmf/loader.js','./modules/cmf/source.html',
-  './modules/endodoncia/index.html','./modules/endodoncia/loader.js',
-  './modules/endodoncia/source/source-001.part','./modules/endodoncia/source/source-002.part','./modules/endodoncia/source/source-003.part','./modules/endodoncia/source/source-004.part',
+  './modules/endodoncia/index.html','./modules/endodoncia/loader.js','./modules/endodoncia/source/source-001.part','./modules/endodoncia/source/source-002.part','./modules/endodoncia/source/source-003.part','./modules/endodoncia/source/source-004.part',
   './modules/ortodoncia/index.html','./modules/ortodoncia/loader.js','./modules/ortodoncia/source/source-001.part','./modules/ortodoncia/source/source-002.part',
   './modules/odontopediatria/index.html','./modules/odontopediatria/loader.js','./modules/odontopediatria/source/source-001.part','./modules/odontopediatria/source/source-002.part','./modules/odontopediatria/source/source-003.part','./modules/odontopediatria/source/source-004.part',
-  './modules/armonizacion/index.html','./modules/armonizacion/styles.css','./modules/armonizacion/script.js','./modules/armonizacion/v12.html','./modules/armonizacion/enhancement-v12.css','./modules/armonizacion/enhancement-v12.js','./modules/armonizacion/v13.html','./modules/armonizacion/enhancement-v13.css','./modules/armonizacion/enhancement-v13.js','./modules/armonizacion/v14.html','./modules/armonizacion/enhancement-v14.css','./modules/armonizacion/enhancement-v14.js','./modules/armonizacion/portrait-overrides-v14.js','./modules/armonizacion/alignment-fix-v142.css','./modules/armonizacion/alignment-fix-v142.js','./modules/armonizacion/clinical-map-v143.css','./modules/armonizacion/clinical-map-v143.js','./modules/armonizacion/simple-planner-v144.css','./modules/armonizacion/simple-planner-v144.js'
+  './modules/armonizacion/index.html','./modules/armonizacion/registro-v145.html','./modules/armonizacion/registro-v145.css','./modules/armonizacion/registro-v145.js','./modules/armonizacion/anatomy-atlas-female-v145.js',
+  './modules/armonizacion/styles.css','./modules/armonizacion/script.js','./modules/armonizacion/v12.html','./modules/armonizacion/enhancement-v12.css','./modules/armonizacion/enhancement-v12.js','./modules/armonizacion/v13.html','./modules/armonizacion/enhancement-v13.css','./modules/armonizacion/enhancement-v13.js','./modules/armonizacion/v14.html','./modules/armonizacion/enhancement-v14.css','./modules/armonizacion/enhancement-v14.js','./modules/armonizacion/portrait-overrides-v14.js','./modules/armonizacion/alignment-fix-v142.css','./modules/armonizacion/alignment-fix-v142.js','./modules/armonizacion/clinical-map-v143.css','./modules/armonizacion/clinical-map-v143.js','./modules/armonizacion/simple-planner-v144.css','./modules/armonizacion/simple-planner-v144.js'
 ];
 
 self.addEventListener('install',event=>{
@@ -38,20 +38,10 @@ self.addEventListener('fetch',event=>{
   if(url.origin!==self.location.origin)return;
 
   const isArmonizacionBase=url.pathname.endsWith('/modules/armonizacion/index.html');
-  if(isArmonizacionBase&&!url.searchParams.has('base')){
+  if(isArmonizacionBase){
     event.respondWith(
-      fetch(APP_SCOPE+'modules/armonizacion/v14.html',{cache:'no-store'}).catch(()=>caches.match(APP_SCOPE+'modules/armonizacion/v14.html'))
-    );
-    return;
-  }
-
-  if(isArmonizacionBase&&url.searchParams.has('base')){
-    event.respondWith(
-      fetch(request).then(response=>{
-        const copy=response.clone();
-        caches.open(CACHE_NAME).then(cache=>cache.put(APP_SCOPE+'modules/armonizacion/index.html',copy)).catch(()=>{});
-        return response;
-      }).catch(()=>caches.match(APP_SCOPE+'modules/armonizacion/index.html'))
+      fetch(APP_SCOPE+'modules/armonizacion/registro-v145.html',{cache:'no-store'})
+        .catch(()=>caches.match(APP_SCOPE+'modules/armonizacion/registro-v145.html'))
     );
     return;
   }
@@ -71,7 +61,10 @@ self.addEventListener('fetch',event=>{
     event.respondWith(
       caches.match(request).then(cached=>{
         const update=fetch(request).then(response=>{
-          if(response&&response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});}
+          if(response&&response.ok){
+            const copy=response.clone();
+            caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});
+          }
           return response;
         }).catch(()=>cached);
         return cached||update;
@@ -81,7 +74,10 @@ self.addEventListener('fetch',event=>{
   }
 
   event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{
-    if(response&&response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});}
+    if(response&&response.ok){
+      const copy=response.clone();
+      caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});
+    }
     return response;
   })));
 });
