@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061a38">
+  <title>ORION Armonización Orofacial — Registro de toxina</title>
+  <link rel="stylesheet" href="./registro-v145.css?v=1.4.5">
+</head>
+<body>
+  <header class="oa-topbar">
+    <div class="oa-brand">
+      <span class="oa-brand-mark" aria-hidden="true">✦</span>
+      <div><strong>ORION</strong><small>ARMONIZACIÓN OROFACIAL</small></div>
+    </div>
+    <div class="oa-title">
+      <strong>Registro de toxina botulínica</strong>
+      <span>Mapa anatómico y trazabilidad por punto</span>
+    </div>
+    <div class="oa-top-actions">
+      <button type="button" class="oa-icon-btn" id="btnSaveTop" title="Guardar registro">Guardar</button>
+      <button type="button" class="oa-primary" id="btnPrintTop">Imprimir / PDF</button>
+    </div>
+  </header>
+
+  <nav class="oa-mobile-tabs" aria-label="Secciones del procedimiento">
+    <button type="button" data-mobile-tab="map" class="active">Mapa</button>
+    <button type="button" data-mobile-tab="record">Registro</button>
+    <button type="button" data-mobile-tab="summary">Resumen</button>
+  </nav>
+
+  <main class="oa-layout">
+    <aside class="oa-sidebar oa-mobile-map" aria-label="Controles del mapa">
+      <section class="oa-card oa-patient-mini">
+        <div class="oa-section-title">Paciente</div>
+        <strong id="patientMiniName">Sin paciente activo</strong>
+        <span id="patientMiniId">RUN/RUT: —</span>
+        <span id="patientMiniDate">Fecha: —</span>
+      </section>
+
+      <section class="oa-card">
+        <div class="oa-section-title">Leyenda de estado</div>
+        <ul class="oa-legend">
+          <li><i class="suggested"></i>Sugerido</li>
+          <li><i class="planned"></i>Planificado</li>
+          <li><i class="administered"></i>Administrado</li>
+          <li><i class="omitted"></i>Omitido</li>
+          <li><i class="selected"></i>Seleccionado</li>
+        </ul>
+      </section>
+
+      <section class="oa-card">
+        <div class="oa-section-title">Zonas</div>
+        <div id="zoneList" class="oa-zone-list"></div>
+      </section>
+
+      <section class="oa-card">
+        <div class="oa-section-title">Controles de vista</div>
+        <div class="oa-control-list">
+          <button type="button" id="btnFit">Ajustar vista</button>
+          <button type="button" id="btnZoomIn">Zoom +</button>
+          <button type="button" id="btnZoomOut">Zoom −</button>
+          <button type="button" id="btnToggleLabels">Ocultar etiquetas</button>
+          <button type="button" id="btnShowAll">Mostrar todas las zonas</button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="oa-map-panel oa-mobile-map">
+      <div class="oa-map-head">
+        <div>
+          <strong>Mapa anatómico de infiltración</strong>
+          <span>Los puntos son presets editables; deben ajustarse a la evaluación dinámica y anatómica.</span>
+        </div>
+        <div class="oa-map-actions">
+          <button type="button" id="btnAddPoint">+ Agregar punto</button>
+          <button type="button" id="btnResetPresets">Restablecer presets</button>
+        </div>
+      </div>
+
+      <div class="oa-mobile-zonebar">
+        <label for="mobileZoneSelect">Zona visible</label>
+        <select id="mobileZoneSelect"></select>
+      </div>
+
+      <div class="oa-atlas-shell" id="atlasShell">
+        <div class="oa-atlas-transform" id="atlasTransform">
+          <img id="atlasImage" alt="Atlas anatómico facial de referencia">
+          <div id="zoneLabelLayer" class="oa-zone-label-layer" aria-hidden="true"></div>
+          <div id="pointLayer" class="oa-point-layer"></div>
+        </div>
+        <div class="oa-add-hint" id="addHint">Toca la imagen para ubicar el nuevo punto.</div>
+      </div>
+
+      <div class="oa-map-footer">
+        <span><strong id="mapVisibleCount">0</strong> puntos visibles</span>
+        <span>Arrastra un punto para modificar su posición.</span>
+      </div>
+    </section>
+
+    <section class="oa-record-panel oa-mobile-record">
+      <section class="oa-card oa-procedure-head">
+        <div class="oa-record-heading">
+          <div><h1>Registro del procedimiento</h1><p>Planificación, administración y volumen calculado por punto.</p></div>
+          <span class="oa-version">V1.4.5</span>
+        </div>
+        <div class="oa-patient-grid">
+          <label>Paciente<input id="patientName" autocomplete="name" placeholder="Nombre completo"></label>
+          <label>RUN / RUT<input id="patientId" placeholder="Identificación"></label>
+          <label>Fecha<input id="procedureDate" type="date"></label>
+        </div>
+      </section>
+
+      <section class="oa-card oa-calculator">
+        <div class="oa-section-title">Calculadora del vial</div>
+        <div class="oa-calc-grid">
+          <label>Producto<input id="productName" value="Toxina botulínica tipo A"></label>
+          <label>Vial (U)<input id="vialUnits" type="number" min="0" step="1" value="100"></label>
+          <label>Dilución (mL)<input id="dilutionMl" type="number" min="0.1" step="0.1" value="2.5"></label>
+          <label>Lote<input id="batchNumber" placeholder="Opcional"></label>
+        </div>
+        <div class="oa-calc-results">
+          <div><span>Concentración</span><strong id="concentration">40,0 U/mL</strong></div>
+          <div><span>U por 0,1 mL</span><strong id="unitsPer01">4,0 U</strong></div>
+          <div><span>Volumen por 1 U</span><strong id="volumePerUnit">0,025 mL</strong></div>
+          <div><span>Remanente teórico</span><strong id="remainingUnits">100 U</strong></div>
+        </div>
+        <p class="oa-safety-note">Las unidades de los distintos productos no deben considerarse intercambiables. ORION calcula volumen y registro; no prescribe dosis.</p>
+      </section>
+
+      <section class="oa-card oa-point-editor">
+        <div class="oa-step-title"><span>1</span> Indicación / zona</div>
+        <div class="oa-zone-selector-row">
+          <select id="zoneSelect"></select>
+          <button type="button" id="btnFocusZone">Ver en mapa</button>
+        </div>
+
+        <div class="oa-editor-summary-grid">
+          <div class="oa-editor-column">
+            <div class="oa-step-title"><span>2</span> Punto seleccionado</div>
+            <div id="emptyPoint" class="oa-empty-point">Selecciona un punto sobre el mapa o en la tabla.</div>
+            <div id="pointFields" class="oa-point-fields" hidden>
+              <label>Etiqueta<input id="pointLabel"></label>
+              <div class="oa-two-cols">
+                <label>Plan (U)<input id="pointPlanned" type="number" min="0" step="0.1" inputmode="decimal"></label>
+                <label>Administrado (U)<input id="pointAdmin" type="number" min="0" step="0.1" inputmode="decimal"></label>
+              </div>
+              <label>Estado<select id="pointStatus"><option value="suggested">Sugerido</option><option value="planned">Planificado</option><option value="administered">Administrado</option><option value="omitted">Omitido</option></select></label>
+              <label>Comentario<textarea id="pointComment" rows="2" placeholder="Opcional"></textarea></label>
+              <div class="oa-inline-actions">
+                <button type="button" id="btnMarkAdmin" class="oa-success">Marcar administrado</button>
+                <button type="button" id="btnDeletePoint" class="oa-danger">Eliminar</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="oa-zone-summary-column">
+            <div class="oa-step-title"><span>3</span> Resumen de zona</div>
+            <div class="oa-zone-metrics">
+              <div><span>Planificado</span><strong id="zonePlanned">0 U</strong><small id="zonePlannedPoints">0 puntos</small></div>
+              <div><span>Administrado</span><strong id="zoneAdmin">0 U</strong><small id="zoneAdminPoints">0 puntos</small></div>
+              <div><span>Volumen</span><strong id="zoneVolume">0,000 mL</strong><small id="zoneConcentration">—</small></div>
+            </div>
+            <div class="oa-bulk-box">
+              <strong>Aplicación rápida en la zona</strong>
+              <div class="oa-two-cols">
+                <label>U plan por punto<input id="bulkPlan" type="number" min="0" step="0.1" inputmode="decimal"></label>
+                <label>U administradas por punto<input id="bulkAdmin" type="number" min="0" step="0.1" inputmode="decimal"></label>
+              </div>
+              <button type="button" id="btnApplyZone">Aplicar a puntos de esta zona</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="oa-card oa-table-card oa-mobile-summary">
+        <div class="oa-step-title"><span>4</span> Plan de puntos</div>
+        <div class="oa-table-wrap">
+          <table>
+            <thead><tr><th>Zona</th><th>Punto</th><th>Etiqueta</th><th>Plan</th><th>Administrado</th><th>Volumen</th><th>Estado</th></tr></thead>
+            <tbody id="pointsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="oa-card oa-general-summary oa-mobile-summary">
+        <div class="oa-section-title">Resumen general</div>
+        <div class="oa-general-grid">
+          <div><span>Puntos registrados</span><strong id="totalPoints">0</strong></div>
+          <div><span>Planificado</span><strong id="totalPlanned">0 U</strong></div>
+          <div><span>Administrado</span><strong id="totalAdmin">0 U</strong></div>
+          <div><span>Volumen administrado</span><strong id="totalVolume">0,000 mL</strong></div>
+        </div>
+        <div class="oa-final-actions">
+          <button type="button" id="btnSave">Guardar registro de sesión</button>
+          <button type="button" id="btnPrint" class="oa-primary">Imprimir / Exportar PDF</button>
+          <button type="button" id="btnNew">Nuevo procedimiento</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="oa-toast" role="status" aria-live="polite"></div>
+
+  <script src="./anatomy-atlas-female-v145.js?v=1.4.5"></script>
+  <script src="./registro-v145.js?v=1.4.5"></script>
+</body>
+</html>
