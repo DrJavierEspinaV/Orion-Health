@@ -1,0 +1,66 @@
+/* ORION Armonización Orofacial V1.4.6 — identidad y calibración anatómica */
+.oa-brand{gap:12px;padding-right:18px}
+.oa-brand-logo{
+  display:block;
+  width:52px;
+  height:52px;
+  object-fit:contain;
+  flex:0 0 auto;
+  padding:3px;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:0 0 0 1px rgba(255,255,255,.22),0 4px 12px rgba(0,0,0,.18)
+}
+.oa-brand-mark{display:none!important}
+.oa-brand strong{font-size:22px;letter-spacing:.08em}
+.oa-brand small{font-size:7px;letter-spacing:.14em}
+
+/* Los puntos deben permitir ver la estructura muscular subyacente. */
+.oa-point{
+  width:20px;
+  height:20px;
+  border-width:2px;
+  font-size:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.30)
+}
+.oa-point.suggested{
+  background:rgba(255,255,255,.93);
+  box-shadow:0 0 0 2px #1f64c8,0 2px 5px rgba(0,0,0,.22)
+}
+.oa-point.selected{
+  outline:3px solid rgba(31,100,200,.34);
+  transform:translate(-50%,-50%) scale(1.12)
+}
+.oa-zone-label{
+  padding:2px 5px;
+  border-radius:4px;
+  background:rgba(255,255,255,.72);
+  border-color:rgba(16,43,77,.18);
+  font-size:7px;
+  letter-spacing:.01em;
+  backdrop-filter:blur(1px);
+  box-shadow:0 1px 3px rgba(16,43,77,.08)
+}
+
+.oa-map-footer::after{
+  content:'Ubicaciones de referencia: ajustar a contracción, palpación, asimetría y anatomía individual.';
+  display:block;
+  color:#6b7f94;
+  font-size:9px;
+  line-height:1.35
+}
+
+@media (max-width:920px){
+  .oa-brand-logo{width:42px;height:42px}
+  .oa-point{width:19px;height:19px;font-size:7.5px}
+  .oa-zone-label{font-size:6.5px;padding:2px 4px}
+  .oa-map-footer{display:grid;grid-template-columns:auto 1fr;align-items:center}
+  .oa-map-footer::after{grid-column:1/-1;padding-top:5px;border-top:1px solid #e3e9ef}
+}
+
+@media print{
+  .oa-brand-logo{width:40px;height:40px;box-shadow:none}
+  .oa-point{width:18px;height:18px;font-size:7px}
+  .oa-zone-label{background:rgba(255,255,255,.82)}
+  .oa-map-footer::after{font-size:8px}
+}
