@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r28';
+const CACHE_NAME='orion-dental-app-v1.4.4-r29';
 const APP_SCOPE='./';
 const SHELL=[
   './',
@@ -31,6 +31,8 @@ const SHELL=[
   './modules/armonizacion/map-viewport-v150.css',
   './modules/armonizacion/map-viewport-v150.js',
   './modules/armonizacion/standalone-v151.js',
+  './modules/armonizacion/ui-optimization-v153.css',
+  './modules/armonizacion/ui-optimization-v153.js',
   './modules/armonizacion/manifest.webmanifest',
   './modules/armonizacion/standalone-sw.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-01.js',
