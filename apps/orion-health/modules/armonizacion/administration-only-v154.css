@@ -1,0 +1,122 @@
+/* ORION Armonización Orofacial V1.5.4 — una sola zona de registro y administración directa */
+
+/* El editor del mapa es la única zona para registrar tratamiento por punto. */
+html.oa-admin-v154 #oaRecordSelectionCard,
+html.oa-admin-v154 .oa-record-panel .oa-point-editor{
+  display:none!important;
+}
+
+/* Se eliminan visualmente todos los campos y métricas de planificación. */
+html.oa-admin-v154 .oa-v154-hide,
+html.oa-admin-v154 label:has(#oaV148Plan),
+html.oa-admin-v154 label:has(#pointPlanned),
+html.oa-admin-v154 label:has(#bulkPlan),
+html.oa-admin-v154 #oaV148Copy,
+html.oa-admin-v154 #zonePlanned,
+html.oa-admin-v154 #zonePlannedPoints,
+html.oa-admin-v154 #totalPlanned{
+  display:none!important;
+}
+
+/* La tabla deja de presentar una columna de planificación. */
+html.oa-admin-v154 .oa-table-card table th:nth-child(4),
+html.oa-admin-v154 .oa-table-card table td:nth-child(4){
+  display:none!important;
+}
+
+/* Resumen general sin tarjeta Planificado. */
+html.oa-admin-v154 .oa-general-grid>div:has(#totalPlanned){
+  display:none!important;
+}
+html.oa-admin-v154 .oa-general-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+
+/* Resumen de zona sin tarjeta Planificado. */
+html.oa-admin-v154 .oa-zone-metrics>div:has(#zonePlanned){
+  display:none!important;
+}
+html.oa-admin-v154 .oa-zone-metrics{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+
+/* El editor inline queda más compacto al tener un solo campo numérico. */
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields{
+  grid-template-columns:minmax(220px,1.2fr) minmax(170px,.55fr)!important;
+}
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-label-field{
+  grid-column:auto!important;
+}
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields label.wide,
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-append{
+  grid-column:1/-1!important;
+}
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-primary-actions{
+  grid-template-columns:minmax(0,1fr) auto!important;
+}
+html.oa-admin-v154 #oaPointSheetV148 .oa-v148-primary-actions .save{
+  min-width:210px;
+}
+
+/* La barra de selección comunica una acción única. */
+html.oa-admin-v154 .oa-selection-bar{
+  background:#f4f0ff!important;
+}
+html.oa-admin-v154 #oaApplySelection{
+  min-width:150px;
+}
+
+/* Registro lateral más limpio después de retirar los editores duplicados. */
+html.oa-admin-v154 .oa-record-panel{
+  gap:9px!important;
+}
+html.oa-admin-v154 .oa-record-panel>.oa-card{
+  margin-bottom:9px!important;
+}
+
+/* Semáforo reducido a estados realmente utilizados. */
+html.oa-admin-v154 .oa-legend li:has(.planned){
+  display:none!important;
+}
+
+@media (max-width:920px){
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields{
+    grid-template-columns:1fr 1fr!important;
+  }
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-label-field,
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields label.wide,
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-append{
+    grid-column:1/-1!important;
+  }
+}
+
+@media (max-width:560px){
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields{
+    grid-template-columns:1fr!important;
+  }
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-label-field,
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-fields label.wide,
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-append{
+    grid-column:auto!important;
+  }
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-primary-actions{
+    grid-template-columns:1fr!important;
+  }
+  html.oa-admin-v154 #oaPointSheetV148 .oa-v148-primary-actions .save{
+    min-width:0;
+  }
+  html.oa-admin-v154 .oa-general-grid,
+  html.oa-admin-v154 .oa-zone-metrics{
+    grid-template-columns:1fr 1fr!important;
+  }
+}
+
+@media print{
+  html.oa-admin-v154 #oaRecordSelectionCard,
+  html.oa-admin-v154 .oa-record-panel .oa-point-editor,
+  html.oa-admin-v154 .oa-table-card table th:nth-child(4),
+  html.oa-admin-v154 .oa-table-card table td:nth-child(4),
+  html.oa-admin-v154 .oa-general-grid>div:has(#totalPlanned){
+    display:none!important;
+  }
+}
