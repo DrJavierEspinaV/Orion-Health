@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r28-final-piloto",
+  "version": "1.4.4-r29-final-piloto",
   "date": "2026-08-03",
   "modules": {
-    "portal": "1.4.4-r28",
+    "portal": "1.4.4-r29",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.5.2-estable"
+    "armonizacion_orofacial": "1.5.3-estable"
   },
-  "release_status": "CORRECCIÓN FUNCIONAL — se elimina el cierre inválido de scripts del cargador de Armonización y se reemplaza por ensamblado DOM estable",
-  "clinical_status": "Se conservan registro preprocedimiento, antecedentes, nivel documental de precaución, calculadora, mapa anatómico, selección individual y múltiple, planificación y administración por punto, resumen e impresión",
+  "release_status": "OPTIMIZACIÓN FUNCIONAL — atlas ampliado con desplazamiento vertical, editor compacto, estado automático y selección múltiple nuevamente visible",
+  "clinical_status": "Se conservan registro preprocedimiento, antecedentes, nivel documental de precaución, calculadora, mapa anatómico, edición individual y múltiple, planificación, administración, resumen e impresión",
   "security_status": "El registro clínico y la selección permanecen en sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
   "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y su manifiesto instalable propio",
-  "layout_status": "El atlas conserva el viewport estable; en escritorio el iframe usa altura controlada y en móvil mantiene Registro, Mapa y Resumen",
-  "workflow_status": "La entrada V1.5.2 obtiene una sola base clínica, la analiza con DOMParser y agrega recursos mediante elementos reales. Ya no genera etiquetas script con cierres escapados inválidos",
-  "standalone_status": "La aplicación autónoma fuerza la actualización del service worker y utiliza la caché orion-armonizacion-v1.5.2",
-  "output_status": "La tabla, los totales, el volumen y la impresión continúan actualizándose desde una única fuente de datos por punto",
-  "performance_status": "La caché ORION Dental App R28 usa instalación tolerante a fallos y política network-first para HTML, JavaScript y CSS, evitando que un recurso ausente mantenga una versión antigua"
+  "layout_status": "En escritorio el mapa y el registro tienen desplazamiento independiente. El atlas ocupa un marco clínico de hasta 760 px de ancho y ya no se comprime por el editor contextual",
+  "workflow_status": "Los campos se denominan Planificado y Administrado. El estado deja de solicitarse manualmente y se deriva de las cantidades. La barra de selección múltiple permanece visible durante el desplazamiento del mapa",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.5.3 y la entrada versionada V1.5.3",
+  "output_status": "Antes de imprimir o exportar, ORION solicita confirmar que el plan de puntos y las cantidades fueron revisados",
+  "performance_status": "La caché ORION Dental App R29 incorpora ui-optimization-v153.css y ui-optimization-v153.js con política network-first para recursos funcionales"
 }
