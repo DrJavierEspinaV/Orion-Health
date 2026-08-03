@@ -27,7 +27,7 @@
     <h1>ORION Armonización Orofacial</h1>
     <p>Preparando el registro clínico, el mapa anatómico y la calculadora.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.5.3…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.5.4…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -39,7 +39,7 @@
 (async()=>{
   'use strict';
 
-  const VERSION='1.5.3';
+  const VERSION='1.5.4';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -50,7 +50,8 @@
     'map-dynamic-v148.css',
     'map-inline-v149.css',
     'map-viewport-v150.css',
-    'ui-optimization-v153.css'
+    'ui-optimization-v153.css',
+    'administration-only-v154.css'
   ];
   const jsFiles=[
     'anatomy-presets-v146.js',
@@ -60,7 +61,8 @@
     'map-inline-v149.js',
     'map-viewport-v150.js',
     'standalone-v151.js',
-    'ui-optimization-v153.js'
+    'ui-optimization-v153.js',
+    'administration-only-v154.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -96,8 +98,8 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.5.3';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153');
+    doc.title='ORION Armonización Orofacial V1.5.4';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
 
     const manifest=doc.createElement('link');
@@ -124,9 +126,9 @@
     const version=doc.querySelector('.oa-version');
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Planificación, anatomía y trazabilidad por punto';
-    if(version)version.textContent='V1.5.3';
-    if(mapInstruction)mapInstruction.textContent='Toca un punto para editarlo, arrástralo para ajustar su posición o activa Selección múltiple para aplicar una terapia común.';
+    if(subtitle)subtitle.textContent='Administración, anatomía y trazabilidad por punto';
+    if(version)version.textContent='V1.5.4';
+    if(mapInstruction)mapInstruction.textContent='Toca un punto para registrar unidades administradas, arrástralo para ajustar su posición o activa Selección múltiple para administrar varios puntos juntos.';
   }
 
   try{
@@ -146,7 +148,7 @@
     appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('ui-optimization-v153.js')||!output.includes('workflow-v147.js')){
+    if(!output.includes('administration-only-v154.js')||!output.includes('workflow-v147.js')){
       throw new Error('No fue posible integrar los recursos funcionales.');
     }
 
