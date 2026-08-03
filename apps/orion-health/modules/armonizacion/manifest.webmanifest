@@ -2,7 +2,7 @@
   "name": "ORION Armonización Orofacial",
   "short_name": "ORION Estética",
   "description": "Planificación y registro documental de procedimientos de armonización orofacial.",
-  "start_url": "./index.html?v=1.5.2&standalone=1",
+  "start_url": "./index.html?v=1.5.3&standalone=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
