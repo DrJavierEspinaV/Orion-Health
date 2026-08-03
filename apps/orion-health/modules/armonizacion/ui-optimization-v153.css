@@ -1,0 +1,289 @@
+/* ORION Armonización Orofacial V1.5.3 — mapa útil, edición compacta y selección múltiple visible */
+
+html.oa-ui-v153,
+html.oa-ui-v153 body{
+  min-height:100%;
+}
+
+/* El estado se deriva automáticamente de las cantidades ingresadas. */
+html.oa-ui-v153 .oa-v153-hidden-status{
+  display:none!important;
+}
+
+/* El contexto del editor solo aparece cuando existe una selección real. */
+html.oa-ui-v153 body[data-oa-selection="none"] .oa-inline-editor-context,
+html.oa-ui-v153 body[data-oa-selection="none"] #oaPointSheetV148{
+  display:none!important;
+}
+
+/* Herramientas siempre reconocibles y selección múltiple nuevamente visible. */
+html.oa-ui-v153 .oa-map-mobile-tools{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:6px!important;
+  padding:7px 9px!important;
+  background:rgba(251,253,255,.97)!important;
+  backdrop-filter:blur(8px);
+}
+html.oa-ui-v153 .oa-map-mobile-tools button{
+  min-height:38px!important;
+  padding:6px 8px!important;
+  white-space:normal;
+  line-height:1.15;
+}
+html.oa-ui-v153 .oa-map-mobile-tools button.multi{
+  border-color:#7448c8!important;
+  color:#6032b5!important;
+  background:#fff!important;
+}
+html.oa-ui-v153 .oa-map-mobile-tools button.multi.active{
+  background:#f0e8ff!important;
+  box-shadow:inset 0 0 0 1px #7448c8;
+}
+html.oa-ui-v153 .oa-selection-bar{
+  padding:7px 10px!important;
+  min-height:48px;
+}
+html.oa-ui-v153 .oa-selection-bar strong{font-size:10px!important}
+html.oa-ui-v153 .oa-selection-bar span{font-size:8px!important}
+html.oa-ui-v153 .oa-selection-bar button{min-height:34px!important}
+
+/* Editor contextual compacto: no vuelve a comprimir el atlas. */
+html.oa-ui-v153 #oaPointSheetV148.oa-inline-map-editor{
+  padding:10px 12px!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-sheet-head{
+  padding-bottom:7px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-sheet-head strong{
+  margin-top:4px!important;
+  font-size:13px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-sheet-head small{
+  font-size:9px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-selection-preview{
+  padding:6px 0 2px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields{
+  grid-template-columns:minmax(230px,1.35fr) repeat(2,minmax(130px,.55fr))!important;
+  gap:7px!important;
+  margin-top:7px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields label{
+  gap:3px!important;
+  font-size:9px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields input,
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields textarea,
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields select{
+  min-height:36px!important;
+  padding:7px 8px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields label.wide,
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-append{
+  grid-column:1/-1!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-append{
+  padding:6px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-help{
+  margin:6px 0 0!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-primary-actions,
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-secondary-actions{
+  display:flex!important;
+  gap:7px!important;
+  margin-top:7px!important;
+}
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-primary-actions button,
+html.oa-ui-v153 #oaPointSheetV148 .oa-v148-secondary-actions button{
+  flex:1 1 0;
+  min-height:36px!important;
+}
+html.oa-ui-v153 .oa-inline-editor-context{
+  padding:6px 10px!important;
+  min-height:42px;
+}
+html.oa-ui-v153 .oa-inline-editor-context span{font-size:9px!important}
+html.oa-ui-v153 .oa-inline-editor-context button{min-height:32px!important}
+
+/* Registro lateral: menos espacio muerto y lectura más directa. */
+html.oa-ui-v153 .oa-record-panel{
+  scrollbar-gutter:stable;
+}
+html.oa-ui-v153 .oa-record-panel .oa-card{
+  padding:11px!important;
+  margin-bottom:9px!important;
+}
+html.oa-ui-v153 .oa-point-editor .oa-editor-summary-grid{
+  grid-template-columns:minmax(0,.9fr) minmax(300px,1.1fr)!important;
+  gap:10px!important;
+}
+html.oa-ui-v153 .oa-point-editor .oa-step-title{
+  margin-bottom:7px!important;
+}
+html.oa-ui-v153 .oa-point-editor .oa-zone-selector-row{
+  gap:7px!important;
+  padding-bottom:8px!important;
+  margin-bottom:8px!important;
+}
+html.oa-ui-v153 .oa-point-editor #pointFields{
+  gap:7px!important;
+}
+html.oa-ui-v153 .oa-point-editor #pointFields label{
+  gap:3px!important;
+}
+html.oa-ui-v153 .oa-point-editor #pointFields input,
+html.oa-ui-v153 .oa-point-editor #pointFields textarea,
+html.oa-ui-v153 .oa-point-editor #pointFields select{
+  min-height:36px!important;
+  padding:7px 8px!important;
+}
+html.oa-ui-v153 .oa-point-editor .oa-two-cols{
+  gap:7px!important;
+}
+html.oa-ui-v153 .oa-point-editor .oa-inline-actions button{
+  min-height:34px!important;
+}
+html.oa-ui-v153 .oa-zone-metrics{
+  gap:6px!important;
+}
+html.oa-ui-v153 .oa-zone-metrics>div{
+  padding:9px 6px!important;
+}
+html.oa-ui-v153 .oa-bulk-box{
+  padding:9px!important;
+  margin-top:8px!important;
+}
+
+/* Vista de escritorio: atlas grande y desplazamiento vertical independiente. */
+@media (min-width:921px){
+  html.oa-ui-v153 .oa-layout{
+    grid-template-columns:150px minmax(700px,1.48fr) minmax(430px,.72fr)!important;
+    gap:10px!important;
+    align-items:start!important;
+  }
+
+  html.oa-ui-v153 .oa-sidebar,
+  html.oa-ui-v153 .oa-map-panel,
+  html.oa-ui-v153 .oa-record-panel{
+    top:72px!important;
+    height:calc(100dvh - 82px)!important;
+    max-height:none!important;
+  }
+
+  html.oa-ui-v153 .oa-sidebar,
+  html.oa-ui-v153 .oa-record-panel{
+    overflow-y:auto!important;
+    overscroll-behavior:contain;
+  }
+
+  html.oa-ui-v153 .oa-map-panel{
+    position:sticky!important;
+    display:block!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain;
+    scrollbar-gutter:stable;
+  }
+
+  html.oa-ui-v153 .oa-map-mobile-tools{
+    position:sticky!important;
+    top:0!important;
+    z-index:110!important;
+  }
+  html.oa-ui-v153 .oa-selection-bar{
+    position:sticky!important;
+    top:52px!important;
+    z-index:109!important;
+  }
+
+  /* A 100 %, la imagen usa el ancho clínico real y el panel se desplaza verticalmente. */
+  html.oa-ui-v153 .oa-atlas-shell{
+    flex:none!important;
+    width:min(100%,760px)!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    aspect-ratio:600 / 800!important;
+    margin:0 auto!important;
+  }
+  html.oa-ui-v153 .oa-atlas-transform{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+  }
+  html.oa-ui-v153 .oa-map-footer,
+  html.oa-ui-v153 .oa-v150-view-status{
+    width:min(100%,760px);
+    margin-inline:auto;
+  }
+}
+
+@media (max-width:1120px) and (min-width:921px){
+  html.oa-ui-v153 .oa-layout{
+    grid-template-columns:138px minmax(600px,1.35fr) minmax(390px,.75fr)!important;
+  }
+  html.oa-ui-v153 .oa-atlas-shell{
+    width:min(100%,690px)!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields{
+    grid-template-columns:1fr 1fr!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-label-field,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields label.wide,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-append{
+    grid-column:1/-1!important;
+  }
+}
+
+@media (max-width:920px){
+  html.oa-ui-v153 .oa-map-mobile-tools{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    position:sticky!important;
+    top:0!important;
+    z-index:110!important;
+  }
+  html.oa-ui-v153 .oa-selection-bar{
+    position:sticky!important;
+    top:91px!important;
+    z-index:109!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields{
+    grid-template-columns:1fr 1fr!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-label-field,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields label.wide,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-append{
+    grid-column:1/-1!important;
+  }
+}
+
+@media (max-width:560px){
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields{
+    grid-template-columns:1fr!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-label-field,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-fields label.wide,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-append{
+    grid-column:auto!important;
+  }
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-primary-actions,
+  html.oa-ui-v153 #oaPointSheetV148 .oa-v148-secondary-actions{
+    display:grid!important;
+    grid-template-columns:1fr 1fr!important;
+  }
+}
+
+@media print{
+  html.oa-ui-v153 .oa-v153-print-confirm{display:none!important}
+  html.oa-ui-v153 .oa-map-panel,
+  html.oa-ui-v153 .oa-record-panel{
+    height:auto!important;
+    overflow:visible!important;
+  }
+}
