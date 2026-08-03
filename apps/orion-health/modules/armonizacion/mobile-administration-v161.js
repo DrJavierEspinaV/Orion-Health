@@ -20,7 +20,7 @@
     return Number.isFinite(parsed)?parsed:0;
   };
   const fmt=(value,decimals=2)=>num(value).toLocaleString('es-CL',{minimumFractionDigits:decimals,maximumFractionDigits:decimals});
-  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[char]));
 
   function loadJSON(key,fallback){
     try{return JSON.parse(sessionStorage.getItem(key)||'null')??fallback;}
@@ -84,7 +84,6 @@
     const sheet=$('oaPointSheetV148');
     if(!atlas||!mapPanel||!sheet)return false;
 
-    /* Evita el scroll automático del editor heredado, que hacía desaparecer el atlas. */
     sheet.scrollIntoView=()=>{};
 
     dock=document.createElement('section');
@@ -370,10 +369,9 @@
     buildDock();
     bindMapEvents();
     observe();
-    forceMapTab();
     queueSync(true);
     mobileQuery.addEventListener?.('change',()=>{
-      if(mobileQuery.matches){forceMapTab();queueSync(true);}
+      if(mobileQuery.matches)queueSync(true);
       else if(dock)dock.dataset.visible='false';
     });
   }
