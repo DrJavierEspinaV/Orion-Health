@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-armonizacion-v1.5.4';
+const CACHE_NAME='orion-armonizacion-v1.6.0';
 const SHELL=[
   './',
   './index.html',
@@ -20,6 +20,8 @@ const SHELL=[
   './ui-optimization-v153.js',
   './administration-only-v154.css',
   './administration-only-v154.js',
+  './clinical-closure-v160.css',
+  './clinical-closure-v160.js',
   './manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js',
   './anatomy-atlas-female-v145-r17-02.js',
