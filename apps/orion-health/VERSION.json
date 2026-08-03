@@ -1,23 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r21-final-piloto",
+  "version": "1.4.4-r22-final-piloto",
   "date": "2026-08-02",
   "modules": {
-    "portal": "1.4.4-r21",
+    "portal": "1.4.4-r22",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.7-piloto"
+    "armonizacion_orofacial": "1.4.8-piloto"
   },
-  "release_status": "FINAL PILOTO — flujo clínico completo de Armonización: Registro, Mapa y Resumen; editor inmediato por punto, alta y eliminación de puntos, semáforo, antecedentes mórbidos, tipos de intervención y evaluación orientativa de precaución",
-  "clinical_status": "Se mantienen los presets anatómico-funcionales editables y sin dosis predeterminadas. Cada punto puede arrastrarse, agregarse, eliminarse y registrar planificación, administración, estado y comentario. El módulo incorpora toxina, ácido hialurónico, bioestimuladores, skinbooster, hilos, PRP, combinados y otros procedimientos",
-  "security_status": "El registro clínico y los antecedentes se conservan únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
+  "release_status": "FINAL PILOTO — mapa dinámico de Armonización con editor inmediato por punto, arrastre persistente, creación directa de puntos y selección múltiple para aplicar una terapia común",
+  "clinical_status": "Cada punto permite registrar etiqueta, cantidad planificada, cantidad administrada, estado y comentario. La selección múltiple admite puntos de una o varias zonas y aplica solo los campos ingresados, conservando los valores individuales cuando un campo queda vacío",
+  "security_status": "El registro clínico, los antecedentes y la selección de puntos se conservan únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
   "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
-  "layout_status": "En móvil el orden de pestañas es Registro, Mapa y Resumen. Al tocar un punto se abre un editor inferior sin abandonar el mapa; Agregar punto y Semáforo permanecen visibles. En escritorio el editor se presenta como panel flotante lateral",
-  "risk_status": "El nivel de precaución es orientativo, no validado, y combina tipo de intervención con antecedentes marcados. No sustituye evaluación clínica, consentimiento específico, protocolos institucionales ni preparación para complicaciones",
-  "output_status": "Resumen e impresión incorporan paciente, intervención, indicación, zonas, técnica, antecedentes, alertas, producto, lote, cantidad, tabla de puntos, unidades o cantidades registradas y totales del procedimiento",
-  "performance_status": "La caché PWA V1.4.4-r21 sirve registro-v147.html e incorpora workflow-v147.css y workflow-v147.js"
+  "layout_status": "En móvil, tocar un punto abre un editor inferior sin abandonar el mapa. En escritorio, el editor se muestra como panel lateral. El mapa incorpora Agregar punto, Seleccionar varios, Seleccionar zona, Semáforo y una barra de aplicación terapéutica",
+  "workflow_status": "La misma selección puede tratarse directamente desde el mapa o desde la pestaña Registro. Se mantiene la aplicación rápida a todos los puntos de una zona como alternativa independiente",
+  "output_status": "La tabla, los totales por zona, el resumen general y la impresión se actualizan con la planificación y administración registradas en uno o varios puntos",
+  "performance_status": "La caché PWA V1.4.4-r22 sirve registro-v148.html e incorpora map-dynamic-v148.css y map-dynamic-v148.js"
 }
