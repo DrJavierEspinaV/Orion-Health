@@ -4,12 +4,16 @@
   const VERSION='1.5.3';
   const $=id=>document.getElementById(id);
   let mounted=false;
+  let refreshQueued=false;
 
   function replaceOwnText(label,text){
     if(!label)return;
     const node=Array.from(label.childNodes).find(item=>item.nodeType===Node.TEXT_NODE&&item.textContent.trim());
-    if(node)node.textContent=text;
-    else label.insertBefore(document.createTextNode(text),label.firstChild||null);
+    if(node){
+      if(node.textContent.trim()!==text)node.textContent=text;
+    }else{
+      label.insertBefore(document.createTextNode(text),label.firstChild||null);
+    }
   }
 
   function renameField(id,text){
@@ -32,8 +36,8 @@
       Array.from(label.childNodes).forEach(node=>{
         if(node.nodeType!==Node.TEXT_NODE)return;
         const value=node.textContent.trim();
-        if(/^(U\s*)?plan(ificado)?(\s*por punto)?$/i.test(value)||/^Planificado por punto$/i.test(value))node.textContent='Planificado';
-        if(/^Administrado(\s*por punto)?$/i.test(value)||/^U administradas por punto$/i.test(value))node.textContent='Administrado';
+        if((/^(U\s*)?plan(ificado)?(\s*por punto)?$/i.test(value)||/^Planificado por punto$/i.test(value))&&value!=='Planificado')node.textContent='Planificado';
+        if((/^Administrado(\s*por punto)?$/i.test(value)||/^U administradas por punto$/i.test(value))&&value!=='Administrado')node.textContent='Administrado';
       });
     });
   }
@@ -41,8 +45,8 @@
   function hideStatusField(select){
     if(!select)return;
     const label=select.closest('label');
-    if(label)label.classList.add('oa-v153-hidden-status');
-    if(Array.from(select.options||[]).some(option=>option.value==='auto'))select.value='auto';
+    if(label&&!label.classList.contains('oa-v153-hidden-status'))label.classList.add('oa-v153-hidden-status');
+    if(Array.from(select.options||[]).some(option=>option.value==='auto')&&select.value!=='auto')select.value='auto';
   }
 
   function removeRedundantStatus(){
@@ -56,9 +60,13 @@
 
   function updateVersionIdentity(){
     document.documentElement.classList.add('oa-ui-v153');
-    document.documentElement.dataset.orionAestheticsVersion=VERSION;
-    document.title=`ORION Armonización Orofacial V${VERSION}`;
-    document.querySelectorAll('.oa-version').forEach(node=>{node.textContent=`V${VERSION}`;});
+    if(document.documentElement.dataset.orionAestheticsVersion!==VERSION)document.documentElement.dataset.orionAestheticsVersion=VERSION;
+    const expectedTitle=`ORION Armonización Orofacial V${VERSION}`;
+    if(document.title!==expectedTitle)document.title=expectedTitle;
+    document.querySelectorAll('.oa-version').forEach(node=>{
+      const value=`V${VERSION}`;
+      if(node.textContent!==value)node.textContent=value;
+    });
   }
 
   function normalizeMultiButton(){
@@ -66,19 +74,20 @@
     if(!button)return;
     const expected=button.classList.contains('active')?'✓ Selección múltiple':'Selección múltiple';
     if(button.textContent!==expected)button.textContent=expected;
-    button.title='Activa este modo y toca dos o más puntos para editarlos juntos.';
-    button.setAttribute('aria-label',button.title);
+    const help='Activa este modo y toca dos o más puntos para editarlos juntos.';
+    if(button.title!==help)button.title=help;
+    if(button.getAttribute('aria-label')!==help)button.setAttribute('aria-label',help);
   }
 
   function ensureSelectionControls(){
     const tools=$('oaMapMobileTools');
     const selection=$('oaSelectionBar');
-    if(tools)tools.hidden=false;
-    if(selection)selection.hidden=false;
+    if(tools&&tools.hidden)tools.hidden=false;
+    if(selection&&selection.hidden)selection.hidden=false;
     normalizeMultiButton();
 
     const apply=$('oaApplySelection');
-    if(apply)apply.textContent='Editar selección';
+    if(apply&&apply.textContent!=='Editar selección')apply.textContent='Editar selección';
 
     const observerTarget=$('oaMultiToggle');
     if(observerTarget&&!observerTarget.dataset.oaV153Observed){
@@ -94,10 +103,11 @@
     if(!context||!atlas||!panel)return;
 
     const detail=context.querySelector('span');
-    if(detail)detail.textContent='Edita un punto o varios sin abandonar el mapa.';
+    const detailText='Edita un punto o varios sin abandonar el mapa.';
+    if(detail&&detail.textContent!==detailText)detail.textContent=detailText;
 
     const recordButton=$('oaInlineGoRecord');
-    if(recordButton)recordButton.textContent='Editar en Registro';
+    if(recordButton&&recordButton.textContent!=='Editar en Registro')recordButton.textContent='Editar en Registro';
 
     if(!$('oaV153SeeAtlas')){
       const button=document.createElement('button');
@@ -117,10 +127,10 @@
     const status=$('oaV150ViewStatus');
     if(!status)return;
     const first=status.querySelector('span');
-    if(first){
-      const value=$('oaV150ScaleValue')?.textContent||'100 %';
-      first.innerHTML=`Vista del atlas: <strong id="oaV150ScaleValue">${value}</strong>`;
-    }
+    if(!first||first.dataset.oaV153Normalized==='true')return;
+    const value=$('oaV150ScaleValue')?.textContent||'100 %';
+    first.innerHTML=`Vista del atlas: <strong id="oaV150ScaleValue">${value}</strong>`;
+    first.dataset.oaV153Normalized='true';
   }
 
   function bindPrintConfirmation(button){
@@ -162,6 +172,7 @@
   }
 
   function refresh(){
+    refreshQueued=false;
     updateVersionIdentity();
     normalizeFieldLabels();
     removeRedundantStatus();
@@ -172,10 +183,16 @@
     bindAutomaticStatus();
   }
 
+  function queueRefresh(){
+    if(refreshQueued)return;
+    refreshQueued=true;
+    requestAnimationFrame(refresh);
+  }
+
   function observeDynamicUI(){
     if(mounted)return;
     mounted=true;
-    const observer=new MutationObserver(()=>requestAnimationFrame(refresh));
+    const observer=new MutationObserver(queueRefresh);
     observer.observe(document.body,{subtree:true,childList:true});
   }
 
