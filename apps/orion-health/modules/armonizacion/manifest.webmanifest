@@ -1,0 +1,24 @@
+{
+  "name": "ORION Armonización Orofacial",
+  "short_name": "ORION Estética",
+  "description": "Planificación y registro documental de procedimientos de armonización orofacial.",
+  "start_url": "./index.html?standalone=1",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef2f6",
+  "theme_color": "#061a38",
+  "lang": "es-CL",
+  "icons": [
+    {
+      "src": "../../assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "../../assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
