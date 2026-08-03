@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const VERSION='1.5.1';
+  const VERSION='1.5.2';
 
   function exposeStandaloneMode(){
     document.documentElement.classList.toggle('oa-standalone',window.top===window.self);
@@ -10,9 +10,14 @@
 
   function registerStandaloneWorker(){
     if(window.top!==window.self||!('serviceWorker' in navigator))return;
-    window.addEventListener('load',()=>{
-      navigator.serviceWorker.register('./standalone-sw.js',{scope:'./'})
-        .catch(error=>console.warn('ORION Armonización: service worker no disponible.',error));
+    window.addEventListener('load',async()=>{
+      try{
+        const registration=await navigator.serviceWorker.register('./standalone-sw.js',{scope:'./',updateViaCache:'none'});
+        await registration.update();
+        if(registration.waiting)registration.waiting.postMessage({type:'SKIP_WAITING'});
+      }catch(error){
+        console.warn('ORION Armonización: service worker no disponible.',error);
+      }
     },{once:true});
   }
 
