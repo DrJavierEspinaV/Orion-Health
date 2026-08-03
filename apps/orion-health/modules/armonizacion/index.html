@@ -25,9 +25,9 @@
   <main class="boot" id="bootScreen" role="status" aria-live="polite">
     <img src="../../assets/brand/orion-health.png" alt="ORION Health">
     <h1>ORION Armonización Orofacial</h1>
-    <p>Preparando el registro clínico, el mapa anatómico y la calculadora.</p>
+    <p>Preparando registro clínico, mapa anatómico, cierre y documentos asociados.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.5.4…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.6.0…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -39,7 +39,7 @@
 (async()=>{
   'use strict';
 
-  const VERSION='1.5.4';
+  const VERSION='1.6.0';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -51,7 +51,8 @@
     'map-inline-v149.css',
     'map-viewport-v150.css',
     'ui-optimization-v153.css',
-    'administration-only-v154.css'
+    'administration-only-v154.css',
+    'clinical-closure-v160.css'
   ];
   const jsFiles=[
     'anatomy-presets-v146.js',
@@ -62,7 +63,8 @@
     'map-viewport-v150.js',
     'standalone-v151.js',
     'ui-optimization-v153.js',
-    'administration-only-v154.js'
+    'administration-only-v154.js',
+    'clinical-closure-v160.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -73,7 +75,6 @@
   function appendStyles(doc){
     const baseStyle=doc.querySelector('link[href*="registro-v145.css"]');
     if(baseStyle)baseStyle.setAttribute('href',`./registro-v145.css?v=${VERSION}`);
-
     cssFiles.forEach(file=>{
       const link=doc.createElement('link');
       link.rel='stylesheet';
@@ -88,7 +89,6 @@
       if(src.includes('registro-v145.js'))script.remove();
       else script.setAttribute('src',src.split('?')[0]+`?v=${VERSION}`);
     });
-
     jsFiles.forEach(file=>{
       const script=doc.createElement('script');
       script.src=`./${file}?v=${VERSION}`;
@@ -98,8 +98,8 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.5.4';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154');
+    doc.title='ORION Armonización Orofacial V1.6.0';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
 
     const manifest=doc.createElement('link');
@@ -126,9 +126,9 @@
     const version=doc.querySelector('.oa-version');
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Administración, anatomía y trazabilidad por punto';
-    if(version)version.textContent='V1.5.4';
-    if(mapInstruction)mapInstruction.textContent='Toca un punto para registrar unidades administradas, arrástralo para ajustar su posición o activa Selección múltiple para administrar varios puntos juntos.';
+    if(subtitle)subtitle.textContent='Administración, cierre y trazabilidad clínica por punto';
+    if(version)version.textContent='V1.6.0';
+    if(mapInstruction)mapInstruction.textContent='Selecciona puntos, define cantidad por punto o total distribuido, confirma la administración y cierra el procedimiento al finalizar.';
   }
 
   try{
@@ -138,19 +138,15 @@
 
     const source=await response.text();
     const doc=new DOMParser().parseFromString(source,'text/html');
-    if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName')){
-      throw new Error('La base clínica recibida está incompleta.');
-    }
+    if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
 
-    status.textContent='Integrando mapa, registro y resumen…';
+    status.textContent='Integrando mapa, cierre y documentos…';
     appendStyles(doc);
     updateIdentity(doc);
     appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('administration-only-v154.js')||!output.includes('workflow-v147.js')){
-      throw new Error('No fue posible integrar los recursos funcionales.');
-    }
+    if(!output.includes('clinical-closure-v160.js')||!output.includes('administration-only-v154.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.0.');
 
     document.open();
     document.write(output);
