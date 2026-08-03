@@ -3,8 +3,8 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.5.3';
-      APPS.armonizacion.desc='Aplicación estable para planificación, cálculo, mapa anatómico y registro por punto.';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.5.4';
+      APPS.armonizacion.desc='Aplicación estable para administración por punto, cálculo, mapa anatómico y registro clínico.';
     }
   }catch(error){
     console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);
