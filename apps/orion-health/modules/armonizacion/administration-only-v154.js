@@ -63,6 +63,8 @@
   function removeDuplicateEditors(){
     $('oaRecordSelectionCard')?.classList.add('oa-v154-hide');
     document.querySelector('.oa-record-panel .oa-point-editor')?.classList.add('oa-v154-hide');
+    $('oaInlineGoRecord')?.classList.add('oa-v154-hide');
+    $('oaV153SeeAtlas')?.classList.add('oa-v154-hide');
   }
 
   function renameAdministrationFlow(){
