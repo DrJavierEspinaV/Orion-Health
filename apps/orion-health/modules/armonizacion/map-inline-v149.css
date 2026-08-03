@@ -1,0 +1,86 @@
+/* ORION Armonización Orofacial V1.4.9 — editor contextual dentro del mapa */
+
+/* El editor V1.4.8 deja de ser un panel fixed: se inserta bajo la barra de selección. */
+#oaPointSheetV148.oa-inline-map-editor{
+  position:static!important;
+  inset:auto!important;
+  z-index:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  overflow:visible!important;
+  box-sizing:border-box;
+  display:none!important;
+  margin:0!important;
+  padding:16px!important;
+  border:0!important;
+  border-bottom:1px solid #d8e1eb!important;
+  border-radius:0!important;
+  background:linear-gradient(180deg,#fff 0%,#f8fbff 100%)!important;
+  box-shadow:none!important;
+}
+#oaPointSheetV148.oa-inline-map-editor.open{display:block!important}
+#oaPointSheetV148.oa-inline-map-editor .oa-v148-sheet-head{padding-bottom:12px}
+#oaPointSheetV148.oa-inline-map-editor .oa-v148-mode{background:#e9f2ff;color:#155da8}
+#oaPointSheetV148.oa-inline-map-editor .oa-v148-selection-preview{flex-wrap:wrap;overflow:visible}
+#oaPointSheetV148.oa-inline-map-editor .oa-v148-selection-preview span{background:#f0e9ff;color:#6032b5}
+#oaPointSheetV148.oa-inline-map-editor .oa-v148-primary-actions .save{background:#1764c0;border-color:#1764c0}
+
+/* Una sola interfaz según cardinalidad de la selección. */
+body[data-oa-selection="multi"] .oa-point-editor{display:none!important}
+body[data-oa-selection="multi"] #oaRecordSelectionCard{display:block!important}
+body[data-oa-selection="single"] #oaRecordSelectionCard,
+body[data-oa-selection="none"] #oaRecordSelectionCard{display:none!important}
+body[data-oa-selection="single"] .oa-point-editor,
+body[data-oa-selection="none"] .oa-point-editor{display:block!important}
+
+/* Evita que el mensaje vacío conviva con campos de un punto anterior. */
+body[data-oa-selection="multi"] #emptyPoint,
+body[data-oa-selection="multi"] #pointFields{display:none!important}
+
+.oa-inline-editor-context{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 16px;
+  border-bottom:1px solid #d7e2ee;
+  background:#eef5fc;
+  color:#234d75;
+}
+.oa-inline-editor-context strong{display:block;font-size:12px}
+.oa-inline-editor-context span{display:block;margin-top:2px;font-size:10px;color:#657f98}
+.oa-inline-editor-context button{
+  flex:0 0 auto;
+  min-height:36px;
+  border:1px solid #9fb8d1;
+  border-radius:9px;
+  background:#fff;
+  color:#24527e;
+  padding:7px 10px;
+  font-size:10px;
+  font-weight:900;
+}
+
+@media (max-width:920px){
+  #oaPointSheetV148.oa-inline-map-editor{padding:14px 12px!important}
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields{grid-template-columns:1fr 1fr}
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields label.wide,
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields .oa-v148-append{grid-column:1/-1}
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-primary-actions,
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-secondary-actions{grid-template-columns:1fr 1fr}
+}
+
+@media (max-width:560px){
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields{grid-template-columns:1fr}
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields label.wide,
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-fields .oa-v148-append{grid-column:auto}
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-primary-actions,
+  #oaPointSheetV148.oa-inline-map-editor .oa-v148-secondary-actions{grid-template-columns:1fr}
+  .oa-inline-editor-context{align-items:flex-start;padding:9px 12px}
+}
+
+@media print{
+  #oaPointSheetV148.oa-inline-map-editor,
+  .oa-inline-editor-context{display:none!important}
+}
