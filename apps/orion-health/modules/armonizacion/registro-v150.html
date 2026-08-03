@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#061a38">
+  <title>ORION Armonización Orofacial V1.5.0</title>
+</head>
+<body>
+<script>
+(async()=>{
+  try{
+    const response=await fetch('./registro-v149.html?base=1&v=1.5.0',{cache:'no-store'});
+    if(!response.ok)throw new Error('No fue posible cargar el registro V1.4.9');
+    let html=await response.text();
+    html=html
+      .replace(/V1\.4\.9/g,'V1.5.0')
+      .replace('</head>','<link rel="stylesheet" href="./map-viewport-v150.css?v=1.5.0"></head>')
+      .replace('</body>','<script src="./map-viewport-v150.js?v=1.5.0"><\/script></body>');
+    document.open();
+    document.write(html);
+    document.close();
+  }catch(error){
+    document.body.innerHTML='<main style="font-family:Arial;padding:24px"><h1>ORION Armonización Orofacial</h1><p>No fue posible cargar la actualización V1.5.0.</p></main>';
+    console.error(error);
+  }
+})();
+</script>
+</body>
+</html>
