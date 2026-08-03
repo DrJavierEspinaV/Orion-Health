@@ -1,0 +1,230 @@
+/* ORION Armonización Orofacial V1.6.1 — administración móvil sin abandonar el mapa */
+
+.oa-v161-mobile-dock{display:none}
+
+@media (max-width:920px){
+  /* El editor completo permanece operativo como motor, pero no desplaza el atlas. */
+  #oaPointSheetV148.oa-inline-map-editor,
+  #oaPointSheetV148.oa-inline-map-editor.open{
+    display:none!important;
+  }
+
+  /* El contexto antiguo ocupaba espacio sin permitir ingresar datos. */
+  #oaInlineEditorContext{
+    display:none!important;
+  }
+
+  .oa-map-panel{
+    position:relative;
+  }
+
+  .oa-v161-mobile-dock{
+    display:none;
+    position:sticky;
+    top:72px;
+    z-index:55;
+    margin:0;
+    padding:13px 14px 14px;
+    border-top:1px solid #cbdced;
+    border-bottom:1px solid #b9cde0;
+    background:linear-gradient(180deg,#ffffff 0%,#f4f8fd 100%);
+    box-shadow:0 10px 24px rgba(14,48,83,.16);
+  }
+  .oa-v161-mobile-dock[data-visible="true"]{display:block}
+
+  .oa-v161-dock-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .oa-v161-dock-head strong{
+    display:block;
+    color:#173f69;
+    font-size:15px;
+    line-height:1.25;
+  }
+  .oa-v161-dock-head span{
+    display:block;
+    margin-top:3px;
+    color:#647f99;
+    font-size:11px;
+    line-height:1.35;
+  }
+  .oa-v161-dock-close{
+    flex:0 0 38px;
+    width:38px;
+    height:38px;
+    border:1px solid #c2d1e0;
+    border-radius:10px;
+    background:#fff;
+    color:#456784;
+    font-size:20px;
+    font-weight:900;
+  }
+
+  .oa-v161-selected-chips{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    padding:1px 0 9px;
+    scrollbar-width:thin;
+  }
+  .oa-v161-selected-chips span{
+    flex:0 0 auto;
+    padding:6px 9px;
+    border-radius:999px;
+    background:#eee5ff;
+    color:#6634b6;
+    font-size:10px;
+    font-weight:900;
+  }
+
+  .oa-v161-mode-group{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-bottom:10px;
+  }
+  .oa-v161-mode-group button{
+    min-height:42px;
+    border:1px solid #b9cadb;
+    border-radius:10px;
+    background:#fff;
+    color:#315979;
+    font-size:11px;
+    font-weight:900;
+  }
+  .oa-v161-mode-group button.active{
+    border-color:#1764c0;
+    background:#eaf3ff;
+    color:#155da8;
+    box-shadow:inset 0 0 0 1px #1764c0;
+  }
+
+  .oa-v161-entry-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:8px;
+    align-items:end;
+  }
+  .oa-v161-entry-grid label{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    color:#365675;
+    font-size:10px;
+    font-weight:900;
+  }
+  .oa-v161-entry-grid input,
+  .oa-v161-entry-grid textarea{
+    width:100%;
+    min-height:44px;
+    border:1px solid #bfd0e0;
+    border-radius:10px;
+    background:#fff;
+    color:#173f69;
+    padding:10px 11px;
+    font:inherit;
+    font-size:14px;
+    box-sizing:border-box;
+  }
+  .oa-v161-entry-grid textarea{
+    min-height:64px;
+    resize:vertical;
+  }
+  .oa-v161-comment-field{
+    grid-column:1/-1;
+  }
+
+  .oa-v161-preview{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    margin-top:9px;
+  }
+  .oa-v161-preview div{
+    min-width:0;
+    padding:8px 7px;
+    border:1px solid #d7e3ef;
+    border-radius:9px;
+    background:#fff;
+    text-align:center;
+  }
+  .oa-v161-preview span{
+    display:block;
+    color:#71869b;
+    font-size:8px;
+    font-weight:900;
+    text-transform:uppercase;
+  }
+  .oa-v161-preview strong{
+    display:block;
+    margin-top:3px;
+    color:#124d88;
+    font-size:13px;
+    line-height:1.2;
+    overflow-wrap:anywhere;
+  }
+
+  .oa-v161-dock-actions{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+    margin-top:10px;
+  }
+  .oa-v161-dock-actions button{
+    min-height:46px;
+    border-radius:11px;
+    font-size:12px;
+    font-weight:900;
+  }
+  .oa-v161-save{
+    border:1px solid #1764c0;
+    background:#1764c0;
+    color:#fff;
+  }
+  .oa-v161-delete{
+    border:1px solid #e0b7b7;
+    background:#fff5f5;
+    color:#a73737;
+    padding-inline:14px;
+  }
+
+  .oa-v161-map-note{
+    margin:8px 0 0;
+    color:#607991;
+    font-size:10px;
+    line-height:1.35;
+  }
+
+  /* Cuando el dock está abierto, el atlas continúa inmediatamente debajo. */
+  .oa-v161-mobile-dock + .oa-atlas-shell{
+    border-top-left-radius:0;
+    border-top-right-radius:0;
+  }
+}
+
+@media (max-width:520px){
+  .oa-v161-mobile-dock{
+    top:68px;
+    padding:12px;
+  }
+  .oa-v161-entry-grid{
+    grid-template-columns:1fr;
+  }
+  .oa-v161-comment-field{
+    grid-column:auto;
+  }
+  .oa-v161-preview{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+  .oa-v161-dock-actions{
+    grid-template-columns:1fr auto;
+  }
+}
+
+@media print{
+  .oa-v161-mobile-dock{display:none!important}
+}
