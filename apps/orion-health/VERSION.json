@@ -1,23 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r24-final-piloto",
+  "version": "1.4.4-r26-final-piloto",
   "date": "2026-08-03",
   "modules": {
-    "portal": "1.4.4-r24",
+    "portal": "1.4.4-r26",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.9-piloto"
+    "armonizacion_orofacial": "1.5.0-piloto"
   },
-  "release_status": "FINAL PILOTO — editor clínico contextual insertado dentro del mapa y eliminación de formularios redundantes según cantidad de puntos seleccionados",
-  "clinical_status": "Un punto seleccionado abre edición individual; dos o más puntos muestran exclusivamente la edición conjunta. El editor permite planificación, administración, estado, comentario, eliminación y creación de nuevos puntos",
+  "release_status": "FINAL PILOTO — corrección del crecimiento automático del atlas dentro del iframe y restauración de un mapa clínico visible y estable",
+  "clinical_status": "Se conservan selección individual y múltiple, editor contextual, unidades planificadas y administradas, comentarios, estados, creación, eliminación y desplazamiento de puntos",
   "security_status": "El registro clínico, los antecedentes y la selección permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
   "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
-  "layout_status": "En Mapa, el editor aparece inmediatamente debajo de la barra de selección y antes del atlas. Se elimina la dependencia de un panel fixed que podía quedar fuera del viewport del iframe en Android",
-  "workflow_status": "Con una selección múltiple, Registro muestra solo Tratamiento de puntos seleccionados y oculta Punto seleccionado. Con una selección individual ocurre lo inverso. Los estados vacío, individual y múltiple son visualmente excluyentes",
+  "layout_status": "En escritorio el atlas ocupa un marco estable, limitado por una altura clínica útil, y Registro dispone de desplazamiento independiente. En móvil la imagen, las etiquetas y los puntos comparten una proporción fija 600 por 800",
+  "workflow_status": "La vista comienza siempre ajustada a 100 %. Ajustar vista, Zoom + y Zoom - utilizan una escala controlada y el redimensionamiento del iframe no modifica automáticamente el tamaño del atlas",
   "output_status": "La tabla, los totales por zona, el resumen general y la impresión continúan actualizándose desde una única fuente de datos por punto",
-  "performance_status": "La caché PWA V1.4.4-r24 sirve registro-v149.html e incorpora la versión consolidada de map-inline-v149.css y map-inline-v149.js"
+  "performance_status": "La caché PWA V1.4.4-r26 sirve registro-v150.html e incorpora map-viewport-v150.css y map-viewport-v150.js"
 }
