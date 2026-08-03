@@ -6,6 +6,10 @@
   let mounted=false;
   let refreshQueued=false;
 
+  function isAdministrationOnly(){
+    return document.documentElement.classList.contains('oa-admin-v154');
+  }
+
   function replaceOwnText(label,text){
     if(!label)return;
     const node=Array.from(label.childNodes).find(item=>item.nodeType===Node.TEXT_NODE&&item.textContent.trim());
@@ -23,6 +27,11 @@
   }
 
   function normalizeFieldLabels(){
+    if(isAdministrationOnly()){
+      [['oaV148Admin','Administrado'],['pointAdmin','Administrado'],['bulkAdmin','Administrado']].forEach(([id,text])=>renameField(id,text));
+      return;
+    }
+
     [
       ['oaV148Plan','Planificado'],
       ['oaV148Admin','Administrado'],
@@ -59,6 +68,7 @@
   }
 
   function updateVersionIdentity(){
+    if(isAdministrationOnly())return;
     document.documentElement.classList.add('oa-ui-v153');
     if(document.documentElement.dataset.orionAestheticsVersion!==VERSION)document.documentElement.dataset.orionAestheticsVersion=VERSION;
     const expectedTitle=`ORION Armonización Orofacial V${VERSION}`;
@@ -74,7 +84,9 @@
     if(!button)return;
     const expected=button.classList.contains('active')?'✓ Selección múltiple':'Selección múltiple';
     if(button.textContent!==expected)button.textContent=expected;
-    const help='Activa este modo y toca dos o más puntos para editarlos juntos.';
+    const help=isAdministrationOnly()
+      ?'Activa este modo y toca dos o más puntos para administrar la misma cantidad.'
+      :'Activa este modo y toca dos o más puntos para editarlos juntos.';
     if(button.title!==help)button.title=help;
     if(button.getAttribute('aria-label')!==help)button.setAttribute('aria-label',help);
   }
@@ -87,7 +99,8 @@
     normalizeMultiButton();
 
     const apply=$('oaApplySelection');
-    if(apply&&apply.textContent!=='Editar selección')apply.textContent='Editar selección';
+    const expected=isAdministrationOnly()?'Administrar selección':'Editar selección';
+    if(apply&&apply.textContent!==expected)apply.textContent=expected;
 
     const observerTarget=$('oaMultiToggle');
     if(observerTarget&&!observerTarget.dataset.oaV153Observed){
@@ -103,11 +116,15 @@
     if(!context||!atlas||!panel)return;
 
     const detail=context.querySelector('span');
-    const detailText='Edita un punto o varios sin abandonar el mapa.';
+    const detailText=isAdministrationOnly()
+      ?'Este es el único formulario de tratamiento por punto.'
+      :'Edita un punto o varios sin abandonar el mapa.';
     if(detail&&detail.textContent!==detailText)detail.textContent=detailText;
 
     const recordButton=$('oaInlineGoRecord');
-    if(recordButton&&recordButton.textContent!=='Editar en Registro')recordButton.textContent='Editar en Registro';
+    if(recordButton&&!isAdministrationOnly()&&recordButton.textContent!=='Editar en Registro')recordButton.textContent='Editar en Registro';
+
+    if(isAdministrationOnly())return;
 
     if(!$('oaV153SeeAtlas')){
       const button=document.createElement('button');
@@ -143,7 +160,10 @@
       }
       event.preventDefault();
       event.stopImmediatePropagation();
-      const approved=window.confirm('Confirma que revisaste el plan de puntos y las cantidades.\n\nAceptar: imprimir o exportar.\nCancelar: volver para modificar el plan.');
+      const message=isAdministrationOnly()
+        ?'Confirma que revisaste los puntos y las cantidades administradas.\n\nAceptar: imprimir o exportar.\nCancelar: volver para modificar el registro.'
+        :'Confirma que revisaste el plan de puntos y las cantidades.\n\nAceptar: imprimir o exportar.\nCancelar: volver para modificar el plan.';
+      const approved=window.confirm(message);
       if(!approved)return;
       button.dataset.oaV153Approved='true';
       setTimeout(()=>button.click(),0);
@@ -156,14 +176,15 @@
   }
 
   function deriveVisibleStatus(){
-    const planned=Number.parseFloat(String($('pointPlanned')?.value||'0').replace(',','.'))||0;
+    const planned=isAdministrationOnly()?0:(Number.parseFloat(String($('pointPlanned')?.value||'0').replace(',','.'))||0);
     const administered=Number.parseFloat(String($('pointAdmin')?.value||'0').replace(',','.'))||0;
     const status=$('pointStatus');
     if(status)status.value=administered>0?'administered':planned>0?'planned':'suggested';
   }
 
   function bindAutomaticStatus(){
-    ['pointPlanned','pointAdmin'].forEach(id=>{
+    const ids=isAdministrationOnly()?['pointAdmin']:['pointPlanned','pointAdmin'];
+    ids.forEach(id=>{
       const input=$(id);
       if(!input||input.dataset.oaV153Bound)return;
       input.dataset.oaV153Bound='true';
