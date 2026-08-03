@@ -1,22 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r19-final-piloto",
+  "version": "1.4.4-r20-final-piloto",
   "date": "2026-08-02",
   "modules": {
-    "portal": "1.4.4-r19",
+    "portal": "1.4.4-r20",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.6-piloto"
+    "armonizacion_orofacial": "1.4.7-piloto"
   },
-  "release_status": "FINAL PILOTO — calibración anatómico-funcional de los presets de infiltración y sustitución del símbolo provisional por el logo institucional ORION Health",
-  "clinical_status": "Los puntos se redistribuyen sobre los vientres o zonas terapéuticas de referencia: frontal, complejo glabelar, orbicular lateral, nasal, elevadores periorales, DAO, mentoniano, tercio inferior masetérico y dos bandas platismales. Permanecen editables y sin unidades predeterminadas",
-  "security_status": "El registro se conserva únicamente durante la sesión mediante sessionStorage; ORION no se convierte en ficha clínica longitudinal ni crea una base clínica autónoma",
-  "identity_status": "El encabezado de Armonización utiliza el activo corporativo assets/brand/orion-health.png y elimina el isotipo provisional en forma de estrella",
-  "layout_status": "Se reducen el tamaño visual de los puntos y las etiquetas para dejar visible la anatomía subyacente; las etiquetas se desplazan fuera de los principales sitios de infiltración",
-  "output_status": "La tabla y la impresión conservan posición editable, etiqueta, planificación, administración, volumen y estado individual de cada punto",
-  "performance_status": "La caché PWA V1.4.4-r19 sirve registro-v146.html e incorpora anatomy-presets-v146.js y anatomy-calibration-v146.css"
+  "release_status": "FINAL PILOTO — flujo clínico completo de Armonización: Registro, Mapa y Resumen; editor inmediato por punto, alta y eliminación de puntos, semáforo, antecedentes mórbidos, tipos de intervención y evaluación orientativa de precaución",
+  "clinical_status": "Se mantienen los presets anatómico-funcionales editables y sin dosis predeterminadas. Cada punto puede arrastrarse, agregarse, eliminarse y registrar planificación, administración, estado y comentario. El módulo incorpora toxina, ácido hialurónico, bioestimuladores, skinbooster, hilos, PRP, combinados y otros procedimientos",
+  "security_status": "El registro clínico y los antecedentes se conservan únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
+  "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
+  "layout_status": "En móvil el orden de pestañas es Registro, Mapa y Resumen. Al tocar un punto se abre un editor inferior sin abandonar el mapa; Agregar punto y Semáforo permanecen visibles. En escritorio el editor se presenta como panel flotante lateral",
+  "risk_status": "El nivel de precaución es orientativo, no validado, y combina tipo de intervención con antecedentes marcados. No sustituye evaluación clínica, consentimiento específico, protocolos institucionales ni preparación para complicaciones",
+  "output_status": "Resumen e impresión incorporan paciente, intervención, indicación, zonas, técnica, antecedentes, alertas, producto, lote, cantidad, tabla de puntos, unidades o cantidades registradas y totales del procedimiento",
+  "performance_status": "La caché PWA V1.4.4-r20 sirve registro-v147.html e incorpora workflow-v147.css y workflow-v147.js"
 }
