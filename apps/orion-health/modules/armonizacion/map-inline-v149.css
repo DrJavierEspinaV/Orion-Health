@@ -34,9 +34,13 @@ body[data-oa-selection="none"] #oaRecordSelectionCard{display:none!important}
 body[data-oa-selection="single"] .oa-point-editor,
 body[data-oa-selection="none"] .oa-point-editor{display:block!important}
 
-/* Evita que el mensaje vacío conviva con campos de un punto anterior. */
+/* Estados excluyentes del editor individual. */
 body[data-oa-selection="multi"] #emptyPoint,
 body[data-oa-selection="multi"] #pointFields{display:none!important}
+body[data-oa-selection="single"] #emptyPoint{display:none!important}
+body[data-oa-selection="single"] #pointFields{display:block!important}
+body[data-oa-selection="none"] #emptyPoint{display:flex!important}
+body[data-oa-selection="none"] #pointFields{display:none!important}
 
 .oa-inline-editor-context{
   display:flex;
