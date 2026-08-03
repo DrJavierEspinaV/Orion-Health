@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-armonizacion-v1.5.2';
+const CACHE_NAME='orion-armonizacion-v1.5.3';
 const SHELL=[
   './',
   './index.html',
@@ -16,6 +16,8 @@ const SHELL=[
   './map-viewport-v150.css',
   './map-viewport-v150.js',
   './standalone-v151.js',
+  './ui-optimization-v153.css',
+  './ui-optimization-v153.js',
   './manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js',
   './anatomy-atlas-female-v145-r17-02.js',
@@ -76,7 +78,7 @@ self.addEventListener('fetch',event=>{
   }
 
   event.respondWith(
-    fetch(request).then(response=>{
+    fetch(request,{cache:'no-store'}).then(response=>{
       if(response&&response.ok){
         const copy=response.clone();
         caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});
