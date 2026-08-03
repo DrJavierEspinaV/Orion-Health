@@ -1,0 +1,99 @@
+/* ORION Armonización Orofacial V1.4.7 — flujo clínico completo */
+.oa-mobile-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+.oa-clinical-context{padding:14px}
+.oa-context-grid{display:grid;grid-template-columns:1.1fr 1.2fr 1fr;gap:9px}
+.oa-context-grid .wide{grid-column:1/-1}
+.oa-context-grid label,.oa-history-grid label{font-size:10px;font-weight:800;color:#365675}
+.oa-context-grid input,.oa-context-grid select,.oa-context-grid textarea{min-height:42px}
+.oa-history-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.oa-history-check{display:flex!important;flex-direction:row!important;align-items:flex-start;gap:8px;padding:10px;border:1px solid #dbe4ee;border-radius:10px;background:#f9fbfd;color:#284a6d!important}
+.oa-history-check input{width:18px;height:18px;min-height:0;flex:0 0 auto;margin-top:1px}
+.oa-history-check span{font-size:10px;line-height:1.35;font-weight:800}
+.oa-history-notes{margin-top:9px}
+.oa-risk-panel{margin-top:12px;padding:12px;border-radius:12px;border:1px solid #dbe4ee;background:#f8fbff}
+.oa-risk-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.oa-risk-head strong{font-size:12px;color:#173f69}
+.oa-risk-badge{padding:6px 10px;border-radius:999px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.03em}
+.oa-risk-badge.low{background:#e8f7ef;color:#197446}
+.oa-risk-badge.moderate{background:#fff4dc;color:#9a6500}
+.oa-risk-badge.high{background:#fdeaea;color:#ad3030}
+.oa-risk-text{margin:8px 0 0;color:#5f758d;font-size:10px;line-height:1.45}
+.oa-risk-alerts{margin:8px 0 0;padding-left:18px;color:#5a6f86;font-size:10px;line-height:1.45}
+
+.oa-map-mobile-tools{display:none}
+.oa-traffic-popover{display:none;position:absolute;z-index:90;left:14px;right:14px;top:118px;padding:12px;border:1px solid #cfdbe8;border-radius:13px;background:#fff;box-shadow:0 14px 30px rgba(16,43,77,.18)}
+.oa-traffic-popover.open{display:block}
+.oa-traffic-title{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}
+.oa-traffic-title strong{font-size:12px;color:#173f69}
+.oa-traffic-title button{border:0;background:transparent;font-size:18px;color:#56718d;padding:0}
+.oa-traffic-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.oa-traffic-item{display:flex;align-items:center;gap:8px;padding:8px;border-radius:9px;background:#f7fafc;color:#365675;font-size:10px;font-weight:800}
+.oa-traffic-dot{width:15px;height:15px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.12)}
+.oa-traffic-dot.suggested{background:#fff;box-shadow:0 0 0 2px #1f64c8}
+.oa-traffic-dot.planned{background:#f5a623}
+.oa-traffic-dot.administered{background:#22a55b}
+.oa-traffic-dot.omitted{background:#98a1ab}
+.oa-traffic-dot.selected{background:#fff;box-shadow:0 0 0 3px #1f64c8}
+
+.oa-point-sheet{position:fixed;z-index:250;right:14px;top:84px;width:min(390px,calc(100vw - 28px));max-height:calc(100vh - 100px);overflow:auto;padding:14px;border:1px solid #cbd8e5;border-radius:16px;background:#fff;box-shadow:0 18px 48px rgba(6,26,56,.28);display:none}
+.oa-point-sheet.open{display:block}
+.oa-point-sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding-bottom:10px;border-bottom:1px solid #dfe7ef}
+.oa-point-sheet-head strong{display:block;font-size:15px;color:#173f69}
+.oa-point-sheet-head span{display:block;margin-top:3px;font-size:10px;color:#6d8196}
+.oa-point-sheet-head button{border:0;background:transparent;font-size:22px;line-height:1;color:#55708c}
+.oa-point-sheet-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.oa-point-sheet-grid label:first-child{grid-column:1/-1}
+.oa-point-sheet-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.oa-point-sheet-actions button{min-height:42px;border-radius:9px;font-size:11px;font-weight:900}
+.oa-point-sheet-actions .save{border:1px solid #1d62b8;background:#1d62b8;color:#fff}
+.oa-point-sheet-actions .delete{border:1px solid #d64545;background:#fff;color:#b32f2f}
+.oa-point-sheet-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.oa-point-sheet-foot button{min-height:40px;border-radius:9px;border:1px solid #bfcfe0;background:#fff;color:#214f7d;font-size:10px;font-weight:850}
+
+.oa-add-mode-banner{display:none;position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:240;width:min(520px,calc(100vw - 28px));padding:11px 14px;border-radius:999px;background:#061a38;color:#fff;text-align:center;font-size:11px;font-weight:850;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.oa-add-mode-banner.show{display:block}
+
+.oa-summary-record{padding:14px}
+.oa-summary-record-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.oa-summary-record-item{padding:10px;border:1px solid #dbe4ee;border-radius:10px;background:#f8fbff}
+.oa-summary-record-item span{display:block;font-size:8px;font-weight:900;text-transform:uppercase;color:#70859b}
+.oa-summary-record-item strong{display:block;margin-top:4px;font-size:12px;line-height:1.35;color:#173f69;overflow-wrap:anywhere}
+.oa-summary-record-item.wide{grid-column:1/-1}
+.oa-summary-history{margin-top:10px;padding:10px;border:1px solid #dbe4ee;border-radius:10px;background:#fff}
+.oa-summary-history strong{display:block;margin-bottom:5px;font-size:10px;color:#173f69}
+.oa-summary-history p{margin:0;font-size:10px;line-height:1.45;color:#61768d}
+
+body[data-procedure-kind]:not([data-procedure-kind="toxin"]) .oa-calculator .oa-section-title::after{content:' · referencia de producto/volumen';font-weight:700;color:#6b8096}
+body[data-procedure-kind]:not([data-procedure-kind="toxin"]) .oa-safety-note{border-left-color:#5f8fc7;background:#f2f7fd;color:#536d87}
+
+@media (max-width:920px){
+  .oa-mobile-tabs{display:grid}
+  .oa-context-grid{grid-template-columns:1fr}
+  .oa-context-grid .wide{grid-column:auto}
+  .oa-history-grid{grid-template-columns:1fr}
+  .oa-map-mobile-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 14px;border-bottom:1px solid #d8e1eb;background:#fbfcfe}
+  .oa-map-mobile-tools button{min-height:44px;border-radius:10px;font-size:11px;font-weight:900}
+  .oa-map-mobile-tools .add{border:1px solid #1f64c8;background:#1f64c8;color:#fff}
+  .oa-map-mobile-tools .traffic{border:1px solid #b9cadb;background:#fff;color:#214f7d}
+  .oa-point-sheet{left:12px;right:12px;top:auto;bottom:12px;width:auto;max-height:72vh;border-radius:17px}
+  .oa-point-sheet-grid{grid-template-columns:1fr 1fr}
+  .oa-point-sheet-grid label:first-child{grid-column:1/-1}
+  .oa-point-sheet-foot{grid-template-columns:1fr}
+  .oa-summary-record-grid{grid-template-columns:1fr 1fr}
+  .oa-summary-record-item.wide{grid-column:1/-1}
+}
+
+@media (max-width:520px){
+  .oa-point-sheet-grid{grid-template-columns:1fr}
+  .oa-point-sheet-grid label:first-child{grid-column:auto}
+  .oa-point-sheet-actions{grid-template-columns:1fr}
+  .oa-summary-record-grid{grid-template-columns:1fr}
+  .oa-summary-record-item.wide{grid-column:auto}
+  .oa-traffic-list{grid-template-columns:1fr}
+}
+
+@media print{
+  .oa-point-sheet,.oa-add-mode-banner,.oa-map-mobile-tools,.oa-traffic-popover{display:none!important}
+  .oa-clinical-context,.oa-summary-record{break-inside:avoid}
+}
