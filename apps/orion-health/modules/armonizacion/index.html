@@ -27,73 +27,134 @@
     <h1>ORION Armonización Orofacial</h1>
     <p>Preparando el registro clínico, el mapa anatómico y la calculadora.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.5.1…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.5.2…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
-      <button type="button" onclick="location.reload()">Reintentar carga</button>
+      <button type="button" id="bootRetry">Reintentar sin caché</button>
     </div>
   </main>
 
 <script>
 (async()=>{
-  const VERSION='1.5.1';
+  'use strict';
+
+  const VERSION='1.5.2';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
+  const retry=document.getElementById('bootRetry');
+  const cssFiles=[
+    'anatomy-calibration-v146.css',
+    'workflow-v147.css',
+    'map-dynamic-v148.css',
+    'map-inline-v149.css',
+    'map-viewport-v150.css'
+  ];
+  const jsFiles=[
+    'anatomy-presets-v146.js',
+    'registro-v145.js',
+    'workflow-v147.js',
+    'map-dynamic-v148.js',
+    'map-inline-v149.js',
+    'map-viewport-v150.js',
+    'standalone-v151.js'
+  ];
+
+  retry.addEventListener('click',()=>{
+    const separator=location.search?'&':'?';
+    location.replace(`${location.pathname}${location.search}${separator}reload=${Date.now()}`);
+  });
+
+  function appendStyles(doc){
+    const baseStyle=doc.querySelector('link[href*="registro-v145.css"]');
+    if(baseStyle)baseStyle.setAttribute('href',`./registro-v145.css?v=${VERSION}`);
+
+    cssFiles.forEach(file=>{
+      const link=doc.createElement('link');
+      link.rel='stylesheet';
+      link.href=`./${file}?v=${VERSION}`;
+      doc.head.appendChild(link);
+    });
+  }
+
+  function appendScripts(doc){
+    doc.querySelectorAll('script[src]').forEach(script=>{
+      const src=script.getAttribute('src')||'';
+      if(src.includes('registro-v145.js'))script.remove();
+      else script.setAttribute('src',src.split('?')[0]+`?v=${VERSION}`);
+    });
+
+    jsFiles.forEach(file=>{
+      const script=doc.createElement('script');
+      script.src=`./${file}?v=${VERSION}`;
+      script.defer=false;
+      doc.body.appendChild(script);
+    });
+  }
+
+  function updateIdentity(doc){
+    doc.title='ORION Armonización Orofacial V1.5.2';
+    doc.documentElement.classList.add('oa-viewport-v150');
+    doc.documentElement.dataset.orionAestheticsVersion=VERSION;
+
+    const manifest=doc.createElement('link');
+    manifest.rel='manifest';
+    manifest.href=`./manifest.webmanifest?v=${VERSION}`;
+    doc.head.appendChild(manifest);
+
+    const appleIcon=doc.createElement('link');
+    appleIcon.rel='apple-touch-icon';
+    appleIcon.href='../../assets/icons/icon-192.png';
+    doc.head.appendChild(appleIcon);
+
+    const mark=doc.querySelector('.oa-brand-mark');
+    if(mark){
+      const logo=doc.createElement('img');
+      logo.className='oa-brand-logo';
+      logo.src='../../assets/brand/orion-health.png';
+      logo.alt='ORION Health';
+      mark.replaceWith(logo);
+    }
+
+    const title=doc.querySelector('.oa-title strong');
+    const subtitle=doc.querySelector('.oa-title span');
+    const version=doc.querySelector('.oa-version');
+    const mapInstruction=doc.querySelector('.oa-map-head span');
+    if(title)title.textContent='Registro de armonización orofacial';
+    if(subtitle)subtitle.textContent='Planificación, anatomía y trazabilidad por punto';
+    if(version)version.textContent='V1.5.2';
+    if(mapInstruction)mapInstruction.textContent='Toca un punto para editarlo, arrástralo para ajustar su posición o selecciona varios para aplicar una terapia común.';
+  }
 
   try{
     status.textContent='Cargando estructura clínica…';
-    const response=await fetch(`./registro-v145.html?base=1&v=${VERSION}`,{cache:'no-store'});
+    const response=await fetch(`./registro-v145.html?base=1&v=${VERSION}&t=${Date.now()}`,{cache:'no-store'});
     if(!response.ok)throw new Error(`Base clínica HTTP ${response.status}`);
 
-    let html=await response.text();
-    if(!html.includes('id="atlasShell"')||!html.includes('id="patientName"')){
+    const source=await response.text();
+    const doc=new DOMParser().parseFromString(source,'text/html');
+    if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName')){
       throw new Error('La base clínica recibida está incompleta.');
     }
 
     status.textContent='Integrando mapa, registro y resumen…';
-    html=html
-      .replace(/<title>[^<]*<\/title>/,'<title>ORION Armonización Orofacial V1.5.1</title>')
-      .replace(/registro-v145\.css\?v=[^"']+/,'registro-v145.css?v=1.5.1')
-      .replace('</head>',
-        '<meta name="application-name" content="ORION Armonización Orofacial">'+
-        '<link rel="manifest" href="./manifest.webmanifest?v=1.5.1">'+
-        '<link rel="apple-touch-icon" href="../../assets/icons/icon-192.png">'+
-        '<script>document.documentElement.classList.add("oa-viewport-v150")<\\/script>'+
-        '<link rel="stylesheet" href="./anatomy-calibration-v146.css?v=1.5.1">'+
-        '<link rel="stylesheet" href="./workflow-v147.css?v=1.5.1">'+
-        '<link rel="stylesheet" href="./map-dynamic-v148.css?v=1.5.1">'+
-        '<link rel="stylesheet" href="./map-inline-v149.css?v=1.5.1">'+
-        '<link rel="stylesheet" href="./map-viewport-v150.css?v=1.5.1">'+
-        '</head>')
-      .replace('<span class="oa-brand-mark" aria-hidden="true">✦</span>',
-        '<img class="oa-brand-logo" src="../../assets/brand/orion-health.png" alt="ORION Health">')
-      .replace(/Registro de toxina botulínica/g,'Registro de armonización orofacial')
-      .replace(/Mapa anatómico y trazabilidad por punto/g,'Planificación, anatomía y trazabilidad por punto')
-      .replace(/V1\.4\.5-r2/g,'V1.5.1')
-      .replace('Los puntos son presets editables; deben ajustarse a la evaluación dinámica y anatómica.',
-        'Toca un punto para editarlo, arrástralo para ajustar su posición o selecciona varios para aplicar una terapia común.')
-      .replace(/<script src="\.\/registro-v145\.js\?v=[^"]+"><\/script>/,
-        '<script src="./anatomy-presets-v146.js?v=1.5.1"><\\/script>'+
-        '<script src="./registro-v145.js?v=1.5.1"><\\/script>'+
-        '<script src="./workflow-v147.js?v=1.5.1"><\\/script>'+
-        '<script src="./map-dynamic-v148.js?v=1.5.1"><\\/script>'+
-        '<script src="./map-inline-v149.js?v=1.5.1"><\\/script>'+
-        '<script src="./map-viewport-v150.js?v=1.5.1"><\\/script>'+
-        '<script src="./standalone-v151.js?v=1.5.1"><\\/script>');
+    appendStyles(doc);
+    updateIdentity(doc);
+    appendScripts(doc);
 
-    if(!html.includes('map-viewport-v150.js')||!html.includes('workflow-v147.js')){
+    const output='<!doctype html>\n'+doc.documentElement.outerHTML;
+    if(!output.includes('map-viewport-v150.js')||!output.includes('workflow-v147.js')){
       throw new Error('No fue posible integrar los recursos funcionales.');
     }
 
     document.open();
-    document.write(html);
+    document.write(output);
     document.close();
   }catch(error){
     console.error('ORION Armonización no pudo iniciar:',error);
     status.textContent='Error de inicio';
-    detail.textContent=` ${error.message||error}`;
+    detail.textContent=` ${error?.message||error}`;
     errorBox.style.display='block';
   }
 })();
