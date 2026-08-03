@@ -1,23 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r26-final-piloto",
+  "version": "1.4.4-r27-final-piloto",
   "date": "2026-08-03",
   "modules": {
-    "portal": "1.4.4-r26",
+    "portal": "1.4.4-r27",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.5.0-piloto"
+    "armonizacion_orofacial": "1.5.1-piloto-estable"
   },
-  "release_status": "FINAL PILOTO — corrección del crecimiento automático del atlas dentro del iframe y restauración de un mapa clínico visible y estable",
-  "clinical_status": "Se conservan selección individual y múltiple, editor contextual, unidades planificadas y administradas, comentarios, estados, creación, eliminación y desplazamiento de puntos",
-  "security_status": "El registro clínico, los antecedentes y la selección permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
-  "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
-  "layout_status": "En escritorio el atlas ocupa un marco estable, limitado por una altura clínica útil, y Registro dispone de desplazamiento independiente. En móvil la imagen, las etiquetas y los puntos comparten una proporción fija 600 por 800",
-  "workflow_status": "La vista comienza siempre ajustada a 100 %. Ajustar vista, Zoom + y Zoom - utilizan una escala controlada y el redimensionamiento del iframe no modifica automáticamente el tamaño del atlas",
-  "output_status": "La tabla, los totales por zona, el resumen general y la impresión continúan actualizándose desde una única fuente de datos por punto",
-  "performance_status": "La caché PWA V1.4.4-r26 sirve registro-v150.html e incorpora map-viewport-v150.css y map-viewport-v150.js"
+  "release_status": "FINAL PILOTO — restauración funcional de Armonización mediante una entrada única y preparación como aplicación web autónoma",
+  "clinical_status": "Se conservan registro preprocedimiento, antecedentes, nivel documental de precaución, calculadora, mapa anatómico, selección individual y múltiple, planificación y administración por punto, resumen e impresión",
+  "security_status": "El registro clínico y la selección permanecen en sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
+  "identity_status": "ORION Armonización Orofacial utiliza el activo corporativo assets/brand/orion-health.png y dispone de manifiesto instalable propio",
+  "layout_status": "El mapa mantiene un viewport estable; en escritorio el iframe usa una altura controlada y en móvil conserva el flujo Registro, Mapa y Resumen",
+  "workflow_status": "El portal abre directamente modules/armonizacion/index.html?v=1.5.1. Se eliminó la ruta antigua v14.html y la cadena V1.5.0→V1.4.9→V1.4.8→V1.4.5",
+  "standalone_status": "La misma entrada puede abrirse fuera del portal, instalarse como PWA y usar una caché independiente orion-armonizacion-v1.5.1",
+  "output_status": "La tabla, los totales, el volumen y la impresión continúan actualizándose desde una única fuente de datos por punto",
+  "performance_status": "La caché ORION Dental App R27 sirve la entrada única de Armonización y muestra diagnóstico visible en caso de error de carga"
 }
