@@ -12,6 +12,12 @@
     if(node&&node.textContent!==text)node.textContent=text;
   }
 
+  function replaceOwnText(label,text){
+    if(!label)return;
+    const node=Array.from(label.childNodes).find(item=>item.nodeType===Node.TEXT_NODE&&item.textContent.trim());
+    if(node&&node.textContent.trim()!==text)node.textContent=text;
+  }
+
   function loadState(){
     try{return JSON.parse(sessionStorage.getItem(KEY)||'null');}
     catch(_){return null;}
@@ -75,6 +81,23 @@
     if(pointEditor&&!pointEditor.classList.contains('oa-v154-hide'))pointEditor.classList.add('oa-v154-hide');
   }
 
+  function renameAdministrationTerms(){
+    replaceOwnText($('oaQuantity')?.closest('label'),'Cantidad administrada');
+    const notes=$('oaProcedureNotes');
+    if(notes&&notes.placeholder!=='Secuencia, lateralidad, asimetrías y observaciones')notes.placeholder='Secuencia, lateralidad, asimetrías y observaciones';
+    setText(document.querySelector('.oa-record-heading p'),'Administración y volumen calculado por punto.');
+
+    document.querySelectorAll('.oa-traffic-item').forEach(item=>{
+      if(item.querySelector('.planned')&&!item.classList.contains('oa-v154-hide'))item.classList.add('oa-v154-hide');
+    });
+
+    document.querySelectorAll('span,strong,th').forEach(node=>{
+      const value=node.textContent.trim();
+      if(/^Cantidad prevista$/i.test(value))setText(node,'Cantidad administrada');
+      if(/^Planificación$/i.test(value))setText(node,'Administración');
+    });
+  }
+
   function renameAdministrationFlow(){
     setText($('oaApplySelection'),'Administrar selección');
     setText($('oaV148Save'),'Guardar administración');
@@ -87,11 +110,7 @@
     const adminInput=$('oaV148Admin');
     if(adminInput){
       if(adminInput.placeholder!=='Unidades administradas')adminInput.placeholder='Unidades administradas';
-      const label=adminInput.closest('label');
-      if(label){
-        const textNode=Array.from(label.childNodes).find(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim());
-        if(textNode&&textNode.textContent.trim()!=='Administrado')textNode.textContent='Administrado';
-      }
+      replaceOwnText(adminInput.closest('label'),'Administrado');
     }
 
     const mapContext=$('oaInlineEditorContext');
@@ -153,6 +172,7 @@
     updateVersion();
     removePlanningUI();
     removeDuplicateEditors();
+    renameAdministrationTerms();
     normalizeStatusToAdministration();
     renameAdministrationFlow();
     simplifySummaryAndTable();
