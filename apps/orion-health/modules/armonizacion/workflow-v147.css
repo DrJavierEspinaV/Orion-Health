@@ -82,6 +82,9 @@ body[data-procedure-kind]:not([data-procedure-kind="toxin"]) .oa-safety-note{bor
   .oa-point-sheet-foot{grid-template-columns:1fr}
   .oa-summary-record-grid{grid-template-columns:1fr 1fr}
   .oa-summary-record-item.wide{grid-column:1/-1}
+  body[data-mobile-tab="record"] .oa-summary-record{display:none!important}
+  body[data-mobile-tab="summary"] .oa-clinical-context{display:none!important}
+  body[data-mobile-tab="summary"] .oa-summary-record{display:block!important}
 }
 
 @media (max-width:520px){
@@ -95,5 +98,5 @@ body[data-procedure-kind]:not([data-procedure-kind="toxin"]) .oa-safety-note{bor
 
 @media print{
   .oa-point-sheet,.oa-add-mode-banner,.oa-map-mobile-tools,.oa-traffic-popover{display:none!important}
-  .oa-clinical-context,.oa-summary-record{break-inside:avoid}
+  .oa-clinical-context,.oa-summary-record{display:block!important;break-inside:avoid}
 }
