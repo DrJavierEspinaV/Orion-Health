@@ -6,6 +6,11 @@
   const MIGRATION_KEY='orion_aesthetic_admin_only_v154';
   const $=id=>document.getElementById(id);
   let observerMounted=false;
+  let refreshQueued=false;
+
+  function setText(node,text){
+    if(node&&node.textContent!==text)node.textContent=text;
+  }
 
   function loadState(){
     try{return JSON.parse(sessionStorage.getItem(KEY)||'null');}
@@ -39,84 +44,80 @@
   function hideClosestLabel(id){
     const field=$(id);
     const label=field?.closest('label');
-    if(label)label.classList.add('oa-v154-hide');
+    if(label&&!label.classList.contains('oa-v154-hide'))label.classList.add('oa-v154-hide');
   }
 
   function removePlanningUI(){
     ['oaV148Plan','pointPlanned','bulkPlan'].forEach(hideClosestLabel);
     ['zonePlanned','zonePlannedPoints','totalPlanned'].forEach(id=>{
       const node=$(id);
-      if(node)node.closest('div')?.classList.add('oa-v154-hide');
+      const container=node?.closest('div');
+      if(container&&!container.classList.contains('oa-v154-hide'))container.classList.add('oa-v154-hide');
     });
 
     const copy=$('oaV148Copy');
-    if(copy)copy.classList.add('oa-v154-hide');
+    if(copy&&!copy.classList.contains('oa-v154-hide'))copy.classList.add('oa-v154-hide');
 
     document.querySelectorAll('label').forEach(label=>{
       const text=label.textContent.trim();
-      if(/^Planificado$/i.test(text)||/^Planificado por punto$/i.test(text)||/^U plan por punto$/i.test(text)){
+      if((/^Planificado$/i.test(text)||/^Planificado por punto$/i.test(text)||/^U plan por punto$/i.test(text))&&!label.classList.contains('oa-v154-hide')){
         label.classList.add('oa-v154-hide');
       }
     });
   }
 
   function removeDuplicateEditors(){
-    $('oaRecordSelectionCard')?.classList.add('oa-v154-hide');
-    document.querySelector('.oa-record-panel .oa-point-editor')?.classList.add('oa-v154-hide');
-    $('oaInlineGoRecord')?.classList.add('oa-v154-hide');
-    $('oaV153SeeAtlas')?.classList.add('oa-v154-hide');
+    ['oaRecordSelectionCard','oaInlineGoRecord','oaV153SeeAtlas'].forEach(id=>{
+      const node=$(id);
+      if(node&&!node.classList.contains('oa-v154-hide'))node.classList.add('oa-v154-hide');
+    });
+    const pointEditor=document.querySelector('.oa-record-panel .oa-point-editor');
+    if(pointEditor&&!pointEditor.classList.contains('oa-v154-hide'))pointEditor.classList.add('oa-v154-hide');
   }
 
   function renameAdministrationFlow(){
-    const apply=$('oaApplySelection');
-    if(apply)apply.textContent='Administrar selección';
+    setText($('oaApplySelection'),'Administrar selección');
+    setText($('oaV148Save'),'Guardar administración');
 
-    const save=$('oaV148Save');
-    if(save)save.textContent='Guardar administración';
-
-    const title=$('oaV148Title');
-    const subtitle=$('oaV148Subtitle');
-    const help=$('oaV148Help');
     const ids=document.querySelectorAll('#pointLayer .oa-point.multi-selected').length;
-
-    if(title)title.textContent=ids>=2?'Administración conjunta':'Administración del punto';
-    if(subtitle)subtitle.textContent=ids>=2?'La cantidad se aplicará a todos los puntos seleccionados.':'Registra unidades y observaciones del punto.';
-    if(help)help.textContent=ids>=2?'La cantidad administrada se aplicará individualmente a cada punto seleccionado.':'La ubicación y la cantidad pueden modificarse antes de guardar.';
+    setText($('oaV148Title'),ids>=2?'Administración conjunta':'Administración del punto');
+    setText($('oaV148Subtitle'),ids>=2?'La cantidad se aplicará a todos los puntos seleccionados.':'Registra unidades y observaciones del punto.');
+    setText($('oaV148Help'),ids>=2?'La cantidad administrada se aplicará individualmente a cada punto seleccionado.':'La ubicación y la cantidad pueden modificarse antes de guardar.');
 
     const adminInput=$('oaV148Admin');
     if(adminInput){
-      adminInput.placeholder='Unidades administradas';
+      if(adminInput.placeholder!=='Unidades administradas')adminInput.placeholder='Unidades administradas';
       const label=adminInput.closest('label');
       if(label){
         const textNode=Array.from(label.childNodes).find(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim());
-        if(textNode)textNode.textContent='Administrado';
+        if(textNode&&textNode.textContent.trim()!=='Administrado')textNode.textContent='Administrado';
       }
     }
 
     const mapContext=$('oaInlineEditorContext');
     if(mapContext){
-      const strong=mapContext.querySelector('strong');
-      const detail=mapContext.querySelector('span');
-      if(strong)strong.textContent=ids>=2?`Administración conjunta de ${ids} puntos`:'Administración directa del punto';
-      if(detail)detail.textContent='Este es el único formulario de tratamiento por punto.';
+      setText(mapContext.querySelector('strong'),ids>=2?`Administración conjunta de ${ids} puntos`:'Administración directa del punto');
+      setText(mapContext.querySelector('span'),'Este es el único formulario de tratamiento por punto.');
     }
   }
 
   function normalizeStatusToAdministration(){
     const status=$('oaV148Status');
     if(status){
-      status.value='auto';
-      status.closest('label')?.classList.add('oa-v154-hide');
+      if(status.value!=='auto')status.value='auto';
+      const label=status.closest('label');
+      if(label&&!label.classList.contains('oa-v154-hide'))label.classList.add('oa-v154-hide');
     }
     const pointStatus=$('pointStatus');
-    if(pointStatus)pointStatus.closest('label')?.classList.add('oa-v154-hide');
+    const pointLabel=pointStatus?.closest('label');
+    if(pointLabel&&!pointLabel.classList.contains('oa-v154-hide'))pointLabel.classList.add('oa-v154-hide');
   }
 
   function simplifySummaryAndTable(){
     const table=document.querySelector('.oa-table-card table');
     if(table){
       const plannedHead=table.querySelector('thead th:nth-child(4)');
-      if(plannedHead)plannedHead.textContent='';
+      if(plannedHead&&plannedHead.textContent)plannedHead.textContent='';
       const step=table.closest('.oa-table-card')?.querySelector('.oa-step-title');
       if(step)step.childNodes.forEach(node=>{
         if(node.nodeType===Node.TEXT_NODE&&/Plan de puntos/i.test(node.textContent))node.textContent=' Registro de puntos administrados';
@@ -124,7 +125,7 @@
     }
 
     document.querySelectorAll('.oa-general-summary .oa-section-title').forEach(node=>{
-      if(/Resumen general/i.test(node.textContent))node.textContent='Resumen de administración';
+      if(/Resumen general/i.test(node.textContent))setText(node,'Resumen de administración');
     });
   }
 
@@ -134,19 +135,21 @@
       input.dataset.oaV154Bound='true';
       input.addEventListener('input',()=>{
         const status=$('oaV148Status');
-        if(status)status.value='auto';
+        if(status&&status.value!=='auto')status.value='auto';
       });
     }
   }
 
   function updateVersion(){
     document.documentElement.classList.add('oa-admin-v154');
-    document.documentElement.dataset.orionAestheticsVersion=VERSION;
-    document.title=`ORION Armonización Orofacial V${VERSION}`;
-    document.querySelectorAll('.oa-version').forEach(node=>{node.textContent=`V${VERSION}`;});
+    if(document.documentElement.dataset.orionAestheticsVersion!==VERSION)document.documentElement.dataset.orionAestheticsVersion=VERSION;
+    const expected=`ORION Armonización Orofacial V${VERSION}`;
+    if(document.title!==expected)document.title=expected;
+    document.querySelectorAll('.oa-version').forEach(node=>setText(node,`V${VERSION}`));
   }
 
   function refresh(){
+    refreshQueued=false;
     updateVersion();
     removePlanningUI();
     removeDuplicateEditors();
@@ -156,10 +159,16 @@
     bindAdministrationSave();
   }
 
+  function queueRefresh(){
+    if(refreshQueued)return;
+    refreshQueued=true;
+    requestAnimationFrame(refresh);
+  }
+
   function observe(){
     if(observerMounted)return;
     observerMounted=true;
-    new MutationObserver(()=>requestAnimationFrame(refresh)).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden']});
+    new MutationObserver(queueRefresh).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['class','hidden']});
   }
 
   function boot(){
