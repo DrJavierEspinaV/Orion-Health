@@ -1,23 +1,23 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r22-final-piloto",
-  "date": "2026-08-02",
+  "version": "1.4.4-r23-final-piloto",
+  "date": "2026-08-03",
   "modules": {
-    "portal": "1.4.4-r22",
+    "portal": "1.4.4-r23",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.4.8-piloto"
+    "armonizacion_orofacial": "1.4.9-piloto"
   },
-  "release_status": "FINAL PILOTO — mapa dinámico de Armonización con editor inmediato por punto, arrastre persistente, creación directa de puntos y selección múltiple para aplicar una terapia común",
-  "clinical_status": "Cada punto permite registrar etiqueta, cantidad planificada, cantidad administrada, estado y comentario. La selección múltiple admite puntos de una o varias zonas y aplica solo los campos ingresados, conservando los valores individuales cuando un campo queda vacío",
-  "security_status": "El registro clínico, los antecedentes y la selección de puntos se conservan únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
+  "release_status": "FINAL PILOTO — editor clínico contextual insertado dentro del mapa y eliminación de formularios redundantes según cantidad de puntos seleccionados",
+  "clinical_status": "Un punto seleccionado abre edición individual; dos o más puntos muestran exclusivamente la edición conjunta. El editor permite planificación, administración, estado, comentario, eliminación y creación de nuevos puntos",
+  "security_status": "El registro clínico, los antecedentes y la selección permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
   "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
-  "layout_status": "En móvil, tocar un punto abre un editor inferior sin abandonar el mapa. En escritorio, el editor se muestra como panel lateral. El mapa incorpora Agregar punto, Seleccionar varios, Seleccionar zona, Semáforo y una barra de aplicación terapéutica",
-  "workflow_status": "La misma selección puede tratarse directamente desde el mapa o desde la pestaña Registro. Se mantiene la aplicación rápida a todos los puntos de una zona como alternativa independiente",
-  "output_status": "La tabla, los totales por zona, el resumen general y la impresión se actualizan con la planificación y administración registradas en uno o varios puntos",
-  "performance_status": "La caché PWA V1.4.4-r22 sirve registro-v148.html e incorpora map-dynamic-v148.css y map-dynamic-v148.js"
+  "layout_status": "En Mapa, el editor aparece inmediatamente debajo de la barra de selección y antes del atlas. Se elimina la dependencia de un panel fixed que podía quedar fuera del viewport del iframe en Android",
+  "workflow_status": "Con una selección múltiple, Registro muestra solo Tratamiento de puntos seleccionados y oculta Punto seleccionado. Con una selección individual ocurre lo inverso. El usuario puede editar desde Mapa o pasar a Registro sin duplicar formularios",
+  "output_status": "La tabla, los totales por zona, el resumen general y la impresión continúan actualizándose desde una única fuente de datos por punto",
+  "performance_status": "La caché PWA V1.4.4-r23 sirve registro-v149.html e incorpora map-inline-v149.css y map-inline-v149.js"
 }
