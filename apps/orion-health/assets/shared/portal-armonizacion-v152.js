@@ -3,7 +3,7 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.5.2';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.5.3';
       APPS.armonizacion.desc='Aplicación estable para planificación, cálculo, mapa anatómico y registro por punto.';
     }
   }catch(error){
