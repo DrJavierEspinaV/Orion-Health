@@ -1,9 +1,9 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r20-final-piloto",
+  "version": "1.4.4-r21-final-piloto",
   "date": "2026-08-02",
   "modules": {
-    "portal": "1.4.4-r20",
+    "portal": "1.4.4-r21",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
@@ -19,5 +19,5 @@
   "layout_status": "En móvil el orden de pestañas es Registro, Mapa y Resumen. Al tocar un punto se abre un editor inferior sin abandonar el mapa; Agregar punto y Semáforo permanecen visibles. En escritorio el editor se presenta como panel flotante lateral",
   "risk_status": "El nivel de precaución es orientativo, no validado, y combina tipo de intervención con antecedentes marcados. No sustituye evaluación clínica, consentimiento específico, protocolos institucionales ni preparación para complicaciones",
   "output_status": "Resumen e impresión incorporan paciente, intervención, indicación, zonas, técnica, antecedentes, alertas, producto, lote, cantidad, tabla de puntos, unidades o cantidades registradas y totales del procedimiento",
-  "performance_status": "La caché PWA V1.4.4-r20 sirve registro-v147.html e incorpora workflow-v147.css y workflow-v147.js"
+  "performance_status": "La caché PWA V1.4.4-r21 sirve registro-v147.html e incorpora workflow-v147.css y workflow-v147.js"
 }
