@@ -31,8 +31,8 @@ const APPS = {
   },
   armonizacion: {
     title: "ORION Armonización Orofacial",
-    desc: "Estudio facial por sector, cálculo, mapa de punción y documento clínico estético.",
-    src: "./modules/armonizacion/v14.html"
+    desc: "Aplicación autónoma para planificación, cálculo, mapa anatómico y registro por punto.",
+    src: "./modules/armonizacion/index.html?v=1.5.1"
   }
 };
 
@@ -61,6 +61,8 @@ let frameResizeTimer = null;
 
 const targetOrigin = () => location.origin && location.origin !== "null" ? location.origin : "*";
 const trustedFrameMessage = (event) => event.source === appFrame.contentWindow && (targetOrigin() === "*" || event.origin === location.origin);
+const harmonizationDesktop = () => state.currentApp === "armonizacion" && window.innerWidth > 920;
+const harmonizationFrameHeight = () => Math.max(720, Math.min(920, window.innerHeight - 110));
 
 const normalize = (input = {}) => {
   const payload = input.payload && typeof input.payload === "object" ? input.payload : input;
@@ -138,6 +140,12 @@ function disconnectFrameObservers(){
 }
 
 function measureFrameHeight(){
+  if(harmonizationDesktop()){
+    appFrame.setAttribute("scrolling","no");
+    appFrame.style.height = harmonizationFrameHeight() + "px";
+    return;
+  }
+
   try{
     const doc = appFrame.contentDocument;
     if(!doc) return;
@@ -172,6 +180,13 @@ function scheduleFrameMeasure(delay = 40){
 
 function bindFrameAutoHeight(){
   disconnectFrameObservers();
+
+  if(harmonizationDesktop()){
+    appFrame.setAttribute("scrolling","no");
+    appFrame.style.height = harmonizationFrameHeight() + "px";
+    return;
+  }
+
   try{
     const doc = appFrame.contentDocument;
     if(!doc?.documentElement || !doc.body) return;
@@ -228,7 +243,7 @@ function loadApp(appKey){
   document.body.classList.remove("route-selector-mode");
   document.body.classList.add("module-selected");
   resetPortalViewport();
-  appFrame.style.height = (window.innerWidth <= 640 ? 620 : 720) + "px";
+  appFrame.style.height = harmonizationDesktop() ? harmonizationFrameHeight() + "px" : (window.innerWidth <= 640 ? 620 : 720) + "px";
   appFrame.src = app.src;
 }
 
@@ -250,8 +265,10 @@ document.getElementById("btnReloadApp").addEventListener("click",() => {
   if(!state.currentApp) return;
   disconnectFrameObservers();
   scrollFrameToViewportTop("auto");
-  const src = appFrame.src;
-  appFrame.src = src;
+  const app = APPS[state.currentApp];
+  if(!app) return;
+  const separator = app.src.includes("?") ? "&" : "?";
+  appFrame.src = `${app.src}${separator}reload=${Date.now()}`;
 });
 document.getElementById("btnClearPaciente").addEventListener("click",() => { clearPatient(); sendActive(); });
 
@@ -288,6 +305,12 @@ window.addEventListener("message",event => {
       break;
     case EVENT_SCROLL_MODULE_TOP:
       scrollFrameToViewportTop("smooth");
+      break;
+    case "ORION_MODULE_READY":
+      if(msg.module === "armonizacion"){
+        bindFrameAutoHeight();
+        sendActive();
+      }
       break;
   }
 });
