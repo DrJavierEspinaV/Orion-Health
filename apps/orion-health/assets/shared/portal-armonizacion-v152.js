@@ -3,8 +3,8 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.0';
-      APPS.armonizacion.desc='Administración por punto, distribución total, cierre clínico, auditoría y documentos asociados.';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.1';
+      APPS.armonizacion.desc='Aplicación estable para administración móvil y de escritorio, cálculo, mapa anatómico, cierre y registro clínico.';
     }
   }catch(error){
     console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);
