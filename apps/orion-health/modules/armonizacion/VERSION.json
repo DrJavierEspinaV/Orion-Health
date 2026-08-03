@@ -1,0 +1,22 @@
+{
+  "product": "ORION Armonización Orofacial",
+  "version": "1.5.1-piloto-estable",
+  "date": "2026-08-03",
+  "entry": "index.html",
+  "mode": [
+    "integrado en ORION Dental App",
+    "aplicación web autónoma instalable"
+  ],
+  "features": [
+    "registro preprocedimiento",
+    "antecedentes mórbidos y nivel documental de precaución",
+    "calculadora de vial y volumen",
+    "mapa anatómico con puntos editables",
+    "selección individual y múltiple",
+    "planificación y administración por punto",
+    "resumen clínico e impresión PDF"
+  ],
+  "storage": "sessionStorage; sin ficha clínica longitudinal",
+  "commercial_status": "piloto funcional preparado para separación comercial y validación de uso",
+  "technical_status": "entrada única sin redirecciones encadenadas, diagnóstico de carga visible y PWA autónoma"
+}
