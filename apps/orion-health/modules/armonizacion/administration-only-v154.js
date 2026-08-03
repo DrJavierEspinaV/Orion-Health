@@ -18,11 +18,11 @@
   }
 
   function migrateAdministrationOnly(){
-    if(sessionStorage.getItem(MIGRATION_KEY)==='1')return;
+    if(sessionStorage.getItem(MIGRATION_KEY)==='1')return false;
     const state=loadState();
     if(!state||!Array.isArray(state.points)){
       sessionStorage.setItem(MIGRATION_KEY,'1');
-      return;
+      return false;
     }
 
     state.points.forEach(point=>{
@@ -33,6 +33,7 @@
     });
     saveState(state);
     sessionStorage.setItem(MIGRATION_KEY,'1');
+    return true;
   }
 
   function hideClosestLabel(id){
@@ -164,7 +165,10 @@
       setTimeout(boot,100);
       return;
     }
-    migrateAdministrationOnly();
+    if(migrateAdministrationOnly()){
+      location.reload();
+      return;
+    }
     refresh();
     observe();
     window.dispatchEvent(new Event('resize'));
