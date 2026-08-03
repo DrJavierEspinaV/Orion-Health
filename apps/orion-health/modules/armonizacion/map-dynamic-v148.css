@@ -4,7 +4,7 @@
 .oa-point{touch-action:none;-webkit-user-select:none;user-select:none}
 .oa-point.multi-selected{z-index:14;outline:3px solid #7448c8!important;outline-offset:3px;box-shadow:0 0 0 6px rgba(116,72,200,.18),0 4px 10px rgba(15,44,79,.25)!important}
 
-.oa-map-mobile-tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.oa-map-mobile-tools{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:10px 14px;border-bottom:1px solid #d8e1eb;background:#fbfcfe;gap:8px}
 .oa-map-mobile-tools button.multi,.oa-map-mobile-tools button.zone{min-height:44px;border:1px solid #b9cadb;border-radius:10px;background:#fff;color:#214f7d;font-size:11px;font-weight:900}
 .oa-map-mobile-tools button.multi.active{border-color:#7448c8;background:#f1ebff;color:#6032b5}
 
