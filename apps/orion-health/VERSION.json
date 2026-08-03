@@ -1,9 +1,9 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r23-final-piloto",
+  "version": "1.4.4-r24-final-piloto",
   "date": "2026-08-03",
   "modules": {
-    "portal": "1.4.4-r23",
+    "portal": "1.4.4-r24",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
@@ -17,7 +17,7 @@
   "security_status": "El registro clínico, los antecedentes y la selección permanecen únicamente durante la sesión mediante sessionStorage; ORION continúa como generador documental y no como ficha clínica longitudinal",
   "identity_status": "Se conserva el activo corporativo assets/brand/orion-health.png en el encabezado del módulo",
   "layout_status": "En Mapa, el editor aparece inmediatamente debajo de la barra de selección y antes del atlas. Se elimina la dependencia de un panel fixed que podía quedar fuera del viewport del iframe en Android",
-  "workflow_status": "Con una selección múltiple, Registro muestra solo Tratamiento de puntos seleccionados y oculta Punto seleccionado. Con una selección individual ocurre lo inverso. El usuario puede editar desde Mapa o pasar a Registro sin duplicar formularios",
+  "workflow_status": "Con una selección múltiple, Registro muestra solo Tratamiento de puntos seleccionados y oculta Punto seleccionado. Con una selección individual ocurre lo inverso. Los estados vacío, individual y múltiple son visualmente excluyentes",
   "output_status": "La tabla, los totales por zona, el resumen general y la impresión continúan actualizándose desde una única fuente de datos por punto",
-  "performance_status": "La caché PWA V1.4.4-r23 sirve registro-v149.html e incorpora map-inline-v149.css y map-inline-v149.js"
+  "performance_status": "La caché PWA V1.4.4-r24 sirve registro-v149.html e incorpora la versión consolidada de map-inline-v149.css y map-inline-v149.js"
 }
