@@ -15,7 +15,7 @@
     let html=await response.text();
     html=html
       .replace(/V1\.4\.9/g,'V1.5.0')
-      .replace('</head>','<link rel="stylesheet" href="./map-viewport-v150.css?v=1.5.0"></head>')
+      .replace('</head>','<script>document.documentElement.classList.add("oa-viewport-v150")<\/script><link rel="stylesheet" href="./map-viewport-v150.css?v=1.5.0"></head>')
       .replace('</body>','<script src="./map-viewport-v150.js?v=1.5.0"><\/script></body>');
     document.open();
     document.write(html);
