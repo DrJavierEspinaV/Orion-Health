@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const VERSION='1.6.1';
+  const VERSION='1.6.2';
 
   function exposeStandaloneMode(){
     document.documentElement.classList.toggle('oa-standalone',window.top===window.self);
