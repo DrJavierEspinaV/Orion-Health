@@ -99,7 +99,7 @@
     normalizeMultiButton();
 
     const apply=$('oaApplySelection');
-    const expected=isAdministrationOnly()?'Administrar selección':'Editar selección';
+    const expected=isAdministrationOnly()?'Editar administración':'Editar selección';
     if(apply&&apply.textContent!==expected)apply.textContent=expected;
 
     const observerTarget=$('oaMultiToggle');
