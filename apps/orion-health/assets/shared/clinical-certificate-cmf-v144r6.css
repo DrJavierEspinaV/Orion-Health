@@ -1,0 +1,93 @@
+/* ORION CMF V1.4.4-r6 — certificado de atención sin superposición de firma */
+
+/* El certificado reserva un bloque inferior exclusivo para firma y pie. */
+#printDoc{
+  --firma-h-3:72px;
+  --brand-logo-h-3:30px;
+  --footer-bottom:8mm;
+}
+
+#printDoc .docWrap{
+  padding-bottom:58mm!important;
+}
+
+#printDoc #fixedFoot3{
+  left:0!important;
+  right:0!important;
+  bottom:8mm!important;
+  min-height:39mm!important;
+  align-items:end!important;
+  grid-template-columns:minmax(0,1fr) 205px!important;
+  column-gap:12px!important;
+  break-inside:avoid!important;
+  page-break-inside:avoid!important;
+}
+
+#printDoc #fixedFoot3 .sigBox{
+  width:205px!important;
+  min-width:205px!important;
+  max-width:205px!important;
+  min-height:36mm!important;
+  justify-content:flex-end!important;
+  overflow:visible!important;
+}
+
+#printDoc #fixedFoot3 .sigBox .firmaimg{
+  display:block!important;
+  width:auto!important;
+  height:72px!important;
+  max-width:150px!important;
+  object-fit:contain!important;
+  margin:0 auto -2px!important;
+  transform:none!important;
+}
+
+#printDoc #fixedFoot3 .sigBox .sig-line{
+  width:180px!important;
+  margin:2px auto 3px!important;
+}
+
+#printDoc #fixedFoot3 .sigBox .name{
+  font-size:.88rem!important;
+  line-height:1.05!important;
+  text-align:center!important;
+}
+
+#printDoc #fixedFoot3 .sigBox .name-sub,
+#printDoc #fixedFoot3 .subtitulo-academico{
+  max-width:205px!important;
+  margin-top:2px!important;
+  font-size:8px!important;
+  line-height:1.08!important;
+}
+
+#printDoc #fixedFoot3 .brand{
+  align-self:end!important;
+  padding-bottom:3mm!important;
+}
+
+@media print{
+  #printDoc{
+    --firma-h-3:68px;
+    --footer-bottom:7mm;
+  }
+
+  #printDoc .docWrap{
+    padding-bottom:60mm!important;
+  }
+
+  #printDoc #v_doc{
+    max-height:118mm!important;
+    overflow:hidden!important;
+  }
+
+  #printDoc #fixedFoot3{
+    bottom:7mm!important;
+    min-height:38mm!important;
+  }
+
+  #printDoc #fixedFoot3 .sigBox .firmaimg{
+    height:68px!important;
+    max-width:145px!important;
+  }
+}
