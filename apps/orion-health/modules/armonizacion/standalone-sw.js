@@ -32,6 +32,8 @@ const SHELL=[
   './document-model-touch-v164.js',
   './model-anatomy-v165.css',
   './model-anatomy-v165.js',
+  './document-letter-atlas-v165.css',
+  './document-letter-atlas-v165.js',
   './manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js',
   './anatomy-atlas-female-v145-r17-02.js',
