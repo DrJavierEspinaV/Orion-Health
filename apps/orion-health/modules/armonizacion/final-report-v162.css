@@ -1,0 +1,270 @@
+/* ORION Armonización Orofacial V1.6.2 — informe clínico integrado tamaño carta */
+
+#oaV162FinalReport{display:none}
+
+.oa-v162-report-note{
+  margin-top:9px;
+  padding:10px 12px;
+  border:1px solid #d7e3ef;
+  border-radius:10px;
+  background:#f5f9fe;
+  color:#536f89;
+  font-size:11px;
+  line-height:1.45;
+}
+.oa-v162-report-note strong{color:#174d7e}
+
+@media screen{
+  body.oa-v162-building-report{cursor:progress}
+}
+
+@media print{
+  @page{
+    size:Letter portrait;
+    margin:12mm 12mm 13mm;
+  }
+
+  html,body{
+    width:auto!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    background:#fff!important;
+    overflow:visible!important;
+  }
+
+  body.oa-v162-print-final>*:not(#oaV162FinalReport){display:none!important}
+  body.oa-v162-print-final #oaV162FinalReport{
+    display:block!important;
+    width:100%!important;
+    color:#18344e;
+    background:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:9.5pt;
+    line-height:1.35;
+  }
+
+  .oa-v162-page{
+    position:relative;
+    min-height:245mm;
+    break-after:page;
+    page-break-after:always;
+    padding-bottom:13mm;
+    box-sizing:border-box;
+  }
+  .oa-v162-page:last-child{
+    break-after:auto;
+    page-break-after:auto;
+  }
+
+  .oa-v162-header{
+    display:grid;
+    grid-template-columns:23mm 1fr auto;
+    gap:5mm;
+    align-items:center;
+    padding-bottom:4mm;
+    border-bottom:1.2pt solid #123f6b;
+  }
+  .oa-v162-header img{
+    width:21mm;
+    height:21mm;
+    object-fit:contain;
+  }
+  .oa-v162-header h1{
+    margin:0;
+    color:#092f59;
+    font-size:16pt;
+    line-height:1.15;
+  }
+  .oa-v162-header p{
+    margin:1.5mm 0 0;
+    color:#60758a;
+    font-size:8.5pt;
+  }
+  .oa-v162-doc-code{
+    text-align:right;
+    color:#315979;
+    font-size:8pt;
+    font-weight:700;
+  }
+
+  .oa-v162-title{
+    margin:5mm 0 2.5mm;
+    color:#0d4478;
+    font-size:13pt;
+  }
+  .oa-v162-subtitle{
+    margin:4mm 0 2mm;
+    color:#174f7f;
+    font-size:10.5pt;
+  }
+  .oa-v162-text{
+    margin:0 0 2.5mm;
+    color:#304b63;
+  }
+
+  .oa-v162-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:2.2mm;
+  }
+  .oa-v162-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oa-v162-item{
+    min-width:0;
+    padding:2.4mm 2.7mm;
+    border:.7pt solid #cfdae5;
+    border-radius:2.2mm;
+    background:#f8fbfe;
+  }
+  .oa-v162-item.wide{grid-column:1/-1}
+  .oa-v162-item span{
+    display:block;
+    color:#687e92;
+    font-size:6.8pt;
+    font-weight:700;
+    text-transform:uppercase;
+  }
+  .oa-v162-item strong{
+    display:block;
+    margin-top:1mm;
+    color:#153f66;
+    font-size:9pt;
+    overflow-wrap:anywhere;
+  }
+
+  .oa-v162-alert{
+    margin-top:3mm;
+    padding:2.8mm;
+    border-left:3pt solid #d99b22;
+    background:#fff8e7;
+    color:#675122;
+  }
+  .oa-v162-alert.high{border-left-color:#b83d3d;background:#fff0f0;color:#7e2929}
+  .oa-v162-alert.low{border-left-color:#278758;background:#edf9f2;color:#256144}
+
+  .oa-v162-list{
+    margin:1.5mm 0 3mm;
+    padding-left:5mm;
+  }
+  .oa-v162-list li{margin-bottom:1.3mm}
+
+  .oa-v162-map-wrap{
+    display:grid;
+    grid-template-columns:minmax(0,108mm) minmax(0,1fr);
+    gap:5mm;
+    align-items:start;
+    margin-top:4mm;
+  }
+  .oa-v162-atlas{
+    position:relative;
+    width:108mm;
+    aspect-ratio:600/800;
+    overflow:hidden;
+    border:.8pt solid #c6d3df;
+    border-radius:3mm;
+    background:#f3eee8;
+  }
+  .oa-v162-atlas img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .oa-v162-map-point{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    display:grid;
+    place-items:center;
+    width:7.4mm;
+    height:7.4mm;
+    border:1.1pt solid #fff;
+    border-radius:50%;
+    background:#178c58;
+    color:#fff;
+    box-shadow:0 0 0 .8pt #0f6f45;
+    font-size:7pt;
+    font-weight:700;
+  }
+  .oa-v162-map-point small{
+    position:absolute;
+    top:7.7mm;
+    left:50%;
+    transform:translateX(-50%);
+    padding:.5mm 1mm;
+    border-radius:1mm;
+    background:#123d64;
+    color:#fff;
+    white-space:nowrap;
+    font-size:5.7pt;
+  }
+  .oa-v162-map-summary{
+    display:grid;
+    gap:2.2mm;
+  }
+  .oa-v162-map-summary .oa-v162-item{background:#fff}
+
+  .oa-v162-table{
+    width:100%;
+    margin-top:3mm;
+    border-collapse:collapse;
+    table-layout:fixed;
+  }
+  .oa-v162-table th{
+    padding:2mm 1.7mm;
+    border:.6pt solid #b9c9d8;
+    background:#123f69;
+    color:#fff;
+    font-size:7pt;
+    text-align:left;
+  }
+  .oa-v162-table td{
+    padding:1.8mm 1.7mm;
+    border:.6pt solid #d2dde7;
+    color:#294760;
+    font-size:7pt;
+    vertical-align:top;
+    overflow-wrap:anywhere;
+  }
+  .oa-v162-table tbody tr:nth-child(even){background:#f6f9fc}
+
+  .oa-v162-draft{
+    margin:3mm 0;
+    padding:2.5mm 3mm;
+    border-left:3pt solid #d99b22;
+    background:#fff8e7;
+    color:#6b501c;
+    font-size:8pt;
+  }
+
+  .oa-v162-signatures{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18mm;
+    margin-top:18mm;
+  }
+  .oa-v162-signatures div{
+    padding-top:2mm;
+    border-top:.7pt solid #52697d;
+    text-align:center;
+    color:#435e74;
+    font-size:8pt;
+  }
+
+  .oa-v162-footer{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    display:flex;
+    justify-content:space-between;
+    gap:5mm;
+    padding-top:2.4mm;
+    border-top:.6pt solid #ccd7e1;
+    color:#6b7f91;
+    font-size:7pt;
+  }
+
+  .oa-v162-no-break{break-inside:avoid;page-break-inside:avoid}
+}
