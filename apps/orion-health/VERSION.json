@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r34-final-piloto",
+  "version": "1.4.4-r35-final-piloto",
   "date": "2026-08-04",
   "modules": {
-    "portal": "1.4.4-r34",
+    "portal": "1.4.4-r35",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.3-rendimiento"
+    "armonizacion_orofacial": "1.6.4-documento-modelos-touch"
   },
-  "release_status": "OPTIMIZACIÓN DE RENDIMIENTO — respuesta táctil, desplazamiento y actualización del mapa sin observación continua intensiva",
-  "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría, consentimiento, indicaciones e informe final tamaño carta",
+  "release_status": "DOCUMENTO CARTA Y MODELOS — PDF clínico independiente de la pantalla, selector Mujer/Hombre y desplazamiento táctil completo",
+  "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría, consentimiento e indicaciones",
   "security_status": "El registro permanece en sessionStorage y no constituye persistencia longitudinal ni base de datos clínica",
-  "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y su manifiesto instalable propio",
-  "layout_status": "Se conserva el dock móvil de administración dentro del mapa y el informe clínico integrado",
-  "workflow_status": "Editar administración abre el formulario; Revisar y guardar confirma e incorpora los datos al resumen y al informe final",
-  "performance_status": "V1.6.3 agrupa observadores DOM, reduce el historial automático de 900 a 2800 ms, elimina scroll animado acumulado, limita recálculos de altura del iframe y reduce efectos gráficos durante el desplazamiento",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.3 y la entrada versionada V1.6.3",
-  "output_status": "Informe final tamaño Letter con registro clínico, antecedentes, vial, resumen, mapa final, tabla de puntos, consentimiento e indicaciones posteriores"
+  "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y los modelos configurados Mujer/Hombre",
+  "layout_status": "El selector de modelo se ubica sobre el mapa; el gesto vertical funciona sobre imagen, capas y puntos",
+  "workflow_status": "El modelo seleccionado conserva la distribución de puntos y debe ajustarse a la anatomía individual antes de guardar",
+  "performance_status": "Se mantienen las optimizaciones V1.6.3 de observadores, historial, scroll e iframe",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.4 y la entrada versionada V1.6.4",
+  "output_status": "El informe se genera como documento Letter independiente del viewport con registro clínico, mapa final, tabla de puntos, consentimiento e indicaciones, sin capturar la pantalla"
 }
