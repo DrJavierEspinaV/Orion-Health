@@ -25,9 +25,9 @@
   <main class="boot" id="bootScreen" role="status" aria-live="polite">
     <img src="../../assets/brand/orion-health.png" alt="ORION Health">
     <h1>ORION Armonización Orofacial</h1>
-    <p>Preparando registro clínico, mapa anatómico e informe final integrado.</p>
+    <p>Preparando registro, modelos anatómicos e informe clínico carta.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.6.3…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.6.4…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -39,7 +39,7 @@
 (async()=>{
   'use strict';
 
-  const VERSION='1.6.3';
+  const VERSION='1.6.4';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -55,7 +55,8 @@
     'administration-only-v154.css',
     'clinical-closure-v160.css',
     'mobile-administration-v161.css',
-    'final-report-v162.css'
+    'final-report-v162.css',
+    'document-model-touch-v164.css'
   ];
   const jsFiles=[
     'performance-v163.js',
@@ -70,7 +71,8 @@
     'administration-only-v154.js',
     'clinical-closure-v160.js',
     'mobile-administration-v161.js',
-    'final-report-v162.js'
+    'final-report-v162.js',
+    'document-model-touch-v164.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -104,8 +106,8 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.6.3';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163');
+    doc.title='ORION Armonización Orofacial V1.6.4';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
 
     const manifest=doc.createElement('link');
@@ -132,9 +134,9 @@
     const version=doc.querySelector('.oa-version');
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Administración, cierre e informe clínico integrado';
-    if(version)version.textContent='V1.6.3';
-    if(mapInstruction)mapInstruction.textContent='Rendimiento optimizado: selección, desplazamiento y administración responden sin reconstrucciones continuas.';
+    if(subtitle)subtitle.textContent='Administración, modelos anatómicos e informe clínico carta';
+    if(version)version.textContent='V1.6.4';
+    if(mapInstruction)mapInstruction.textContent='Selecciona Mujer u Hombre, ajusta los puntos y registra la administración. El PDF se genera como documento clínico tamaño carta.';
   }
 
   try{
@@ -146,13 +148,13 @@
     const doc=new DOMParser().parseFromString(source,'text/html');
     if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
 
-    status.textContent='Optimizando interacción y registro…';
+    status.textContent='Integrando modelos, desplazamiento e informe carta…';
     appendStyles(doc);
     updateIdentity(doc);
     appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('performance-v163.js')||!output.includes('final-report-v162.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.3.');
+    if(!output.includes('performance-v163.js')||!output.includes('document-model-touch-v164.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.4.');
 
     document.open();
     document.write(output);
