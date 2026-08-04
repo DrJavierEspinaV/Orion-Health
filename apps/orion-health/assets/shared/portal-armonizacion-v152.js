@@ -3,8 +3,8 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.5';
-      APPS.armonizacion.desc='Aplicación optimizada con modelos anatómicos Mujer/Hombre alineados, administración por punto e informe clínico carta.';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.6';
+      APPS.armonizacion.desc='Aplicación con atlas anatómico Mujer/Hombre, administración por punto e informe clínico carta sincronizado.';
     }
   }catch(error){
     console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);
