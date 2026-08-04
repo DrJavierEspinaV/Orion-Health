@@ -1,11 +1,22 @@
 (()=>{
   'use strict';
-  const OLD_KEY='orion_aesthetic_model_v164';
-  const NEW_KEY='orion_aesthetic_model_v165';
-  const current=sessionStorage.getItem(OLD_KEY);
-  if((current==='man'||current==='woman')&&!sessionStorage.getItem(NEW_KEY))sessionStorage.setItem(NEW_KEY,current);
+  const LEGACY_KEY='orion_aesthetic_model_v164';
+  const ACTIVE_KEY='orion_aesthetic_model_v165';
+
+  const legacy=sessionStorage.getItem(LEGACY_KEY);
+  if((legacy==='man'||legacy==='woman')&&!sessionStorage.getItem(ACTIVE_KEY)){
+    sessionStorage.setItem(ACTIVE_KEY,legacy);
+  }
+
+  /* La capa V1.6.5 controla ambos atlas. Mantener la clave heredada en mujer
+     evita que el observador V1.6.5 anterior vuelva a sustituir el atlas masculino. */
+  sessionStorage.setItem(LEGACY_KEY,'woman');
+
   new MutationObserver(()=>{
-    const model=document.documentElement.dataset.oaModelV165;
-    if(model==='man'||model==='woman')sessionStorage.setItem(OLD_KEY,model);
+    const selected=document.documentElement.dataset.oaModelV165;
+    if(selected==='man'||selected==='woman'){
+      sessionStorage.setItem(ACTIVE_KEY,selected);
+      sessionStorage.setItem(LEGACY_KEY,'woman');
+    }
   }).observe(document.documentElement,{attributes:true,attributeFilter:['data-oa-model-v165']});
 })();
