@@ -77,7 +77,8 @@
     'document-model-touch-v164.js',
     'model-anatomy-v165.js',
     'model-key-compat-v165.js',
-    'document-letter-atlas-v165.js'
+    'document-letter-atlas-v165.js',
+    'atlas-local-override-v165.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -141,7 +142,7 @@
     if(title)title.textContent='Registro de armonización orofacial';
     if(subtitle)subtitle.textContent='Atlas unificado e informe clínico carta independiente';
     if(version)version.textContent='V1.6.5';
-    if(mapInstruction)mapInstruction.textContent='Mujer y Hombre utilizan el mismo lenguaje anatómico raster. El PDF se abre como un documento carta independiente del teléfono.';
+    if(mapInstruction)mapInstruction.textContent='Mujer y Hombre utilizan el mismo atlas raster local con variantes morfológicas. El PDF se abre como documento carta independiente.';
   }
 
   try{
@@ -159,7 +160,7 @@
     appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('performance-v163.js')||!output.includes('model-anatomy-v165.js')||!output.includes('document-letter-atlas-v165.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.5.');
+    if(!output.includes('performance-v163.js')||!output.includes('model-anatomy-v165.js')||!output.includes('document-letter-atlas-v165.js')||!output.includes('atlas-local-override-v165.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.5.');
 
     document.open();
     document.write(output);
