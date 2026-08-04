@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r33';
+const CACHE_NAME='orion-dental-app-v1.4.4-r34';
 const APP_SCOPE='./';
 const SHELL=[
   './',
@@ -20,6 +20,8 @@ const SHELL=[
   './modules/armonizacion/registro-v145.html',
   './modules/armonizacion/registro-v145.css',
   './modules/armonizacion/registro-v145.js',
+  './modules/armonizacion/performance-v163.css',
+  './modules/armonizacion/performance-v163.js',
   './modules/armonizacion/anatomy-calibration-v146.css',
   './modules/armonizacion/anatomy-presets-v146.js',
   './modules/armonizacion/workflow-v147.css',
