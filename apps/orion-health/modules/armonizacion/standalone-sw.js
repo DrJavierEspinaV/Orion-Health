@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-armonizacion-v1.6.5';
+const CACHE_NAME='orion-armonizacion-v1.6.6';
 const SHELL=[
   './',
   './index.html',
@@ -30,12 +30,11 @@ const SHELL=[
   './final-report-v162.js',
   './document-model-touch-v164.css',
   './document-model-touch-v164.js',
-  './model-anatomy-v165.css',
-  './model-anatomy-v165.js',
   './model-key-compat-v165.js',
   './document-letter-atlas-v165.css',
   './document-letter-atlas-v165.js',
-  './atlas-local-override-v165.js',
+  './atlas-model-sync-v166.css',
+  './atlas-model-sync-v166.js',
   './manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js',
   './anatomy-atlas-female-v145-r17-02.js',
@@ -78,7 +77,11 @@ self.addEventListener('fetch',event=>{
   const request=event.request;
   if(request.method!=='GET')return;
   const url=new URL(request.url);
-  if(url.origin!==self.location.origin)return;
+
+  if(url.origin!==self.location.origin){
+    event.respondWith(fetch(request,{cache:'no-store'}));
+    return;
+  }
 
   if(request.mode==='navigate'||url.pathname.endsWith('/modules/armonizacion/index.html')){
     event.respondWith(
