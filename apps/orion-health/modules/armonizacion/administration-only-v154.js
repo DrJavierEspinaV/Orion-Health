@@ -99,7 +99,7 @@
   }
 
   function renameAdministrationFlow(){
-    setText($('oaApplySelection'),'Administrar selección');
+    setText($('oaApplySelection'),'Editar administración');
     setText($('oaV148Save'),'Guardar administración');
 
     const ids=document.querySelectorAll('#pointLayer .oa-point.multi-selected').length;
