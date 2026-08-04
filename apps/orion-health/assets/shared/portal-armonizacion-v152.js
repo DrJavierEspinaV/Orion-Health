@@ -3,8 +3,8 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.1';
-      APPS.armonizacion.desc='Aplicación estable para administración móvil y de escritorio, cálculo, mapa anatómico, cierre y registro clínico.';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.2';
+      APPS.armonizacion.desc='Aplicación estable para administración, cierre, mapa anatómico e informe clínico integrado tamaño carta.';
     }
   }catch(error){
     console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);
