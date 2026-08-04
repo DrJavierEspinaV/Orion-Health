@@ -1,0 +1,43 @@
+/* ORION Armonización Orofacial V1.6.7 — atlas homogéneo y Registro sin mapa final */
+
+/* La pestaña Registro no debe contener el mapa final; éste se conserva en Mapa, Resumen y PDF. */
+.oa-v167-hide-record-map{display:none!important}
+
+/* Se retira la atribución visual de la lámina OpenStax anterior porque ya no se carga. */
+.oa-v166-attribution{display:none!important}
+
+/* Mujer y Hombre comparten el mismo acabado raster y contenedor. */
+html.oa-v167-atlas #atlasImage{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+  image-rendering:auto!important;
+  filter:none!important;
+}
+
+html.oa-v167-atlas[data-oa-model-v167="woman"] #atlasImage{
+  filter:brightness(1.02) saturate(.98) contrast(1.01)!important;
+}
+html.oa-v167-atlas[data-oa-model-v167="man"] #atlasImage{
+  filter:brightness(.98) saturate(1.02) contrast(1.055)!important;
+}
+
+#oaV164ModelSwitch .oa-v164-model-button::after{
+  content:"Atlas clínico"!important;
+}
+
+.oa-v167-model-note{
+  margin-top:8px;
+  color:#60788f;
+  font-size:11px;
+  line-height:1.4;
+}
+
+@media(max-width:920px){
+  .oa-v167-model-note{font-size:12px}
+}
+
+@media print{
+  .oa-v167-hide-record-map{display:none!important}
+}
