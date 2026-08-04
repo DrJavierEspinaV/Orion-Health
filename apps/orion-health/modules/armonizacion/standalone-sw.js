@@ -35,6 +35,7 @@ const SHELL=[
   './model-key-compat-v165.js',
   './document-letter-atlas-v165.css',
   './document-letter-atlas-v165.js',
+  './atlas-local-override-v165.js',
   './manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js',
   './anatomy-atlas-female-v145-r17-02.js',
