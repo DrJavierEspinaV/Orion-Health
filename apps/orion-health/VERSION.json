@@ -6,19 +6,19 @@
     "portal": "1.4.4-r36",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
-    "cmf": "4.3.39",
+    "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.5-modelo-masculino-anatomico"
+    "armonizacion_orofacial": "1.6.5-atlas-unificado-pdf-carta"
   },
-  "release_status": "MODELOS ANATÓMICOS HOMOLOGADOS — Mujer y Hombre conservan proporción, alineación y registro por puntos; el selector queda sin fotografías",
+  "release_status": "ATLAS Y DOCUMENTOS — modelos Mujer/Hombre con lenguaje anatómico homogéneo, PDF carta independiente y certificado CMF sin superposición de firma",
   "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría, consentimiento e indicaciones",
   "security_status": "El registro permanece en sessionStorage y no constituye persistencia longitudinal ni base de datos clínica",
-  "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y presenta selectores Mujer/Hombre exclusivamente tipográficos",
-  "layout_status": "Ambos atlas utilizan el mismo contenedor, proporción 3:4, ajuste contain y alineación superior centrada",
-  "workflow_status": "El modelo seleccionado conserva la distribución de puntos y debe ajustarse a la anatomía individual antes de guardar",
-  "performance_status": "El atlas masculino se procesa una vez en el navegador y se reutiliza desde almacenamiento local para reducir carga posterior",
+  "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y selectores Mujer/Hombre tipográficos",
+  "layout_status": "Los modelos utilizan el mismo contenedor y lenguaje anatómico raster; el certificado de atención CMF reserva un bloque inferior exclusivo para firma y pie",
+  "workflow_status": "El modelo seleccionado conserva la distribución de puntos y el informe se genera desde los datos confirmados, fuera del DOM de la aplicación",
+  "performance_status": "Se mantienen las optimizaciones V1.6.3 y las cachés R36/V1.6.5 incluyen los recursos document-letter-atlas y clinical-certificate-cmf",
   "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.5 y la entrada versionada V1.6.5",
-  "output_status": "El informe tamaño Letter utiliza el mismo modelo anatómico seleccionado y conserva la alineación del mapa clínico"
+  "output_status": "El informe abre un documento independiente tamaño Letter con registro clínico, mapa final, tabla de puntos, consentimiento e indicaciones; no captura la pantalla móvil"
 }
