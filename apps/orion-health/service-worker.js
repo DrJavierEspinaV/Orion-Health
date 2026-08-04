@@ -48,6 +48,7 @@ const SHELL=[
   './modules/armonizacion/document-model-touch-v164.js',
   './modules/armonizacion/model-anatomy-v165.css',
   './modules/armonizacion/model-anatomy-v165.js',
+  './modules/armonizacion/model-key-compat-v165.js',
   './modules/armonizacion/document-letter-atlas-v165.css',
   './modules/armonizacion/document-letter-atlas-v165.js',
   './modules/armonizacion/manifest.webmanifest',
