@@ -25,9 +25,9 @@
   <main class="boot" id="bootScreen" role="status" aria-live="polite">
     <img src="../../assets/brand/orion-health.png" alt="ORION Health">
     <h1>ORION Armonización Orofacial</h1>
-    <p>Preparando atlas anatómicos e informe clínico carta independiente.</p>
+    <p>Preparando atlas clínicos homogéneos e informe carta independiente.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.6.6…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.6.7…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -39,46 +39,20 @@
 (async()=>{
   'use strict';
 
-  const VERSION='1.6.6';
+  const VERSION='1.6.7';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
   const retry=document.getElementById('bootRetry');
   const cssFiles=[
-    'performance-v163.css',
-    'anatomy-calibration-v146.css',
-    'workflow-v147.css',
-    'map-dynamic-v148.css',
-    'map-inline-v149.css',
-    'map-viewport-v150.css',
-    'ui-optimization-v153.css',
-    'administration-only-v154.css',
-    'clinical-closure-v160.css',
-    'mobile-administration-v161.css',
-    'final-report-v162.css',
-    'document-model-touch-v164.css',
-    'model-anatomy-v165.css',
-    'document-letter-atlas-v165.css',
-    'atlas-model-sync-v166.css'
+    'performance-v163.css','anatomy-calibration-v146.css','workflow-v147.css','map-dynamic-v148.css','map-inline-v149.css','map-viewport-v150.css',
+    'ui-optimization-v153.css','administration-only-v154.css','clinical-closure-v160.css','mobile-administration-v161.css','final-report-v162.css',
+    'document-model-touch-v164.css','model-anatomy-v165.css','document-letter-atlas-v165.css','atlas-netter-v167.css'
   ];
   const jsFiles=[
-    'performance-v163.js',
-    'anatomy-presets-v146.js',
-    'registro-v145.js',
-    'workflow-v147.js',
-    'map-dynamic-v148.js',
-    'map-inline-v149.js',
-    'map-viewport-v150.js',
-    'standalone-v151.js',
-    'ui-optimization-v153.js',
-    'administration-only-v154.js',
-    'clinical-closure-v160.js',
-    'mobile-administration-v161.js',
-    'final-report-v162.js',
-    'document-model-touch-v164.js',
-    'model-key-compat-v165.js',
-    'document-letter-atlas-v165.js',
-    'atlas-model-sync-v166.js'
+    'performance-v163.js','anatomy-presets-v146.js','registro-v145.js','workflow-v147.js','map-dynamic-v148.js','map-inline-v149.js','map-viewport-v150.js',
+    'standalone-v151.js','ui-optimization-v153.js','administration-only-v154.js','clinical-closure-v160.js','mobile-administration-v161.js','final-report-v162.js',
+    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','atlas-netter-v167.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -90,10 +64,7 @@
     const baseStyle=doc.querySelector('link[href*="registro-v145.css"]');
     if(baseStyle)baseStyle.setAttribute('href',`./registro-v145.css?v=${VERSION}`);
     cssFiles.forEach(file=>{
-      const link=doc.createElement('link');
-      link.rel='stylesheet';
-      link.href=`./${file}?v=${VERSION}`;
-      doc.head.appendChild(link);
+      const link=doc.createElement('link');link.rel='stylesheet';link.href=`./${file}?v=${VERSION}`;doc.head.appendChild(link);
     });
   }
 
@@ -104,45 +75,29 @@
       else script.setAttribute('src',src.split('?')[0]+`?v=${VERSION}`);
     });
     jsFiles.forEach(file=>{
-      const script=doc.createElement('script');
-      script.src=`./${file}?v=${VERSION}`;
-      script.defer=false;
-      doc.body.appendChild(script);
+      const script=doc.createElement('script');script.src=`./${file}?v=${VERSION}`;script.defer=false;doc.body.appendChild(script);
     });
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.6.6';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-v165-model','oa-v166-model');
+    doc.title='ORION Armonización Orofacial V1.6.7';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-v165-model','oa-v167-atlas');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
 
-    const manifest=doc.createElement('link');
-    manifest.rel='manifest';
-    manifest.href=`./manifest.webmanifest?v=${VERSION}`;
-    doc.head.appendChild(manifest);
-
-    const appleIcon=doc.createElement('link');
-    appleIcon.rel='apple-touch-icon';
-    appleIcon.href='../../assets/icons/icon-192.png';
-    doc.head.appendChild(appleIcon);
+    const manifest=doc.createElement('link');manifest.rel='manifest';manifest.href=`./manifest.webmanifest?v=${VERSION}`;doc.head.appendChild(manifest);
+    const appleIcon=doc.createElement('link');appleIcon.rel='apple-touch-icon';appleIcon.href='../../assets/icons/icon-192.png';doc.head.appendChild(appleIcon);
 
     const mark=doc.querySelector('.oa-brand-mark');
-    if(mark){
-      const logo=doc.createElement('img');
-      logo.className='oa-brand-logo';
-      logo.src='../../assets/brand/orion-health.png';
-      logo.alt='ORION Health';
-      mark.replaceWith(logo);
-    }
+    if(mark){const logo=doc.createElement('img');logo.className='oa-brand-logo';logo.src='../../assets/brand/orion-health.png';logo.alt='ORION Health';mark.replaceWith(logo);}
 
     const title=doc.querySelector('.oa-title strong');
     const subtitle=doc.querySelector('.oa-title span');
     const version=doc.querySelector('.oa-version');
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Atlas anatómicos Mujer/Hombre e informe clínico carta';
-    if(version)version.textContent='V1.6.6';
-    if(mapInstruction)mapInstruction.textContent='El modelo Hombre utiliza un atlas anatómico masculino frontal y el informe final emplea exactamente el mismo atlas activo.';
+    if(subtitle)subtitle.textContent='Atlas clínicos Mujer/Hombre e informe tamaño carta';
+    if(version)version.textContent='V1.6.7';
+    if(mapInstruction)mapInstruction.textContent='Mujer y Hombre utilizan el mismo lenguaje anatómico raster. El mapa final se muestra en Resumen y en el informe, no en Registro.';
   }
 
   try{
@@ -154,22 +109,16 @@
     const doc=new DOMParser().parseFromString(source,'text/html');
     if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
 
-    status.textContent='Integrando atlas masculino y PDF sincronizado…';
-    appendStyles(doc);
-    updateIdentity(doc);
-    appendScripts(doc);
+    status.textContent='Integrando atlas clínicos y PDF sincronizado…';
+    appendStyles(doc);updateIdentity(doc);appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('performance-v163.js')||!output.includes('document-letter-atlas-v165.js')||!output.includes('atlas-model-sync-v166.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.6.');
+    if(!output.includes('performance-v163.js')||!output.includes('document-letter-atlas-v165.js')||!output.includes('atlas-netter-v167.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.7.');
 
-    document.open();
-    document.write(output);
-    document.close();
+    document.open();document.write(output);document.close();
   }catch(error){
     console.error('ORION Armonización no pudo iniciar:',error);
-    status.textContent='Error de inicio';
-    detail.textContent=` ${error?.message||error}`;
-    errorBox.style.display='block';
+    status.textContent='Error de inicio';detail.textContent=` ${error?.message||error}`;errorBox.style.display='block';
   }
 })();
 </script>
