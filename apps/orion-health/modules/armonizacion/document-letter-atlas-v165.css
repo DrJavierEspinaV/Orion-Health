@@ -1,0 +1,41 @@
+/* ORION Armonización Orofacial V1.6.5
+   Atlas raster unificado y salida documental independiente. */
+
+html[data-oa-model-v165="woman"] #atlasImage{
+  filter:brightness(1.05) saturate(.94) contrast(.98)!important;
+}
+html[data-oa-model-v165="man"] #atlasImage{
+  filter:brightness(.98) saturate(1.04) contrast(1.05)!important;
+}
+
+#oaV164ModelSwitch .oa-v164-model-button{
+  position:relative;
+}
+#oaV164ModelSwitch .oa-v164-model-button::after{
+  content:"Atlas anatómico";
+  display:block;
+  margin-left:4px;
+  color:#6b8196;
+  font-size:8px;
+  font-weight:700;
+}
+#oaV164ModelSwitch .oa-v164-model-button.active::after{color:#0e549e}
+
+.oa-v165-output-note{
+  margin:8px 0 0;
+  padding:9px 11px;
+  border:1px solid #d8e4ef;
+  border-radius:10px;
+  background:#f6faff;
+  color:#4f6d88;
+  font-size:10px;
+  line-height:1.45;
+}
+
+@media(max-width:920px){
+  #oaV164ModelSwitch .oa-v164-model-button{
+    flex-direction:column;
+    gap:2px;
+  }
+  #oaV164ModelSwitch .oa-v164-model-button::after{font-size:9px}
+}
