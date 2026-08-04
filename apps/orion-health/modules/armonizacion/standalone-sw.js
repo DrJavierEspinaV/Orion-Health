@@ -1,10 +1,12 @@
-const CACHE_NAME='orion-armonizacion-v1.6.2';
+const CACHE_NAME='orion-armonizacion-v1.6.3';
 const SHELL=[
   './',
   './index.html',
   './registro-v145.html',
   './registro-v145.css',
   './registro-v145.js',
+  './performance-v163.css',
+  './performance-v163.js',
   './anatomy-calibration-v146.css',
   './anatomy-presets-v146.js',
   './workflow-v147.css',
