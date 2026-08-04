@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const VERSION='1.6.2';
+  const VERSION='1.6.3';
 
   function exposeStandaloneMode(){
     document.documentElement.classList.toggle('oa-standalone',window.top===window.self);
@@ -35,11 +35,15 @@
   function watchHeight(){
     if(window.parent===window||!('ResizeObserver' in window))return;
     let previous=0;
+    let timer=0;
     const observer=new ResizeObserver(()=>{
-      const height=Math.max(document.documentElement.scrollHeight,document.body?.scrollHeight||0);
-      if(Math.abs(height-previous)<24)return;
-      previous=height;
-      notifyParent();
+      clearTimeout(timer);
+      timer=setTimeout(()=>{
+        const height=Math.max(document.documentElement.scrollHeight,document.body?.scrollHeight||0);
+        if(Math.abs(height-previous)<48)return;
+        previous=height;
+        notifyParent();
+      },180);
     });
     observer.observe(document.documentElement);
   }
