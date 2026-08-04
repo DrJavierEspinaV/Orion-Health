@@ -27,7 +27,7 @@
     <h1>ORION Armonización Orofacial</h1>
     <p>Preparando registro, modelos anatómicos e informe clínico carta.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.6.4…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.6.5…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -39,7 +39,7 @@
 (async()=>{
   'use strict';
 
-  const VERSION='1.6.4';
+  const VERSION='1.6.5';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -56,7 +56,8 @@
     'clinical-closure-v160.css',
     'mobile-administration-v161.css',
     'final-report-v162.css',
-    'document-model-touch-v164.css'
+    'document-model-touch-v164.css',
+    'model-anatomy-v165.css'
   ];
   const jsFiles=[
     'performance-v163.js',
@@ -72,7 +73,8 @@
     'clinical-closure-v160.js',
     'mobile-administration-v161.js',
     'final-report-v162.js',
-    'document-model-touch-v164.js'
+    'document-model-touch-v164.js',
+    'model-anatomy-v165.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -106,8 +108,8 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.6.4';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch');
+    doc.title='ORION Armonización Orofacial V1.6.5';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-v165-model');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
 
     const manifest=doc.createElement('link');
@@ -135,7 +137,7 @@
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
     if(subtitle)subtitle.textContent='Administración, modelos anatómicos e informe clínico carta';
-    if(version)version.textContent='V1.6.4';
+    if(version)version.textContent='V1.6.5';
     if(mapInstruction)mapInstruction.textContent='Selecciona Mujer u Hombre, ajusta los puntos y registra la administración. El PDF se genera como documento clínico tamaño carta.';
   }
 
@@ -148,13 +150,13 @@
     const doc=new DOMParser().parseFromString(source,'text/html');
     if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
 
-    status.textContent='Integrando modelos, desplazamiento e informe carta…';
+    status.textContent='Integrando modelos anatómicos, desplazamiento e informe carta…';
     appendStyles(doc);
     updateIdentity(doc);
     appendScripts(doc);
 
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('performance-v163.js')||!output.includes('document-model-touch-v164.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.4.');
+    if(!output.includes('performance-v163.js')||!output.includes('document-model-touch-v164.js')||!output.includes('model-anatomy-v165.js'))throw new Error('No fue posible integrar los recursos funcionales V1.6.5.');
 
     document.open();
     document.write(output);
