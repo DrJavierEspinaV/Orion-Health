@@ -1,0 +1,46 @@
+/* ORION Armonización Orofacial V1.6.6 — atlas masculino real y PDF sincronizado */
+
+html[data-oa-model-v166="woman"] #atlasImage,
+html[data-oa-model-v166="woman"] #zoneLabelLayer,
+html[data-oa-model-v166="woman"] #pointLayer{
+  transform:none!important;
+  transform-origin:center top!important;
+}
+
+html[data-oa-model-v166="man"] #atlasImage,
+html[data-oa-model-v166="man"] #zoneLabelLayer,
+html[data-oa-model-v166="man"] #pointLayer{
+  transform:none!important;
+  transform-origin:center top!important;
+}
+
+html[data-oa-model-v166="man"] #atlasImage{
+  background:#fff!important;
+  filter:saturate(.97) contrast(1.02)!important;
+}
+
+html[data-oa-model-v166="woman"] #atlasImage{
+  filter:none!important;
+}
+
+.oa-v166-attribution{
+  display:block;
+  margin-top:4px;
+  color:#6b8196;
+  font-size:9px;
+  line-height:1.35;
+}
+
+#oaV164ModelSwitch .oa-v164-model-button::after{
+  content:"Atlas anatómico"!important;
+}
+
+@media(max-width:920px){
+  html[data-oa-model-v166="man"] #atlasImage{
+    object-position:19% top!important;
+  }
+}
+
+@media print{
+  .oa-v166-attribution{display:none!important}
+}
