@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r37-final-piloto",
+  "version": "1.4.4-r38-final-piloto",
   "date": "2026-08-04",
   "modules": {
-    "portal": "1.4.4-r37",
+    "portal": "1.4.4-r38",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.6-atlas-masculino-pdf-sincronizado"
+    "armonizacion_orofacial": "1.6.7-atlas-clinico-homogeneo-registro-sin-mapa-final"
   },
-  "release_status": "ATLAS MASCULINO CORREGIDO — el modo Hombre utiliza una lámina anatómica frontal y el PDF usa exactamente el mismo atlas activo",
+  "release_status": "CORRECCIÓN DE ATLAS Y FLUJO — se retira la lámina OpenStax con rótulos, el modelo Hombre deriva del mismo raster clínico aprobado que Mujer y Registro deja de mostrar el mapa final",
   "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría, consentimiento e indicaciones",
   "security_status": "El registro permanece en sessionStorage y no constituye persistencia longitudinal ni base de datos clínica",
   "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y selectores Mujer/Hombre tipográficos",
-  "layout_status": "Mujer conserva el atlas anatómico aprobado; Hombre utiliza un atlas masculino frontal OpenStax, recortado dentro del mismo contenedor 3:4",
-  "workflow_status": "El selector actualiza el mapa y el informe final desde la misma clave de modelo; los puntos mantienen su registro y deben ajustarse a la anatomía individual",
-  "performance_status": "Se mantienen las optimizaciones V1.6.3; se retiraron de la entrada activa las capas que forzaban la fotografía o el atlas femenino sobre el modo Hombre",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.6 y la entrada versionada V1.6.6",
-  "output_status": "El informe carta conserva registro, mapa, tabla, consentimiento e indicaciones; la página de mapa reemplaza la fotografía antigua por el atlas anatómico del modelo seleccionado"
+  "layout_status": "La pestaña Registro contiene solo ingreso clínico y documentos asociados; Mapa final del procedimiento queda restringido a Resumen, informe final y PDF",
+  "workflow_status": "Mujer y Hombre comparten el mismo lenguaje raster. Hombre se genera localmente con proporciones faciales, mandibulares y cervicales masculinizadas, sin fotografías ni rótulos externos",
+  "performance_status": "Se mantienen las optimizaciones V1.6.3; el atlas masculino se genera una vez por sesión y se reutiliza en mapa e informe",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.7 y la ruta versionada V1.6.7",
+  "output_status": "El informe carta toma exactamente el atlas activo mostrado en pantalla y elimina referencias a fotografías o láminas externas antiguas"
 }
