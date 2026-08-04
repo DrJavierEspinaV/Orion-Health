@@ -1,0 +1,79 @@
+/* ORION Armonización Orofacial V1.6.3 — respuesta táctil y desplazamiento */
+
+html.oa-performance-v163,
+html.oa-performance-v163 body,
+html.oa-performance-v163 .oa-map-panel,
+html.oa-performance-v163 .oa-record-panel,
+html.oa-performance-v163 .oa-point-sheet-v148,
+html.oa-performance-v163 .oa-v160-modal-card{
+  scroll-behavior:auto!important;
+  overscroll-behavior:contain;
+}
+
+html.oa-performance-v163 button,
+html.oa-performance-v163 input,
+html.oa-performance-v163 select,
+html.oa-performance-v163 textarea{
+  touch-action:manipulation;
+}
+
+html.oa-performance-v163 .oa-map-panel,
+html.oa-performance-v163 .oa-record-panel{
+  contain:layout paint style;
+  -webkit-overflow-scrolling:touch;
+}
+
+html.oa-performance-v163 .oa-atlas-shell,
+html.oa-performance-v163 .oa-v161-mobile-dock{
+  contain:layout paint;
+}
+
+html.oa-performance-v163 .oa-v160-modal{
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+html.oa-performance-v163 .oa-point,
+html.oa-performance-v163 .oa-v161-mobile-dock,
+html.oa-performance-v163 .oa-selection-bar{
+  transition-duration:.08s!important;
+}
+
+/* Durante el desplazamiento se suspenden efectos visuales costosos. */
+html.oa-user-scrolling .oa-point,
+html.oa-user-scrolling .oa-v161-mobile-dock,
+html.oa-user-scrolling .oa-selection-bar,
+html.oa-user-scrolling .oa-card{
+  transition:none!important;
+  animation:none!important;
+  box-shadow:none!important;
+}
+
+@media(max-width:920px){
+  html.oa-performance-v163 .oa-map-panel,
+  html.oa-performance-v163 .oa-record-panel{
+    contain:layout style;
+  }
+
+  html.oa-performance-v163 .oa-v161-mobile-dock{
+    content-visibility:auto;
+    contain-intrinsic-size:520px;
+  }
+
+  html.oa-performance-v163 .oa-v160-final-map-card,
+  html.oa-performance-v163 .oa-v160-doc-card,
+  html.oa-performance-v163 .oa-general-summary{
+    content-visibility:auto;
+    contain-intrinsic-size:700px;
+  }
+}
+
+@media print{
+  html.oa-performance-v163 .oa-map-panel,
+  html.oa-performance-v163 .oa-record-panel,
+  html.oa-performance-v163 .oa-atlas-shell,
+  html.oa-performance-v163 .oa-v161-mobile-dock{
+    contain:none!important;
+    content-visibility:visible!important;
+  }
+}
