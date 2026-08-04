@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r32-final-piloto",
-  "date": "2026-08-03",
+  "version": "1.4.4-r33-final-piloto",
+  "date": "2026-08-04",
   "modules": {
-    "portal": "1.4.4-r32",
+    "portal": "1.4.4-r33",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.39",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.1-piloto-clinico"
+    "armonizacion_orofacial": "1.6.2-piloto-clinico"
   },
-  "release_status": "CORRECCIÓN MÓVIL — administración visible dentro del mapa sin cambiar de pestaña ni ocultar el atlas",
-  "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría, resumen e impresión",
-  "security_status": "El registro permanece en sessionStorage y no constituye una ficha clínica longitudinal. El cierre bloquea la edición dentro de la sesión y registra correcciones",
+  "release_status": "INFORME CLÍNICO INTEGRADO — nomenclatura de administración aclarada y PDF completo tamaño carta",
+  "clinical_status": "Se conservan evaluación preprocedimiento, antecedentes, calculadora, mapa anatómico, administración individual y múltiple, distribución por punto o total, lateralidad, cierre, auditoría y documentos asociados",
+  "security_status": "Revisar y guardar registra la administración en sessionStorage y la incorpora al resumen e informe final. No constituye persistencia longitudinal ni base de datos clínica",
   "identity_status": "ORION Armonización Orofacial mantiene el activo corporativo assets/brand/orion-health.png y su manifiesto instalable propio",
-  "layout_status": "En teléfono, el editor completo heredado queda oculto y se reemplaza por un dock compacto dentro de Mapa con cantidad, comentario, distribución, vista previa y guardado. El atlas permanece visible debajo",
-  "workflow_status": "Tocar un punto mantiene activa la pestaña Mapa. Dos o más puntos seleccionados abren automáticamente la administración conjunta. Administrar selección vuelve a mostrar el dock si fue minimizado",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.1 y la entrada versionada V1.6.1",
-  "output_status": "La confirmación previa, mapa final, consentimiento, indicaciones posteriores y cierre del procedimiento permanecen activos",
-  "performance_status": "La caché ORION Dental App R32 incorpora mobile-administration-v161.css y mobile-administration-v161.js con política network-first"
+  "layout_status": "Editar administración abre o recupera el formulario; no guarda datos. Revisar y guardar solicita confirmación y actualiza el registro, el mapa final y los totales",
+  "workflow_status": "El informe final verifica que no exista una administración pendiente sin confirmar antes de imprimir",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.2 y la entrada versionada V1.6.2",
+  "output_status": "El botón Informe final / PDF genera un documento tamaño Letter con registro clínico, antecedentes, vial, resumen, mapa final, tabla de puntos administrados, consentimiento e indicaciones posteriores",
+  "performance_status": "La caché ORION Dental App R33 incorpora final-report-v162.css y final-report-v162.js con política network-first"
 }
