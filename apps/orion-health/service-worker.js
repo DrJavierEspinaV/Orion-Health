@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r39';
+const CACHE_NAME='orion-dental-app-v1.4.4-r40';
 const APP_SCOPE='./';
 const SHELL=[
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
@@ -22,7 +22,7 @@ const SHELL=[
   './modules/armonizacion/model-key-compat-v165.js','./modules/armonizacion/document-letter-atlas-v165.css','./modules/armonizacion/document-letter-atlas-v165.js',
   './modules/armonizacion/atlas-netter-v167.css','./modules/armonizacion/atlas-netter-v167.js',
   './modules/armonizacion/male-atlas-safety-v168.css','./modules/armonizacion/male-atlas-safety-v168.js',
-  './modules/armonizacion/manifest.webmanifest','./modules/armonizacion/standalone-sw.js',
+  './modules/armonizacion/tab-stability-v169.js','./modules/armonizacion/manifest.webmanifest','./modules/armonizacion/standalone-sw.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-01.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-02.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-03.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-04.js'
 ];
