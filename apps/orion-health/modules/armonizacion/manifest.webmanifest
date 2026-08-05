@@ -2,7 +2,7 @@
   "name": "ORION Armonización Orofacial",
   "short_name": "ORION Estética",
   "description": "Motores clínicos independientes para toxina botulínica, ácido hialurónico y otros procedimientos de armonización.",
-  "start_url": "./index.html?v=1.7.0&standalone=1",
+  "start_url": "./index.html?v=1.7.0-r1&standalone=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
