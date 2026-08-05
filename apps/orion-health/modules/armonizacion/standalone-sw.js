@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-armonizacion-v1.6.8';
+const CACHE_NAME='orion-armonizacion-v1.6.9';
 const SHELL=[
   './','./index.html','./registro-v145.html','./registro-v145.css','./registro-v145.js',
   './performance-v163.css','./performance-v163.js','./anatomy-calibration-v146.css','./anatomy-presets-v146.js',
@@ -9,7 +9,7 @@ const SHELL=[
   './mobile-administration-v161.css','./mobile-administration-v161.js','./final-report-v162.css','./final-report-v162.js',
   './document-model-touch-v164.css','./document-model-touch-v164.js','./model-key-compat-v165.js',
   './document-letter-atlas-v165.css','./document-letter-atlas-v165.js','./atlas-netter-v167.css','./atlas-netter-v167.js',
-  './male-atlas-safety-v168.css','./male-atlas-safety-v168.js','./manifest.webmanifest',
+  './male-atlas-safety-v168.css','./male-atlas-safety-v168.js','./tab-stability-v169.js','./manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js','./anatomy-atlas-female-v145-r17-02.js',
   './anatomy-atlas-female-v145-r17-03.js','./anatomy-atlas-female-v145-r17-04.js',
   '../../assets/brand/orion-health.png','../../assets/icons/icon-192.png','../../assets/icons/icon-512.png'
