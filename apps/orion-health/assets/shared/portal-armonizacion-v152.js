@@ -2,7 +2,7 @@
   'use strict';
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.7.0';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.7.0-r1';
       APPS.armonizacion.desc='Aplicación clínica con motores independientes para toxina botulínica y ácido hialurónico.';
     }
   }catch(error){console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);}
