@@ -1,22 +1,29 @@
 {
   "product": "ORION Armonización Orofacial",
-  "version": "1.5.1-piloto-estable",
-  "date": "2026-08-03",
+  "version": "1.8.0-motor-caha",
+  "date": "2026-08-05",
   "entry": "index.html",
   "mode": [
     "integrado en ORION Dental App",
     "aplicación web autónoma instalable"
   ],
+  "clinical_engines": {
+    "toxin": "toxina botulínica por puntos, unidades, dilución y volumen calculado",
+    "hyaluronic": "ácido hialurónico por depósitos, trayectos y áreas con volumen en mL",
+    "caha": "hidroxiapatita de calcio con preparación, mezcla, depósitos, vectores y áreas"
+  },
   "features": [
-    "registro preprocedimiento",
-    "antecedentes mórbidos y nivel documental de precaución",
-    "calculadora de vial y volumen",
-    "mapa anatómico con puntos editables",
-    "selección individual y múltiple",
-    "planificación y administración por punto",
-    "resumen clínico e impresión PDF"
+    "registro preprocedimiento y antecedentes",
+    "trazabilidad de producto, lote y vencimiento",
+    "atlas clínico único",
+    "mapas específicos por tipo de intervención",
+    "confirmación por elemento administrado",
+    "resumen clínico independiente por motor",
+    "informes PDF carta específicos",
+    "consentimiento e indicaciones posteriores"
   ],
+  "caha_status": "Registra objetivo, sesión, volumen de CaHA, diluyente, relación calculada, volumen final, preparación, homogeneidad, depósitos, vectores, áreas, plano, técnica e instrumental. No prescribe proporciones, dosis ni técnica.",
   "storage": "sessionStorage; sin ficha clínica longitudinal",
-  "commercial_status": "piloto funcional preparado para separación comercial y validación de uso",
-  "technical_status": "entrada única sin redirecciones encadenadas, diagnóstico de carga visible y PWA autónoma"
+  "commercial_status": "piloto funcional en validación clínica y de usabilidad",
+  "technical_status": "motores aislados por tipo de intervención, caché autónoma V1.8.0 y portal R45"
 }
