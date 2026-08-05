@@ -1,0 +1,12 @@
+/* ORION V1.8.0-r1 — correcciones de visualización del motor CaHA */
+body[data-procedure-kind="caha"] .oa-caha-toolbar{display:grid!important}
+body[data-procedure-kind="caha"] #oaCahaLayer{display:block!important}
+body[data-procedure-kind="caha"] .oa-caha-record-card,
+body[data-procedure-kind="caha"] .oa-caha-editor,
+body[data-procedure-kind="caha"] .oa-caha-summary,
+body[data-procedure-kind="caha"] .oa-caha-help{display:block!important}
+body[data-procedure-kind="caha"] #oaCahaEditor[hidden]{display:none!important}
+body[data-procedure-kind="caha"] .oa-sidebar>.oa-card:has(.oa-legend),
+body[data-procedure-kind="caha"] .oa-sidebar>.oa-card:has(.oa-zone-list),
+body[data-procedure-kind="caha"] .oa-sidebar>.oa-card:has(.oa-control-list){display:none!important}
+@media(max-width:920px){body[data-procedure-kind="caha"] .oa-caha-toolbar{display:grid!important}}
