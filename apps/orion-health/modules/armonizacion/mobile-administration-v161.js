@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const VERSION='1.6.1';
+  const VERSION='1.6.9';
   const PROCEDURE_KEY='orion_aesthetic_procedure_v145';
   const MULTI_KEY='orion_aesthetic_multi_selection_v148';
   const SETTINGS_KEY='orion_aesthetic_v160_settings';
@@ -57,20 +57,31 @@
     return ids.slice().sort().join('|');
   }
 
-  function forceMapTab(){
+  function currentTab(){
+    return document.body.dataset.mobileTab||procedure().mobileTab||'record';
+  }
+
+  function isMapTab(){
+    return currentTab()==='map';
+  }
+
+  function forceMapTab(explicit=false){
     if(!mobileQuery.matches)return;
+    if(!explicit&&!isMapTab())return;
     document.body.dataset.mobileTab='map';
     document.querySelectorAll('[data-mobile-tab]').forEach(button=>{
       button.classList.toggle('active',button.dataset.mobileTab==='map');
     });
     const state=procedure();
-    state.mobileTab='map';
-    saveJSON(PROCEDURE_KEY,state);
+    if(state.mobileTab!=='map'){
+      state.mobileTab='map';
+      saveJSON(PROCEDURE_KEY,state);
+    }
   }
 
-  function preserveMapFor(ms=1200){
+  function preserveMapFor(ms=1200,explicit=false){
     holdMapUntil=Date.now()+ms;
-    forceMapTab();
+    forceMapTab(explicit);
   }
 
   function labelsFor(ids,state=procedure()){
@@ -121,7 +132,7 @@
     $('oaV161DockClose').addEventListener('click',()=>{
       dock.dataset.manualHidden='true';
       dock.dataset.visible='false';
-      preserveMapFor(500);
+      preserveMapFor(500,false);
     });
 
     dock.querySelectorAll('[data-oa-v161-mode]').forEach(button=>{
@@ -157,13 +168,13 @@
     $('oaV161Save').addEventListener('click',()=>{
       if(isLocked())return;
       syncHiddenFields();
-      preserveMapFor(1600);
+      preserveMapFor(1600,false);
       $('oaV148Save')?.click();
     });
 
     $('oaV161Delete').addEventListener('click',()=>{
       if(isLocked())return;
-      preserveMapFor(800);
+      preserveMapFor(800,false);
       $('oaV148Delete')?.click();
     });
 
@@ -184,7 +195,7 @@
   }
 
   function ensureEditorContext(ids){
-    if(!ids.length||openingContext)return;
+    if(!isMapTab()||!ids.length||openingContext)return;
     const signature=selectionSignature(ids);
     if(dock?.dataset.contextSignature===signature)return;
     const apply=$('oaApplySelection');
@@ -225,6 +236,12 @@
 
   function syncDock(force=false){
     if(!mobileQuery.matches||!buildDock())return;
+
+    if(!isMapTab()){
+      dock.dataset.visible='false';
+      return;
+    }
+
     const state=procedure();
     const ids=selectedIds(state);
     const count=ids.length;
@@ -252,7 +269,6 @@
     dock.dataset.visible=String(shouldShow&&!manualHidden);
     if(!shouldShow||manualHidden)return;
 
-    forceMapTab();
     const labels=labelsFor(ids,state);
     $('oaV161DockTitle').textContent=count===1?'Administración del punto':`Administración conjunta de ${count} puntos`;
     $('oaV161DockDetail').textContent=count===1?'Ingresa la cantidad y guarda sin abandonar el mapa.':'La cantidad se aplicará a la selección activa.';
@@ -290,11 +306,11 @@
       layer.addEventListener('pointerdown',event=>{
         if(!event.target.closest('.oa-point'))return;
         explicitTabUntil=0;
-        preserveMapFor(1500);
+        preserveMapFor(1500,true);
       },true);
       layer.addEventListener('pointerup',event=>{
         if(!event.target.closest('.oa-point'))return;
-        preserveMapFor(1500);
+        preserveMapFor(1500,true);
         setTimeout(()=>queueSync(true),60);
       },true);
     }
@@ -305,7 +321,7 @@
       button.dataset.oaV161Bound='true';
       button.addEventListener('click',()=>{
         dock&&(dock.dataset.manualHidden='false');
-        preserveMapFor(1500);
+        preserveMapFor(1500,true);
         setTimeout(()=>queueSync(true),50);
       },true);
     });
@@ -313,7 +329,20 @@
     document.querySelectorAll('[data-mobile-tab]').forEach(button=>{
       if(button.dataset.oaV161Bound)return;
       button.dataset.oaV161Bound='true';
-      button.addEventListener('pointerdown',()=>{explicitTabUntil=Date.now()+900;},true);
+      button.addEventListener('pointerdown',()=>{
+        explicitTabUntil=Date.now()+1800;
+        if(button.dataset.mobileTab!=='map'){
+          holdMapUntil=0;
+          if(dock)dock.dataset.visible='false';
+        }
+      },true);
+      button.addEventListener('click',()=>{
+        if(button.dataset.mobileTab!=='map'){
+          holdMapUntil=0;
+          if(dock)dock.dataset.visible='false';
+        }
+        setTimeout(()=>queueSync(true),40);
+      },true);
     });
   }
 
@@ -326,8 +355,10 @@
         if(!mobileQuery.matches)return;
         if(sheet.classList.contains('open')){
           sheet.classList.remove('open');
-          preserveMapFor(1600);
-          queueSync(true);
+          if(isMapTab()){
+            preserveMapFor(1600,false);
+            queueSync(true);
+          }
         }
       }).observe(sheet,{attributes:true,attributeFilter:['class']});
     }
@@ -348,7 +379,7 @@
       document.body.dataset.oaV161Observed='true';
       new MutationObserver(()=>{
         if(!mobileQuery.matches)return;
-        if(Date.now()<holdMapUntil&&Date.now()>explicitTabUntil&&document.body.dataset.mobileTab!=='map')forceMapTab();
+        if(!isMapTab()&&dock)dock.dataset.visible='false';
       }).observe(document.body,{attributes:true,attributeFilter:['data-mobile-tab']});
     }
   }
