@@ -1,6 +1,6 @@
 {
   "product": "ORION Armonización Orofacial",
-  "version": "1.8.0-motor-caha",
+  "version": "1.9.0-motor-plla",
   "date": "2026-08-05",
   "entry": "index.html",
   "mode": [
@@ -10,7 +10,8 @@
   "clinical_engines": {
     "toxin": "toxina botulínica por puntos, unidades, dilución y volumen calculado",
     "hyaluronic": "ácido hialurónico por depósitos, trayectos y áreas con volumen en mL",
-    "caha": "hidroxiapatita de calcio con preparación, mezcla, depósitos, vectores y áreas"
+    "caha": "hidroxiapatita de calcio con preparación, mezcla, depósitos, vectores y áreas",
+    "plla": "ácido poli-L-láctico con reconstitución, tiempos, viales, puntos, vectores y áreas"
   },
   "features": [
     "registro preprocedimiento y antecedentes",
@@ -22,8 +23,8 @@
     "informes PDF carta específicos",
     "consentimiento e indicaciones posteriores"
   ],
-  "caha_status": "Registra objetivo, sesión, volumen de CaHA, diluyente, relación calculada, volumen final, preparación, homogeneidad, depósitos, vectores, áreas, plano, técnica e instrumental. No prescribe proporciones, dosis ni técnica.",
+  "plla_status": "Registra producto, presentación, lote, vencimiento, objetivo, sesión, número de viales, agua estéril, lidocaína, otros aditivos, volumen final, fecha y hora de reconstitución y administración, homogeneidad, puntos, vectores, áreas, plano, técnica e instrumental. No prescribe reconstitución, dosis, plano, técnica ni sesiones.",
   "storage": "sessionStorage; sin ficha clínica longitudinal",
   "commercial_status": "piloto funcional en validación clínica y de usabilidad",
-  "technical_status": "motores aislados por tipo de intervención, caché autónoma V1.8.0 y portal R45"
+  "technical_status": "motores aislados por tipo de intervención, caché autónoma V1.9.0 y portal R46"
 }
