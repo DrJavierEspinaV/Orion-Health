@@ -1,4 +1,4 @@
-/* ORION Armonización Orofacial V1.6.8 — seguridad de atlas mientras se aprueba el masculino definitivo */
+/* ORION Armonización Orofacial V1.6.10 — seguridad temporal del atlas y limpieza de Registro */
 
 html.oa-v168-safe [data-oa-v164-model="man"]{
   opacity:.58!important;
@@ -32,7 +32,11 @@ html.oa-v168-safe .oa-v168-atlas-warning{
   line-height:1.45;
 }
 
-html.oa-v168-safe .oa-v167-hide-record-map,
+/* Regla definitiva: el mapa final nunca forma parte de la pestaña Registro. */
+.oa-record-panel #oaV160FinalMap,
+.oa-record-panel .oa-v160-final-map-card,
+.oa-mobile-record #oaV160FinalMap,
+.oa-mobile-record .oa-v160-final-map-card,
 html.oa-v168-safe .oa-v168-hide-record-map{
   display:none!important;
 }
