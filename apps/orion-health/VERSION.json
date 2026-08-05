@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r41-final-piloto",
+  "version": "1.4.4-r42-final-piloto",
   "date": "2026-08-05",
   "modules": {
-    "portal": "1.4.4-r41",
+    "portal": "1.4.4-r42",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.10-restauracion-navegacion"
+    "armonizacion_orofacial": "1.6.11-atlas-clinico-unico"
   },
-  "release_status": "RESTAURACIÓN FUNCIONAL — se elimina la capa V1.6.9 que bloqueaba las pestañas y se recupera la navegación manual Registro, Mapa y Resumen",
+  "release_status": "SIMPLIFICACIÓN DEFINITIVA — se elimina el selector Mujer/Hombre y se utiliza un único atlas anatómico clínico en pantalla e informe",
   "clinical_status": "Se conservan evaluación, calculadora, mapa, administración individual y múltiple, resumen, consentimiento, indicaciones y PDF carta",
-  "security_status": "Ningún observador puede imponer una pestaña durante la escritura; Mapa solo cambia por acción directa del usuario o por controles propios del atlas",
-  "identity_status": "Modelo Mujer permanece validado; Hombre sigue pendiente de un atlas masculino independiente real",
-  "layout_status": "Mapa final del procedimiento se elimina físicamente y por CSS de la pestaña Registro; permanece únicamente en Resumen e informe final",
-  "workflow_status": "Registro, Mapa y Resumen vuelven a responder directamente a sus botones sin protección persistente de foco",
-  "performance_status": "Se elimina el observador global del atlas y se restringe la vigilancia del mapa final exclusivamente al panel Registro",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.10; el portal usa R41",
-  "output_status": "El informe carta permanece operativo con el atlas Mujer validado"
+  "security_status": "Se eliminan las claves de modelo y cualquier ruta externa o fotografía masculina heredada; el informe usa el mismo atlas activo del mapa",
+  "identity_status": "El módulo presenta un único atlas clínico anatómico frontal sin clasificación por sexo",
+  "layout_status": "Se eliminan selector de modelo, advertencias asociadas y la tarjeta vacía Mapa final del procedimiento dentro de la aplicación",
+  "workflow_status": "Registro, Mapa y Resumen mantienen navegación manual; la administración continúa realizándose exclusivamente desde el mapa",
+  "performance_status": "La capa de atlas único usa actualizaciones agrupadas y solo corrige reinserciones dinámicas necesarias",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.11; el portal usa R42",
+  "output_status": "El informe carta reemplaza cualquier fotografía o atlas externo por el atlas clínico único utilizado en pantalla"
 }
