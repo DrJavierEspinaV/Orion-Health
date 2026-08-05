@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r45-final-piloto",
+  "version": "1.4.4-r46-final-piloto",
   "date": "2026-08-05",
   "modules": {
-    "portal": "1.4.4-r45",
+    "portal": "1.4.4-r46",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.8.0-motor-hidroxiapatita-calcio"
+    "armonizacion_orofacial": "1.9.0-motor-acido-poli-l-lactico"
   },
-  "release_status": "AMPLIACIÓN CLÍNICA — se conservan los motores de toxina botulínica y ácido hialurónico y se añade un motor independiente para hidroxiapatita de calcio",
-  "clinical_status": "CaHA incorpora producto, presentación, lote, vencimiento, objetivo, número de sesión, volumen de producto, diluyente, relación calculada, volumen final, preparación, homogeneidad, lista de seguridad, depósitos, vectores, áreas, plano, técnica, instrumental, punto de entrada y confirmación por elemento",
-  "security_status": "ORION documenta la preparación decidida por el clínico y no recomienda dilución, dosis, plano ni técnica; la confirmación exige zona, volumen administrado y preparación registrada",
-  "identity_status": "Los tres motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
-  "layout_status": "Al seleccionar hidroxiapatita de calcio se ocultan los controles de toxina y aparecen preparación CaHA, cálculo documental, barra Depósito/Vector/Área, editor específico y resumen propio",
-  "workflow_status": "Cada elemento diferencia borrador y administración confirmada, registra volumen de mezcla y calcula el equivalente proporcional de CaHA a partir de los valores ingresados por el profesional",
-  "performance_status": "El motor CaHA permanece aislado y solo se activa cuando la intervención seleccionada es caha; se preservan las optimizaciones y motores anteriores",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.8.0; el portal usa R45",
-  "output_status": "CaHA genera un informe carta independiente con registro y preparación, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
+  "release_status": "AMPLIACIÓN CLÍNICA — se conservan los motores de toxina botulínica, ácido hialurónico y CaHA y se añade un motor independiente para ácido poli-L-láctico",
+  "clinical_status": "PLLA incorpora producto, presentación, lote, vencimiento, objetivo, sesión, viales, reconstitución, líquidos añadidos, volumen final, fecha y hora de preparación y uso, homogeneidad, lista de seguridad, puntos, vectores, áreas, plano, técnica, instrumental, punto de entrada y confirmación por elemento",
+  "security_status": "ORION documenta la preparación decidida por el clínico y no recomienda reconstitución, tiempo de reposo, dosis, plano, técnica ni número de sesiones; la confirmación exige zona, volumen administrado, volumen final y viales registrados",
+  "identity_status": "Los cuatro motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
+  "layout_status": "Al seleccionar ácido poli-L-láctico se ocultan los controles de los otros motores y aparecen reconstitución PLLA, cálculos documentales, barra Punto/Vector/Área, editor específico y resumen propio",
+  "workflow_status": "Cada elemento diferencia borrador y administración confirmada, registra volumen de suspensión y calcula el equivalente proporcional de viales a partir de los valores ingresados por el profesional",
+  "performance_status": "El motor PLLA permanece aislado y solo se activa cuando la intervención seleccionada es plla; se preservan las optimizaciones y motores anteriores",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.9.0; el portal usa R46",
+  "output_status": "PLLA genera un informe carta independiente con registro y reconstitución, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
 }
