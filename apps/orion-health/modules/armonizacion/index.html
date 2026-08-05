@@ -51,7 +51,7 @@
   const jsFiles=[
     'performance-v163.js','anatomy-presets-v146.js','registro-v145.js','workflow-v147.js','map-dynamic-v148.js','map-inline-v149.js','map-viewport-v150.js',
     'standalone-v151.js','ui-optimization-v153.js','administration-only-v154.js','clinical-closure-v160.js','mobile-administration-v161.js','final-report-v162.js',
-    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','atlas-netter-v167.js','male-atlas-safety-v168.js'
+    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','atlas-netter-v167.js','male-atlas-safety-v168.js','tab-stability-v169.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -102,7 +102,7 @@
     status.textContent='Integrando mapa, estabilidad de pestañas e informe…';
     appendStyles(doc);updateIdentity(doc);appendScripts(doc);
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('mobile-administration-v161.js')||!output.includes('male-atlas-safety-v168.js')||!output.includes('document-letter-atlas-v165.js'))throw new Error('No fue posible integrar los recursos V1.6.9.');
+    if(!output.includes('mobile-administration-v161.js')||!output.includes('tab-stability-v169.js')||!output.includes('document-letter-atlas-v165.js'))throw new Error('No fue posible integrar los recursos V1.6.9.');
     document.open();document.write(output);document.close();
   }catch(error){
     console.error('ORION Armonización no pudo iniciar:',error);
