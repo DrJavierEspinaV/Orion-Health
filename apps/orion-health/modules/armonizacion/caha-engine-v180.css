@@ -1,0 +1,50 @@
+/* ORION Armonización Orofacial V1.8.0 — motor específico de hidroxiapatita de calcio */
+.oa-caha-only{display:none!important}
+body[data-procedure-kind="caha"] .oa-caha-only{display:block!important}
+body[data-procedure-kind="caha"] #pointLayer,
+body[data-procedure-kind="caha"] #zoneLabelLayer,
+body[data-procedure-kind="caha"] #oaMapMobileTools,
+body[data-procedure-kind="caha"] #oaSelectionBar,
+body[data-procedure-kind="caha"] #oaPointSheetV148,
+body[data-procedure-kind="caha"] .oa-sidebar .oa-legend,
+body[data-procedure-kind="caha"] .oa-sidebar .oa-zone-list,
+body[data-procedure-kind="caha"] .oa-sidebar .oa-control-list,
+body[data-procedure-kind="caha"] .oa-record-panel>.oa-calculator,
+body[data-procedure-kind="caha"] .oa-record-panel>.oa-point-editor,
+body[data-procedure-kind="caha"] .oa-record-panel>.oa-table-card,
+body[data-procedure-kind="caha"] .oa-record-panel>.oa-general-summary{display:none!important}
+.oa-caha-record-card,.oa-caha-editor,.oa-caha-summary{border:1px solid #ddcfad!important;box-shadow:0 10px 28px rgba(91,69,21,.09)!important}
+.oa-caha-record-card .oa-section-title,.oa-caha-summary .oa-section-title{color:#6f541a}
+.oa-caha-grid,.oa-caha-editor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.oa-caha-grid label,.oa-caha-editor-grid label{display:grid;gap:5px;color:#6c6048;font-size:12px;font-weight:800}
+.oa-caha-grid input,.oa-caha-grid select,.oa-caha-grid textarea,.oa-caha-editor-grid input,.oa-caha-editor-grid select,.oa-caha-editor-grid textarea{width:100%;min-height:39px;padding:9px 10px;border:1px solid #d8ccb3;border-radius:9px;background:#fff;color:#3f3828;font:inherit}
+.oa-caha-grid .wide,.oa-caha-editor-grid .wide{grid-column:1/-1}
+.oa-caha-calculation,.oa-caha-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.oa-caha-calculation>div,.oa-caha-summary-grid>div{padding:10px;border:1px solid #e3dac7;border-radius:10px;background:#fbfaf6}
+.oa-caha-calculation span,.oa-caha-summary-grid span{display:block;color:#857964;font-size:11px}
+.oa-caha-calculation strong,.oa-caha-summary-grid strong{display:block;margin-top:3px;color:#684e16;font-size:17px}
+.oa-caha-calculation-note{margin:0;color:#786f5e;font-size:11px;line-height:1.45}
+.oa-caha-safety{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.oa-caha-check{display:flex!important;grid-template-columns:none!important;align-items:flex-start;gap:9px!important;min-height:48px;padding:10px;border:1px solid #e3dac8;border-radius:10px;background:#fbfaf6;color:#5d5036!important;line-height:1.35}
+.oa-caha-check input{width:18px!important;min-height:18px!important;margin:1px 0 0;padding:0}
+.oa-caha-alert{margin-top:12px;padding:12px 14px;border:1px solid #e2c58a;border-radius:11px;background:#fff8e9;color:#6e5117;font-size:12px;line-height:1.5}
+.oa-caha-toolbar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:10px 0;padding:9px;border:1px solid #dfd3b8;border-radius:12px;background:#faf7ef}
+.oa-caha-toolbar button{min-height:42px;padding:8px;border:1px solid #d0c09b;border-radius:9px;background:#fff;color:#6d531b;font-weight:900}
+.oa-caha-toolbar button.active{border-color:#9a711b;background:#9a711b;color:#fff;box-shadow:0 5px 14px rgba(154,113,27,.24)}
+.oa-caha-help{margin:0 0 9px;padding:9px 11px;border-radius:9px;background:#fbf5e6;color:#736246;font-size:12px;line-height:1.4}
+#oaCahaLayer{position:absolute;inset:0;z-index:10;pointer-events:none}#oaCahaLayer>*{pointer-events:auto}
+.oa-caha-object{position:absolute;border:0;padding:0;cursor:pointer;touch-action:pan-y}
+.oa-caha-object.deposit{width:24px;height:24px;margin:-12px 0 0 -12px;border:3px solid #fff;border-radius:50%;background:#c08d24;box-shadow:0 0 0 3px #7c5913,0 3px 8px rgba(0,0,0,.28)}
+.oa-caha-object.deposit::after{content:attr(data-volume);position:absolute;left:50%;top:28px;transform:translateX(-50%);min-width:38px;padding:3px 5px;border-radius:6px;background:#fff;color:#684e16;font-size:10px;font-weight:900;box-shadow:0 2px 7px rgba(0,0,0,.18)}
+.oa-caha-object.vector{height:8px;transform-origin:0 50%;border-radius:999px;background:linear-gradient(90deg,#8f691c,#d2a445);box-shadow:0 0 0 2px #fff,0 2px 7px rgba(0,0,0,.25)}
+.oa-caha-object.vector::before,.oa-caha-object.vector::after{content:"";position:absolute;top:50%;width:15px;height:15px;transform:translateY(-50%);border:2px solid #fff;border-radius:50%;background:#9a711b}.oa-caha-object.vector::before{left:-7px}.oa-caha-object.vector::after{right:-7px}
+.oa-caha-object.area{transform:translate(-50%,-50%);border:3px dashed #b4811d;border-radius:50%;background:rgba(204,162,67,.2);box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.oa-caha-object.selected{outline:4px solid rgba(154,113,27,.32);outline-offset:4px}.oa-caha-object.confirmed.deposit{background:#6f8e3d;box-shadow:0 0 0 3px #425c21,0 3px 8px rgba(0,0,0,.28)}.oa-caha-object.confirmed.vector{background:linear-gradient(90deg,#59762e,#91ad57)}.oa-caha-object.confirmed.area{border-color:#708e3d;background:rgba(112,142,61,.18)}
+.oa-caha-editor{margin:10px 0 12px;padding:12px;border-radius:13px;background:#fff}.oa-caha-editor-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}.oa-caha-editor-head h3{margin:0;color:#684e16;font-size:16px}.oa-caha-editor-head p{margin:3px 0 0;color:#817663;font-size:12px}
+.oa-caha-status{padding:5px 9px;border-radius:999px;background:#fff2d2;color:#805c0b;font-size:11px;font-weight:900}.oa-caha-status.confirmed{background:#eaf4df;color:#506b2a}
+.oa-caha-item-metrics{display:flex;justify-content:space-between;gap:10px;margin-top:10px;padding:10px;border:1px solid #e2d7c0;border-radius:10px;background:#fbfaf6;color:#776b56}.oa-caha-item-metrics strong{color:#684e16}
+.oa-caha-editor-actions{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:11px}.oa-caha-editor-actions button{min-height:42px;border:1px solid #d6c8aa;border-radius:9px;background:#fff;color:#6d541e;font-weight:900}.oa-caha-editor-actions .confirm{border-color:#6d842f;background:#6d842f;color:#fff}.oa-caha-editor-actions .delete{border-color:#d9a5a5;color:#9b3333}
+.oa-caha-table-wrap{overflow:auto}.oa-caha-table{width:100%;border-collapse:collapse;font-size:12px}.oa-caha-table th,.oa-caha-table td{padding:8px;border-bottom:1px solid #e7e0d2;text-align:left;vertical-align:top}.oa-caha-table th{background:#f6f1e7;color:#6c5729}
+@media(max-width:920px){.oa-caha-grid,.oa-caha-editor-grid{grid-template-columns:1fr 1fr}.oa-caha-safety{grid-template-columns:1fr}.oa-caha-toolbar{position:sticky;top:54px;z-index:14;grid-template-columns:repeat(4,1fr)}.oa-caha-toolbar button{font-size:11px}.oa-caha-editor-actions{grid-template-columns:1fr 1fr}.oa-caha-editor-actions .delete{grid-column:1/-1}.oa-caha-calculation,.oa-caha-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.oa-caha-grid,.oa-caha-editor-grid{grid-template-columns:1fr}.oa-caha-grid .wide,.oa-caha-editor-grid .wide{grid-column:auto}.oa-caha-toolbar{grid-template-columns:1fr 1fr}.oa-caha-editor-actions{grid-template-columns:1fr}.oa-caha-editor-actions .delete{grid-column:auto}.oa-caha-calculation,.oa-caha-summary-grid{grid-template-columns:1fr 1fr}}
+@media print{.oa-caha-toolbar,.oa-caha-editor,.oa-caha-help{display:none!important}}
