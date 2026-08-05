@@ -1,0 +1,12 @@
+/* ORION V1.7.0-r1 — correcciones de visualización del motor de ácido hialurónico */
+body[data-procedure-kind="hyaluronic"] .oa-filler-toolbar{display:grid!important}
+body[data-procedure-kind="hyaluronic"] #oaFillerLayer{display:block!important}
+body[data-procedure-kind="hyaluronic"] .oa-filler-record-card,
+body[data-procedure-kind="hyaluronic"] .oa-filler-editor,
+body[data-procedure-kind="hyaluronic"] .oa-filler-summary,
+body[data-procedure-kind="hyaluronic"] .oa-filler-toolbar-help{display:block!important}
+body[data-procedure-kind="hyaluronic"] .oa-sidebar>.oa-card:has(.oa-legend),
+body[data-procedure-kind="hyaluronic"] .oa-sidebar>.oa-card:has(.oa-zone-list),
+body[data-procedure-kind="hyaluronic"] .oa-sidebar>.oa-card:has(.oa-control-list){display:none!important}
+body[data-procedure-kind="hyaluronic"] #oaFillerEditor[hidden]{display:none!important}
+@media(max-width:920px){body[data-procedure-kind="hyaluronic"] .oa-filler-toolbar{display:grid!important}}
