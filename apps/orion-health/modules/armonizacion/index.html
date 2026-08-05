@@ -25,9 +25,9 @@
   <main class="boot" id="bootScreen" role="status" aria-live="polite">
     <img src="../../assets/brand/orion-health.png" alt="ORION Health">
     <h1>ORION Armonización Orofacial</h1>
-    <p>Preparando motores clínicos de toxina, ácido hialurónico y CaHA.</p>
+    <p>Preparando motores clínicos de toxina, ácido hialurónico, CaHA y PLLA.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.8.0…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.9.0…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -38,7 +38,7 @@
 <script>
 (async()=>{
   'use strict';
-  const VERSION='1.8.0';
+  const VERSION='1.9.0';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -47,12 +47,12 @@
     'performance-v163.css','anatomy-calibration-v146.css','workflow-v147.css','map-dynamic-v148.css','map-inline-v149.css','map-viewport-v150.css',
     'ui-optimization-v153.css','administration-only-v154.css','clinical-closure-v160.css','mobile-administration-v161.css','final-report-v162.css',
     'document-model-touch-v164.css','model-anatomy-v165.css','document-letter-atlas-v165.css','single-atlas-v1611.css',
-    'filler-engine-v170.css','filler-engine-v170-r1.css','caha-engine-v180.css','caha-engine-v180-r1.css'
+    'filler-engine-v170.css','filler-engine-v170-r1.css','caha-engine-v180.css','caha-engine-v180-r1.css','plla-engine-v190.css'
   ];
   const jsFiles=[
     'performance-v163.js','anatomy-presets-v146.js','registro-v145.js','workflow-v147.js','map-dynamic-v148.js','map-inline-v149.js','map-viewport-v150.js',
     'standalone-v151.js','ui-optimization-v153.js','administration-only-v154.js','clinical-closure-v160.js','mobile-administration-v161.js','final-report-v162.js',
-    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','single-atlas-v1611.js','filler-engine-v170.js','caha-engine-v180.js'
+    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','single-atlas-v1611.js','filler-engine-v170.js','caha-engine-v180.js','plla-engine-v190.js'
   ];
 
   retry.addEventListener('click',()=>{
@@ -76,8 +76,8 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.8.0';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-single-atlas','oa-v170','oa-v180');
+    doc.title='ORION Armonización Orofacial V1.9.0';
+    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-single-atlas','oa-v170','oa-v180','oa-v190');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
     const manifest=doc.createElement('link');manifest.rel='manifest';manifest.href=`./manifest.webmanifest?v=${VERSION}`;doc.head.appendChild(manifest);
     const appleIcon=doc.createElement('link');appleIcon.rel='apple-touch-icon';appleIcon.href='../../assets/icons/icon-192.png';doc.head.appendChild(appleIcon);
@@ -88,8 +88,8 @@
     const version=doc.querySelector('.oa-version');
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Motores clínicos de toxina, ácido hialurónico y CaHA';
-    if(version)version.textContent='V1.8.0';
+    if(subtitle)subtitle.textContent='Motores clínicos de toxina, ácido hialurónico, CaHA y PLLA';
+    if(version)version.textContent='V1.9.0';
     if(mapInstruction)mapInstruction.textContent='El tipo de intervención activa su motor documental sin mezclar unidades, preparación, técnicas ni mapas.';
   }
 
@@ -100,10 +100,10 @@
     const source=await response.text();
     const doc=new DOMParser().parseFromString(source,'text/html');
     if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
-    status.textContent='Integrando toxina, rellenos, CaHA e informes carta…';
+    status.textContent='Integrando toxina, rellenos, CaHA, PLLA e informes carta…';
     appendStyles(doc);updateIdentity(doc);appendScripts(doc);
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('single-atlas-v1611.js')||!output.includes('filler-engine-v170.js')||!output.includes('caha-engine-v180.js'))throw new Error('No fue posible integrar los recursos V1.8.0.');
+    if(!output.includes('filler-engine-v170.js')||!output.includes('caha-engine-v180.js')||!output.includes('plla-engine-v190.js'))throw new Error('No fue posible integrar los recursos V1.9.0.');
     document.open();document.write(output);document.close();
   }catch(error){
     console.error('ORION Armonización no pudo iniciar:',error);
