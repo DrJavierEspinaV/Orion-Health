@@ -10,7 +10,7 @@ const SHELL=[
   './document-model-touch-v164.css','./document-model-touch-v164.js','./model-key-compat-v165.js',
   './document-letter-atlas-v165.css','./document-letter-atlas-v165.js','./single-atlas-v1611.css','./single-atlas-v1611.js',
   './filler-engine-v170.css','./filler-engine-v170-r1.css','./filler-engine-v170.js',
-  './caha-engine-v180.css','./caha-engine-v180.js','./manifest.webmanifest',
+  './caha-engine-v180.css','./caha-engine-v180-r1.css','./caha-engine-v180.js','./manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js','./anatomy-atlas-female-v145-r17-02.js',
   './anatomy-atlas-female-v145-r17-03.js','./anatomy-atlas-female-v145-r17-04.js',
   '../../assets/brand/orion-health.png','../../assets/icons/icon-192.png','../../assets/icons/icon-512.png'
