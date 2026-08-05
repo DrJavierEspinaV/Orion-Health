@@ -22,7 +22,7 @@ const SHELL=[
   './modules/armonizacion/model-key-compat-v165.js','./modules/armonizacion/document-letter-atlas-v165.css','./modules/armonizacion/document-letter-atlas-v165.js',
   './modules/armonizacion/single-atlas-v1611.css','./modules/armonizacion/single-atlas-v1611.js',
   './modules/armonizacion/filler-engine-v170.css','./modules/armonizacion/filler-engine-v170-r1.css','./modules/armonizacion/filler-engine-v170.js',
-  './modules/armonizacion/caha-engine-v180.css','./modules/armonizacion/caha-engine-v180.js',
+  './modules/armonizacion/caha-engine-v180.css','./modules/armonizacion/caha-engine-v180-r1.css','./modules/armonizacion/caha-engine-v180.js',
   './modules/armonizacion/manifest.webmanifest','./modules/armonizacion/standalone-sw.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-01.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-02.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-03.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-04.js'
