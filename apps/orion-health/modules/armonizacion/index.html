@@ -27,7 +27,7 @@
     <h1>ORION Armonización Orofacial</h1>
     <p>Preparando el atlas clínico validado y el informe carta.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V1.6.8…</div>
+    <div class="status" id="bootStatus">Cargando módulo V1.6.9…</div>
     <div class="error" id="bootError">
       <strong>No fue posible iniciar el módulo.</strong>
       <div id="bootDetail"></div>
@@ -38,7 +38,7 @@
 <script>
 (async()=>{
   'use strict';
-  const VERSION='1.6.8';
+  const VERSION='1.6.9';
   const status=document.getElementById('bootStatus');
   const errorBox=document.getElementById('bootError');
   const detail=document.getElementById('bootDetail');
@@ -75,7 +75,7 @@
   }
 
   function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V1.6.8';
+    doc.title='ORION Armonización Orofacial V1.6.9';
     doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-v165-model','oa-v167-atlas','oa-v168-safe');
     doc.documentElement.dataset.orionAestheticsVersion=VERSION;
     const manifest=doc.createElement('link');manifest.rel='manifest';manifest.href=`./manifest.webmanifest?v=${VERSION}`;doc.head.appendChild(manifest);
@@ -88,8 +88,8 @@
     const mapInstruction=doc.querySelector('.oa-map-head span');
     if(title)title.textContent='Registro de armonización orofacial';
     if(subtitle)subtitle.textContent='Atlas clínico validado e informe tamaño carta';
-    if(version)version.textContent='V1.6.8';
-    if(mapInstruction)mapInstruction.textContent='El modelo Mujer permanece operativo. Hombre se habilitará únicamente cuando exista un atlas masculino independiente y aprobado.';
+    if(version)version.textContent='V1.6.9';
+    if(mapInstruction)mapInstruction.textContent='Registro y Resumen permanecen estables. El editor del mapa solo se activa después de una interacción explícita con puntos o controles del atlas.';
   }
 
   try{
@@ -99,10 +99,10 @@
     const source=await response.text();
     const doc=new DOMParser().parseFromString(source,'text/html');
     if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
-    status.textContent='Integrando mapa, seguridad de atlas e informe…';
+    status.textContent='Integrando mapa, estabilidad de pestañas e informe…';
     appendStyles(doc);updateIdentity(doc);appendScripts(doc);
     const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('male-atlas-safety-v168.js')||!output.includes('document-letter-atlas-v165.js'))throw new Error('No fue posible integrar los recursos V1.6.8.');
+    if(!output.includes('mobile-administration-v161.js')||!output.includes('male-atlas-safety-v168.js')||!output.includes('document-letter-atlas-v165.js'))throw new Error('No fue posible integrar los recursos V1.6.9.');
     document.open();document.write(output);document.close();
   }catch(error){
     console.error('ORION Armonización no pudo iniciar:',error);
