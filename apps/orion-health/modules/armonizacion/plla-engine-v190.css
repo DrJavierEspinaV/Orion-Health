@@ -1,0 +1,55 @@
+/* ORION Armonización Orofacial V1.9.0 — motor específico de ácido poli-L-láctico */
+.oa-plla-only{display:none!important}
+body[data-procedure-kind="plla"] .oa-plla-only{display:block!important}
+body[data-procedure-kind="plla"] #pointLayer,
+body[data-procedure-kind="plla"] #zoneLabelLayer,
+body[data-procedure-kind="plla"] #oaMapMobileTools,
+body[data-procedure-kind="plla"] #oaSelectionBar,
+body[data-procedure-kind="plla"] #oaPointSheetV148,
+body[data-procedure-kind="plla"] .oa-sidebar .oa-legend,
+body[data-procedure-kind="plla"] .oa-sidebar .oa-zone-list,
+body[data-procedure-kind="plla"] .oa-sidebar .oa-control-list,
+body[data-procedure-kind="plla"] .oa-record-panel>.oa-calculator,
+body[data-procedure-kind="plla"] .oa-record-panel>.oa-point-editor,
+body[data-procedure-kind="plla"] .oa-record-panel>.oa-table-card,
+body[data-procedure-kind="plla"] .oa-record-panel>.oa-general-summary{display:none!important}
+body[data-procedure-kind="plla"] #oaPllaEditor[hidden]{display:none!important}
+body[data-procedure-kind="plla"] .oa-sidebar>.oa-card:has(.oa-legend),
+body[data-procedure-kind="plla"] .oa-sidebar>.oa-card:has(.oa-zone-list),
+body[data-procedure-kind="plla"] .oa-sidebar>.oa-card:has(.oa-control-list){display:none!important}
+.oa-plla-record-card,.oa-plla-editor,.oa-plla-summary{border:1px solid #d5c6e2!important;box-shadow:0 10px 28px rgba(83,52,108,.09)!important}
+.oa-plla-record-card .oa-section-title,.oa-plla-summary .oa-section-title{color:#563578}
+.oa-plla-grid,.oa-plla-editor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.oa-plla-grid label,.oa-plla-editor-grid label{display:grid;gap:5px;color:#675875;font-size:12px;font-weight:800}
+.oa-plla-grid input,.oa-plla-grid select,.oa-plla-grid textarea,.oa-plla-editor-grid input,.oa-plla-editor-grid select,.oa-plla-editor-grid textarea{width:100%;min-height:39px;padding:9px 10px;border:1px solid #d5c9df;border-radius:9px;background:#fff;color:#41324d;font:inherit}
+.oa-plla-grid .wide,.oa-plla-editor-grid .wide{grid-column:1/-1}
+.oa-plla-calculation,.oa-plla-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+.oa-plla-calculation>div,.oa-plla-summary-grid>div{padding:10px;border:1px solid #e1d8e7;border-radius:10px;background:#fbf9fc}
+.oa-plla-calculation span,.oa-plla-summary-grid span{display:block;color:#83758d;font-size:11px}
+.oa-plla-calculation strong,.oa-plla-summary-grid strong{display:block;margin-top:3px;color:#563578;font-size:17px}
+.oa-plla-calculation-note{margin:0;color:#74687c;font-size:11px;line-height:1.45}
+.oa-plla-safety{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.oa-plla-check{display:flex!important;grid-template-columns:none!important;align-items:flex-start;gap:9px!important;min-height:48px;padding:10px;border:1px solid #e2d9e8;border-radius:10px;background:#fbf9fc;color:#5f4f6d!important;line-height:1.35}
+.oa-plla-check input{width:18px!important;min-height:18px!important;margin:1px 0 0;padding:0}
+.oa-plla-alert{margin-top:12px;padding:12px 14px;border:1px solid #d7b8df;border-radius:11px;background:#fcf5ff;color:#5f376d;font-size:12px;line-height:1.5}
+.oa-plla-toolbar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:10px 0;padding:9px;border:1px solid #d8cbe2;border-radius:12px;background:#f8f4fb}
+.oa-plla-toolbar button{min-height:42px;padding:8px;border:1px solid #cbb9d8;border-radius:9px;background:#fff;color:#5e3d78;font-weight:900}
+.oa-plla-toolbar button.active{border-color:#70479a;background:#70479a;color:#fff;box-shadow:0 5px 14px rgba(112,71,154,.24)}
+.oa-plla-help{margin:0 0 9px;padding:9px 11px;border-radius:9px;background:#f6effa;color:#6d5a7d;font-size:12px;line-height:1.4}
+#oaPllaLayer{position:absolute;inset:0;z-index:11;pointer-events:none}#oaPllaLayer>*{pointer-events:auto}
+.oa-plla-object{position:absolute;border:0;padding:0;cursor:pointer;touch-action:pan-y}
+.oa-plla-object.point{width:24px;height:24px;margin:-12px 0 0 -12px;border:3px solid #fff;border-radius:50%;background:#8052ad;box-shadow:0 0 0 3px #4f2b73,0 3px 8px rgba(0,0,0,.28)}
+.oa-plla-object.point::after{content:attr(data-volume);position:absolute;left:50%;top:28px;transform:translateX(-50%);min-width:38px;padding:3px 5px;border-radius:6px;background:#fff;color:#563578;font-size:10px;font-weight:900;box-shadow:0 2px 7px rgba(0,0,0,.18)}
+.oa-plla-object.vector{height:8px;transform-origin:0 50%;border-radius:999px;background:linear-gradient(90deg,#5f3786,#9a6bc2);box-shadow:0 0 0 2px #fff,0 2px 7px rgba(0,0,0,.25)}
+.oa-plla-object.vector::before,.oa-plla-object.vector::after{content:"";position:absolute;top:50%;width:15px;height:15px;transform:translateY(-50%);border:2px solid #fff;border-radius:50%;background:#70479a}.oa-plla-object.vector::before{left:-7px}.oa-plla-object.vector::after{right:-7px}
+.oa-plla-object.area{transform:translate(-50%,-50%);border:3px dashed #8052ad;border-radius:50%;background:rgba(128,82,173,.17);box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.oa-plla-object.selected{outline:4px solid rgba(112,71,154,.32);outline-offset:4px}.oa-plla-object.confirmed.point{background:#537c55;box-shadow:0 0 0 3px #315535,0 3px 8px rgba(0,0,0,.28)}.oa-plla-object.confirmed.vector{background:linear-gradient(90deg,#426444,#76a377)}.oa-plla-object.confirmed.area{border-color:#5d875f;background:rgba(93,135,95,.18)}
+.oa-plla-editor{margin:10px 0 12px;padding:12px;border-radius:13px;background:#fff}.oa-plla-editor-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}.oa-plla-editor-head h3{margin:0;color:#563578;font-size:16px}.oa-plla-editor-head p{margin:3px 0 0;color:#7a6a84;font-size:12px}
+.oa-plla-status{padding:5px 9px;border-radius:999px;background:#f6e9ff;color:#70479a;font-size:11px;font-weight:900}.oa-plla-status.confirmed{background:#e8f2e8;color:#476a49}
+.oa-plla-item-metrics{display:flex;justify-content:space-between;gap:10px;margin-top:10px;padding:10px;border:1px solid #dfd5e6;border-radius:10px;background:#fbf9fc;color:#74657d}.oa-plla-item-metrics strong{color:#563578}
+.oa-plla-editor-actions{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:11px}.oa-plla-editor-actions button{min-height:42px;border:1px solid #d4c6df;border-radius:9px;background:#fff;color:#614474;font-weight:900}.oa-plla-editor-actions .confirm{border-color:#547955;background:#547955;color:#fff}.oa-plla-editor-actions .delete{border-color:#d9a5a5;color:#9b3333}
+.oa-plla-overage{margin:8px 0;padding:10px;border:1px solid #e5b1b1;border-radius:9px;background:#fff3f3;color:#7d3030;font-size:12px;font-weight:800}
+.oa-plla-table-wrap{overflow:auto}.oa-plla-table{width:100%;border-collapse:collapse;font-size:12px}.oa-plla-table th,.oa-plla-table td{padding:8px;border-bottom:1px solid #e5ddea;text-align:left;vertical-align:top}.oa-plla-table th{background:#f4eff7;color:#65497a}
+@media(max-width:920px){.oa-plla-grid,.oa-plla-editor-grid{grid-template-columns:1fr 1fr}.oa-plla-safety{grid-template-columns:1fr}.oa-plla-toolbar{position:sticky;top:54px;z-index:14;grid-template-columns:repeat(4,1fr)}.oa-plla-toolbar button{font-size:11px}.oa-plla-editor-actions{grid-template-columns:1fr 1fr}.oa-plla-editor-actions .delete{grid-column:1/-1}.oa-plla-calculation,.oa-plla-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.oa-plla-grid,.oa-plla-editor-grid{grid-template-columns:1fr}.oa-plla-grid .wide,.oa-plla-editor-grid .wide{grid-column:auto}.oa-plla-toolbar{grid-template-columns:1fr 1fr}.oa-plla-editor-actions{grid-template-columns:1fr}.oa-plla-editor-actions .delete{grid-column:auto}.oa-plla-calculation,.oa-plla-summary-grid{grid-template-columns:1fr 1fr}}
+@media print{.oa-plla-toolbar,.oa-plla-editor,.oa-plla-help{display:none!important}}
