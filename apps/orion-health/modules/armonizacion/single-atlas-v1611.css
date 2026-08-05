@@ -1,0 +1,48 @@
+/* ORION Armonización V1.6.11 — atlas clínico único */
+
+/* Se elimina por completo el selector Mujer/Hombre y sus mensajes asociados. */
+#oaV164ModelSwitch,
+.oa-v164-model-note,
+.oa-v168-atlas-warning,
+.oa-v167-model-note,
+[data-oa-v164-model]{
+  display:none!important;
+}
+
+/* El mapa final no se muestra dentro de las pestañas de la aplicación.
+   Continúa disponible únicamente en el informe clínico/PDF. */
+#oaV160FinalMap,
+.oa-v160-final-map,
+.oa-v160-final-map-card,
+.oa-v164-final-map,
+.oa-final-map-card{
+  display:none!important;
+}
+
+/* Atlas único, raster clínico validado. */
+html.oa-single-atlas #atlasImage{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center top!important;
+  filter:none!important;
+  transform:none!important;
+  image-rendering:auto!important;
+}
+
+/* Evita reservas de espacio dejadas por las secciones eliminadas. */
+.oa-record-panel:has(#oaV160FinalMap),
+.oa-summary-panel:has(#oaV160FinalMap){
+  min-height:0!important;
+}
+
+@media print{
+  #oaV164ModelSwitch,
+  .oa-v164-model-note,
+  .oa-v168-atlas-warning,
+  #oaV160FinalMap,
+  .oa-v160-final-map,
+  .oa-v160-final-map-card{
+    display:none!important;
+  }
+}
