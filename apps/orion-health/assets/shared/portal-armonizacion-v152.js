@@ -3,8 +3,8 @@
 
   try{
     if(typeof APPS!=='undefined'&&APPS.armonizacion){
-      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.8';
-      APPS.armonizacion.desc='Aplicación clínica con atlas Mujer validado; Hombre pendiente de atlas anatómico independiente y aprobado.';
+      APPS.armonizacion.src='./modules/armonizacion/index.html?v=1.6.9';
+      APPS.armonizacion.desc='Aplicación clínica con Registro estable, administración por mapa e informe tamaño carta.';
     }
   }catch(error){
     console.warn('ORION: no fue posible actualizar la ruta de Armonización.',error);
