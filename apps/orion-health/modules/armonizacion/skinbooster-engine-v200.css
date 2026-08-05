@@ -1,0 +1,54 @@
+/* ORION Armonización Orofacial V2.0.0 — Skinbooster / mesoterapia */
+.oa-skin-only{display:none!important}
+body[data-procedure-kind="skinbooster"] .oa-skin-record,
+body[data-procedure-kind="skinbooster"] .oa-skin-summary,
+body[data-procedure-kind="skinbooster"] .oa-skin-help{display:block!important}
+body[data-procedure-kind="skinbooster"] .oa-skin-toolbar{display:grid!important}
+body[data-procedure-kind="skinbooster"] #oaSkinLayer{display:block!important}
+body[data-procedure-kind="skinbooster"] #oaSkinEditor:not([hidden]){display:block!important}
+body[data-procedure-kind="skinbooster"] #oaSkinEditor[hidden]{display:none!important}
+body[data-procedure-kind="skinbooster"] #pointLayer,
+body[data-procedure-kind="skinbooster"] #zoneLabelLayer,
+body[data-procedure-kind="skinbooster"] #oaMapMobileTools,
+body[data-procedure-kind="skinbooster"] #oaSelectionBar,
+body[data-procedure-kind="skinbooster"] #oaPointSheetV148,
+body[data-procedure-kind="skinbooster"] .oa-record-panel>.oa-calculator,
+body[data-procedure-kind="skinbooster"] .oa-record-panel>.oa-point-editor,
+body[data-procedure-kind="skinbooster"] .oa-record-panel>.oa-table-card,
+body[data-procedure-kind="skinbooster"] .oa-record-panel>.oa-general-summary{display:none!important}
+.oa-skin-record,.oa-skin-editor,.oa-skin-summary{border:1px solid #b8dcd8!important;box-shadow:0 10px 28px rgba(20,98,91,.09)!important}
+.oa-skin-record .oa-section-title,.oa-skin-summary .oa-section-title{color:#176c66}
+.oa-skin-grid,.oa-skin-editor-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.oa-skin-grid label,.oa-skin-editor-grid label{display:grid;gap:5px;color:#466d69;font-size:12px;font-weight:800}
+.oa-skin-grid input,.oa-skin-grid select,.oa-skin-grid textarea,.oa-skin-editor-grid input,.oa-skin-editor-grid select,.oa-skin-editor-grid textarea{width:100%;min-height:39px;padding:9px 10px;border:1px solid #bdd5d2;border-radius:9px;background:#fff;color:#234b47;font:inherit}
+.oa-skin-grid .wide,.oa-skin-editor-grid .wide{grid-column:1/-1}
+.oa-skin-metrics,.oa-skin-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.oa-skin-metrics>div,.oa-skin-summary-grid>div{padding:10px;border:1px solid #cfe3e1;border-radius:10px;background:#f6fbfa}
+.oa-skin-metrics span,.oa-skin-summary-grid span{display:block;color:#688783;font-size:11px}
+.oa-skin-metrics strong,.oa-skin-summary-grid strong{display:block;margin-top:3px;color:#176c66;font-size:17px}
+.oa-skin-note{margin:0;color:#607f7b;font-size:11px;line-height:1.45}
+.oa-skin-safety{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.oa-skin-check{display:flex!important;align-items:flex-start;gap:9px!important;min-height:48px;padding:10px;border:1px solid #d0e3e1;border-radius:10px;background:#f7fbfb;color:#385d59!important;line-height:1.35}
+.oa-skin-check input{width:18px!important;min-height:18px!important;margin:1px 0 0;padding:0}
+.oa-skin-alert{margin-top:12px;padding:12px 14px;border:1px solid #e0c68d;border-radius:11px;background:#fff9ea;color:#70551b;font-size:12px;line-height:1.5}
+.oa-skin-toolbar{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:10px 0;padding:9px;border:1px solid #c3ddda;border-radius:12px;background:#f4faf9}
+.oa-skin-toolbar button{min-height:42px;padding:8px;border:1px solid #a9cfca;border-radius:9px;background:#fff;color:#176c66;font-weight:900}
+.oa-skin-toolbar button.active{border-color:#17847b;background:#17847b;color:#fff;box-shadow:0 5px 14px rgba(23,132,123,.23)}
+.oa-skin-help{margin:0 0 9px;padding:9px 11px;border-radius:9px;background:#eef8f7;color:#4c716d;font-size:12px;line-height:1.4}
+#oaSkinLayer{position:absolute;inset:0;z-index:10;pointer-events:none}#oaSkinLayer>*{pointer-events:auto}
+.oa-skin-object{position:absolute;border:0;padding:0;cursor:pointer;touch-action:pan-y}
+.oa-skin-object.micro{width:20px;height:20px;margin:-10px 0 0 -10px;border:3px solid #fff;border-radius:50%;background:#24a99d;box-shadow:0 0 0 3px #126d65,0 3px 8px rgba(0,0,0,.25)}
+.oa-skin-object.micro::after{content:attr(data-volume);position:absolute;left:50%;top:24px;transform:translateX(-50%);min-width:38px;padding:3px 5px;border-radius:6px;background:#fff;color:#176c66;font-size:10px;font-weight:900;box-shadow:0 2px 7px rgba(0,0,0,.16)}
+.oa-skin-object.sequence{height:7px;transform-origin:0 50%;border-radius:999px;background:repeating-linear-gradient(90deg,#16867c 0 9px,#83d1cb 9px 16px);box-shadow:0 0 0 2px #fff,0 2px 7px rgba(0,0,0,.22)}
+.oa-skin-object.sequence::before,.oa-skin-object.sequence::after{content:"";position:absolute;top:50%;width:13px;height:13px;transform:translateY(-50%);border:2px solid #fff;border-radius:50%;background:#17847b}.oa-skin-object.sequence::before{left:-6px}.oa-skin-object.sequence::after{right:-6px}
+.oa-skin-object.area{transform:translate(-50%,-50%);border:3px dashed #17968b;border-radius:50%;background:rgba(42,176,164,.16);box-shadow:0 0 0 2px rgba(255,255,255,.85)}
+.oa-skin-object.selected{outline:4px solid rgba(23,132,123,.28);outline-offset:4px}.oa-skin-object.confirmed.micro{background:#608f3a;box-shadow:0 0 0 3px #385d1f,0 3px 8px rgba(0,0,0,.25)}.oa-skin-object.confirmed.sequence{background:repeating-linear-gradient(90deg,#557b31 0 9px,#9bb974 9px 16px)}.oa-skin-object.confirmed.area{border-color:#648c3f;background:rgba(100,140,63,.16)}
+.oa-skin-editor{margin:10px 0 12px;padding:12px;border-radius:13px;background:#fff}.oa-skin-editor-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}.oa-skin-editor-head h3{margin:0;color:#176c66;font-size:16px}.oa-skin-editor-head p{margin:3px 0 0;color:#66817e;font-size:12px}
+.oa-skin-status{padding:5px 9px;border-radius:999px;background:#e4f7f5;color:#176c66;font-size:11px;font-weight:900}.oa-skin-status.confirmed{background:#eaf4df;color:#506b2a}
+.oa-skin-item-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.oa-skin-item-metrics>div{padding:10px;border:1px solid #cfe3e1;border-radius:10px;background:#f6fbfa}.oa-skin-item-metrics span{display:block;color:#66817e;font-size:11px}.oa-skin-item-metrics strong{display:block;margin-top:3px;color:#176c66}
+.oa-skin-editor-actions{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin-top:11px}.oa-skin-editor-actions button{min-height:42px;border:1px solid #bdd6d3;border-radius:9px;background:#fff;color:#176c66;font-weight:900}.oa-skin-editor-actions .confirm{border-color:#5e8734;background:#5e8734;color:#fff}.oa-skin-editor-actions .delete{border-color:#d9a5a5;color:#9b3333}
+.oa-skin-overage{margin:8px 0;padding:10px;border:1px solid #dfaaaa;border-radius:9px;background:#fff1f1;color:#8e3434;font-size:12px;font-weight:800}
+.oa-skin-table-wrap{overflow:auto}.oa-skin-table{width:100%;border-collapse:collapse;font-size:12px}.oa-skin-table th,.oa-skin-table td{padding:8px;border-bottom:1px solid #dceae8;text-align:left;vertical-align:top}.oa-skin-table th{background:#eef8f7;color:#266e68}
+@media(max-width:920px){.oa-skin-grid,.oa-skin-editor-grid{grid-template-columns:1fr 1fr}.oa-skin-safety{grid-template-columns:1fr}.oa-skin-toolbar{position:sticky;top:54px;z-index:14;grid-template-columns:repeat(4,1fr)}.oa-skin-toolbar button{font-size:11px}.oa-skin-editor-actions{grid-template-columns:1fr 1fr}.oa-skin-editor-actions .delete{grid-column:1/-1}.oa-skin-metrics,.oa-skin-summary-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.oa-skin-grid,.oa-skin-editor-grid{grid-template-columns:1fr}.oa-skin-grid .wide,.oa-skin-editor-grid .wide{grid-column:auto}.oa-skin-toolbar{grid-template-columns:1fr 1fr}.oa-skin-editor-actions{grid-template-columns:1fr}.oa-skin-editor-actions .delete{grid-column:auto}.oa-skin-metrics,.oa-skin-summary-grid{grid-template-columns:1fr 1fr}.oa-skin-item-metrics{grid-template-columns:1fr}}
+@media print{.oa-skin-toolbar,.oa-skin-editor,.oa-skin-help{display:none!important}}
