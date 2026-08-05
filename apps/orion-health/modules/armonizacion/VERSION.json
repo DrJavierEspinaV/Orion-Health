@@ -1,6 +1,6 @@
 {
   "product": "ORION Armonización Orofacial",
-  "version": "1.9.0-motor-plla",
+  "version": "2.0.0-motor-skinbooster-mesoterapia",
   "date": "2026-08-05",
   "entry": "index.html",
   "mode": [
@@ -11,11 +11,12 @@
     "toxin": "toxina botulínica por puntos, unidades, dilución y volumen calculado",
     "hyaluronic": "ácido hialurónico por depósitos, trayectos y áreas con volumen en mL",
     "caha": "hidroxiapatita de calcio con preparación, mezcla, depósitos, vectores y áreas",
-    "plla": "ácido poli-L-láctico con reconstitución, tiempos, viales, puntos, vectores y áreas"
+    "plla": "ácido poli-L-láctico con reconstitución, tiempos, viales, puntos, vectores y áreas",
+    "skinbooster": "Skinbooster y mesoterapia por microdepósitos, secuencias y áreas con puntos, volumen, plano y profundidad"
   },
   "features": [
     "registro preprocedimiento y antecedentes",
-    "trazabilidad de producto, lote y vencimiento",
+    "trazabilidad de producto, composición, lote y vencimiento",
     "atlas clínico único",
     "mapas específicos por tipo de intervención",
     "confirmación por elemento administrado",
@@ -23,8 +24,8 @@
     "informes PDF carta específicos",
     "consentimiento e indicaciones posteriores"
   ],
-  "plla_status": "Registra producto, presentación, lote, vencimiento, objetivo, sesión, número de viales, agua estéril, lidocaína, otros aditivos, volumen final, fecha y hora de reconstitución y administración, homogeneidad, puntos, vectores, áreas, plano, técnica e instrumental. No prescribe reconstitución, dosis, plano, técnica ni sesiones.",
+  "skinbooster_status": "Registra categoría del producto, composición, presentación, lote, vencimiento, sesión, volumen disponible, dispositivo, calibre, longitud, microdepósitos, secuencias, áreas, número de puntos, volumen total, volumen por punto, plano, profundidad y patrón. No prescribe dosis, separación, profundidad ni sesiones.",
   "storage": "sessionStorage; sin ficha clínica longitudinal",
   "commercial_status": "piloto funcional en validación clínica y de usabilidad",
-  "technical_status": "motores aislados por tipo de intervención, caché autónoma V1.9.0 y portal R46"
+  "technical_status": "cinco motores aislados por tipo de intervención, caché autónoma V2.0.0 y portal R47"
 }
