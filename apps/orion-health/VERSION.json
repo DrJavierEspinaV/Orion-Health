@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r40-final-piloto",
-  "date": "2026-08-04",
+  "version": "1.4.4-r41-final-piloto",
+  "date": "2026-08-05",
   "modules": {
-    "portal": "1.4.4-r40",
+    "portal": "1.4.4-r41",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.6.9-estabilidad-registro-mapa"
+    "armonizacion_orofacial": "1.6.10-restauracion-navegacion"
   },
-  "release_status": "CORRECCIÓN FUNCIONAL — Registro y Resumen ya no pueden ser reemplazados automáticamente por Mapa durante el ingreso de datos",
+  "release_status": "RESTAURACIÓN FUNCIONAL — se elimina la capa V1.6.9 que bloqueaba las pestañas y se recupera la navegación manual Registro, Mapa y Resumen",
   "clinical_status": "Se conservan evaluación, calculadora, mapa, administración individual y múltiple, resumen, consentimiento, indicaciones y PDF carta",
-  "security_status": "El editor de administración solo activa Mapa después de una interacción explícita con un punto o control del atlas; selecciones persistentes no cambian la pestaña",
-  "identity_status": "Modelo Mujer permanece validado; Hombre continúa temporalmente desactivado hasta integrar un atlas masculino independiente",
-  "layout_status": "El foco, escritura, selección y marcado de antecedentes dentro de Registro mantienen la pestaña Registro y su posición de trabajo",
-  "workflow_status": "Al cambiar manualmente a Registro o Resumen se cancela cualquier retención temporal del mapa; al volver a Mapa se recupera la selección pendiente sin expulsar al usuario",
-  "performance_status": "La protección usa observación exclusiva del atributo de pestaña y eventos de foco, sin reconstruir el mapa ni añadir renderizados pesados",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.9; el portal usa R40",
-  "output_status": "El informe carta y la seguridad del atlas permanecen sin cambios"
+  "security_status": "Ningún observador puede imponer una pestaña durante la escritura; Mapa solo cambia por acción directa del usuario o por controles propios del atlas",
+  "identity_status": "Modelo Mujer permanece validado; Hombre sigue pendiente de un atlas masculino independiente real",
+  "layout_status": "Mapa final del procedimiento se elimina físicamente y por CSS de la pestaña Registro; permanece únicamente en Resumen e informe final",
+  "workflow_status": "Registro, Mapa y Resumen vuelven a responder directamente a sus botones sin protección persistente de foco",
+  "performance_status": "Se elimina el observador global del atlas y se restringe la vigilancia del mapa final exclusivamente al panel Registro",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.6.10; el portal usa R41",
+  "output_status": "El informe carta permanece operativo con el atlas Mujer validado"
 }
