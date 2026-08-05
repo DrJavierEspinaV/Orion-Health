@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r43-final-piloto",
+  "version": "1.4.4-r44-final-piloto",
   "date": "2026-08-05",
   "modules": {
-    "portal": "1.4.4-r43",
+    "portal": "1.4.4-r44",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.7.0-motor-acido-hialuronico"
+    "armonizacion_orofacial": "1.7.0-r1-motor-acido-hialuronico"
   },
-  "release_status": "AMPLIACIÓN CLÍNICA — se mantiene el motor de toxina botulínica y se añade un motor independiente para rellenos con ácido hialurónico",
+  "release_status": "AMPLIACIÓN CLÍNICA — motor de toxina botulínica conservado y motor independiente de ácido hialurónico publicado con corrección visual R1",
   "clinical_status": "Ácido hialurónico incorpora producto, presentación, lote, vencimiento, volumen, jeringas, antecedentes locales, lista de seguridad, depósitos, trayectos, áreas, plano, técnica, instrumental, lateralidad y confirmación por elemento",
-  "security_status": "El motor de rellenos exige confirmación de zona y volumen por elemento, diferencia borrador de administración confirmada y añade verificación de plan de respuesta, insumos de contingencia, derivación y contacto posterior",
+  "security_status": "El motor de rellenos diferencia borrador de administración confirmada, exige zona y volumen por elemento e incorpora verificación de plan de respuesta, insumos de contingencia, derivación y contacto posterior",
   "identity_status": "Mapa e informe mantienen el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
-  "layout_status": "Al seleccionar ácido hialurónico se ocultan los controles de toxina y aparecen formularios y herramientas propios de rellenos sin alterar Registro, Mapa y Resumen",
-  "workflow_status": "El mapa de rellenos permite crear depósito, trayecto o área, editar volumen en mL, zona, lado, aguja o cánula, calibre, longitud, plano, técnica, anestesia y comentario",
-  "performance_status": "El motor V1.7 renderiza exclusivamente al cambiar el modo o los elementos de relleno; conserva las optimizaciones V1.6.3 y el atlas único V1.6.11",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.7.0; el portal usa R43",
-  "output_status": "Ácido hialurónico genera un informe carta propio con registro clínico, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
+  "layout_status": "Al seleccionar ácido hialurónico se ocultan controles de toxina y aparecen producto, seguridad, barra Depósito/Trayecto/Área, editor en mL y resumen propio",
+  "workflow_status": "Cada depósito, trayecto o área registra volumen, zona, lado, aguja o cánula, calibre, longitud, plano, técnica, anestesia y comentario antes de confirmarse",
+  "performance_status": "V1.7.0-r1 corrige la cuadrícula de herramientas y mantiene las optimizaciones V1.6.3 y el atlas único V1.6.11",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.7.0-r1; el portal usa R44",
+  "output_status": "Ácido hialurónico genera un informe carta independiente con registro clínico, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
 }
