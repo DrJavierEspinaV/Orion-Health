@@ -1,24 +1,24 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r46-final-piloto",
+  "version": "1.4.4-r47-final-piloto",
   "date": "2026-08-05",
   "modules": {
-    "portal": "1.4.4-r46",
+    "portal": "1.4.4-r47",
     "comunicaciones": "5.7.7",
     "insumos": "4.5.4",
     "cmf": "4.3.40",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
-    "armonizacion_orofacial": "1.9.0-motor-acido-poli-l-lactico"
+    "armonizacion_orofacial": "2.0.0-motor-skinbooster-mesoterapia"
   },
-  "release_status": "AMPLIACIÓN CLÍNICA — se conservan los motores de toxina botulínica, ácido hialurónico y CaHA y se añade un motor independiente para ácido poli-L-láctico",
-  "clinical_status": "PLLA incorpora producto, presentación, lote, vencimiento, objetivo, sesión, viales, reconstitución, líquidos añadidos, volumen final, fecha y hora de preparación y uso, homogeneidad, lista de seguridad, puntos, vectores, áreas, plano, técnica, instrumental, punto de entrada y confirmación por elemento",
-  "security_status": "ORION documenta la preparación decidida por el clínico y no recomienda reconstitución, tiempo de reposo, dosis, plano, técnica ni número de sesiones; la confirmación exige zona, volumen administrado, volumen final y viales registrados",
-  "identity_status": "Los cuatro motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
-  "layout_status": "Al seleccionar ácido poli-L-láctico se ocultan los controles de los otros motores y aparecen reconstitución PLLA, cálculos documentales, barra Punto/Vector/Área, editor específico y resumen propio",
-  "workflow_status": "Cada elemento diferencia borrador y administración confirmada, registra volumen de suspensión y calcula el equivalente proporcional de viales a partir de los valores ingresados por el profesional",
-  "performance_status": "El motor PLLA permanece aislado y solo se activa cuando la intervención seleccionada es plla; se preservan las optimizaciones y motores anteriores",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v1.9.0; el portal usa R46",
-  "output_status": "PLLA genera un informe carta independiente con registro y reconstitución, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
+  "release_status": "AMPLIACIÓN CLÍNICA — se conservan los motores de toxina botulínica, ácido hialurónico, CaHA y PLLA y se añade un motor independiente para Skinbooster / mesoterapia",
+  "clinical_status": "Skinbooster incorpora categoría, composición, producto, presentación, lote, vencimiento, volumen disponible, sesión, objetivo, dispositivo, calibre, longitud, lista de seguridad, microdepósitos, secuencias, áreas, número de puntos, volumen por elemento, volumen por punto, plano, profundidad, patrón y confirmación",
+  "security_status": "ORION documenta el producto y patrón decididos por el clínico y no recomienda dosis por punto, separación, profundidad ni número de sesiones; la confirmación exige zona, puntos y volumen administrado",
+  "identity_status": "Los cinco motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
+  "layout_status": "Al seleccionar Skinbooster / mesoterapia se ocultan los controles de los otros motores y aparecen producto, trazabilidad, Microdepósito/Secuencia/Área, editor específico y resumen propio",
+  "workflow_status": "Cada elemento diferencia borrador y administración confirmada; registra número de puntos, volumen total y calcula volumen estimado por punto a partir de los datos ingresados",
+  "performance_status": "El motor Skinbooster permanece aislado y solo se activa cuando la intervención seleccionada es skinbooster; se preservan los motores anteriores",
+  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v2.0.0; el portal usa R47",
+  "output_status": "Skinbooster genera un informe carta independiente con registro, lista de seguridad, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
 }
