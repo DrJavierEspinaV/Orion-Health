@@ -25,90 +25,23 @@
   <main class="boot" id="bootScreen" role="status" aria-live="polite">
     <img src="../../assets/brand/orion-health.png" alt="ORION Health">
     <h1>ORION Armonización Orofacial</h1>
-    <p>Preparando motores clínicos de toxina, rellenos, bioestimuladores y calidad cutánea.</p>
+    <p>Preparando motores clínicos de toxina, rellenos, bioestimuladores, calidad cutánea e hilos.</p>
     <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="status" id="bootStatus">Cargando módulo V2.0.0…</div>
-    <div class="error" id="bootError">
-      <strong>No fue posible iniciar el módulo.</strong>
-      <div id="bootDetail"></div>
-      <button type="button" id="bootRetry">Reintentar sin caché</button>
-    </div>
+    <div class="status" id="bootStatus">Cargando módulo V2.1.0…</div>
+    <div class="error" id="bootError"><strong>No fue posible iniciar el módulo.</strong><div id="bootDetail"></div><button type="button" id="bootRetry">Reintentar sin caché</button></div>
   </main>
-
 <script>
 (async()=>{
   'use strict';
-  const VERSION='2.0.0';
-  const status=document.getElementById('bootStatus');
-  const errorBox=document.getElementById('bootError');
-  const detail=document.getElementById('bootDetail');
-  const retry=document.getElementById('bootRetry');
-  const cssFiles=[
-    'performance-v163.css','anatomy-calibration-v146.css','workflow-v147.css','map-dynamic-v148.css','map-inline-v149.css','map-viewport-v150.css',
-    'ui-optimization-v153.css','administration-only-v154.css','clinical-closure-v160.css','mobile-administration-v161.css','final-report-v162.css',
-    'document-model-touch-v164.css','model-anatomy-v165.css','document-letter-atlas-v165.css','single-atlas-v1611.css',
-    'filler-engine-v170.css','filler-engine-v170-r1.css','caha-engine-v180.css','caha-engine-v180-r1.css','plla-engine-v190.css','skinbooster-engine-v200.css'
-  ];
-  const jsFiles=[
-    'performance-v163.js','anatomy-presets-v146.js','registro-v145.js','workflow-v147.js','map-dynamic-v148.js','map-inline-v149.js','map-viewport-v150.js',
-    'standalone-v151.js','ui-optimization-v153.js','administration-only-v154.js','clinical-closure-v160.js','mobile-administration-v161.js','final-report-v162.js',
-    'document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','single-atlas-v1611.js','filler-engine-v170.js','caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js'
-  ];
-
-  retry.addEventListener('click',()=>{
-    const separator=location.search?'&':'?';
-    location.replace(`${location.pathname}${location.search}${separator}reload=${Date.now()}`);
-  });
-
-  function appendStyles(doc){
-    const baseStyle=doc.querySelector('link[href*="registro-v145.css"]');
-    if(baseStyle)baseStyle.setAttribute('href',`./registro-v145.css?v=${VERSION}`);
-    cssFiles.forEach(file=>{const link=doc.createElement('link');link.rel='stylesheet';link.href=`./${file}?v=${VERSION}`;doc.head.appendChild(link);});
-  }
-
-  function appendScripts(doc){
-    doc.querySelectorAll('script[src]').forEach(script=>{
-      const src=script.getAttribute('src')||'';
-      if(src.includes('registro-v145.js'))script.remove();
-      else script.setAttribute('src',src.split('?')[0]+`?v=${VERSION}`);
-    });
-    jsFiles.forEach(file=>{const script=doc.createElement('script');script.src=`./${file}?v=${VERSION}`;script.defer=false;doc.body.appendChild(script);});
-  }
-
-  function updateIdentity(doc){
-    doc.title='ORION Armonización Orofacial V2.0.0';
-    doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-single-atlas','oa-v170','oa-v180','oa-v190','oa-v200');
-    doc.documentElement.dataset.orionAestheticsVersion=VERSION;
-    const manifest=doc.createElement('link');manifest.rel='manifest';manifest.href=`./manifest.webmanifest?v=${VERSION}`;doc.head.appendChild(manifest);
-    const appleIcon=doc.createElement('link');appleIcon.rel='apple-touch-icon';appleIcon.href='../../assets/icons/icon-192.png';doc.head.appendChild(appleIcon);
-    const mark=doc.querySelector('.oa-brand-mark');
-    if(mark){const logo=doc.createElement('img');logo.className='oa-brand-logo';logo.src='../../assets/brand/orion-health.png';logo.alt='ORION Health';mark.replaceWith(logo);}
-    const title=doc.querySelector('.oa-title strong');
-    const subtitle=doc.querySelector('.oa-title span');
-    const version=doc.querySelector('.oa-version');
-    const mapInstruction=doc.querySelector('.oa-map-head span');
-    if(title)title.textContent='Registro de armonización orofacial';
-    if(subtitle)subtitle.textContent='Toxina, ácido hialurónico, CaHA, PLLA y Skinbooster';
-    if(version)version.textContent='V2.0.0';
-    if(mapInstruction)mapInstruction.textContent='El tipo de intervención activa su motor documental sin mezclar unidades, preparación, técnicas ni mapas.';
-  }
-
-  try{
-    status.textContent='Cargando estructura clínica…';
-    const response=await fetch(`./registro-v145.html?base=1&v=${VERSION}&t=${Date.now()}`,{cache:'no-store'});
-    if(!response.ok)throw new Error(`Base clínica HTTP ${response.status}`);
-    const source=await response.text();
-    const doc=new DOMParser().parseFromString(source,'text/html');
-    if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');
-    status.textContent='Integrando motores clínicos e informes carta…';
-    appendStyles(doc);updateIdentity(doc);appendScripts(doc);
-    const output='<!doctype html>\n'+doc.documentElement.outerHTML;
-    if(!output.includes('filler-engine-v170.js')||!output.includes('caha-engine-v180.js')||!output.includes('plla-engine-v190.js')||!output.includes('skinbooster-engine-v200.js'))throw new Error('No fue posible integrar los recursos V2.0.0.');
-    document.open();document.write(output);document.close();
-  }catch(error){
-    console.error('ORION Armonización no pudo iniciar:',error);
-    status.textContent='Error de inicio';detail.textContent=` ${error?.message||error}`;errorBox.style.display='block';
-  }
+  const VERSION='2.1.0';
+  const status=document.getElementById('bootStatus'),errorBox=document.getElementById('bootError'),detail=document.getElementById('bootDetail'),retry=document.getElementById('bootRetry');
+  const cssFiles=['performance-v163.css','anatomy-calibration-v146.css','workflow-v147.css','map-dynamic-v148.css','map-inline-v149.css','map-viewport-v150.css','ui-optimization-v153.css','administration-only-v154.css','clinical-closure-v160.css','mobile-administration-v161.css','final-report-v162.css','document-model-touch-v164.css','model-anatomy-v165.css','document-letter-atlas-v165.css','single-atlas-v1611.css','filler-engine-v170.css','filler-engine-v170-r1.css','caha-engine-v180.css','caha-engine-v180-r1.css','plla-engine-v190.css','skinbooster-engine-v200.css','threads-engine-v210.css'];
+  const jsFiles=['performance-v163.js','anatomy-presets-v146.js','registro-v145.js','workflow-v147.js','map-dynamic-v148.js','map-inline-v149.js','map-viewport-v150.js','standalone-v151.js','ui-optimization-v153.js','administration-only-v154.js','clinical-closure-v160.js','mobile-administration-v161.js','final-report-v162.js','document-model-touch-v164.js','model-key-compat-v165.js','document-letter-atlas-v165.js','single-atlas-v1611.js','filler-engine-v170.js','caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js','threads-engine-v210.js'];
+  retry.addEventListener('click',()=>{const separator=location.search?'&':'?';location.replace(`${location.pathname}${location.search}${separator}reload=${Date.now()}`)});
+  function appendStyles(doc){const baseStyle=doc.querySelector('link[href*="registro-v145.css"]');if(baseStyle)baseStyle.setAttribute('href',`./registro-v145.css?v=${VERSION}`);cssFiles.forEach(file=>{const link=doc.createElement('link');link.rel='stylesheet';link.href=`./${file}?v=${VERSION}`;doc.head.appendChild(link)})}
+  function appendScripts(doc){doc.querySelectorAll('script[src]').forEach(script=>{const src=script.getAttribute('src')||'';if(src.includes('registro-v145.js'))script.remove();else script.setAttribute('src',src.split('?')[0]+`?v=${VERSION}`)});jsFiles.forEach(file=>{const script=doc.createElement('script');script.src=`./${file}?v=${VERSION}`;script.defer=false;doc.body.appendChild(script)})}
+  function updateIdentity(doc){doc.title='ORION Armonización Orofacial V2.1.0';doc.documentElement.classList.add('oa-viewport-v150','oa-ui-v153','oa-admin-v154','oa-v160','oa-v161','oa-v162','oa-performance-v163','oa-v164-touch','oa-single-atlas','oa-v170','oa-v180','oa-v190','oa-v200','oa-v210');doc.documentElement.dataset.orionAestheticsVersion=VERSION;const manifest=doc.createElement('link');manifest.rel='manifest';manifest.href=`./manifest.webmanifest?v=${VERSION}`;doc.head.appendChild(manifest);const appleIcon=doc.createElement('link');appleIcon.rel='apple-touch-icon';appleIcon.href='../../assets/icons/icon-192.png';doc.head.appendChild(appleIcon);const mark=doc.querySelector('.oa-brand-mark');if(mark){const logo=doc.createElement('img');logo.className='oa-brand-logo';logo.src='../../assets/brand/orion-health.png';logo.alt='ORION Health';mark.replaceWith(logo)}const title=doc.querySelector('.oa-title strong'),subtitle=doc.querySelector('.oa-title span'),version=doc.querySelector('.oa-version'),mapInstruction=doc.querySelector('.oa-map-head span');if(title)title.textContent='Registro de armonización orofacial';if(subtitle)subtitle.textContent='Toxina, rellenos, bioestimuladores, Skinbooster e hilos';if(version)version.textContent='V2.1.0';if(mapInstruction)mapInstruction.textContent='El tipo de intervención activa su motor documental sin mezclar unidades, preparación, técnicas ni mapas.'}
+  try{status.textContent='Cargando estructura clínica…';const response=await fetch(`./registro-v145.html?base=1&v=${VERSION}&t=${Date.now()}`,{cache:'no-store'});if(!response.ok)throw new Error(`Base clínica HTTP ${response.status}`);const source=await response.text(),doc=new DOMParser().parseFromString(source,'text/html');if(!doc.getElementById('atlasShell')||!doc.getElementById('patientName'))throw new Error('La base clínica recibida está incompleta.');status.textContent='Integrando motores clínicos e informes…';appendStyles(doc);updateIdentity(doc);appendScripts(doc);const output='<!doctype html>\n'+doc.documentElement.outerHTML;if(!output.includes('threads-engine-v210.js'))throw new Error('No fue posible integrar el motor de hilos.');document.open();document.write(output);document.close()}catch(error){console.error('ORION Armonización no pudo iniciar:',error);status.textContent='Error de inicio';detail.textContent=` ${error?.message||error}`;errorBox.style.display='block'}
 })();
 </script>
 </body>
