@@ -1,8 +1,8 @@
 {
   "name": "ORION Armonización Orofacial",
   "short_name": "ORION Estética",
-  "description": "Motores clínicos independientes para toxina botulínica, ácido hialurónico, hidroxiapatita de calcio, ácido poli-L-láctico, Skinbooster y mesoterapia.",
-  "start_url": "./index.html?v=2.0.0&standalone=1",
+  "description": "Motores clínicos independientes para toxina botulínica, ácido hialurónico, hidroxiapatita de calcio, ácido poli-L-láctico, Skinbooster, mesoterapia e hilos.",
+  "start_url": "./index.html?v=2.1.0&standalone=1",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
