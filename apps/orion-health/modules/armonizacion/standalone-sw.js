@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-armonizacion-v2.0.0';
+const CACHE_NAME='orion-armonizacion-v2.1.0';
 const SHELL=[
   './','./index.html','./registro-v145.html','./registro-v145.css','./registro-v145.js',
   './performance-v163.css','./performance-v163.js','./anatomy-calibration-v146.css','./anatomy-presets-v146.js',
@@ -12,7 +12,8 @@ const SHELL=[
   './filler-engine-v170.css','./filler-engine-v170-r1.css','./filler-engine-v170.js',
   './caha-engine-v180.css','./caha-engine-v180-r1.css','./caha-engine-v180.js',
   './plla-engine-v190.css','./plla-engine-v190.js',
-  './skinbooster-engine-v200.css','./skinbooster-engine-v200.js','./manifest.webmanifest',
+  './skinbooster-engine-v200.css','./skinbooster-engine-v200.js',
+  './threads-engine-v210.css','./threads-engine-v210.js','./manifest.webmanifest',
   './anatomy-atlas-female-v145-r17-01.js','./anatomy-atlas-female-v145-r17-02.js',
   './anatomy-atlas-female-v145-r17-03.js','./anatomy-atlas-female-v145-r17-04.js',
   '../../assets/brand/orion-health.png','../../assets/icons/icon-192.png','../../assets/icons/icon-512.png'
