@@ -19,6 +19,7 @@
     notice.id='orionComponentCatalogNotice';
     notice.className='mt-3 rounded-xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-900';
     notice.innerHTML='<strong>Catálogo por fármacos activo.</strong> Puedes construir la receta por Analgesia, Antibióticos y Corticoides/Otros. Las dosis siguen siendo editables y cada selección exige una nueva confirmación clínica antes de emitir.';
+    if($('tplAdulto')&&window.ORION_CMF_CLINICAL)notice.textContent='Catálogo por fármacos activo. Revisa dosis, contraindicaciones e interacciones antes de emitir. No combines dos AINE.';
     toggleRow.insertAdjacentElement('afterend',notice);
   }
 

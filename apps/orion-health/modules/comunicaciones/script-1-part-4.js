@@ -135,7 +135,7 @@ function prepRowFromDb_(obj) {
     edad: edadFinal,
     rut: String(r['RUN'] ?? r['RUT'] ?? r['Rut'] ?? r['run'] ?? '').trim(),
     telefono: cleanPhone(r['TELEFONO'] ?? r['Teléfono'] ?? r['Telefono'] ?? r['telefono'] ?? ''),
-    estado: String(r['STATUS'] ?? r['Status'] ?? r['estado'] ?? '').trim(),
+    estado: window.ORION_APPOINTMENT_STATUS.fromRow(r),
     motivo: (String(r['MOTIVO'] ?? r['Motivo'] ?? r['motivo'] ?? 'SIN REGISTRO').trim() || 'SIN REGISTRO'),
     fechaFmt: fh.fechaFmt,
     horaFmt: fh.horaFmt,

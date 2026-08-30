@@ -171,11 +171,8 @@
   }
 
   async function authorize(output='EMITIR'){
-    const confirmation=$('orionClinicalConfirmCMF');
-    if(!confirmation?.checked){
-      alert('Debes completar la confirmación clínica antes de emitir, imprimir, copiar o enviar la receta.');
-      return null;
-    }
+    // User-requested pause of the legacy checklist; preserve folio, signature and audit.
+    if(window.ORION_CMF_VALIDATE_OUTPUT?.()===false)return null;
 
     const payload=canonicalPayload();
     const contentHash=await sha256(payload);

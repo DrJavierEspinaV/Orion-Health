@@ -327,7 +327,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
   .container{ padding-left: 12px !important; padding-right: 12px !important; }
 }
 </style>
-</head>
+<script src="../../assets/shared/appointment-status.js?v=1.4.5"></script></head>
 
 <body>
 <header id="orionHdr">
@@ -1375,7 +1375,7 @@ function prepRowFromDb_(obj) {
     edad: edadFinal,
     rut: String(r['RUN'] ?? r['RUT'] ?? r['Rut'] ?? r['run'] ?? '').trim(),
     telefono: cleanPhone(r['TELEFONO'] ?? r['Teléfono'] ?? r['Telefono'] ?? r['telefono'] ?? ''),
-    estado: String(r['STATUS'] ?? r['Status'] ?? r['estado'] ?? '').trim(),
+    estado: window.ORION_APPOINTMENT_STATUS.fromRow(r),
     motivo: (String(r['MOTIVO'] ?? r['Motivo'] ?? r['motivo'] ?? 'SIN REGISTRO').trim() || 'SIN REGISTRO'),
     fechaFmt: fh.fechaFmt,
     horaFmt: fh.horaFmt,
@@ -1456,7 +1456,7 @@ function prepRow(r){
   const telefonoRaw = r['WhatsApp'] ?? r['whatsapp'] ?? r['Teléfono'] ?? r['telefono'] ?? r['Telefono'] ??
                       r['Celular'] ?? r['celular'] ?? r['Fono'] ?? r['fono'] ?? '';
   const telefono = cleanPhone(telefonoRaw);
-  const estado = r['Texto status consulta'] ?? r['texto status consulta'] ?? r['STATUS'] ?? r['Status'] ?? r['Estado'] ?? r['estado'] ?? '';
+  const estado = window.ORION_APPOINTMENT_STATUS.fromRow(r);
   let motivo = r['Txt.tp.planificación'] ?? r['txt.tp.planificación'] ?? r['Motivo consulta'] ?? r['motivo consulta'] ?? '';
   motivo = String(motivo||'').trim() || 'SIN REGISTRO';
   const fechaRaw = r['fecha'] ?? r['Fecha'] ?? r['FECHA'] ?? '';
@@ -1491,10 +1491,8 @@ async function onExcel(e){
 }
 
 function statusPill(estado){
-  const s = String(estado||'').toLowerCase();
-  if(s.includes('citado') || s.includes('ausent')) return `<span class="pill ausente">Ausente</span>`;
-  if(s.includes('confirm') || s.includes('asist') || s.includes('acept')) return `<span class="pill ok">${escapeHtml(estado)}</span>`;
-  return `<span class="pill info">${escapeHtml(estado||'—')}</span>`;
+  const category=window.ORION_APPOINTMENT_STATUS.category(estado);
+  return `<span class="pill ${category}">${escapeHtml(estado||'Sin estado')}</span>`;
 }
 function poblarEstadosUnicos(){
   const sel = $('#showFilter');
@@ -1626,8 +1624,7 @@ function render(){
 
   listEl.innerHTML = '';
   for(const r of filtered){
-    const isAusente = /citado|ausent/i.test(String(r.estado||''));
-    const estadoLabel = isAusente ? 'Ausente' : (r.estado || '—');
+    const estadoLabel = r.estado || 'Sin estado';
     const phone = r.telefono;
     const retrasoKey = getRetrasoRowKey(r);
     const retrasoTipo = retrasoWhatsappKeys.get(retrasoKey) || '';

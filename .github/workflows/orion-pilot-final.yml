@@ -39,6 +39,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Static validation
         run: npm run check:orion
+      - name: Dose and status regression tests
+        run: npm run test:unit
       - name: Functional and mobile tests
         run: npm run test:e2e
       - name: Upload Playwright report

@@ -1,24 +1,31 @@
 {
   "product": "ORION Dental App",
-  "version": "1.4.4-r48-final-piloto",
-  "date": "2026-08-06",
+  "version": "1.4.5-final-piloto",
+  "date": "2026-08-30",
   "modules": {
-    "portal": "1.4.4-r48",
-    "comunicaciones": "5.7.7",
+    "portal": "1.4.5",
+    "comunicaciones": "5.7.8",
     "insumos": "4.5.4",
-    "cmf": "4.3.40",
+    "cmf": "4.3.41",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
     "armonizacion_orofacial": "2.1.0-motor-hilos"
   },
-  "release_status": "AMPLIACIÓN CLÍNICA — se conservan los motores de toxina, ácido hialurónico, CaHA, PLLA y Skinbooster, y se añade un motor independiente para hilos",
+  "release_status": "CORRECCIONES DE ESTADOS Y AMPLIACIÓN DE PLANTILLAS CMF",
   "clinical_status": "Hilos incorpora producto, tipo, material, longitud, calibre, lote, vencimiento, cantidad, sesión, anestesia, lista de seguridad, puntos de entrada, vectores, áreas o mallas, plano, lateralidad, entrada, salida, fijación, comentarios y confirmación por elemento",
   "security_status": "ORION documenta la técnica decidida por el clínico y no recomienda vector, plano, cantidad ni tipo de hilo; la confirmación exige zona y tipo de hilo",
   "identity_status": "Los seis motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
   "layout_status": "Al seleccionar hilos se ocultan los controles de los otros motores y aparecen producto, trazabilidad, Entrada/Vector/Área, editor específico y resumen propio",
   "workflow_status": "Cada elemento diferencia borrador y administración confirmada; registra cantidad de hilos, material, plano, entrada, salida y fijación",
   "performance_status": "El motor de hilos permanece aislado y solo se activa cuando la intervención seleccionada es threads; se preservan los motores anteriores",
-  "standalone_status": "La aplicación autónoma utiliza la caché orion-armonizacion-v2.1.0; el portal usa R48",
-  "output_status": "Hilos genera un informe carta independiente con registro, mapa final, trazabilidad, consentimiento e indicaciones posteriores"
+  "standalone_status": "Armonización conserva orion-armonizacion-v2.1.0; portal usa orion-dental-app-v1.4.5",
+  "output_status": "Hilos genera un informe carta independiente con registro, mapa final, trazabilidad, consentimiento e indicaciones posteriores",
+  "cmf_update": {
+    "status": "Estados de Excel/Drive conservados sin convertir Citado en Ausente",
+    "interconsultation": "Generar y Cerrar en cabecera",
+    "templates": "Analgesia adulta c/6 h 48 h, pediatría con concentración, TTM, pericoronaritis y alerta de alveolitis",
+    "legacy_clinical_checklist": "Suspendido por solicitud del usuario; firma, folio, trazabilidad y validación del cálculo pediátrico conservados",
+    "clinical_review": "Plantillas editables para revisión profesional; no equivalen a validación clínica externa"
+  }
 }

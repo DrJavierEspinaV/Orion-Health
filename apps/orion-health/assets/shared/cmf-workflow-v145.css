@@ -1,0 +1,19 @@
+/* Acciones de interconsulta en cabecera, visibles en escritorio y móvil. */
+#interDrawer>.orion-inter-header{display:flex!important;flex-wrap:wrap;align-items:center;gap:12px;flex-shrink:0;position:sticky;top:0;background:#fff;z-index:2;}
+.orion-inter-title{flex:1 1 220px;min-width:0;}
+.orion-inter-actions{display:flex;gap:8px;align-items:center;margin-left:auto;}
+.orion-inter-actions button{min-height:44px;white-space:normal;}
+#interDrawer>.space-y-3{min-height:0;}
+.orion-pedia-settings{margin-top:8px;display:grid;gap:8px;font-size:12px;}
+.orion-pedia-settings select{width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;}
+#pediaStatus{font-size:12px;line-height:1.4;margin-top:8px;color:#475569;}
+#pediaStatus[data-error="true"]{color:#9f1239;}
+@media(max-width:600px){.orion-inter-title{flex-basis:100%;}.orion-inter-actions{width:100%;}#btnInterGenerate{flex:1;}#btnInterClose{flex:0 0 auto;}.orion-inter-title p{display:none;}#interDrawer>.orion-inter-header{gap:8px!important;}}
+
+#pediaSettings[hidden],#pediaSettings [hidden],#faseActions button[hidden]{display:none!important;}
+
+/* El iframe tiene altura automática; el drawer no debe tomar esa altura como pantalla. */
+#interDrawer{position:fixed!important;right:0;bottom:auto!important;display:flex;flex-direction:column;background:#fff;z-index:90;overflow:hidden;}
+#interDrawer.translate-x-full{transform:translateX(100%)!important;visibility:hidden;pointer-events:none;}
+#interDrawer:not(.translate-x-full){visibility:visible;transform:translateX(0)!important;}
+#interDrawer>.space-y-3{flex:1 1 auto;overflow:auto;min-height:0;}

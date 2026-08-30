@@ -13,7 +13,7 @@ function prepRow(r){
   const telefonoRaw = r['WhatsApp'] ?? r['whatsapp'] ?? r['Teléfono'] ?? r['telefono'] ?? r['Telefono'] ??
                       r['Celular'] ?? r['celular'] ?? r['Fono'] ?? r['fono'] ?? '';
   const telefono = cleanPhone(telefonoRaw);
-  const estado = r['Texto status consulta'] ?? r['texto status consulta'] ?? r['STATUS'] ?? r['Status'] ?? r['Estado'] ?? r['estado'] ?? '';
+  const estado = window.ORION_APPOINTMENT_STATUS.fromRow(r);
   let motivo = r['Txt.tp.planificación'] ?? r['txt.tp.planificación'] ?? r['Motivo consulta'] ?? r['motivo consulta'] ?? '';
   motivo = String(motivo||'').trim() || 'SIN REGISTRO';
   const fechaRaw = r['fecha'] ?? r['Fecha'] ?? r['FECHA'] ?? '';
@@ -48,10 +48,8 @@ async function onExcel(e){
 }
 
 function statusPill(estado){
-  const s = String(estado||'').toLowerCase();
-  if(s.includes('citado') || s.includes('ausent')) return `<span class="pill ausente">Ausente</span>`;
-  if(s.includes('confirm') || s.includes('asist') || s.includes('acept')) return `<span class="pill ok">${escapeHtml(estado)}</span>`;
-  return `<span class="pill info">${escapeHtml(estado||'—')}</span>`;
+  const category=window.ORION_APPOINTMENT_STATUS.category(estado);
+  return `<span class="pill ${category}">${escapeHtml(estado||'Sin estado')}</span>`;
 }
 function poblarEstadosUnicos(){
   const sel = $('#showFilter');
