@@ -1,4 +1,4 @@
-// Migración de recursos móviles y escritorio: v=1.4.2 → v=1.4.4-r6
+// Migración de recursos móviles y escritorio: v=1.4.2 → v=1.4.5
 (async()=>{
   try{
     let h=await fetch('./source.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()});
@@ -33,7 +33,7 @@ setTimeout(()=>{
   }catch(e){}
 }, cacheRestoredOnStart ? 1400 : 220);`
       )
-      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.4-r6"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.4-r6"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.4-r6"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.4-r6"></head>')
+      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.5"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.5"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"></head>')
       .replace('</body>',`<script>
 (function(){
   const XLSX_URL='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
@@ -59,7 +59,7 @@ setTimeout(()=>{
     catch(error){alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');console.error(error);}
   },true);
 })();
-</script><script src="../../assets/shared/session-config.js?v=1.4.4-r6"></script><script src="../../assets/shared/communications-priority-layout.js?v=1.4.4-r6"></script></body>`);
+</script><script src="../../assets/shared/session-config.js?v=1.4.5"></script><script src="../../assets/shared/communications-priority-layout.js?v=1.4.5"></script></body>`);
     document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();

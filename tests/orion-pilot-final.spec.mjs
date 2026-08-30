@@ -4,7 +4,7 @@ const appUrl='/apps/orion-health/index.html';
 const modules=[
   ['comunicaciones','comunicaciones',/Comunicaciones/i],
   ['insumos','insumos',/538 insumos/i],
-  ['cmf','cmf',/Control clínico CMF/i],
+  ['cmf','cmf',/Plantilla — Adulto/i],
   ['endo','endodoncia',/Control clínico Endodoncia/i],
   ['orto','ortodoncia',/Ortodoncia/i],
   ['odontopediatria','odontopediatria',/Odontopediatría/i]
@@ -70,8 +70,8 @@ test('Comunicaciones prioriza búsqueda, fechas y pacientes sobre la conexión D
 
 test('CMF y Endodoncia conservan auditoría y catálogo por fármacos',async({page})=>{
   await openPortal(page);
-  let frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
-  await expect(frame.locator('#orionClinicalConfirmCMF')).toBeVisible();
+  let frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
+  await expect(frame.locator('#orionClinicalConfirmCMF')).toHaveCount(0);
   await expect(frame.locator('#modoComp')).toBeEnabled();
   await frame.locator('#modoComp').check();
   await expect(frame.locator('#panelComponentes')).toBeVisible();
@@ -91,14 +91,14 @@ test('CMF y Endodoncia conservan auditoría y catálogo por fármacos',async({pa
   await expect(frame.locator('#orionComponentCatalogNotice')).toBeVisible();
 });
 
-test('CMF usa las tres plantillas breves auditadas V1.3.2',async({page})=>{
+test('CMF actualiza postoperatorios y conserva la pauta preoperatoria',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   const selector=frame.locator('#tplAdulto');
   const receta=frame.locator('#receta');
 
   await selector.selectOption('Post_Qx1');
-  await expect(receta).toHaveValue(/PARACETAMOL 1 g[\s\S]*KETOPROFENO 50 mg[\s\S]*DEXAMETASONA 8 mg/);
+  await expect(receta).toHaveValue(/PARACETAMOL 500 mg[\s\S]*KETOPROFENO 50 mg[\s\S]*DEXAMETASONA 8 mg/);
   await expect(receta).toHaveValue(/solo si fue indicada por el clínico/i);
 
   await selector.selectOption('Post_Qx2');
@@ -111,7 +111,7 @@ test('CMF usa las tres plantillas breves auditadas V1.3.2',async({page})=>{
 
 test('CMF mantiene el NPS una sola vez en plantillas y recetas manuales',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   const selector=frame.locator('#tplAdulto');
   const receta=frame.locator('#receta');
   const nps=/Encuesta de satisfacción \(NPS\): Puede recibir una encuesta aleatoria sobre su experiencia de hoy\./;
@@ -138,7 +138,7 @@ test('CMF mantiene el NPS una sola vez en plantillas y recetas manuales',async({
 
 test('CMF ubica acciones arriba y configura PDF Statement y WhatsApp',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   const actions=frame.locator('.orion-actions-top');
   await expect(actions).toBeVisible();
   await expect(actions.locator('#btnPrint')).toBeVisible();
@@ -163,7 +163,7 @@ test('CMF ubica acciones arriba y configura PDF Statement y WhatsApp',async({pag
 
 test('CMF oculta las hojas impresas en una pestaña y las abre bajo demanda',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   const editTab=frame.locator('#orionClinicalTabEdit');
   const previewTab=frame.locator('#orionClinicalTabPreview');
   const editPane=frame.locator('#orionClinicalEditPane');
@@ -193,7 +193,7 @@ test('CMF oculta las hojas impresas en una pestaña y las abre bajo demanda',asy
 
 test('CMF restaura firma solo en receta y autoriza con folio, fecha, código y auditoría',async({page})=>{
   await openPortal(page);
-  const frame=await selectModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await selectModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   const receta=frame.locator('#receta');
   const confirmation=frame.locator('#orionClinicalConfirmCMF');
 
@@ -218,7 +218,7 @@ test('CMF restaura firma solo en receta y autoriza con folio, fecha, código y a
   expect(signatureScope.noExtraVisibleBlock).toBeTruthy();
 
   await frame.locator('#orionClinicalTabEdit').click();
-  await confirmation.check();
+  await expect(confirmation).toHaveCount(0);
   const authorization=await frame.locator('body').evaluate(async()=>{
     const record=await window.ORION_CMF_RX_AUTH.authorize('TEST');
     const page=document.getElementById('printSheet');
@@ -263,7 +263,7 @@ test('CMF restaura firma solo en receta y autoriza con folio, fecha, código y a
   expect(auditCount).toBeGreaterThan(0);
 
   await receta.fill('RECETA MODIFICADA');
-  await expect(confirmation).not.toBeChecked();
+  await expect(confirmation).toHaveCount(0);
   const invalidated=await frame.locator('body').evaluate(()=>({
     current:window.ORION_CMF_RX_AUTH.current(),
     folio:document.getElementById('printSheet').dataset.orionRxFolio||''

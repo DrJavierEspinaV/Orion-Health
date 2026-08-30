@@ -10,7 +10,7 @@ async function openCmf(page){
     try{return !!frame?.contentWindow?.location?.pathname?.includes('/modules/cmf/');}catch(_){return false;}
   },null,{timeout:30000});
   const frame=page.frameLocator('#appFrame');
-  await expect(frame.locator('body')).toContainText(/Control clínico CMF/i,{timeout:30000});
+  await expect(frame.locator('body')).toContainText(/Plantilla — Adulto/i,{timeout:30000});
   return frame;
 }
 

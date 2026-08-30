@@ -10,7 +10,7 @@ async function openCmf(page){
     try{return !!frame?.contentWindow?.location?.pathname?.includes('/modules/cmf/');}catch(_){return false;}
   },null,{timeout:30000});
   const frame=page.frameLocator('#appFrame');
-  await expect(frame.locator('body')).toContainText(/Control clínico CMF/i,{timeout:30000});
+  await expect(frame.locator('body')).toContainText(/Plantilla — Adulto/i,{timeout:30000});
   return frame;
 }
 
@@ -132,7 +132,7 @@ test('PDF Statement R4 usa html2pdf directo y la PWA carga los recursos nuevos',
   const response=await request.get('/apps/orion-health/service-worker.js');
   expect(response.ok()).toBeTruthy();
   const serviceWorker=await response.text();
-  expect(serviceWorker).toContain('orion-dental-app-v1.4.4-r4');
+  expect(serviceWorker).toContain('orion-dental-app-v1.4.5');
   expect(serviceWorker).toContain('clinical-output-fixes-cmf-v144r4.css');
   expect(serviceWorker).toContain('clinical-output-fixes-cmf-v144r4.js');
   expect(serviceWorker).not.toContain("'./assets/shared/clinical-mobile-v142.css'");

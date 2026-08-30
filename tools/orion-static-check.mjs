@@ -28,12 +28,12 @@ for(const file of [
 ])requireFile(file);
 
 const version=JSON.parse(read('VERSION.json'));
-if(!String(version.version).startsWith('1.4.4-r47'))failures.push(`Versión inesperada: ${version.version}`);
-if(!String(version.modules?.portal||'').startsWith('1.4.4-r47'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
-if(version.modules?.comunicaciones!=='5.7.7')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
-if(version.modules?.cmf!=='4.3.40')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(!String(version.version).startsWith('1.4.5'))failures.push(`Versión inesperada: ${version.version}`);
+if(!String(version.modules?.portal||'').startsWith('1.4.5'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
+if(version.modules?.comunicaciones!=='5.7.8')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
+if(version.modules?.cmf!=='4.3.41')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
-if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.0.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
+if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.1.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
 
 const manifest=JSON.parse(read('manifest.webmanifest'));
 if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta');
@@ -74,7 +74,7 @@ includesAll('Fichas móviles de pacientes',communicationsMobile,[
 ]);
 
 includesAll('CMF loader V1.4.4',cmfLoader,[
-  'clinical-nps-cmf-v136.js','clinical-audit-cmf.js','clinical-templates-cmf-v132.js','clinical-output-cmf-v134.js',
+  'clinical-nps-cmf-v136.js','clinical-output-cmf-v134.js',
   'clinical-preview-cmf-v135.js','clinical-prescription-auth-cmf-v139.js','clinical-prescription-share-cmf-v139.js',
   'clinical-mobile-docs-cmf-v141.js','clinical-mobile-cmf-v142.css','clinical-mobile-cmf-v142.js',
   'maxilofacial-pro-plus.svg','orion-health.png','firma-javier-espina-navy.svg',
@@ -110,16 +110,13 @@ const sessionConfig=read('assets/shared/session-config.js');
 if(/extractTokenFromHash|HASH_KEYS|orion-token|location\.hash/i.test(sessionConfig))failures.push('La conexión Drive aún admite credenciales por URL/hash');
 if(!sessionConfig.includes('sessionStorage'))failures.push('La credencial no está limitada a sessionStorage');
 
-const cmfAudit=read('assets/shared/clinical-audit-cmf.js');
 const endoAudit=read('assets/shared/clinical-audit-endo.js');
-for(const [name,text] of [['CMF',cmfAudit],['Endodoncia',endoAudit]]){
-  if(!text.includes('Confirmo que revisé'))failures.push(`${name} no exige confirmación profesional`);
-  if(!text.includes('C. difficile'))failures.push(`${name} no registra cautela de clindamicina`);
-}
-if(/MELOXICAM 15 mg[\s\S]{0,80}cada 12/i.test(cmfAudit))failures.push('Pauta insegura de meloxicam en auditoría CMF');
-
-const cmfTemplates=read('assets/shared/clinical-templates-cmf-v132.js');
-includesAll('Plantillas CMF',cmfTemplates,['Post_Qx1','Post_Qx2','PRE_QX','PARACETAMOL 1 g','KETOPROFENO 50 mg','DEXAMETASONA 8 mg','Dosis única 1 hora antes','solo si fue indicada por el clínico']);
+includesAll('Auditoría Endodoncia conservada',endoAudit,['Confirmo que revisé','C. difficile']);
+const cmfSource=read('modules/cmf/source.html');
+const cmfTemplates=read('assets/shared/cmf-clinical-v145.js');
+includesAll('Fuente clínica CMF',cmfSource,['cmf-clinical-v145.js','ORION_CMF_VALIDATE_OUTPUT','orion-inter-actions']);
+includesAll('Plantillas CMF',cmfTemplates,['Post_Qx1','Post_Qx2','PRE_QX','pediatric','ttm_mialgia','pericoronaritis','alveolitis']);
+if(cmfLoader.includes('clinical-audit-cmf.js')||cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF carga controles o plantillas retirados');
 const cmfNps=read('assets/shared/clinical-nps-cmf-v136.js');
 includesAll('NPS CMF',cmfNps,['Encuesta de satisfacción (NPS):','Puede recibir una encuesta aleatoria sobre su experiencia de hoy.','Responderla toma 1 min y nos ayuda a mejorar.','ensureNps','mandatory:true','ORION_CMF_NPS_V136']);
 const rxAuth=read('assets/shared/clinical-prescription-auth-cmf-v139.js');
@@ -134,8 +131,8 @@ const componentRestore=read('assets/shared/clinical-components-restore.js');
 includesAll('Catálogo farmacológico',componentRestore,['ACTIVO CON CONTROL CLÍNICO','invalidateConfirmation']);
 
 const armonizacionIndex=read('modules/armonizacion/index.html');
-includesAll('Armonización V2.0.0',armonizacionIndex,[
-  "const VERSION='2.0.0'",'filler-engine-v170.js','caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js',
+includesAll('Armonización V2.1.0',armonizacionIndex,[
+  "const VERSION='2.1.0'",'filler-engine-v170.js','caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js',
   'skinbooster-engine-v200.css','single-atlas-v1611.js'
 ]);
 const skinbooster=read('modules/armonizacion/skinbooster-engine-v200.js');
@@ -168,7 +165,7 @@ else{
 
 const serviceWorker=read('service-worker.js');
 includesAll('Service worker R47',serviceWorker,[
-  'orion-dental-app-v1.4.4-r47','orion-identity-system-v140.css','orion-mobile-v141.css',
+  'orion-dental-app-v1.4.5','orion-identity-system-v140.css','orion-mobile-v141.css',
   'portal-route-selector-v144r6.css','portal-aesthetic-v144r7.css','portal-armonizacion-v152.js',
   'clinical-certificate-cmf-v144r6.css','modules/armonizacion/index.html','filler-engine-v170.js',
   'caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js'
@@ -176,9 +173,9 @@ includesAll('Service worker R47',serviceWorker,[
 if(serviceWorker.includes('maxilofacial-pro-plus-compact.svg'))failures.push('Service worker aún distribuye un logo CMF para documentos');
 
 if(failures.length){
-  console.error('\nORION R47 / Armonización V2.0.0 — VERIFICACIÓN FALLIDA');
+  console.error('\nORION V1.4.5 / Armonización V2.1.0 — VERIFICACIÓN FALLIDA');
   [...new Set(failures)].forEach(item=>console.error(`- ${item}`));
   process.exit(1);
 }
-console.log('ORION R47 / Armonización V2.0.0 — verificación estática aprobada');
-console.log(`Módulos base: ${modules.length} | Motores de Armonización: 5 | PWA: ${manifest.display}`);
+console.log('ORION V1.4.5 / Armonización V2.1.0 — verificación estática aprobada');
+console.log(`Módulos base: ${modules.length} | Motores de Armonización: 6 | PWA: ${manifest.display}`);

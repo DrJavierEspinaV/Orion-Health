@@ -269,7 +269,7 @@ body, input, select, textarea, button{ font-family: var(--orion-font) !important
 .page hr{ border-color: #d6deea !important; }
 
 </style>
-</head>
+<script src="../../assets/shared/cmf-clinical-v145.js?v=1.4.5"></script><link rel="stylesheet" href="../../assets/shared/cmf-workflow-v145.css?v=1.4.5"></head>
 
 
 <body>
@@ -304,7 +304,7 @@ body, input, select, textarea, button{ font-family: var(--orion-font) !important
       </div>
       <div>
         <label class="text-sm text-slate-600">Edad (años)</label>
-        <input id="p_edad" type="number" min="0" class="mt-1 w-full rounded-xl border p-2"/>
+        <input id="p_edad" type="number" min="0" step="0.01" class="mt-1 w-full rounded-xl border p-2"/>
       </div>
       <div>
         <label class="text-sm text-slate-600">Peso (kg)</label>
@@ -363,8 +363,14 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
           <label class="text-sm text-slate-600">Plantilla — Adulto</label>
           <select id="tplAdulto" class="mt-1 w-full rounded-xl border p-2">
             <option value="">— Selecciona —</option>
-            <option value="Post_Qx1">POST-QUIRÚRGICO 1</option>
-            <option value="Post_Qx2">POST-QUIRÚRGICO 2</option>
+            <option value="Post_Qx1">Postquirúrgico 1 — ketoprofeno + paracetamol c/6 h</option>
+            <option value="Post_Qx2">Postquirúrgico 2 — ibuprofeno + paracetamol c/6 h</option>
+            <option value="post_sin_aine">Postquirúrgico — sin AINE</option>
+            <option value="ttm_mialgia">TTM — dolor muscular agudo</option>
+            <option value="ttm_articular">TTM — dolor articular agudo</option>
+            <option value="ttm_relajante">TTM — relajante muscular opcional (adulto)</option>
+            <option value="pericoronaritis">Pericoronaritis — manejo local y analgesia</option>
+            <option value="pericoronaritis_atb">Pericoronaritis — antibiótico si está indicado</option>
             <option value="PRE_QX">PRE-QUIRURGICOS</option>
             <option value="alergia_penicilina">Alergia a Penicilinas</option>
             <option value="hipertenso">Paciente HTA</option>
@@ -376,10 +382,19 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
           <label class="text-sm text-slate-600">Plantilla — Pediátrico</label>
           <select id="tplPedia" class="mt-1 w-full rounded-xl border p-2">
             <option value="">— Selecciona —</option>
-            <option value="pedia_dolor">Dolor/ Fiebre (Paracetamol/Ibuprofeno)</option>
+            <option value="pedia_dolor">Dolor — paracetamol</option>
+            <option value="pedia_ibu">Dolor inflamatorio — ibuprofeno</option>
+            <option value="pedia_postqx">Postoperatorio — paracetamol + ibuprofeno</option>
+            <option value="pedia_cuidados">Cuidados postoperatorios sin medicación</option>
             <option value="pedia_amoxi">Amoxicilina (mg/kg/día)</option>
           </select>
-          <p class="text-xs text-slate-500 mt-1">Usa el campo <b>kg</b> para calcular dosis.</p>
+          <p class="text-xs text-slate-500 mt-1">Edad en años (0,5 = 6 meses), peso y concentración real del frasco.</p>
+          <div id="pediaSettings" class="orion-pedia-settings" hidden>
+            <label id="pediaApapLabel">Paracetamol<select id="pediaApap"><option value="">Concentración mg/5 ml</option><option value="120">120 mg/5 ml</option><option value="160">160 mg/5 ml</option><option value="250">250 mg/5 ml</option></select></label>
+            <label id="pediaIbuLabel">Ibuprofeno<select id="pediaIbu"><option value="">Concentración mg/5 ml</option><option value="100">100 mg/5 ml</option><option value="200">200 mg/5 ml</option></select></label>
+            <label id="pediaAmoxiLabel">Amoxicilina<select id="pediaAmoxi"><option value="">Concentración mg/5 ml</option><option value="250">250 mg/5 ml</option><option value="400">400 mg/5 ml</option><option value="500">500 mg/5 ml</option></select></label>
+          </div>
+          <p id="pediaStatus" role="status" aria-live="polite"></p>
         </div>
         <div>
           <label class="text-sm text-slate-600">Diagnóstico / Procedimiento</label>
@@ -540,6 +555,9 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
         <select id="selInd" class="mt-1 w-full rounded-xl border p-2">
           <option value="">— Selecciona Indicación —</option>
           <option value="ind_tm">Terceros Molares</option>
+          <option value="ind_ttm">Disfunción temporomandibular — autocuidado</option>
+          <option value="ind_pericoronaritis">Pericoronaritis — cuidados y alertas</option>
+          <option value="ind_pedia">Postoperatorio pediátrico — cuidador</option>
           <option value="ind_exo_colgajo">Exodoncia a Colgajo</option>
           <option value="ind_exo_rog">Extracción + ROG (Preservación Alveolar)</option>
           <option value="ind_fen">Fenestración</option>
@@ -729,13 +747,14 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
     <div id="interBackdrop" class="fixed inset-0 bg-black/40 hidden z-50"></div>
 
     <aside id="interDrawer" class="fixed inset-y-0 right-0 w-full max-w-xl bg-white shadow-2xl border-l border-slate-200 translate-x-full transition-transform duration-200 z-50 flex flex-col">
-      <div class="p-4 border-b flex items-center justify-between gap-3">
-        <div>
+      <div class="p-4 border-b flex items-center justify-between gap-3 orion-inter-header">
+        <div class="orion-inter-title">
           <div class="text-xs text-slate-500">Orion • Documento</div>
           <h3 class="text-lg font-extrabold text-slate-900">📄 Interconsulta</h3>
           <p class="text-xs text-slate-500">Solicitud a otras especialidades (médicas, dentales u otras). Se genera como hoja separada.</p>
         </div>
-        <button id="btnInterClose" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Cerrar</button>
+        <div class="orion-inter-actions"><button id="btnInterGenerate" class="px-4 py-2 rounded-xl bg-[color:var(--pri)] text-white">Generar Interconsulta</button>
+        <button id="btnInterClose" class="px-3 py-1.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-sm">Cerrar</button></div>
       </div>
 
       <div class="p-4 space-y-3 overflow-auto grow">
@@ -761,11 +780,6 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
         </div>
       </div>
 
-      <div class="p-4 border-t bg-white">
-        <div class="flex flex-wrap gap-2 justify-end">
-          <button id="btnInterGenerate" class="px-4 py-2 rounded-xl bg-[color:var(--pri)] text-white">Generar Interconsulta</button>
-        </div>
-      </div>
     </aside>
   </div>
 
@@ -1005,128 +1019,7 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
      ========================= -->
 <script>
   /* ========= PLANTILLAS (EDITA AQUÍ POSOLOGÍA RÁPIDO) ========= */
-  const PLANTILLAS = {
-
-    Post_Qx1: 
-`PARACETAMOL 1 gr
-1 comprimido cada 6-8 hr por 5 días o SOS.
-
-KETOPROFENO 50 mg
-1 comprimido cada 6-8 hr por 3 - 5 días o SOS.
-
-AMOXICILINA 500 mg
-1 comprimido cada 6-8 hr por 7 días o SOS.
-
-PREDNISONA 5 mg
-1 comprimido cada 6-8 hr por 3 días o SOS.
-
-Colutorio Orofaríngeo de Clohexidina 0,12%
-3 Veces al Día, máximo 14 días.
-
-Encuesta de satisfacción (NPS): Puede recibir una encuesta aleatoria sobre su experiencia de hoy. Responderla toma 1 min y nos ayuda a mejorar. ¡Gracias por su tiempo!
-
-
-
-Ya tiene Cita el día _______________ a las __________ Hrs.`,
-
-
-    Post_Qx2:
-`PARACETAMOL 1 gr
-1 comprimido cada 6-8 hr por 5 días o SOS.
-
-KETOPROFENO 50 mg
-1 comprimido cada 6-8 hr por 3 - 5 días o SOS.
-
-Colutorio Orofaríngeo de Clohexidina 0,12%
-3 Veces al Día, máximo 14 días.
-
-Encuesta de satisfacción (NPS): Puede recibir una encuesta aleatoria sobre su experiencia de hoy. Responderla toma 1 min y nos ayuda a mejorar. ¡Gracias por su tiempo!
-
-
-
-Ya tiene Cita el día _______________ a las __________ Hrs.`,
-
-
-    PRE_QX: 
-`PARACETAMOL 1 gr
-1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
-
-KETOPROFENO 50 mg
-1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
-
-AMOXICILINA 500 mg
-1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.
-
-PREDNISONA 5 mg
-1 comprimido cada 8 hr, comenzar 24 horas previas al procedimiento.`,
-
-
-    alergia_penicilina:
-`PARACETAMOL 1 g
-1 comprimido cada 6 horas por 5 días
-
-KETOPROFENO 50 mg
-1 comprimido cada 8 horas por 3–5 días
-
-CLINDAMICINA 300 mg
-1 comprimido cada 8 horas por 7 días
-ó
-AZITROMICINA 500 mg
-1 comprimido cada 24 horas por 3 días`,
-  
-
-    hipertenso: 
-`PARACETAMOL 1 g
-1 comprimido cada 8 horas por 3-5 días
-
-MELOXICAM 15 mg
-1 comprimido cada 12 horas por 3 días
-
-*Evitar ibuprofeno/ketorolaco si es mal controlado.`,
-
-
-    diabetico: 
-`PARACETAMOL 1 g
-1 comprimido cada 6 horas por 5 días
-
-KETOPROFENO 50 mg
-1 comprimido cada 8 horas por 3–5 días
-
-AMOXICILINA 500 mg
-4 comprimido 1 hora antes el procedimiento
-
-
-*Evitar AINES si hay nefropatía. Control de Glicemias (<180 mg/dl).`,
-
-
-    embarazo: 
-`PARACETAMOL 500–1000 mg
-c/6–8 horas según necesidad.
-
-AMOXICILINA 500 mg
-1 comprimido cada 8 horas por 7 días
-
-Evitar AINES y Quinolonas.`
-  };
-
-  const PEDIA = {
-    pedia_dolor: (kg)=> {
-      const paracetamolMg = Math.round(kg * 12.5);
-      const ibuprofenoMg = Math.round(kg * 10);
-      return `PARACETAMOL jarabe (120 mg/5 ml)
-Dosis: ${paracetamolMg} mg cada 6–8 horas (≈ ${((paracetamolMg/120)*5).toFixed(1)} ml) por 3–5 días
-
-IBUPROFENO jarabe (100 mg/5 ml)
-Dosis: ${ibuprofenoMg} mg cada 6–8 horas (≈ ${((ibuprofenoMg/100)*5).toFixed(1)} ml) por 3–5 días`;
-    },
-    pedia_amoxi: (kg)=> {
-      const totalDia = Math.round(kg * 30);
-      const c8h = Math.round(totalDia/3);
-      return `AMOXICILINA jarabe 250 mg/5 ml
-Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
-≈ ${((c8h/250)*5).toFixed(1)} ml por toma por 7 días`;
-    }
-  };
+  const PLANTILLAS = window.ORION_CMF_CLINICAL.adult;
 
   /* ========= INDICACIONES ========= */
   const INDICACIONES = {
@@ -1246,6 +1139,9 @@ Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
 • Inflamación que aumenta después del 3er día o Trismus/Disfagia; dificultad de abrir la boca o deglutir.`
   };
 
+  Object.assign(INDICACIONES, window.ORION_CMF_CLINICAL.instructions);
+  INDICACIONES.ind_tm += window.ORION_CMF_CLINICAL.alveolitis;
+
   /* ========= PREQUIRÚRGICAS (base) ========= */
   const PRE_BASE = `✅ Prequirúrgicas
 • No es necesario Ayuno (salvo indicación específica/sedación).
@@ -1264,7 +1160,9 @@ Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
     const indicaciones = document.getElementById('indicaciones');
     const safeRender = ()=>{ try{ if(typeof render === 'function') render(); }catch(_){} };
 
+    const nonsurgical=()=>['ind_ttm','ind_pericoronaritis','ind_pedia'].includes(selInd?.value);
     function insertPre(){
+      if(nonsurgical()){insertPost();return;}
       if(!indicaciones) return;
       const current = (indicaciones.value || '').trim();
       const add = PRE_BASE.trim();
@@ -1280,6 +1178,7 @@ Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
       safeRender();
     }
     function insertAmbas(){
+      if(nonsurgical()){insertPost();return;}
       if(!selInd || !indicaciones) return;
       const key = selInd.value; if(!key) return;
       const post = (INDICACIONES[key] || '').trim();
@@ -1297,6 +1196,7 @@ Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
     document.getElementById('insPre')?.addEventListener('click', insertPre);
     document.getElementById('insPost')?.addEventListener('click', insertPost);
     document.getElementById('insAmbas')?.addEventListener('click', insertAmbas);
+    selInd?.addEventListener('change',()=>{const direct=nonsurgical();document.getElementById('insPost').textContent=direct?'Insertar indicaciones':'Insertar POST';document.getElementById('insPre').hidden=direct;document.getElementById('insAmbas').hidden=direct;});
   })();
 
   /* ========= DOM ========= */
@@ -1322,14 +1222,34 @@ Dosis diaria: ${totalDia} mg/día en 3 tomas (cada 8 h)
   modoComp.addEventListener('change', syncModo);
   syncModo();
 
-  tplAdulto?.addEventListener('change', ()=>{ receta.value = PLANTILLAS[tplAdulto.value] || ''; render(); });
-  tplPedia?.addEventListener('change', ()=>{
-    const kg = parseFloat(p_peso.value||'0');
-    if(!kg){ alert('Ingresa peso (kg) para cálculo.'); return; }
-    const txt = PEDIA[tplPedia.value]?.(kg) || '';
-    receta.value = (receta.value?receta.value+'\n\n':'') + txt;
+  let activePediatric = false;
+  let pediatricError = '';
+  function pediaInput(){return {kg:p_peso.value,age:p_edad.value,apap:$('pediaApap').value,ibu:$('pediaIbu').value,amoxi:$('pediaAmoxi').value};}
+  function generatePediatric(){
+    const key=tplPedia.value;
+    $('pediaSettings').hidden=!key||key==='pedia_cuidados';
+    $('pediaApapLabel').hidden=!['pedia_dolor','pedia_postqx'].includes(key);
+    $('pediaIbuLabel').hidden=!['pedia_ibu','pedia_postqx'].includes(key);
+    $('pediaAmoxiLabel').hidden=key!=='pedia_amoxi';
+    if(!key){receta.value='';pediatricError='';$('pediaStatus').textContent='';render();return;}
+    const result=window.ORION_CMF_CLINICAL.pediatric(key,pediaInput());
+    pediatricError=result.error||'';
+    receta.value=result.text||'';
+    $('pediaStatus').textContent=result.error||'Dosis recalculadas. Verifica la receta y el frasco antes de emitir.';
+    $('pediaStatus').dataset.error=String(!!result.error);
+    receta.dispatchEvent(new Event('input',{bubbles:true}));
     render();
+  }
+  tplAdulto?.addEventListener('change',()=>{
+    activePediatric=false;pediatricError='';tplPedia.value='';$('pediaSettings').hidden=true;$('pediaStatus').textContent='';
+    receta.value=PLANTILLAS[tplAdulto.value]||'';receta.dispatchEvent(new Event('input',{bubbles:true}));render();
   });
+  tplPedia?.addEventListener('change',()=>{activePediatric=!!tplPedia.value;tplAdulto.value='';generatePediatric();});
+  ['p_peso','p_edad','pediaApap','pediaIbu','pediaAmoxi'].forEach(id=>$(id)?.addEventListener('input',()=>{if(activePediatric)generatePediatric();}));
+  window.ORION_CMF_VALIDATE_OUTPUT=()=>{
+    if(activePediatric&&pediatricError){alert(pediatricError);return false;}
+    return true;
+  };
 
   function addFrom(selectId){
     const s = $(selectId); if(!s?.value) return;
@@ -2117,6 +2037,27 @@ ${(indicaciones.value||'').replace(/^\s*indicaciones?\s*—.*?\n+/i,'').trim()}
     return {nombre,rut,edad,peso,dx};
   }
 
+  function fitDrawer(){
+    if(drawer.classList.contains('translate-x-full'))return;
+    let top=0,height=window.visualViewport?.height||window.innerHeight;
+    try{
+      if(window.frameElement&&window.parent!==window){
+        const rect=window.frameElement.getBoundingClientRect();
+        const viewport=window.parent.visualViewport;
+        const offset=viewport?.offsetTop||0;
+        const viewportHeight=viewport?.height||window.parent.innerHeight;
+        top=Math.max(0,offset-rect.top);
+        height=viewportHeight-Math.max(0,rect.top-offset);
+      }
+    }catch(_){}
+    drawer.style.setProperty('top',Math.round(top)+'px','important');
+    drawer.style.setProperty('height',Math.max(180,Math.round(height))+'px','important');
+  }
+  window.addEventListener('resize',fitDrawer);
+  window.visualViewport?.addEventListener('resize',fitDrawer);
+  window.addEventListener('pagehide',()=>{try{if(window.parent!==window){window.parent.removeEventListener('scroll',fitDrawer);window.parent.removeEventListener('resize',fitDrawer);window.parent.visualViewport?.removeEventListener('resize',fitDrawer);}}catch(_){}},{once:true});
+  try{if(window.parent!==window){window.parent.addEventListener('scroll',fitDrawer,{passive:true});window.parent.addEventListener('resize',fitDrawer);window.parent.visualViewport?.addEventListener('resize',fitDrawer);}}catch(_){}
+
   function open(){
     backdrop.classList.remove('hidden');
     drawer.classList.remove('hidden');
@@ -2124,6 +2065,8 @@ ${(indicaciones.value||'').replace(/^\s*indicaciones?\s*—.*?\n+/i,'').trim()}
     drawer.classList.add('translate-x-0');
     document.documentElement.classList.add('overflow-hidden');
     document.body.classList.add('overflow-hidden');
+    fitDrawer();
+    requestAnimationFrame(fitDrawer);
   }
 
   function close(){

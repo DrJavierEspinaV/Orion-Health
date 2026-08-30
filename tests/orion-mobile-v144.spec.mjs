@@ -57,7 +57,7 @@ test('Comunicaciones móvil ordena agenda, lista, mensajes y conexión',async({p
 
 test('CMF móvil permite scroll central, sube acciones y prepara firma PNG',async({page})=>{
   await page.setViewportSize({width:390,height:844});
-  const frame=await openModule(page,'cmf','cmf',/Control clínico CMF/i);
+  const frame=await openModule(page,'cmf','cmf',/Plantilla — Adulto/i);
   await expect(frame.locator('body')).toHaveClass(/orion-cmf-mobile/);
   await frame.locator('#btnDocExams').click();
   await expect(frame.locator('#examDrawer')).toBeVisible();

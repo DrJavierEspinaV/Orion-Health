@@ -1,6 +1,8 @@
-const CACHE_NAME='orion-dental-app-v1.4.4-r48';
+const CACHE_NAME='orion-dental-app-v1.4.5';
 const APP_SCOPE='./';
 const SHELL=[
+  './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
+  './assets/shared/appointment-status.js','./assets/shared/cmf-clinical-v145.js','./assets/shared/cmf-workflow-v145.css',
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',
   './assets/brand/orion-health.png','./assets/icons/icon-192.png','./assets/icons/icon-512.png',
   './assets/shared/orion-identity-system-v140.css','./assets/shared/orion-mobile-v141.css',

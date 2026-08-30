@@ -36,8 +36,7 @@ function render(){
 
   listEl.innerHTML = '';
   for(const r of filtered){
-    const isAusente = /citado|ausent/i.test(String(r.estado||''));
-    const estadoLabel = isAusente ? 'Ausente' : (r.estado || '—');
+    const estadoLabel = r.estado || 'Sin estado';
     const phone = r.telefono;
     const retrasoKey = getRetrasoRowKey(r);
     const retrasoTipo = retrasoWhatsappKeys.get(retrasoKey) || '';
