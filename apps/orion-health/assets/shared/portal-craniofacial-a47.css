@@ -1,0 +1,15 @@
+/* Only the Cefalometría route gets the compact viewport layout. */
+body.craniofacial-active { height:100dvh; min-height:0!important; overflow:hidden!important; }
+body.craniofacial-active .shell { height:100dvh; min-height:0!important; }
+body.craniofacial-active .main { height:100dvh!important; min-height:0!important; max-height:100dvh; padding:0!important; margin:0!important; overflow:hidden!important; gap:0!important; }
+body.craniofacial-active .main>.topbar { display:none!important; }
+body.craniofacial-active .stage-wrap { display:flex!important; flex-direction:column; height:100dvh!important; min-height:0!important; max-height:100dvh; margin:0!important; padding:0!important; flex:1!important; border:0!important; border-radius:0!important; overflow:hidden!important; }
+body.craniofacial-active .stage-head { display:flex!important; align-items:center; flex-wrap:nowrap!important; justify-content:space-between; gap:6px!important; height:32px!important; min-height:32px!important; flex:0 0 32px!important; padding:2px 8px!important; border-bottom:1px solid #D9E5EC; }
+body.craniofacial-active .stage-title { min-width:0; }
+body.craniofacial-active #currentAppTitle { font-size:12px!important; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
+body.craniofacial-active #currentAppDesc { display:none!important; }
+body.craniofacial-active .stage-tools { display:flex!important; width:auto!important; gap:4px!important; flex:0 0 auto; }
+body.craniofacial-active .stage-tools button { width:auto!important; min-height:26px!important; height:26px!important; padding:3px 7px!important; font-size:11px!important; white-space:nowrap; }
+body.craniofacial-active #btnGoCMF,body.craniofacial-active #btnReloadApp,body.craniofacial-active #btnClearPaciente { display:none!important; }
+body.craniofacial-active #appFrame { width:100%!important; min-height:0!important; border:0!important; display:block; flex:1 1 0!important; }
+@media(max-width:640px){body.craniofacial-active #btnOpenStandalone {display:none!important;}}
