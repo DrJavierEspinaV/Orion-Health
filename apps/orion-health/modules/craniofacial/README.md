@@ -1,4 +1,6 @@
-# ORION Craniofacial Analysis — Avance 47
+# ORION Craniofacial Analysis — Avance 48
+
+Corrección funcional sobre el diseño A47 aprobado por el usuario: las modificaciones mediante colocación, arrastre de puntos y calibración vuelven a activar el aviso de cambios sin guardar. Se conserva el diseño y no se modifican fórmulas. Véase `VALIDACION_A48.md` y `verification48.json`. Integración aún en borrador, sin publicación.
 
 Inicio limpio y propuesta de integración al portal ORION Health. Fecha: 31 de agosto de 2026.
 
@@ -42,7 +44,7 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 Los archivos `verification47.json` y `portal-verification47.json` contienen los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-No se ejecutaron pruebas de extremo a extremo ni una revisión visual de A47 en navegador. La aprobación visual del usuario corresponde a A46, no a esta nueva integración. No fusionar ni publicar antes de completar la siguiente revisión.
+La aprobación visual del usuario corresponde al editor A47. A48 conserva sus estilos. No se ejecutaron pruebas de extremo a extremo ni una revisión de A48 integrado en navegador. No fusionar ni publicar antes de completar la siguiente revisión.
 
 ## Revisión antes de publicar
 
