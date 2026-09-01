@@ -1,4 +1,4 @@
-# ORION Craniofacial Analysis — Avance 53
+# ORION Craniofacial Analysis — Avance 54
 
 Evolución clínica sobre el diseño aprobado: incorpora semáforo explícito, un único control de estado + siguiente y un escenario rojo fijado sin aceptación para análisis de sensibilidad. Conserva geometría, fórmulas y compatibilidad con estudios A48. Integración aún en borrador, sin publicación.
 
@@ -39,14 +39,14 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 - Once scripts inline: comprobación de sintaxis con Node.
 - 17 pruebas de ciclo de estudio en Node, con decodificación real de PNG mediante sharp: inicio vacío, carga, secuencia completa, persistencia parcial, importaciones inválidas sin pérdida del estudio, cancelación, cambios durante exportación y compatibilidad geométrica.
-- 10 pruebas específicas A53, 16 regresiones A52 y verificación byte a byte de las fórmulas clínicas heredadas.
+- 14 pruebas específicas A54, 10 regresiones A53, 16 regresiones A52 y verificaciones de interacción y portal.
 - 7 pruebas del portal con dobles DOM: rutas anteriores, altura del módulo y protección de navegación/mensajes.
 - 6 pruebas de interacción de coordenadas y cambios sin guardar.
 - Inspección estática de privacidad: sin imagen, identificador ni coordenadas del caso anterior.
 
-El archivo `verification53.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
+El archivo `verification54.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-La aprobación visual del usuario corresponde al editor A47/A48. A53 conserva sus estilos y corrige únicamente la escala visual posterior al landmark 28. No se ejecutó validación clínica ni una revisión A53 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
+La aprobación visual del usuario corresponde al editor A47/A48. A54 conserva los estilos de A53 y corrige el cálculo incompleto de F1. No se ejecutó validación clínica global ni una revisión A54 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
 
 ## Revisión antes de publicar
 
@@ -78,3 +78,8 @@ Los estudios nuevos parten en F1 automática y requieren edad y sexo completos a
 ## Ajuste A53 — puntos estables después del landmark 28
 
 El paso del renderizado parcial al análisis completo conserva ahora el mismo tamaño aparente de los landmarks con cualquier zoom. Los radios visibles son 3,5 px y 5 px para el seleccionado; las áreas táctiles transparentes permanecen amplias. Bordes, rótulo seleccionado y líneas no aumentan al acercar la imagen. No se modifican coordenadas, estados clínicos ni cálculos.
+
+
+## Ajuste A54 — F1 continua completa
+
+Los cuatro componentes del correctivo de la F1 teórica se calculan ahora de forma proporcional y continua a partir de sus bandas normales. Esto elimina el valor nulo que aparecía cuando C1/C2 redondeaba fuera de la tabla discreta antigua. La interfaz presenta cada contribución, el correctivo total y la F1 resultante. No cambian coordenadas, estados clínicos ni clasificación diagnóstica.
