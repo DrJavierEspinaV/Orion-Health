@@ -1,4 +1,4 @@
-# ORION Craniofacial Analysis — Avance 50
+# ORION Craniofacial Analysis — Avance 51
 
 Evolución clínica sobre el diseño aprobado: incorpora semáforo explícito, un único control de estado + siguiente y un escenario rojo fijado sin aceptación para análisis de sensibilidad. Conserva geometría, fórmulas y compatibilidad con estudios A48. Integración aún en borrador, sin publicación.
 
@@ -39,14 +39,14 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 - Once scripts inline: comprobación de sintaxis con Node.
 - 17 pruebas de ciclo de estudio en Node, con decodificación real de PNG mediante sharp: inicio vacío, carga, secuencia completa, persistencia parcial, importaciones inválidas sin pérdida del estudio, cancelación, cambios durante exportación y compatibilidad geométrica.
-- 20 pruebas específicas A50 del modelo de estados, acción única, persistencia, bloqueo de salida final y regresión byte a byte de fórmulas.
+- 20 pruebas específicas A51 del modelo de estados, acción única, persistencia, bloqueo de salida final y regresión byte a byte de fórmulas.
 - 7 pruebas del portal con dobles DOM: rutas anteriores, altura del módulo y protección de navegación/mensajes.
 - 6 pruebas de interacción de coordenadas y cambios sin guardar.
 - Inspección estática de privacidad: sin imagen, identificador ni coordenadas del caso anterior.
 
 El archivo `verification49.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-La aprobación visual del usuario corresponde al editor A47/A48. A50 conserva sus estilos y añade sólo señales clínicas discretas. No se ejecutó validación clínica ni una revisión A50 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
+La aprobación visual del usuario corresponde al editor A47/A48. A51 conserva sus estilos y añade sólo señales clínicas discretas. No se ejecutó validación clínica ni una revisión A51 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
 
 ## Revisión antes de publicar
 
@@ -58,6 +58,10 @@ La aprobación visual del usuario corresponde al editor A47/A48. A50 conserva su
 6. Dentro del portal: confirmar asociación explícita del paciente, vuelta al selector y funcionamiento de los siete módulos anteriores. Probar también actualización de caché.
 7. Obtener autorización para fusionar la PR y desplegar. El flujo de Pages existente publica desde `main`; la rama de revisión no se activa en la app por sí sola.
 
-## Ajuste A50 — transición visual
+## Ajuste A51 — transición visual
 
 Al completar la coordenada 28, la primera vista calculada conserva sólo la arquitectura craneal y sagital principal, F1 y los puntos. Las medidas, referencias derivadas, capas dentales y nombres masivos permanecen disponibles mediante los controles de capas y el preset **Todo**. Un estudio importado conserva exactamente sus capas guardadas.
+
+## Ajuste A51 — F1 asistida y semáforo visible
+
+Los estudios nuevos parten en F1 automática y requieren edad y sexo completos antes de activarla. Las bases manuales 85°/90° permanecen disponibles. La regla operativa no cambia y su corte cronológico sigue marcado como pendiente de validación. Un semáforo compacto, fuera de la radiografía, resume aceptados exactos, estimados/observados, fijados sin aceptar, pendientes y excluidos.
