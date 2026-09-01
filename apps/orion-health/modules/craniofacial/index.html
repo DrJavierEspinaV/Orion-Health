@@ -3958,4 +3958,69 @@ window.ORION_A52={c3c2:a52C3C2Snapshot,artifact:a52JSONArtifact,readStudyJSON:a5
  a52BindPortableImport();safeDraw('A52 trazado sutil, F1 continua y JSON seguro');a47SetDirty(false);
 })();
 </script>
+
+
+<style id="orion-a53-style">
+/* A53 keeps landmark geometry visually constant across the partial/full-analysis transition. */
+#points .landmark>circle:not(.a52HitArea){vector-effect:non-scaling-stroke}
+#points .a52HitArea{fill:transparent!important;stroke:none!important;pointer-events:all}
+</style>
+
+<script id="orion-a53-ui">
+/*
+ A53 fixes a display-only discontinuity at landmark 28.
+ The partial renderer already expresses radii in screen pixels; the complete renderer did not.
+ Coordinates, clinical states, calculations, layer logic and saved-study compatibility are unchanged.
+*/
+function a53ViewScale(){
+ return Math.max(VB.w/(svg.clientWidth||900),VB.h/(svg.clientHeight||700));
+}
+function a53StabilizeLandmarkDisplay(){
+ const scale=a53ViewScale();
+ pgroup?.querySelectorAll?.('.landmark').forEach(group=>{
+  const isSelected=group.dataset.k===selected;
+  const visible=group.querySelector('circle:not(.a52HitArea)');
+  const hit=group.querySelector('.a52HitArea');
+  if(visible){
+   visible.setAttribute('r',String((isSelected?5:3.5)*scale));
+   visible.setAttribute('stroke-width',String(isSelected?1.8:1.2));
+   visible.setAttribute('vector-effect','non-scaling-stroke');
+  }
+  if(hit){
+   hit.setAttribute('r',String((isSelected?18:14)*scale));
+   hit.setAttribute('fill','transparent');
+   hit.setAttribute('stroke','none');
+  }
+  const label=group.querySelector('text');
+  const point=P[group.dataset.k];
+  if(label&&Array.isArray(point)){
+   label.setAttribute('x',String(point[0]+7*scale));
+   label.setAttribute('y',String(point[1]-7*scale));
+   label.setAttribute('font-size',String(11*scale));
+  }
+ });
+ lines?.querySelectorAll?.('[stroke-width]').forEach(element=>element.setAttribute('vector-effect','non-scaling-stroke'));
+}
+const a53BaseDraw=draw;
+draw=function(...args){
+ const result=a53BaseDraw(...args);
+ a53StabilizeLandmarkDisplay();
+ return result;
+};
+const a53BaseStudyPayload=studyPayload;
+studyPayload=function(includeImage=true){
+ const payload=a53BaseStudyPayload(includeImage);
+ payload.engine=payload.engine||{};
+ payload.engine.editor_version='AVANCE_53_PUNTOS_ESTABLES_TRAS_LANDMARK_28';
+ return payload;
+};
+window.ORION_A53={viewScale:a53ViewScale,stabilize:a53StabilizeLandmarkDisplay};
+(function initA53(){
+ S.editor_version='AVANCE_53_PUNTOS_ESTABLES_TRAS_LANDMARK_28';
+ if(S.ui)S.ui.ui_version='0.16';
+ safeDraw('A53 puntos estables tras landmark 28');
+ a47SetDirty(false);
+})();
+</script>
+
 </body></html>
