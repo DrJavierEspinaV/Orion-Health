@@ -1,4 +1,4 @@
-# ORION Craniofacial Analysis — Avance 54
+# ORION Craniofacial Analysis — Avance 55
 
 Evolución clínica sobre el diseño aprobado: incorpora semáforo explícito, un único control de estado + siguiente y un escenario rojo fijado sin aceptación para análisis de sensibilidad. Conserva geometría, fórmulas y compatibilidad con estudios A48. Integración aún en borrador, sin publicación.
 
@@ -39,14 +39,14 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 - Once scripts inline: comprobación de sintaxis con Node.
 - 17 pruebas de ciclo de estudio en Node, con decodificación real de PNG mediante sharp: inicio vacío, carga, secuencia completa, persistencia parcial, importaciones inválidas sin pérdida del estudio, cancelación, cambios durante exportación y compatibilidad geométrica.
-- 14 pruebas específicas A54, 10 regresiones A53, 16 regresiones A52 y verificaciones de interacción y portal.
+- 12 pruebas específicas A55, 14 regresiones A54, 10 regresiones A53, 16 regresiones A52 y verificaciones de interacción y portal.
 - 7 pruebas del portal con dobles DOM: rutas anteriores, altura del módulo y protección de navegación/mensajes.
 - 6 pruebas de interacción de coordenadas y cambios sin guardar.
 - Inspección estática de privacidad: sin imagen, identificador ni coordenadas del caso anterior.
 
-El archivo `verification54.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
+El archivo `verification55.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-La aprobación visual del usuario corresponde al editor A47/A48. A54 conserva los estilos de A53 y corrige el cálculo incompleto de F1. No se ejecutó validación clínica global ni una revisión A54 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
+La aprobación visual del usuario corresponde al editor A47/A48. A55 conserva el motor A54 y corrige la presentación de los ángulos dentales. No se ejecutó validación clínica global ni una revisión A55 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
 
 ## Revisión antes de publicar
 
@@ -83,3 +83,8 @@ El paso del renderizado parcial al análisis completo conserva ahora el mismo ta
 ## Ajuste A54 — F1 continua completa
 
 Los cuatro componentes del correctivo de la F1 teórica se calculan ahora de forma proporcional y continua a partir de sus bandas normales. Esto elimina el valor nulo que aparecía cuando C1/C2 redondeaba fuera de la tabla discreta antigua. La interfaz presenta cada contribución, el correctivo total y la F1 resultante. No cambian coordenadas, estados clínicos ni clasificación diagnóstica.
+
+
+## Ajuste A55 — ángulos dentales locales
+
+U1/F4, L1/Basilar Me–No y U1/L1 mantienen exactamente sus valores y ahora se dibujan localmente sobre los incisivos, sin prolongar los ejes hasta intersecciones lejanas. d1/d2/d3 quedan como guías teóricas opcionales, cortas y diferenciadas. La tabla clínica ya no mezcla U1/d1 ni L1/d2 con las medidas reales. Ningún ángulo dental clínico depende de la F1 adaptada.

@@ -2,7 +2,7 @@ const APPS = {
   craniofacial: {
     title: "ORION Craniofacial Analysis",
     desc: "Cefalometría 2D · Prototipo en validación.",
-    src: "./modules/craniofacial/index.html?embed=1&v=a54"
+    src: "./modules/craniofacial/index.html?embed=1&v=a55"
   },
   comunicaciones: {
     title: "ORION Comunicaciones Clínicas",
