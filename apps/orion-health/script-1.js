@@ -1,4 +1,9 @@
 const APPS = {
+  craniofacial: {
+    title: "ORION Craniofacial Analysis",
+    desc: "Cefalometría 2D · Prototipo en validación.",
+    src: "./modules/craniofacial/index.html?embed=1&v=a55"
+  },
   comunicaciones: {
     title: "ORION Comunicaciones Clínicas",
     desc: "Base de pacientes, mensajería y selección del paciente fuente.",
@@ -54,6 +59,15 @@ const syncEdad = document.getElementById("syncEdad");
 const syncBadge = document.getElementById("syncBadge");
 const menuButtons = Array.from(document.querySelectorAll(".menu-btn"));
 const state = { currentApp: null };
+let cephDirty = false;
+const isCraniofacial = () => state.currentApp === "craniofacial";
+const cephFrameHeight = () => Math.max(240, window.innerHeight - 32);
+function canLeaveCraniofacial(){
+  if(!isCraniofacial()) return true;
+  let dirty = cephDirty;
+  try{ dirty = appFrame.contentWindow?.ORION_CEPH?.hasUnsavedChanges?.() ?? dirty; }catch(_){}
+  return !dirty || window.confirm("Cefalometría tiene cambios sin guardar. ¿Descartarlos y salir del módulo?");
+}
 
 let frameResizeObserver = null;
 let frameMutationObserver = null;
@@ -140,6 +154,11 @@ function disconnectFrameObservers(){
 }
 
 function measureFrameHeight(){
+  if(isCraniofacial()){
+    appFrame.setAttribute("scrolling","no");
+    appFrame.style.height = cephFrameHeight() + "px";
+    return;
+  }
   if(harmonizationDesktop()){
     appFrame.setAttribute("scrolling","no");
     appFrame.style.height = harmonizationFrameHeight() + "px";
@@ -180,6 +199,10 @@ function scheduleFrameMeasure(delay = 40){
 
 function bindFrameAutoHeight(){
   disconnectFrameObservers();
+  if(isCraniofacial()){
+    measureFrameHeight();
+    return;
+  }
 
   if(harmonizationDesktop()){
     appFrame.setAttribute("scrolling","no");
@@ -220,6 +243,9 @@ function bindFrameAutoHeight(){
 }
 
 function showRouteSelector(){
+  if(!canLeaveCraniofacial()) return;
+  cephDirty = false;
+  document.body.classList.remove("craniofacial-active");
   disconnectFrameObservers();
   state.currentApp = null;
   setActive(null);
@@ -235,7 +261,11 @@ function showRouteSelector(){
 function loadApp(appKey){
   const app = APPS[appKey];
   if(!app) return;
+  if(!canLeaveCraniofacial()) return;
+  cephDirty = false;
   state.currentApp = appKey;
+  document.body.classList.toggle("craniofacial-active",isCraniofacial());
+  appFrame.title = app.title;
   currentAppTitle.textContent = app.title;
   currentAppDesc.textContent = app.desc;
   setActive(appKey);
@@ -243,7 +273,7 @@ function loadApp(appKey){
   document.body.classList.remove("route-selector-mode");
   document.body.classList.add("module-selected");
   resetPortalViewport();
-  appFrame.style.height = harmonizationDesktop() ? harmonizationFrameHeight() + "px" : (window.innerWidth <= 640 ? 620 : 720) + "px";
+  appFrame.style.height = isCraniofacial() ? cephFrameHeight() + "px" : harmonizationDesktop() ? harmonizationFrameHeight() + "px" : (window.innerWidth <= 640 ? 620 : 720) + "px";
   appFrame.src = app.src;
 }
 
@@ -263,6 +293,8 @@ document.getElementById("btnOpenStandalone").addEventListener("click",() => {
 });
 document.getElementById("btnReloadApp").addEventListener("click",() => {
   if(!state.currentApp) return;
+  if(!canLeaveCraniofacial()) return;
+  cephDirty = false;
   disconnectFrameObservers();
   scrollFrameToViewportTop("auto");
   const app = APPS[state.currentApp];
@@ -286,6 +318,9 @@ window.addEventListener("message",event => {
   const msg = event.data || {};
   if(!msg || typeof msg !== "object") return;
   switch(msg.type){
+    case "ORION_CEPH_DIRTY":
+      if(isCraniofacial() && typeof msg.dirty === "boolean") cephDirty = msg.dirty;
+      break;
     case EVENT_SET:
     case "ORION_SET_RECETA_PACIENTE":
       writePatient(msg.payload);

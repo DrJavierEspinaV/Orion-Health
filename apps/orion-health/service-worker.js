@@ -1,6 +1,7 @@
-const CACHE_NAME='orion-dental-app-v1.4.5';
+const CACHE_NAME='orion-dental-app-v1.5.3-a55';
 const APP_SCOPE='./';
 const SHELL=[
+  './assets/shared/portal-craniofacial-a47.css','./modules/craniofacial/index.html',
   './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
   './assets/shared/appointment-status.js','./assets/shared/cmf-clinical-v145.js','./assets/shared/cmf-workflow-v145.css',
   './','./index.html','./styles-1.css','./layout-fixes.css','./script-1.js','./manifest.webmanifest','./VERSION.json',

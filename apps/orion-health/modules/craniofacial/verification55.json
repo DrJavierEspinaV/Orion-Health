@@ -1,0 +1,140 @@
+{
+  "release": "A55",
+  "source_sha256": "74b00661579a30c7d6b8702f904ccbbe94ba0bfcec3659e38a1163b6b376a6e8",
+  "passed": 65,
+  "browser_e2e": false,
+  "browser_e2e_reason": "A local browser executable is unavailable; calculation and regression harnesses were used.",
+  "clinical_validation": false,
+  "private_fixture_packaged": false,
+  "a55": {
+    "file": "ORION_Craniofacial_Analysis_Avance55_ANGULOS_DENTALES_LOCALES.html",
+    "passed": 12,
+    "tests": [
+      "Every inline JavaScript block parses",
+      "A55 is built only from the locked A54 checksum",
+      "The continuous F1 tables have no gaps at old edges or intervening values",
+      "Clinical registry keeps dental angles separate from adapted F1",
+      "Inherited dental values are calculated without any F1 dependency",
+      "Upper and lower arcs are anchored locally to the real tooth apices",
+      "Theoretical d1 d2 d3 are short optional guides rather than long projections",
+      "Clinical construction table no longer reports U1-d1 or L1-d2 as clinical measures",
+      "The F1 reference registry exactly preserves the A54 continuous bands and slopes",
+      "Core geometry, metrics and acceptance logic remain byte-identical to A54",
+      "A54 F1 evidence and A53 landmark stabilization remain installed",
+      "Portable studies identify A55 and record its reference registry"
+    ],
+    "scope": "Local dental-angle display and clinical-table cleanup; A54 formulas, coordinates, landmark states and diagnosis preserved."
+  },
+  "a54_regression": {
+    "file": "ORION_Craniofacial_Analysis_Avance55_ANGULOS_DENTALES_LOCALES.html",
+    "passed": 14,
+    "tests": [
+      "Every inline JavaScript block parses",
+      "A54 is built only from the locked A53 checksum",
+      "The attached study is valid and complete enough to calculate F1",
+      "C1/C2 remains continuous beyond the former 25-degree table edge",
+      "C1/C4 follows the proportional rule on both sides of 115-120 degrees",
+      "Craniofacial field follows the proportional rule on both sides of 49-51 percent",
+      "C3/C2 preserves the A52 continuous rule around 81 plus or minus 2 percent",
+      "Non-finite measurements remain explicitly pending",
+      "The attached study now produces all four corrections and F1 90.10 degrees",
+      "F1 geometry still consumes the active correction functions and draws only when numeric",
+      "The evidence text exposes every contribution and the final corrector",
+      "Coordinates, landmark states and inherited diagnostic functions remain byte-identical to A53",
+      "A53 landmark-size stabilization remains installed",
+      "Portable studies identify A54 without changing their schema"
+    ],
+    "attached_study": {
+      "old_correction": null,
+      "new_correction": 5.102203580769038,
+      "new_f1_85": 90.10220358076904
+    },
+    "scope": "Continuous complete theoretical F1 correction; no coordinate, landmark-state or diagnostic-classification change."
+  },
+  "a53_regression": {
+    "file": "ORION_Craniofacial_Analysis_Avance55_ANGULOS_DENTALES_LOCALES.html",
+    "passed": 10,
+    "tests": [
+      "Every inline JavaScript block parses",
+      "A53 is built only from the locked A52 checksum",
+      "Completed landmarks keep 3.5 px and the selected point keeps 5 px at close zoom",
+      "The same visible radii remain constant at distant zoom",
+      "Transparent touch targets remain generous and visually hidden",
+      "Selected label remains eleven screen pixels instead of growing with zoom",
+      "Landmark borders and construction lines do not scale visually with zoom",
+      "Stabilizing display never changes landmark coordinates",
+      "All inherited clinical functions remain byte-identical to A52",
+      "Portable studies identify the A53 editor without changing their schema"
+    ],
+    "scope": "Display-only landmark-size continuity at transition to complete geometry; no clinical formula or state change."
+  },
+  "a52_regression": {
+    "file": "ORION_Craniofacial_Analysis_Avance55_ANGULOS_DENTALES_LOCALES.html",
+    "passed": 16,
+    "tests": [
+      "Every inline JavaScript block parses",
+      "A52 is built from the locked A51 checksum",
+      "C3/C2 keeps the real decimal measurement and applies a continuous correction",
+      "C3/C2 normal interval 79%-83% produces no correction",
+      "C3/C2 follows 0.25 degrees per two percentage points in both directions",
+      "The F1 evidence text separates real measurement from applied correction",
+      "Landmark radii and line widths are reduced without touching coordinates",
+      "Semaphore dots are five pixels and remain outside the radiograph",
+      "Portable JSON is nonempty and its Blob byte count is verified",
+      "Serialization errors stop the save instead of producing an empty file",
+      "Android uses a real File through native sharing when supported",
+      "Zero-byte imports report the actual cause and recovery action",
+      "A valid portable study JSON is read with a verified byte count",
+      "An analysis snapshot is explicitly distinguished from a resumable study",
+      "All non-height clinical functions remain byte-identical to A51",
+      "A52 exposes the clinical scope and the report/study distinction"
+    ],
+    "scope": "C3/C2 continuity, subtle display, JSON bytes/Android sharing/import diagnostics, syntax and inherited formula regression; no browser E2E."
+  },
+  "interaction": {
+    "file": "ORION_Craniofacial_Analysis_Avance55_ANGULOS_DENTALES_LOCALES.html",
+    "method": "Node event-handler harness using delivered HTML; not browser end-to-end testing",
+    "fixtures": "Synthetic only",
+    "passed": 6,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "Placing a point after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Dragging an unfrozen point after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Placing calibration marker A after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Calculating a new calibration after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Panning without clinical edits does not mark the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Selecting a frozen point does not alter its coordinates",
+        "status": "passed"
+      }
+    ]
+  },
+  "portal": {
+    "passed": 7,
+    "tests": [
+      "All seven existing module routes are preserved",
+      "Craniofacial uses the in-app module and fixed remaining viewport height",
+      "Dirty state from an unrelated window is ignored",
+      "Dirty state from the wrong origin is ignored",
+      "Unsaved changes block navigation when the operator cancels",
+      "Explicit discard permits return to the selector and clears route layout",
+      "Synchronous dirty query closes the message delivery race"
+    ],
+    "method": "Node DOM doubles; no browser or deployment"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "passed": 7,
+  "tests": [
+    "All seven existing module routes are preserved",
+    "Craniofacial uses the in-app module and fixed remaining viewport height",
+    "Dirty state from an unrelated window is ignored",
+    "Dirty state from the wrong origin is ignored",
+    "Unsaved changes block navigation when the operator cancels",
+    "Explicit discard permits return to the selector and clears route layout",
+    "Synchronous dirty query closes the message delivery race"
+  ],
+  "method": "Node DOM doubles; no browser or deployment"
+}

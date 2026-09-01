@@ -1,0 +1,23 @@
+{
+  "passed": 17,
+  "tests": [
+    "Blank startup has no image, no coordinates and no numeric metrics",
+    "Loading a new raster clears prior landmarks, calibration and identity",
+    "Unmarked points cannot be accepted or advanced as accepted",
+    "Accept + next progresses after a real placement and enables the next missing point",
+    "Partial study exports null unmarked points and no analysis snapshot",
+    "Partial JSON round-trip preserves points, patient data and acceptance",
+    "A JSON without an image is rejected without changing the active study",
+    "Image dimension mismatch is transactional and preserves active coordinates",
+    "Corrupt raster is rejected before any current study mutation",
+    "Accepted flags with null coordinates cannot be imported",
+    "Canceling study replacement preserves the unsaved active study",
+    "Edits made while exporting remain unsaved after the export finishes",
+    "Complete legacy geometry is unchanged by the new availability gate",
+    "Excluded or coincident references withhold the analysis",
+    "Unsafe/unknown landmark keys are rejected",
+    "All 28 landmarks can be accepted in order without looping on the final point",
+    "A complete A46-compatible study imports with exact coordinates and calibration"
+  ],
+  "scope": "Node lifecycle tests with actual PNG decoding by sharp, not browser end-to-end tests. Legacy geometry fixture remains private and is not included in published source."
+}
