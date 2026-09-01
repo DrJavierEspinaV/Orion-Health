@@ -1,4 +1,4 @@
-# ORION Craniofacial Analysis — Avance 52
+# ORION Craniofacial Analysis — Avance 53
 
 Evolución clínica sobre el diseño aprobado: incorpora semáforo explícito, un único control de estado + siguiente y un escenario rojo fijado sin aceptación para análisis de sensibilidad. Conserva geometría, fórmulas y compatibilidad con estudios A48. Integración aún en borrador, sin publicación.
 
@@ -39,14 +39,14 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 - Once scripts inline: comprobación de sintaxis con Node.
 - 17 pruebas de ciclo de estudio en Node, con decodificación real de PNG mediante sharp: inicio vacío, carga, secuencia completa, persistencia parcial, importaciones inválidas sin pérdida del estudio, cancelación, cambios durante exportación y compatibilidad geométrica.
-- 20 pruebas específicas A52 del modelo de estados, acción única, persistencia, bloqueo de salida final y regresión byte a byte de fórmulas.
+- 10 pruebas específicas A53, 16 regresiones A52 y verificación byte a byte de las fórmulas clínicas heredadas.
 - 7 pruebas del portal con dobles DOM: rutas anteriores, altura del módulo y protección de navegación/mensajes.
 - 6 pruebas de interacción de coordenadas y cambios sin guardar.
 - Inspección estática de privacidad: sin imagen, identificador ni coordenadas del caso anterior.
 
-El archivo `verification49.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
+El archivo `verification53.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-La aprobación visual del usuario corresponde al editor A47/A48. A52 conserva sus estilos y añade sólo señales clínicas discretas. No se ejecutó validación clínica ni una revisión A52 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
+La aprobación visual del usuario corresponde al editor A47/A48. A53 conserva sus estilos y corrige únicamente la escala visual posterior al landmark 28. No se ejecutó validación clínica ni una revisión A53 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
 
 ## Revisión antes de publicar
 
@@ -73,3 +73,8 @@ Los estudios nuevos parten en F1 automática y requieren edad y sexo completos a
 - Los trazos principales conservan jerarquía cromática con 62% de su grosor anterior.
 - C3/C2 conserva su medida decimal y aplica la regla documentada de 0,25° por cada 2% fuera de 81% ±2%.
 - El JSON se serializa y verifica en memoria antes de guardarse. En Android se prioriza el compartido nativo de archivo; la importación verifica bytes y distingue un estudio portátil de un informe de análisis.
+
+
+## Ajuste A53 — puntos estables después del landmark 28
+
+El paso del renderizado parcial al análisis completo conserva ahora el mismo tamaño aparente de los landmarks con cualquier zoom. Los radios visibles son 3,5 px y 5 px para el seleccionado; las áreas táctiles transparentes permanecen amplias. Bordes, rótulo seleccionado y líneas no aumentan al acercar la imagen. No se modifican coordenadas, estados clínicos ni cálculos.
