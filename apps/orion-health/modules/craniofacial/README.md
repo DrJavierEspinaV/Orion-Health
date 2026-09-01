@@ -1,6 +1,6 @@
-# ORION Craniofacial Analysis — Avance 48
+# ORION Craniofacial Analysis — Avance 49
 
-Corrección funcional sobre el diseño A47 aprobado por el usuario: las modificaciones mediante colocación, arrastre de puntos y calibración vuelven a activar el aviso de cambios sin guardar. Se conserva el diseño y no se modifican fórmulas. Véase `VALIDACION_A48.md` y `verification48.json`. Integración aún en borrador, sin publicación.
+Evolución clínica sobre el diseño aprobado: incorpora semáforo explícito, un único control de estado + siguiente y un escenario rojo fijado sin aceptación para análisis de sensibilidad. Conserva geometría, fórmulas y compatibilidad con estudios A48. Integración aún en borrador, sin publicación.
 
 Inicio limpio y propuesta de integración al portal ORION Health. Fecha: 31 de agosto de 2026.
 
@@ -37,14 +37,16 @@ No se envían estudios a GitHub o Drive ni se incorpora sincronización clínica
 
 ## Verificación realizada
 
-- Nueve scripts inline: comprobación de sintaxis con Node.
+- Once scripts inline: comprobación de sintaxis con Node.
 - 17 pruebas de ciclo de estudio en Node, con decodificación real de PNG mediante sharp: inicio vacío, carga, secuencia completa, persistencia parcial, importaciones inválidas sin pérdida del estudio, cancelación, cambios durante exportación y compatibilidad geométrica.
+- 20 pruebas específicas A49 del modelo de estados, acción única, persistencia, bloqueo de salida final y regresión byte a byte de fórmulas.
 - 7 pruebas del portal con dobles DOM: rutas anteriores, altura del módulo y protección de navegación/mensajes.
+- 6 pruebas de interacción de coordenadas y cambios sin guardar.
 - Inspección estática de privacidad: sin imagen, identificador ni coordenadas del caso anterior.
 
-Los archivos `verification47.json` y `portal-verification47.json` contienen los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
+El archivo `verification49.json` reúne los resultados. No se publican los fixtures clínicos usados en la prueba privada de compatibilidad.
 
-La aprobación visual del usuario corresponde al editor A47. A48 conserva sus estilos. No se ejecutaron pruebas de extremo a extremo ni una revisión de A48 integrado en navegador. No fusionar ni publicar antes de completar la siguiente revisión.
+La aprobación visual del usuario corresponde al editor A47/A48. A49 conserva sus estilos y añade sólo señales clínicas discretas. No se ejecutó validación clínica ni una revisión A49 integrada en navegador. No fusionar ni publicar antes de completar esa revisión.
 
 ## Revisión antes de publicar
 

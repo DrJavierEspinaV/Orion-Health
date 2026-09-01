@@ -1,0 +1,104 @@
+{
+  "release": "A49",
+  "source_sha256": "b7e63c7e60019277cd939a4deada646bf33ac2a6e7fa26c5f485cc8922777d45",
+  "passed": 50,
+  "browser_e2e": false,
+  "browser_e2e_reason": "Playwright is installed but its browser executable is not available in this environment.",
+  "clinical_validation": false,
+  "state_model": {
+    "file": "ORION_Craniofacial_Analysis_Avance49_SEMAFORO_CLINICO.html",
+    "passed": 20,
+    "tests": [
+      "Exact acceptance is green-state accepted",
+      "Estimated acceptance is amber-state accepted",
+      "Observed acceptance is amber-state accepted",
+      "A visibility warning converts ordinary acceptance to observed",
+      "A held coordinate is red-state and not accepted",
+      "An unmarked point remains gray-state unresolved",
+      "An editable placed point remains unresolved",
+      "Explicit exclusion is distinct from held",
+      "Primary action follows exact choice",
+      "Primary action follows observed choice",
+      "Primary action follows held choice",
+      "Final-step wording does not imply another point",
+      "Saved-study validator accepts A49 state and visibility enums",
+      "Saved-study validator still accepts all A48 enums",
+      "Missing frozen held coordinates are rejected",
+      "Clinical final output is blocked unless every landmark is accepted",
+      "Study payload audits held, observed and finalized state",
+      "Core cephalometric formula functions are byte-identical to A48",
+      "One visible primary action replaces duplicate acceptance controls",
+      "A49 version is present and A48 runtime identifier is absent"
+    ],
+    "scope": "Pure state-model, delivered HTML structure, persistence gates and byte-level formula regression; no clinical validation."
+  },
+  "lifecycle": {
+    "passed": 17,
+    "tests": [
+      "Blank startup has no image, no coordinates and no numeric metrics",
+      "Loading a new raster clears prior landmarks, calibration and identity",
+      "Unmarked points cannot be accepted or advanced as accepted",
+      "Accept + next progresses after a real placement and enables the next missing point",
+      "Partial study exports null unmarked points and no analysis snapshot",
+      "Partial JSON round-trip preserves points, patient data and acceptance",
+      "A JSON without an image is rejected without changing the active study",
+      "Image dimension mismatch is transactional and preserves active coordinates",
+      "Corrupt raster is rejected before any current study mutation",
+      "Accepted flags with null coordinates cannot be imported",
+      "Canceling study replacement preserves the unsaved active study",
+      "Edits made while exporting remain unsaved after the export finishes",
+      "Complete legacy geometry is unchanged by the new availability gate",
+      "Excluded or coincident references withhold the analysis",
+      "Unsafe/unknown landmark keys are rejected",
+      "All 28 landmarks can be accepted in order without looping on the final point",
+      "A complete A46-compatible study imports with exact coordinates and calibration"
+    ],
+    "scope": "Node lifecycle tests with actual PNG decoding by sharp, not browser end-to-end tests. Legacy geometry fixture remains private and is not included in published source."
+  },
+  "interaction": {
+    "file": "ORION_Craniofacial_Analysis_Avance49_SEMAFORO_CLINICO.html",
+    "method": "Node event-handler harness using delivered HTML; not browser end-to-end testing",
+    "fixtures": "Synthetic only",
+    "passed": 6,
+    "failed": 0,
+    "tests": [
+      {
+        "name": "Placing a point after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Dragging an unfrozen point after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Placing calibration marker A after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Calculating a new calibration after saving marks the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Panning without clinical edits does not mark the study dirty",
+        "status": "passed"
+      },
+      {
+        "name": "Selecting a frozen point does not alter its coordinates",
+        "status": "passed"
+      }
+    ]
+  },
+  "portal": {
+    "passed": 7,
+    "tests": [
+      "All seven existing module routes are preserved",
+      "Craniofacial uses the in-app module and fixed remaining viewport height",
+      "Dirty state from an unrelated window is ignored",
+      "Dirty state from the wrong origin is ignored",
+      "Unsaved changes block navigation when the operator cancels",
+      "Explicit discard permits return to the selector and clears route layout",
+      "Synchronous dirty query closes the message delivery race"
+    ],
+    "method": "Node DOM doubles; no browser or deployment"
+  }
+}
