@@ -220,11 +220,13 @@ test('CMF restaura firma solo en receta y autoriza con folio, fecha, código y a
 
   const signatureScope=await frame.locator('body').evaluate(()=>({
     recipeVisible:getComputedStyle(document.querySelector('#printSheet .firmaimg')).display!=='none',
-    otherHidden:Array.from(document.querySelectorAll('.page:not(#printSheet) .firmaimg')).every(image=>getComputedStyle(image).display==='none'),
+    // La receta y los otros documentos autorizables tienen políticas de firma distintas.
+    // Sólo la hoja de indicaciones no debe mostrar firma manuscrita.
+    instructionsHidden:Array.from(document.querySelectorAll('#printSheet2 .firmaimg')).every(image=>getComputedStyle(image).display==='none'),
     noExtraVisibleBlock:!document.querySelector('.orion-rx-visible-metadata,.orion-rx-visible-verification')
   }));
   expect(signatureScope.recipeVisible).toBeTruthy();
-  expect(signatureScope.otherHidden).toBeTruthy();
+  expect(signatureScope.instructionsHidden).toBeTruthy();
   expect(signatureScope.noExtraVisibleBlock).toBeTruthy();
 
   await frame.locator('#orionClinicalTabEdit').click();
