@@ -33,7 +33,7 @@ setTimeout(()=>{
   }catch(e){}
 }, cacheRestoredOnStart ? 1400 : 220);`
       )
-      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.5"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.5"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"></head>')
+      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.5"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.5"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"><link rel="stylesheet" href="./health-os-comunicaciones-v1.css?v=1"></head>')
       .replace('</body>',`<script>
 (function(){
   const XLSX_URL='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
