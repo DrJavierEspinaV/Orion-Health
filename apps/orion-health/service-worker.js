@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui3';
+const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui4';
 const APP_SCOPE='./';
 const SHELL=[
   './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
@@ -10,6 +10,8 @@ const SHELL=[
   './assets/shared/portal-health-os-bridge-v1.css','./assets/shared/clinical-mobile-cmf-v142.css',
   './modules/comunicaciones/health-os-comunicaciones-v1.css',
   './modules/cmf/health-os-cmf-v1.css',
+  './assets/shared/health-os-messaging-v1.css','./modules/insumos/health-os-insumos-v1.css',
+  './modules/endodoncia/health-os-endodoncia-v1.css','./modules/armonizacion/health-os-armonizacion-v1.css',
   './assets/shared/portal-armonizacion-v152.js','./assets/shared/clinical-certificate-cmf-v144r6.css',
   './modules/armonizacion/index.html','./modules/armonizacion/registro-v145.html','./modules/armonizacion/registro-v145.css','./modules/armonizacion/registro-v145.js',
   './modules/armonizacion/performance-v163.css','./modules/armonizacion/performance-v163.js',
