@@ -70,7 +70,7 @@ body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180
 /* Acciones de interconsulta: cabecera adaptable, sin desborde horizontal en móvil.
  * Se conservan juntos Generar y Cerrar, y no se altera el contenido clínico. */
 @media screen and (max-width:700px){
-  body.orion-cmf-mobile #interDrawer>.orion-inter-header{
+  #interDrawer>.orion-inter-header{
     display:flex!important;
     flex-direction:column!important;
     align-items:stretch!important;
@@ -80,13 +80,13 @@ body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180
     max-width:100%!important;
     min-width:0!important;
   }
-  body.orion-cmf-mobile #interDrawer .orion-inter-title{
+  #interDrawer .orion-inter-title{
     width:100%!important;
     min-width:0!important;
     max-width:100%!important;
     overflow-wrap:anywhere!important;
   }
-  body.orion-cmf-mobile #interDrawer .orion-inter-actions{
+  #interDrawer .orion-inter-actions{
     display:grid!important;
     grid-template-columns:minmax(0,1fr) auto!important;
     gap:8px!important;
@@ -95,8 +95,8 @@ body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180
     min-width:0!important;
     max-width:100%!important;
   }
-  body.orion-cmf-mobile #btnInterGenerate,
-  body.orion-cmf-mobile #btnInterClose{
+  #interDrawer #btnInterGenerate,
+  #interDrawer #btnInterClose{
     width:auto!important;
     max-width:100%!important;
     min-width:0!important;
