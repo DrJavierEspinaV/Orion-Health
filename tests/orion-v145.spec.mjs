@@ -46,22 +46,12 @@ test('Generar interconsulta permanece junto a Cerrar al escribir y desplazar',as
   await frame.locator('#interDrawer>.space-y-3').evaluate(el=>el.scrollTop=el.scrollHeight);
   const metrics=await frame.locator('#btnInterGenerate').evaluate(button=>{
     const b=button.getBoundingClientRect(),c=document.getElementById('btnInterClose').getBoundingClientRect();
-    const drawer=document.getElementById('interDrawer');
-    const header=drawer.querySelector('.orion-inter-header');
-    const actions=drawer.querySelector('.orion-inter-actions');
-    const dr=drawer.getBoundingClientRect(),hr=header.getBoundingClientRect(),ar=actions.getBoundingClientRect();
-    return {sameParent:button.parentElement===document.getElementById('btnInterClose').parentElement,top:b.top,bottom:b.bottom,height:innerHeight,right:b.right,width:innerWidth,closeTop:c.top,
-      buttonLeft:b.left,drawer:{x:dr.x,right:dr.right,width:dr.width,classes:drawer.className,transform:getComputedStyle(drawer).transform},
-      header:{x:hr.x,right:hr.right,width:hr.width,flexDirection:getComputedStyle(header).flexDirection},
-      actions:{x:ar.x,right:ar.right,width:ar.width,display:getComputedStyle(actions).display},
-      bodyClasses:document.body.className};
-  
+    return {sameParent:button.parentElement===document.getElementById('btnInterClose').parentElement,top:b.top,bottom:b.bottom,height:innerHeight,right:b.right,width:innerWidth,closeTop:c.top};
   });
   const frameRect=await page.locator('#appFrame').boundingBox();
   const visibleHeight=await page.evaluate(()=>window.visualViewport?.height||innerHeight);
   expect(metrics.top+frameRect.y).toBeGreaterThanOrEqual(-2);
   expect(metrics.bottom+frameRect.y).toBeLessThanOrEqual(visibleHeight+2);
-  console.log('INTERCONSULTA_RESPONSIVE_METRICS',JSON.stringify(metrics));
   expect(metrics.sameParent).toBeTruthy();expect(metrics.top).toBeGreaterThanOrEqual(0);
   expect(metrics.bottom).toBeLessThanOrEqual(metrics.height);expect(metrics.right).toBeLessThanOrEqual(metrics.width);
   expect(Math.abs(metrics.top-metrics.closeTop)).toBeLessThan(12);
