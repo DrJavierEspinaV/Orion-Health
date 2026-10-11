@@ -84,9 +84,28 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui2',
+  'orion-dental-app-v1.4.5-health-os-ui3',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
+
+// Etapa 3: CMF Health OS Bridge. La impresión Statement queda intacta.
+const cmfOsCss=read('modules/cmf/health-os-cmf-v1.css');
+includesAll('CMF Health OS Bridge',cmfOsCss,[
+  '--cmf-os-primary: #1F3F5B',
+  '--cmf-os-bg: #F3F3F3',
+  'body #orionClinicalEditPane',
+  'body #orionClinicalTabs',
+  'body .orion-actions-top.no-print',
+  '@media screen and (max-width: 640px)'
+]);
+if(!cmfOsCss.startsWith('/*') || !cmfOsCss.includes('@media screen {'))
+  failures.push('CMF Health OS debe funcionar exclusivamente en pantalla.');
+if(/@media\\s+print|#printSheet|#printDoc|#printInter|fixedFoot/.test(cmfOsCss.split('*/').slice(1).join('*/')))
+  failures.push('CMF Health OS no puede modificar el aspecto de documentos imprimibles.');
+if(!read('modules/cmf/loader.js').includes('health-os-cmf-v1.css?v=1'))
+  failures.push('CMF loader no incorpora la nueva capa visual.');
+if(!osPwa.includes('./modules/cmf/health-os-cmf-v1.css'))
+  failures.push('PWA no conserva la hoja visual CMF en el caché.');
 
 const comunicacionesLoader=read('modules/comunicaciones/loader.js');
 const insumosLoader=read('modules/insumos/loader.js');
