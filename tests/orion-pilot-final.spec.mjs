@@ -13,11 +13,21 @@ const modules=[
 async function openPortal(page){
   await page.goto(appUrl,{waitUntil:'domcontentloaded'});
   await expect(page.locator('h1')).toContainText('ORION Dental App');
-  await expect(page.locator('#appFrame')).toBeVisible();
+  // Desde V1.4.4 la portada es un selector a pantalla completa:
+  // el iframe solo se muestra después de seleccionar una ruta.
+  await expect(page.locator('body')).toHaveClass(/route-selector-mode/);
+  await expect(page.locator('#appFrame')).toBeHidden();
+  await expect(page.locator('.menu-btn[data-app]')).toHaveCount(7);
+  await expect(page.locator('.portal-external-link')).toHaveCount(1);
 }
 
 async function selectModule(page,key,pathName,expected){
+  if (await page.locator('body').evaluate(el=>el.classList.contains('module-selected'))) {
+    await page.locator('#btnChangeModule').click();
+    await expect(page.locator('body')).toHaveClass(/route-selector-mode/);
+  }
   await page.locator(`.menu-btn[data-app="${key}"]`).click();
+  await expect(page.locator('#appFrame')).toBeVisible();
   await expect(page.locator('#appFrame')).toHaveAttribute('src',new RegExp(`modules/${pathName}/index\\.html`));
   await page.waitForFunction(expectedPath=>{
     const frame=document.getElementById('appFrame');
