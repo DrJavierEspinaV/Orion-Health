@@ -37,6 +37,30 @@
     max-width: 1540px !important;
     padding: 18px clamp(12px,2vw,26px) 11px !important;
   }
+  body .topbar > header.wrap {
+    display: grid !important;
+    grid-template-columns: 64px minmax(0,1fr) !important;
+    grid-template-rows: auto auto auto !important;
+    column-gap: 16px !important;
+    row-gap: 4px !important;
+    align-items: center !important;
+  }
+  body .topbar .orion-health-os-logo {
+    display: block !important;
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    width: 64px !important;
+    max-width: 64px !important;
+    height: 60px !important;
+    max-height: 60px !important;
+    object-fit: contain !important;
+    border-radius: 10px !important;
+    background: #FFFFFF !important;
+    padding: 4px !important;
+  }
+  body .topbar h1 { grid-column: 2; grid-row: 1; min-width: 0; }
+  body .topbar .sub { grid-column: 2; grid-row: 2; min-width: 0; }
+  body .topbar .tabs { grid-column: 1 / -1; grid-row: 3; }
   body .topbar h1 {
     color: #FFFFFF !important;
     font-size: clamp(19px,1.55vw,24px) !important;
