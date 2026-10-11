@@ -12,7 +12,7 @@ async function openModule(page,key,selector){
 }
 
 async function metrics(frame,expectedCss){
-  return frame.locator('body').evaluate((cssName)=>{
+  return frame.locator('body').evaluate((_element,cssName)=>{
     const cssLoaded=[...document.styleSheets].some(s=>s.href?.includes(cssName));
     return{
       cssLoaded,
