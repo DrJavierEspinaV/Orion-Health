@@ -1,5 +1,8 @@
 import {test,expect} from '@playwright/test';
 
+// El test intercepta source.html: Playwright no puede enrutar respuestas capturadas por Service Worker.
+test.use({ serviceWorkers: 'block' });
+
 async function open(page,key){
   await page.goto('/apps/orion-health/index.html');
   await page.locator(`.menu-btn[data-app="${key}"]`).click();
