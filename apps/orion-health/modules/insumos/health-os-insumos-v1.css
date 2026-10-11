@@ -1,0 +1,143 @@
+/* ORION Health OS · Insumos · Puente visual V1
+ * CSS de pantalla únicamente. Catálogo, precios, stock y exportación intactos.
+ */
+@media screen {
+  body {
+    --ins-os-primary: #1F3F5B;
+    --ins-os-bg: #F3F3F3;
+    --ins-os-border: #D9DEE3;
+    background: var(--ins-os-bg) !important;
+    color: var(--ins-os-primary) !important;
+    font-family: Montserrat,"Segoe UI",Arial,sans-serif !important;
+    overflow-x: hidden;
+  }
+  body > header {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid var(--ins-os-border) !important;
+    box-shadow: 0 3px 12px rgba(31,63,91,.04) !important;
+  }
+  body > header > div {
+    max-width: 1560px !important;
+    margin: 0 auto !important;
+    padding: 12px clamp(12px,1.6vw,26px) !important;
+    gap: 18px !important;
+  }
+  body > header img {
+    height: 60px !important;
+    max-height: 60px !important;
+    max-width: 185px !important;
+    width: auto !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+  }
+  body > header h1 {
+    color: #1F3F5B !important;
+    font-weight: 800 !important;
+    font-size: clamp(18px,1.6vw,24px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: -.02em !important;
+  }
+  body > header p {
+    font-size: 11px !important;
+    color: #627486 !important;
+    margin-top: 3px !important;
+  }
+  body > main {
+    width: 100% !important;
+    max-width: 1560px !important;
+    padding: clamp(12px,1.3vw,20px) !important;
+    margin: 0 auto !important;
+  }
+  body > main > section,
+  body > main > section > div.bg-white {
+    min-width: 0 !important;
+  }
+  body > main section > div.bg-white,
+  body > main > section.bg-white {
+    background: #FFFFFF !important;
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 9px 26px rgba(31,63,91,.065) !important;
+  }
+  body > main h2 {
+    color: #1F3F5B !important;
+    font-size: clamp(15px,1.2vw,18px) !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+  }
+  body > main label {
+    color: #52677B !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
+  body > main input:not([type="checkbox"]):not([type="radio"]),
+  body > main select,
+  body > main textarea {
+    color: #1F3F5B !important;
+    background: #FFFFFF !important;
+    border: 1px solid #C9D3DC !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+    min-width: 0 !important;
+  }
+  body > main input:focus-visible,
+  body > main select:focus-visible,
+  body > main textarea:focus-visible,
+  body > main button:focus-visible {
+    outline: 3px solid rgba(31,63,91,.24) !important;
+    outline-offset: 2px !important;
+  }
+  body > main button {
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    min-height: 38px;
+    box-shadow: none !important;
+  }
+  body #jsStatus {
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #52677B !important;
+    font-size: 12px !important;
+  }
+  body #orionCatalogCard {
+    border-radius: 14px !important;
+    background: #F7F9FB !important;
+    border-color: #D9DEE3 !important;
+    box-shadow: none !important;
+  }
+  body #orionCatalogCard strong { color: #1F3F5B !important; }
+  body #orionCatalogAdmin { background: #FFFFFF !important; border-color: #D9DEE3 !important; }
+  body #tabla th {
+    color: #1F3F5B !important;
+    background: #EDF2F6 !important;
+    font-weight: 800 !important;
+  }
+  body #tabla td { border-color: #E4EAF0 !important; }
+  body .footer {
+    padding: 12px 18px !important;
+    gap: 12px !important;
+    border-top: 1px solid #D9DEE3 !important;
+    background: #FFFFFF !important;
+  }
+  body .footer img {
+    height: 44px !important;
+    width: auto !important;
+    max-width: 130px !important;
+    object-fit: contain !important;
+  }
+  body .footer span {
+    color: #64748B !important;
+    white-space: normal !important;
+    font-size: 10px !important;
+  }
+}
+@media screen and (max-width: 680px) {
+  body > header > div { padding: 9px 12px !important; gap: 10px !important; }
+  body > header img { height: 42px !important; max-height: 42px !important; max-width: 105px !important; }
+  body > header h1 { font-size: 16px !important; }
+  body > header p { font-size: 10px !important; }
+  body > main { padding: 8px !important; }
+  body > main section > div.bg-white { padding: 12px !important; }
+}
