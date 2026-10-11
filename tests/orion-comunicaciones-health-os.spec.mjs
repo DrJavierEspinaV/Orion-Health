@@ -65,7 +65,8 @@ test('Comunicaciones es legible en móvil y prioriza pacientes sin desborde', as
     return {
       mobileMode: document.body.classList.contains('orion-communications-mobile'),
       isPatientsFirst: sidebar?.nextElementSibling === left,
-      gridColumns: layout ? getComputedStyle(layout).gridTemplateColumns.split(' ').length : 0,
+      layoutDisplay: layout ? getComputedStyle(layout).display : '',
+      layoutDirection: layout ? getComputedStyle(layout).flexDirection : '',
       documentWidth: document.documentElement.scrollWidth,
       viewportWidth: document.documentElement.clientWidth,
       logoHeight: logo?.getBoundingClientRect().height || 0,
@@ -77,7 +78,8 @@ test('Comunicaciones es legible en móvil y prioriza pacientes sin desborde', as
 
   expect(metrics.mobileMode).toBe(true);
   expect(metrics.isPatientsFirst).toBe(true);
-  expect(metrics.gridColumns).toBe(1);
+  expect(metrics.layoutDisplay).toBe('flex');
+  expect(metrics.layoutDirection).toBe('column');
   expect(metrics.documentWidth).toBeLessThanOrEqual(metrics.viewportWidth + 3);
   expect(metrics.logoHeight).toBeLessThanOrEqual(48);
   expect(metrics.searchVisible && metrics.messageVisible && metrics.dataPanel).toBe(true);
