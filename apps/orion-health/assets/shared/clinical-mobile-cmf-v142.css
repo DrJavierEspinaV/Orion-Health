@@ -73,6 +73,7 @@ body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180
   #interDrawer>.orion-inter-header{
     display:flex!important;
     flex-direction:column!important;
+    flex-wrap:nowrap!important;
     align-items:stretch!important;
     justify-content:flex-start!important;
     gap:9px!important;
@@ -81,12 +82,16 @@ body.orion-cmf-mobile .page .firmaimg{object-fit:contain!important;max-width:180
     min-width:0!important;
   }
   #interDrawer .orion-inter-title{
+    flex:0 0 auto!important;
     width:100%!important;
     min-width:0!important;
     max-width:100%!important;
     overflow-wrap:anywhere!important;
   }
   #interDrawer .orion-inter-actions{
+    flex:0 0 auto!important;
+    margin-left:0!important;
+    margin-right:0!important;
     display:grid!important;
     grid-template-columns:minmax(0,1fr) auto!important;
     gap:8px!important;
