@@ -68,6 +68,26 @@ includesAll('Sistema visual ORION',identity,[
   "--orion-font:'Montserrat'",'min-width:160px','background-image:none!important',"@import url('https://fonts.googleapis.com/css2?family=Montserrat"
 ]);
 
+// Etapa 2 de unificación visual con ORION Health OS: Comunicaciones.
+const communicationsOsCss=read('modules/comunicaciones/health-os-comunicaciones-v1.css');
+includesAll('Comunicaciones Health OS Bridge',communicationsOsCss,[
+  '--comm-os-primary: #1F3F5B',
+  '--comm-os-bg: #F3F3F3',
+  '#orionPatientPriorityControls',
+  '#orionHdr',
+  '#mensajeTipo',
+  '#orionDataSourcePanel',
+  '@media screen and (max-width: 760px)'
+]);
+const communicationsLoaderVisual=read('modules/comunicaciones/loader.js');
+if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
+  failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
+const osPwa=read('service-worker.js');
+includesAll('PWA Health OS',osPwa,[
+  'orion-dental-app-v1.4.5-health-os-ui2',
+  './modules/comunicaciones/health-os-comunicaciones-v1.css'
+]);
+
 const comunicacionesLoader=read('modules/comunicaciones/loader.js');
 const insumosLoader=read('modules/insumos/loader.js');
 const cmfLoader=read('modules/cmf/loader.js');
