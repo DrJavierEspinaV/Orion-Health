@@ -1,0 +1,102 @@
+/* ORION Health OS · Armonización Orofacial · Puente visual V1
+ * SOLO UI de pantalla; conservar atlas, puntos anatómicos,
+ * dosis, semáforos, colores de estados, mapas y documento impreso.
+ */
+@media screen {
+  html.oa-ui-v153 {
+    --navy: #1F3F5B;
+    --navy-2: #17324D;
+    --blue: #1F3F5B;
+    --blue-soft: #EAF0F5;
+    --ink: #1F3F5B;
+    --muted: #66798B;
+    --line: #D9DEE3;
+    --bg: #F3F3F3;
+    --card: #FFFFFF;
+    --shadow: 0 12px 36px rgba(31,63,91,.075);
+    font-family: Montserrat,"Segoe UI",Arial,sans-serif !important;
+    background: #F3F3F3 !important;
+  }
+  html.oa-ui-v153 body {
+    color: #1F3F5B !important;
+    background: #F3F3F3 !important;
+    font-family: Montserrat,"Segoe UI",Arial,sans-serif !important;
+  }
+  html.oa-ui-v153 .oa-topbar {
+    background: #1F3F5B !important;
+    background-image: none !important;
+    border-bottom: 1px solid #17324D !important;
+    box-shadow: 0 4px 14px rgba(31,63,91,.12) !important;
+  }
+  html.oa-ui-v153 .oa-brand { border-right-color: rgba(255,255,255,.22) !important; }
+  html.oa-ui-v153 .oa-brand strong { color: #FFFFFF !important; font-weight: 800 !important; }
+  html.oa-ui-v153 .oa-brand small { color: #D7E2EA !important; }
+  html.oa-ui-v153 .oa-title strong { color: #FFFFFF !important; font-weight: 800 !important; }
+  html.oa-ui-v153 .oa-title span { color: #D2DFE9 !important; }
+  html.oa-ui-v153 .oa-brand-logo { object-fit: contain !important; }
+  html.oa-ui-v153 .oa-top-actions button { border-radius: 10px !important; font-weight: 750 !important; }
+  html.oa-ui-v153 .oa-primary { background: #285879 !important; border-color: #92AFC3 !important; color: #FFFFFF !important; }
+  html.oa-ui-v153 .oa-layout { background: #F3F3F3 !important; gap: 12px !important; }
+  html.oa-ui-v153 .oa-card,
+  html.oa-ui-v153 .oa-map-panel,
+  html.oa-ui-v153 .oa-record-panel {
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 9px 28px rgba(31,63,91,.065) !important;
+  }
+  html.oa-ui-v153 .oa-sidebar .oa-card { background: #FFFFFF !important; }
+  html.oa-ui-v153 .oa-sidebar .oa-patient-mini {
+    background: #1F3F5B !important;
+    background-image: none !important;
+    border-color: #17324D !important;
+  }
+  html.oa-ui-v153 .oa-patient-mini,
+  html.oa-ui-v153 .oa-patient-mini .oa-section-title,
+  html.oa-ui-v153 .oa-patient-mini strong { color: #FFFFFF !important; }
+  html.oa-ui-v153 .oa-patient-mini span { color: #D9E3EA !important; }
+  html.oa-ui-v153 .oa-section-title,
+  html.oa-ui-v153 .oa-map-head strong,
+  html.oa-ui-v153 .oa-record-heading strong {
+    color: #1F3F5B !important;
+    font-weight: 800 !important;
+  }
+  html.oa-ui-v153 .oa-map-head {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #D9DEE3 !important;
+  }
+  html.oa-ui-v153 .oa-zone-button:not(.active) { color: #45647C !important; }
+  html.oa-ui-v153 .oa-control-list button {
+    color: #1F3F5B !important;
+    font-weight: 700 !important;
+    border-radius: 9px !important;
+  }
+  html.oa-ui-v153 .oa-map-actions button {
+    border: 1px solid #BECCD8 !important;
+    border-radius: 9px !important;
+    background: #FFFFFF !important;
+    color: #1F3F5B !important;
+    font-weight: 700 !important;
+  }
+  html.oa-ui-v153 .oa-record-panel input:not([type="checkbox"]):not([type="radio"]),
+  html.oa-ui-v153 .oa-record-panel select,
+  html.oa-ui-v153 .oa-record-panel textarea {
+    border: 1px solid #CAD4DD !important;
+    border-radius: 9px !important;
+    color: #1F3F5B !important;
+    font-size: 12px !important;
+    min-width: 0 !important;
+  }
+  html.oa-ui-v153 input:focus-visible,
+  html.oa-ui-v153 select:focus-visible,
+  html.oa-ui-v153 button:focus-visible,
+  html.oa-ui-v153 textarea:focus-visible {
+    outline: 3px solid rgba(31,63,91,.24) !important;
+    outline-offset: 2px !important;
+  }
+  /* No tocar .oa-atlas-shell, .oa-point, .oa-zone-label,
+     .oa-legend ni colores de estados del tratamiento. */
+}
+@media screen and (max-width: 700px) {
+  html.oa-ui-v153 .oa-layout { gap: 8px !important; }
+  html.oa-ui-v153 .oa-card { border-radius: 12px !important; }
+}

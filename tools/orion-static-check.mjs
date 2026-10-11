@@ -84,7 +84,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui3',
+  'orion-dental-app-v1.4.5-health-os-ui4',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -106,6 +106,30 @@ if(!read('modules/cmf/loader.js').includes('health-os-cmf-v1.css?v=1'))
   failures.push('CMF loader no incorpora la nueva capa visual.');
 if(!osPwa.includes('./modules/cmf/health-os-cmf-v1.css'))
   failures.push('PWA no conserva la hoja visual CMF en el caché.');
+
+// Etapa 4: resto de los módulos y librería visual compartida.
+const commonHealthOs=read('assets/shared/health-os-messaging-v1.css');
+const insumosHealthOs=read('modules/insumos/health-os-insumos-v1.css');
+const endoHealthOs=read('modules/endodoncia/health-os-endodoncia-v1.css');
+const armonizacionHealthOs=read('modules/armonizacion/health-os-armonizacion-v1.css');
+for(const [name,css] of [['Mensajería',commonHealthOs],['Insumos',insumosHealthOs],['Endodoncia',endoHealthOs],['Armonización',armonizacionHealthOs]]){
+  includesAll('Health OS '+name,css,['@media screen','#1F3F5B','#F3F3F3']);
+  if(/@media\s+print\b/.test(css))failures.push('El CSS Health OS de '+name+' contiene reglas de impresión.');
+}
+const stylesRequired=[
+  ['modules/insumos/loader.js','health-os-insumos-v1.css?v=1'],
+  ['modules/endodoncia/loader.js','health-os-endodoncia-v1.css?v=1'],
+  ['modules/ortodoncia/loader.js','health-os-messaging-v1.css?v=1'],
+  ['modules/odontopediatria/loader.js','health-os-messaging-v1.css?v=1'],
+  ['modules/armonizacion/index.html','health-os-armonizacion-v1.css']
+];
+for(const [file,ref] of stylesRequired)if(!read(file).includes(ref))failures.push(file+' no carga '+ref);
+for(const ref of [
+  './assets/shared/health-os-messaging-v1.css',
+  './modules/insumos/health-os-insumos-v1.css',
+  './modules/endodoncia/health-os-endodoncia-v1.css',
+  './modules/armonizacion/health-os-armonizacion-v1.css'
+])if(!osPwa.includes(ref))failures.push('PWA: recurso visual ausente '+ref);
 
 const comunicacionesLoader=read('modules/comunicaciones/loader.js');
 const insumosLoader=read('modules/insumos/loader.js');

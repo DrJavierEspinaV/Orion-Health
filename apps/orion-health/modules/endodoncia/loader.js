@@ -9,7 +9,7 @@
     h=h
       .replace(/<img[^>]*class="firmaimg"[^>]*>/g,'')
       .replace(/localStorage/g,'sessionStorage')
-      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.0"></head>')
+      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.0"><link rel="stylesheet" href="./health-os-endodoncia-v1.css?v=1"></head>')
       .replace('</body>','<script src="../../assets/shared/clinical-audit-endo.js?v=1.4.0"></script><script src="../../assets/shared/clinical-components-restore.js?v=1.4.0"></script><script src="../../assets/shared/patient-bridge.js?v=1.4.0"></script></body>');
     document.open();document.write(h);document.close();
   }catch(e){

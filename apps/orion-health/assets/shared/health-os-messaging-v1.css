@@ -1,0 +1,247 @@
+/*
+ * ORION Health OS · Puente visual de Mensajería v1
+ * Consume los tokens ya aprobados por Health OS.
+ * Compartido EXCLUSIVAMENTE por Ortodoncia y Odontopediatría.
+ * No modifica comportamiento de pestañas, tablas, estados ni consentimiento.
+ */
+@media screen {
+  :root {
+    --primary: #1F3F5B;
+    --primary2: #17324D;
+    --accent: #8C8C8C;
+    --bg: #F3F3F3;
+    --bg2: #E9EEF2;
+    --card: #FFFFFF;
+    --card2: #F7F9FB;
+    --ink: #1F3F5B;
+    --muted: #5F7080;
+    --line: #D9DEE3;
+    --pill: #EAF0F5;
+    --shadow: 0 12px 36px rgba(31,63,91,.075);
+  }
+  html,body { max-width: 100%; }
+  body {
+    background: #F3F3F3 !important;
+    background-image: none !important;
+    color: #1F3F5B !important;
+    font-family: Montserrat,"Segoe UI",Arial,sans-serif !important;
+    overflow-x: hidden;
+  }
+  body .topbar {
+    background: #1F3F5B !important;
+    background-image: none !important;
+    border-bottom: 1px solid #17324D !important;
+    box-shadow: 0 6px 18px rgba(31,63,91,.11) !important;
+  }
+  body .topbar > header.wrap {
+    max-width: 1540px !important;
+    padding: 18px clamp(12px,2vw,26px) 11px !important;
+  }
+  body .topbar > header.wrap {
+    display: grid !important;
+    grid-template-columns: 64px minmax(0,1fr) !important;
+    grid-template-rows: auto auto auto !important;
+    column-gap: 16px !important;
+    row-gap: 4px !important;
+    align-items: center !important;
+  }
+  body .topbar .orion-health-os-logo {
+    display: block !important;
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    width: 64px !important;
+    max-width: 64px !important;
+    height: 60px !important;
+    max-height: 60px !important;
+    object-fit: contain !important;
+    border-radius: 10px !important;
+    background: #FFFFFF !important;
+    padding: 4px !important;
+  }
+  body .topbar h1 { grid-column: 2; grid-row: 1; min-width: 0; }
+  body .topbar .sub { grid-column: 2; grid-row: 2; min-width: 0; }
+  body .topbar .tabs { grid-column: 1 / -1; grid-row: 3; }
+  body .topbar h1 {
+    color: #FFFFFF !important;
+    font-size: clamp(19px,1.55vw,24px) !important;
+    font-weight: 800 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -.018em !important;
+    text-transform: none !important;
+  }
+  body .topbar .sub {
+    color: #D9E3EA !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+  body .topbar .tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 14px !important;
+    margin-bottom: 2px !important;
+  }
+  body .topbar .tabBtn {
+    min-height: 40px !important;
+    color: #E8EEF3 !important;
+    background: transparent !important;
+    border: 1px solid #7390A6 !important;
+    border-radius: 10px !important;
+    padding: 10px 15px !important;
+    font-size: 12px !important;
+    font-weight: 750 !important;
+    box-shadow: none !important;
+  }
+  body .topbar .tabBtn.active {
+    color: #1F3F5B !important;
+    background: #FFFFFF !important;
+    border-color: #FFFFFF !important;
+    box-shadow: 0 3px 12px rgba(0,0,0,.1) !important;
+  }
+  body .topbar .pill {
+    color: #F4F7F9 !important;
+    background: #355773 !important;
+    border-color: rgba(255,255,255,.28) !important;
+  }
+  body > .wrap,
+  body > div.wrap {
+    max-width: 1540px !important;
+    min-width: 0 !important;
+    padding: 15px clamp(12px,1.8vw,24px) 22px !important;
+    margin: 0 auto !important;
+  }
+  body .stack { gap: 12px !important; }
+  body .card {
+    background: #FFFFFF !important;
+    background-image: none !important;
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 25px rgba(31,63,91,.065) !important;
+    padding: 16px !important;
+    min-width: 0 !important;
+  }
+  body .card > h1,
+  body .card > h2,
+  body #mensajeriaCard h1,
+  body #filtrosCard h1,
+  body #mensajeCard h1,
+  body #resultadosCard h1 {
+    color: #1F3F5B !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+    margin-bottom: 10px !important;
+    text-transform: none !important;
+  }
+  body .card .small,body .card .subline {
+    color: #637588 !important;
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+  }
+  body label {
+    color: #53687B !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    text-transform: none !important;
+  }
+  body input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+  body select,body textarea {
+    min-width: 0 !important;
+    max-width: 100%;
+    color: #1F3F5B !important;
+    background: #FFFFFF !important;
+    border: 1px solid #CAD5DE !important;
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+  }
+  body input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+  body select { min-height: 38px !important; }
+  body input:focus-visible,body select:focus-visible,body textarea:focus-visible,
+  body button:focus-visible,body summary:focus-visible {
+    outline: 3px solid rgba(31,63,91,.23) !important;
+    outline-offset: 2px !important;
+  }
+  body .btnrow {
+    gap: 8px !important;
+    align-items: center !important;
+  }
+  body .btnrow button,body .tabBtn,body .actions button {
+    border-radius: 10px !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    box-shadow: none !important;
+  }
+  body .btn,body .btn2 {
+    background: #1F3F5B !important;
+    background-image: none !important;
+    border: 1px solid #1F3F5B !important;
+    color: #FFFFFF !important;
+  }
+  body .btnGhost {
+    background: #FFFFFF !important;
+    border: 1px solid #BAC8D4 !important;
+    color: #1F3F5B !important;
+  }
+  /* Los botones de acción clínica/WhatsApp conservan colores semánticos. */
+  body .actions .wa { background: #168C58 !important; }
+  body .actions .em { background: #285E8D !important; }
+  body .actions .cp { background: #C06A16 !important; }
+  body .actions .dl { background: #C93C4D !important; }
+  body .actions .vw { background: #39576F !important; }
+  body .filters-grid {
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+    gap: 10px !important;
+    align-items: end !important;
+  }
+  body .filter-item { min-width: 0 !important; }
+  body table { width: 100%; border-color: #D9DEE3 !important; }
+  body th {
+    color: #1F3F5B !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    padding: 11px 8px !important;
+    background: #EFF3F6 !important;
+    border-bottom: 1px solid #D9DEE3 !important;
+  }
+  body td { border-color: #E7ECF0 !important; font-size: 12px !important; }
+  body tr:nth-child(even) td { background: #F9FBFC; }
+  body details.results > summary {
+    color: #1F3F5B !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+  }
+  body dialog {
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 22px 54px rgba(31,63,91,.18) !important;
+  }
+  body .modalHead {
+    background: #1F3F5B !important;
+    background-image: none !important;
+  }
+}
+@media screen and (max-width: 1100px) {
+  body .filters-grid { grid-template-columns: repeat(3,minmax(0,1fr)) !important; }
+}
+@media screen and (max-width: 780px) {
+  body .filters-grid { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+}
+@media screen and (max-width: 520px) {
+  body .topbar > header.wrap { padding: 13px 12px 10px !important; }
+  body .topbar h1 { font-size: 17px !important; }
+  body .topbar .sub { font-size: 10px !important; }
+  body .topbar .tabs { gap: 6px !important; }
+  body .topbar .tabBtn { flex: 1 1 auto; padding: 8px !important; }
+  body .topbar .tabs > .pill { margin-left: 0 !important; }
+  body .card { padding: 11px !important; border-radius: 12px !important; }
+  body .filters-grid { grid-template-columns: minmax(0,1fr) !important; }
+  body .btnrow { gap: 7px !important; }
+  body .btnrow button { min-height: 40px !important; }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  body button,body details { transition: none !important; }
+}

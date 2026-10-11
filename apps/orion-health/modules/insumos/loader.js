@@ -185,7 +185,7 @@
   details#orionCatalogAdmin summary{cursor:pointer;font-size:12px;font-weight:600;color:#1F3F5B}
   @media(max-width:700px){#orionCatalogCard{align-items:flex-start}.orion-catalog-badge{width:100%;text-align:center}}
 </style>`;
-    h = h.replace('</head>', styles + '</head>');
+    h = h.replace('</head>', styles + '<link rel="stylesheet" href="./health-os-insumos-v1.css?v=1"></head>');
 
     const enhancementScript = `
 <script>

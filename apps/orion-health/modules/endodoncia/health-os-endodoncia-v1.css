@@ -1,0 +1,117 @@
+/* ORION Health OS · Endodoncia · Puente visual V1
+ * Exclusivo UI en pantalla. NO cambiar .page, #print*, firmas, dosis ni formatos.
+ */
+@media screen {
+  body { background: #F3F3F3 !important; color: #1F3F5B !important; font-family: Montserrat,"Segoe UI",Arial,sans-serif !important; }
+  body > header.no-print {
+    background: #FFFFFF !important;
+    border: 0 !important;
+    border-bottom: 1px solid #D9DEE3 !important;
+    box-shadow: 0 3px 12px rgba(31,63,91,.04) !important;
+  }
+  body > header.no-print > div {
+    max-width: 1560px !important;
+    margin: 0 auto !important;
+    padding: 12px clamp(12px,1.8vw,26px) !important;
+    align-items: center !important;
+    gap: 16px !important;
+  }
+  body > header.no-print img {
+    height: 62px !important;
+    max-height: 62px !important;
+    max-width: 140px !important;
+    min-width: 0 !important;
+    width: auto !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+  }
+  body > header.no-print h1 {
+    font-size: clamp(18px,1.65vw,23px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -.02em !important;
+    line-height: 1.26 !important;
+    color: #1F3F5B !important;
+  }
+  body > header.no-print p {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    color: #607386 !important;
+    margin-top: 4px !important;
+  }
+  body > main {
+    width: min(100%,1560px) !important;
+    max-width: 1560px !important;
+    margin: 0 auto !important;
+    padding: clamp(11px,1.5vw,20px) !important;
+  }
+  body > main > section.card.no-print {
+    background: #FFFFFF !important;
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 28px rgba(31,63,91,.065) !important;
+    padding: clamp(13px,1.5vw,21px) !important;
+    margin-bottom: 13px !important;
+  }
+  body > main > section.card.no-print h2 {
+    color: #1F3F5B !important;
+    font-size: clamp(15px,1.2vw,18px) !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+    margin-bottom: 12px !important;
+  }
+  body > main > section.card.no-print label {
+    color: #52677B !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+  body > main > section.card.no-print input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+  body > main > section.card.no-print select,
+  body > main > section.card.no-print textarea {
+    background: #FFFFFF !important;
+    border: 1px solid #CAD4DD !important;
+    color: #1F3F5B !important;
+    border-radius: 10px !important;
+    min-width: 0 !important;
+    font-size: 12px !important;
+    box-shadow: none !important;
+  }
+  body > main > section.card.no-print input:focus-visible,
+  body > main > section.card.no-print select:focus-visible,
+  body > main > section.card.no-print textarea:focus-visible,
+  body > main > section.card.no-print button:focus-visible {
+    outline: 3px solid rgba(31,63,91,.24) !important;
+    outline-offset: 2px !important;
+  }
+  body > main > section.card.no-print .chip {
+    border: 1px solid #D9DEE3 !important;
+    border-radius: 10px !important;
+    background: #F8FAFC !important;
+    color: #1F3F5B !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+  body > main > section.card.no-print .chip:has(input:checked) {
+    background: #E9F0F5 !important;
+    border-color: #A3B7C7 !important;
+  }
+  body > main > section.card.no-print button {
+    border-radius: 10px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+  }
+  body > main > section.card.no-print #btnDocCert {
+    background: #FFFFFF !important;
+    color: #1F3F5B !important;
+    border: 1px solid #BECBD6 !important;
+  }
+}
+@media screen and (max-width: 700px) {
+  body > header.no-print > div { padding: 9px 12px !important; gap: 10px !important; }
+  body > header.no-print img { height: 44px !important; max-height: 44px !important; max-width: 94px !important; }
+  body > header.no-print h1 { font-size: 15px !important; }
+  body > header.no-print p { display: none !important; }
+  body > main { padding: 8px !important; }
+  body > main > section.card.no-print { padding: 11px !important; border-radius: 12px !important; }
+}
