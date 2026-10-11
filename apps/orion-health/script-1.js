@@ -52,7 +52,7 @@ const syncNombre = document.getElementById("syncNombre");
 const syncRut = document.getElementById("syncRut");
 const syncEdad = document.getElementById("syncEdad");
 const syncBadge = document.getElementById("syncBadge");
-const menuButtons = Array.from(document.querySelectorAll(".menu-btn"));
+const menuButtons = Array.from(document.querySelectorAll(".menu-btn[data-app]"));
 const state = { currentApp: null };
 
 let frameResizeObserver = null;

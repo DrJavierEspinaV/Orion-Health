@@ -1,5 +1,8 @@
 import {test,expect} from '@playwright/test';
 
+// El test intercepta source.html: Playwright no puede enrutar respuestas capturadas por Service Worker.
+test.use({ serviceWorkers: 'block' });
+
 async function open(page,key){
   await page.goto('/apps/orion-health/index.html');
   await page.locator(`.menu-btn[data-app="${key}"]`).click();
@@ -16,6 +19,9 @@ test('Excel y Drive conservan estados distintos y filtros sin convertir Citado e
     await route.fulfill({response,body});
   });
   const frame=await open(page,'comunicaciones');
+  // source.html carga por fetch + document.write: esperar a que el manejador
+  // DOMContentLoaded haya publicado los auxiliares instrumentados.
+  await expect.poll(async()=>frame.locator('body').evaluate(()=>Boolean(window.__statusTest)),{timeout:30000}).toBeTruthy();
   const state=await frame.locator('body').evaluate(()=>{
     const {prepRow,prepRowFromDb_,statusPill,load}=window.__statusTest;
     const rows=[{' Texto status consulta ':'Citado'},{ESTADO:'Atendido'},{Status:'Ausente'},{Estado:'No asistió'},{STATUS:'',Estado:'Cancelado'},{estado:'<b>Confirmado</b>'},{}];

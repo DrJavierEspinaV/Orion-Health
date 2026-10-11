@@ -45,6 +45,23 @@ const portal=read('script-1.js');
 for(const moduleName of modules)if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
 includesAll('Portal ORION',portalHtml,['orion-identity-system-v140.css','orion-mobile-v141.css','orion-portal','script-1.js','portal-armonizacion-v152.js']);
 
+// Puente visual temporal hacia ORION Health OS (sin alterar los motores clínicos).
+const portalOsCss=read('assets/shared/portal-health-os-bridge-v1.css');
+includesAll('Puente visual Health OS',portalOsCss,[
+  'body.orion-portal.route-selector-mode',
+  'grid-template-columns: repeat(4, minmax(0,1fr))',
+  '.menu-btn.portal-external-link',
+  '@media (max-width: 640px)'
+]);
+includesAll('Portal Health OS',portalHtml,[
+  'portal-health-os-bridge-v1.css',
+  'portal-os-intro',
+  'portal-external-link'
+]);
+const moduleAccesses=portalHtml.match(/data-app="/g)||[];
+if(moduleAccesses.length!==7)failures.push('Portal debe conservar sus siete rutas clínicas');
+if(!portal.includes('document.querySelectorAll(".menu-btn[data-app]")'))failures.push('Portal debe excluir enlaces externos de sus controladores de módulo');
+
 const identity=read('assets/shared/orion-identity-system-v140.css');
 includesAll('Sistema visual ORION',identity,[
   '--orion-blue:#1F3F5B','--orion-gray:#8C8C8C','--orion-white:#FFFFFF','--orion-surface:#F3F3F3',

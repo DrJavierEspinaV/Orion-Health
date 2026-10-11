@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.5">
   <link rel="stylesheet" href="./assets/shared/portal-route-selector-v144r6.css?v=1.4.5">
   <link rel="stylesheet" href="./assets/shared/portal-aesthetic-v144r7.css?v=1.4.5">
+  <link rel="stylesheet" href="./assets/shared/portal-health-os-bridge-v1.css?v=1">
 </head>
 <body class="orion-portal route-selector-mode">
   <div class="shell">
@@ -22,15 +23,22 @@
         <h1>ORION Dental App<span class="registered-mark">®</span></h1>
         <p>Unidad tecnológica · respaldada por ORION Health</p>
       </div>
+      <div class="portal-os-intro">
+        <div>
+          <span class="portal-os-eyebrow">ORION Health OS · Criterio visual común</span>
+          <h2>Centro de aplicaciones</h2>
+        </div>
+        <p>Selecciona un módulo clínico o accede a una herramienta complementaria.</p>
+      </div>
       <nav class="menu" id="menuApps" aria-label="Módulos ORION Dental App">
-        <button class="menu-btn" data-app="comunicaciones"><span class="title">ORION Comunicaciones Clínicas</span><span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span></button>
-        <button class="menu-btn" data-app="insumos"><span class="title">ORION Insumos</span><span class="sub">Gestión y solicitud de biomateriales.</span></button>
-        <button class="menu-btn" data-app="cmf"><span class="title">ORION Clínico CMF</span><span class="sub">Documentos clínicos de Maxilofacial PRO+.</span></button>
-        <button class="menu-btn" data-app="endo"><span class="title">ORION Endodoncia</span><span class="sub">Recetas e indicaciones clínicas de Endodoncia.</span></button>
-        <button class="menu-btn" data-app="orto"><span class="title">ORION Ortodoncia</span><span class="sub">Módulo clínico para Ortodoncia.</span></button>
-        <button class="menu-btn" data-app="odontopediatria"><span class="title">ORION Odontopediatría</span><span class="sub">Módulo clínico para Odontopediatría.</span></button>
-        <button class="menu-btn" data-app="armonizacion"><span class="title">ORION Armonización Orofacial</span><span class="sub">Motores clínicos para toxina, ácido hialurónico, CaHA, PLLA y Skinbooster / mesoterapia.</span></button>
-        <a class="menu-btn" href="https://script.google.com/macros/s/AKfycbw6aIB8899FUCzxWHqUwtXL9IgObtujp_BJI768vDkuejZj09Qq4S7RYvazR12ISWw/exec" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none" aria-label="Abrir herramienta externa de ORION Comunicaciones en una pestaña nueva"><span class="title">ORION Comunicaciones · Herramienta externa ↗</span><span class="sub">Acceso directo a Google Apps Script. Se abre en una nueva pestaña.</span></a>
+        <button class="menu-btn" data-app="comunicaciones" data-code="01"><span class="title">ORION Comunicaciones Clínicas</span><span class="sub">Base de pacientes, mensajería y seguimiento clínico.</span></button>
+        <a class="menu-btn portal-external-link" data-code="EXT" href="https://script.google.com/macros/s/AKfycbw6aIB8899FUCzxWHqUwtXL9IgObtujp_BJI768vDkuejZj09Qq4S7RYvazR12ISWw/exec" target="_blank" rel="noopener noreferrer" aria-label="Abrir herramienta complementaria de Comunicaciones en una pestaña nueva"><span class="title">Comunicaciones · Acceso externo ↗</span><span class="sub">Herramienta complementaria temporal. Se abre en una nueva pestaña.</span></a>
+        <button class="menu-btn" data-app="insumos" data-code="02"><span class="title">ORION Insumos</span><span class="sub">Gestión y solicitud de biomateriales.</span></button>
+        <button class="menu-btn" data-app="cmf" data-code="03"><span class="title">ORION Clínico CMF</span><span class="sub">Documentos clínicos de Maxilofacial PRO+.</span></button>
+        <button class="menu-btn" data-app="endo" data-code="04"><span class="title">ORION Endodoncia</span><span class="sub">Recetas e indicaciones clínicas de Endodoncia.</span></button>
+        <button class="menu-btn" data-app="orto" data-code="05"><span class="title">ORION Ortodoncia</span><span class="sub">Módulo clínico para Ortodoncia.</span></button>
+        <button class="menu-btn" data-app="odontopediatria" data-code="06"><span class="title">ORION Odontopediatría</span><span class="sub">Módulo clínico para Odontopediatría.</span></button>
+        <button class="menu-btn" data-app="armonizacion" data-code="07"><span class="title">ORION Armonización Orofacial</span><span class="sub">Motores clínicos para toxina, ácido hialurónico, CaHA, PLLA y Skinbooster / mesoterapia.</span></button>
       </nav>
       <div class="sidebar-footer">Selecciona una ruta para abrir el módulo solicitado. El <strong>Paciente Activo para Documento</strong> se conserva entre módulos con sus datos mínimos: <strong>Nombre</strong>, <strong>RUN/RUT</strong> y <strong>Edad</strong>.</div>
     </aside>
