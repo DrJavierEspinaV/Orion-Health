@@ -28,20 +28,23 @@ async function selectExam(frame,detailsSelector,checkboxSelector){
 
 test('ORION se adapta al teléfono vertical sin desborde horizontal',async({page})=>{
   await page.setViewportSize({width:390,height:844});
-  const frame=await openCmf(page);
-
+  await page.goto(appUrl,{waitUntil:'domcontentloaded'});
+  await expect(page.locator('.menu-btn[data-app]')).toHaveCount(7);
+  // Health OS Bridge V1 usa una columna en móviles y permite scroll.
   const portalMetrics=await page.evaluate(()=>{
     const buttons=[...document.querySelectorAll('.menu-btn')].slice(0,2).map(el=>el.getBoundingClientRect());
     return{
       scrollWidth:document.documentElement.scrollWidth,
       clientWidth:document.documentElement.clientWidth,
-      sameRow:buttons.length===2&&Math.abs(buttons[0].top-buttons[1].top)<4,
-      separateColumns:buttons.length===2&&buttons[1].left>buttons[0].left
+      sameColumn:buttons.length===2&&Math.abs(buttons[0].left-buttons[1].left)<4,
+      stacked:buttons.length===2&&buttons[1].top>buttons[0].bottom
     };
   });
   expect(portalMetrics.scrollWidth).toBeLessThanOrEqual(portalMetrics.clientWidth+3);
-  expect(portalMetrics.sameRow).toBeTruthy();
-  expect(portalMetrics.separateColumns).toBeTruthy();
+  expect(portalMetrics.sameColumn).toBeTruthy();
+  expect(portalMetrics.stacked).toBeTruthy();
+
+  const frame=await openCmf(page);
 
   await frame.locator('#btnDocExams').click();
   await expect(frame.locator('#examDrawer')).toBeVisible();
