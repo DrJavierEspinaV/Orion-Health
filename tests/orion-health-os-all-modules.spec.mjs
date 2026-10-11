@@ -102,7 +102,8 @@ for(const module of [
     expect(d.logoSrc).toContain('orion-health.png');
     expect(d.logoHeight).toBeGreaterThan(30);
     expect(d.navVisible&&d.functionalFields&&d.hasSheets).toBe(true);
-    expect(d.filterCols).toBeGreaterThan(1);
+    if((page.viewportSize()?.width||0)<=520) expect(d.filterCols).toBe(1);
+    else expect(d.filterCols).toBeGreaterThan(1);
     expect(m.scrollWidth).toBeLessThanOrEqual(m.clientWidth+3);
   });
 }
