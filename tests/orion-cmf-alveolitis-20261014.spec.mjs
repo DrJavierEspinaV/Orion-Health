@@ -65,6 +65,8 @@ test('CMF: las dos indicaciones permanecen editables y la vista de impresión la
   await frame.locator('#insPost').click();
   await input.fill('ALVEOLITIS SECA — pauta editada individualmente. Control en 24 horas.');
   await expect(frame.locator('#v_ind2')).toContainText('pauta editada individualmente');
+  // Las hojas se muestran en la pestaña Vista previa; en Edición permanecen ocultas.
+  await frame.locator('#orionClinicalTabPreview').click();
   await expect(frame.locator('#printSheet2')).toBeVisible();
   await page.emulateMedia({media:'print'});
   await expect(frame.locator('#v_ind2')).toContainText('pauta editada individualmente');
