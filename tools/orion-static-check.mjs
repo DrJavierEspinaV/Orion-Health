@@ -31,7 +31,7 @@ const version=JSON.parse(read('VERSION.json'));
 if(!String(version.version).startsWith('1.4.5'))failures.push(`Versión inesperada: ${version.version}`);
 if(!String(version.modules?.portal||'').startsWith('1.4.5'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
 if(version.modules?.comunicaciones!=='5.7.8')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
-if(version.modules?.cmf!=='4.3.42')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(version.modules?.cmf!=='4.3.43')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.1.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
 
@@ -84,7 +84,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui5-cmf-rx2',
+  'orion-dental-app-v1.4.5-health-os-ui6-cmf-alveolitis',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -212,6 +212,21 @@ includesAll('CMF 4.3.42: UI',cmfSource,[
   'profilaxis_ei_azitromicina'
 ]);
 if(/Post_Qx1: `PARACETAMOL 500 mg/.test(cmfTemplates))failures.push('CMF aún contiene paracetamol 500 mg en Post_Qx1');
+includesAll('CMF 4.3.43: indicaciones de alveolitis',cmfTemplates,[
+  'ind_alveolitis_seca',
+  'ind_alveolitis_humeda',
+  'ALVEOLITIS SECA',
+  'ALVEOLITIS HÚMEDA O SUPURATIVA',
+  'NO iniciar antibióticos por cuenta propia',
+  'no requiere antibióticos de rutina'
+]);
+includesAll('CMF 4.3.43: dropdown y lógica de cuidados directos',cmfSource,[
+  '<option value="ind_alveolitis_seca">',
+  '<option value="ind_alveolitis_humeda">',
+  "'ind_alveolitis_seca','ind_alveolitis_humeda'",
+  'cmf-clinical-v145.js?v=1.4.5-rx3'
+]);
+
 
 if(cmfLoader.includes('clinical-audit-cmf.js')||cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF carga controles o plantillas retirados');
 const cmfNps=read('assets/shared/clinical-nps-cmf-v136.js');
