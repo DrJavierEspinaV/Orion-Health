@@ -6,13 +6,13 @@
     "portal": "1.4.5",
     "comunicaciones": "5.7.8",
     "insumos": "4.5.4",
-    "cmf": "4.3.42",
+    "cmf": "4.3.43",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
     "armonizacion_orofacial": "2.1.0-motor-hilos"
   },
-  "release_status": "CMF 4.3.42: paracetamol 1 g c/8 h en postoperatorios adultos, corticoide alternativo y profilaxis de endocarditis selectiva",
+  "release_status": "CMF V4.3.43: indicaciones separadas para alveolitis seca y húmeda/supurativa",
   "clinical_status": "Hilos incorpora producto, tipo, material, longitud, calibre, lote, vencimiento, cantidad, sesión, anestesia, lista de seguridad, puntos de entrada, vectores, áreas o mallas, plano, lateralidad, entrada, salida, fijación, comentarios y confirmación por elemento",
   "security_status": "ORION documenta la técnica decidida por el clínico y no recomienda vector, plano, cantidad ni tipo de hilo; la confirmación exige zona y tipo de hilo",
   "identity_status": "Los seis motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
@@ -24,8 +24,8 @@
   "cmf_update": {
     "status": "Estados de Excel/Drive conservados sin convertir Citado en Ausente",
     "interconsultation": "Generar y Cerrar en cabecera",
-    "templates": "Postquirúrgicos adultos con paracetamol 1 g cada 8 h (máximo 3 g/día), selección de dexametasona/prednisona/ninguno, profilaxis de endocarditis para alto riesgo con amoxicilina o azitromicina; resto de plantillas conservado.",
+    "templates": "Postquirúrgicos 1 g, corticoides excluyentes, profilaxis EI selectiva y nuevas indicaciones para alveolitis seca/húmeda; sin antibioticoterapia automática.",
     "legacy_clinical_checklist": "Suspendido por solicitud del usuario; firma, folio, trazabilidad y validación del cálculo pediátrico conservados",
-    "clinical_review": "Plantillas editables sujetas a indicación profesional; profilaxis según criterios AHA 2024. No usar clindamicina en profilaxis dental de endocarditis."
+    "clinical_review": "Indicaciones editables de alveolitis con reevaluación odontológica, signos de alarma, manejo local y antibioticoterapia restringida a infección diseminada/sistémica o alto riesgo."
   }
 }
