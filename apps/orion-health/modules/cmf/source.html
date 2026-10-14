@@ -269,7 +269,7 @@ body, input, select, textarea, button{ font-family: var(--orion-font) !important
 .page hr{ border-color: #d6deea !important; }
 
 </style>
-<script src="../../assets/shared/cmf-clinical-v145.js?v=1.4.5-rx2"></script><link rel="stylesheet" href="../../assets/shared/cmf-workflow-v145.css?v=1.4.5"></head>
+<script src="../../assets/shared/cmf-clinical-v145.js?v=1.4.5-rx3"></script><link rel="stylesheet" href="../../assets/shared/cmf-workflow-v145.css?v=1.4.5"></head>
 
 
 <body>
@@ -569,6 +569,8 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
           <option value="ind_tm">Terceros Molares</option>
           <option value="ind_ttm">Disfunción temporomandibular — autocuidado</option>
           <option value="ind_pericoronaritis">Pericoronaritis — cuidados y alertas</option>
+          <option value="ind_alveolitis_seca">Alveolitis seca — cuidados y control del dolor</option>
+          <option value="ind_alveolitis_humeda">Alveolitis húmeda / supurativa — cuidados y alertas de infección</option>
           <option value="ind_profilaxis_ei">Profilaxis de endocarditis — selección clínica y precauciones</option>
           <option value="ind_pedia">Postoperatorio pediátrico — cuidador</option>
           <option value="ind_exo_colgajo">Exodoncia a Colgajo</option>
@@ -1173,7 +1175,7 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
     const indicaciones = document.getElementById('indicaciones');
     const safeRender = ()=>{ try{ if(typeof render === 'function') render(); }catch(_){} };
 
-    const nonsurgical=()=>['ind_ttm','ind_pericoronaritis','ind_pedia','ind_profilaxis_ei'].includes(selInd?.value);
+    const nonsurgical=()=>['ind_ttm','ind_pericoronaritis','ind_alveolitis_seca','ind_alveolitis_humeda','ind_pedia','ind_profilaxis_ei'].includes(selInd?.value);
     function insertPre(){
       if(nonsurgical()){insertPost();return;}
       if(!indicaciones) return;
