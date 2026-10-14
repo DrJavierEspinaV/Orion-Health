@@ -142,6 +142,27 @@ No agregar otro antibiótico sin reevaluación. Disfagia, disnea o extensión ce
 • Si predomina inflamación articular aguda, puede usarse frío protegido 5–10 minutos según tolerancia; no aplicar hielo directo.
 • Ejercicios suaves solo según indicación, sin forzar ni provocar dolor.
 • Control en 7 días o antes ante bloqueo, dolor creciente o menor apertura. Fiebre, hinchazón progresiva o dificultad para tragar/respirar requieren evaluación urgente.`,
+    ind_alveolitis_seca: `ALVEOLITIS SECA — CUIDADOS DESPUÉS DE LA EVALUACIÓN ODONTOLÓGICA
+• La alveolitis seca puede causar dolor intenso que comienza o aumenta varios días después de la extracción, a veces con mal sabor u olor. Requiere evaluación y tratamiento local por el cirujano dentista.
+• Asistir a los controles indicados. Si el profesional irrigó el alvéolo o colocó un apósito calmante, NO retirarlo, cambiarlo ni introducir otros productos por cuenta propia.
+• Tomar únicamente los analgésicos indicados en la receta. No aumentar dosis ni mezclar antiinflamatorios por iniciativa propia.
+• Mantener higiene oral suave, cepillando los dientes vecinos sin traumatizar la herida.
+• Realizar enjuagues SUAVES con agua tibia y sal después de las primeras 24 horas de la extracción, si el cirujano lo permite. No hacer buches intensos ni escupir con fuerza. No irrigar el interior del alvéolo con jeringas salvo instrucción y demostración del profesional.
+• Preferir alimentos blandos y templados, mantener buena hidratación. Evitar tabaco, vapeo, alcohol, bombillas y manipular el alvéolo con dedos, palillos, gasas o sustancias caseras.
+• La alveolitis seca no requiere antibióticos de rutina: solo se indican si el profesional diagnostica una infección adicional u otra condición que lo justifique.
+• CONTROL: según evolución, habitualmente dentro de 24–48 horas si persiste dolor importante; consultar antes si empeora.
+
+⚠️ CONSULTA URGENTE: fiebre, aumento progresivo de la hinchazón, salida de pus, dolor que empeora a pesar del tratamiento o sangrado que no cede. Dificultad para respirar, tragar saliva, hinchazón hacia el cuello o piso de boca: acudir a urgencias inmediatamente.`,
+    ind_alveolitis_humeda: `ALVEOLITIS HÚMEDA O SUPURATIVA — CUIDADOS Y VIGILANCIA DE INFECCIÓN
+• Cuando se observa exudado, supuración o un coágulo alterado después de una extracción, debe reevaluarse clínicamente para distinguir alveolitis húmeda de infección del sitio quirúrgico, restos retenidos u otras complicaciones.
+• Asistir a la evaluación odontológica PRIORITARIA. El cirujano determinará si se requiere irrigación, retiro cuidadoso de restos, drenaje u otra medida local. No intentar realizar estos procedimientos en casa.
+• Tomar solo los medicamentos expresamente recetados. NO iniciar antibióticos por cuenta propia: pueden ser necesarios si hay propagación de infección, compromiso general, inmunosupresión u otra indicación clínica; no se indican automáticamente por dolor, mal olor o exudado aislados.
+• Si el profesional indicó un antibiótico, cumplir exactamente la receta y acudir a la reevaluación acordada. El antibiótico no reemplaza la limpieza o el drenaje local cuando corresponde.
+• Mantener higiene suave de los dientes cercanos. Si se autoriza, hacer enjuagues suaves con agua tibia y sal; evitar buches intensos, presión y maniobras dentro del alvéolo. No aplicar sustancias, algodón ni objetos en la herida.
+• Alimentación blanda, hidratación, reposo relativo y evitar tabaco, vapeo y alcohol. No usar bombillas ni manipular el coágulo.
+• CONTROL: reevaluación odontológica preferente dentro de 24 horas ante supuración o inflamación, y seguimiento según respuesta al tratamiento; antes si los síntomas progresan.
+
+⚠️ ALERTAS DE INFECCIÓN: fiebre, decaimiento importante, secreción purulenta persistente, aumento de volumen, dolor progresivo o dificultad para abrir la boca: contactar al equipo tratante el mismo día. Dificultad respiratoria, para deglutir saliva, trismus marcado o hinchazón hacia piso de boca o cuello: acudir de inmediato a urgencias.`,
     ind_pericoronaritis: `CUIDADOS PARA PERICORONARITIS
 • Aseo e irrigación profesional y planificación del tratamiento definitivo del molar.
 • Higiene suave alrededor del diente con cepillo pequeño; no introducir objetos bajo la encía.
