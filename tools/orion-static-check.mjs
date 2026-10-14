@@ -31,7 +31,7 @@ const version=JSON.parse(read('VERSION.json'));
 if(!String(version.version).startsWith('1.4.5'))failures.push(`Versión inesperada: ${version.version}`);
 if(!String(version.modules?.portal||'').startsWith('1.4.5'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
 if(version.modules?.comunicaciones!=='5.7.8')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
-if(version.modules?.cmf!=='4.3.41')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
+if(version.modules?.cmf!=='4.3.42')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.1.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
 
@@ -84,7 +84,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui4',
+  'orion-dental-app-v1.4.5-health-os-ui5-cmf-rx2',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -196,6 +196,23 @@ const cmfSource=read('modules/cmf/source.html');
 const cmfTemplates=read('assets/shared/cmf-clinical-v145.js');
 includesAll('Fuente clínica CMF',cmfSource,['cmf-clinical-v145.js','ORION_CMF_VALIDATE_OUTPUT','orion-inter-actions']);
 includesAll('Plantillas CMF',cmfTemplates,['Post_Qx1','Post_Qx2','PRE_QX','pediatric','ttm_mialgia','pericoronaritis','alveolitis']);
+includesAll('CMF 4.3.42: dosis y profilaxis',cmfTemplates,[
+  'PARACETAMOL 1 g',
+  'Máximo de esta pauta: 3.000 mg/día',
+  'postSteroids=Object.freeze',
+  'adultRegimen',
+  'profilaxis_ei_amoxicilina',
+  'profilaxis_ei_azitromicina',
+  'ind_profilaxis_ei'
+]);
+includesAll('CMF 4.3.42: UI',cmfSource,[
+  'orionPostSteroid',
+  'orionProphylaxisNotice',
+  'profilaxis_ei_amoxicilina',
+  'profilaxis_ei_azitromicina'
+]);
+if(/Post_Qx1: `PARACETAMOL 500 mg/.test(cmfTemplates))failures.push('CMF aún contiene paracetamol 500 mg en Post_Qx1');
+
 if(cmfLoader.includes('clinical-audit-cmf.js')||cmfLoader.includes('clinical-templates-cmf-v132.js'))failures.push('CMF carga controles o plantillas retirados');
 const cmfNps=read('assets/shared/clinical-nps-cmf-v136.js');
 includesAll('NPS CMF',cmfNps,['Encuesta de satisfacción (NPS):','Puede recibir una encuesta aleatoria sobre su experiencia de hoy.','Responderla toma 1 min y nos ayuda a mejorar.','ensureNps','mandatory:true','ORION_CMF_NPS_V136']);

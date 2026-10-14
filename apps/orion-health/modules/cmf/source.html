@@ -269,7 +269,7 @@ body, input, select, textarea, button{ font-family: var(--orion-font) !important
 .page hr{ border-color: #d6deea !important; }
 
 </style>
-<script src="../../assets/shared/cmf-clinical-v145.js?v=1.4.5"></script><link rel="stylesheet" href="../../assets/shared/cmf-workflow-v145.css?v=1.4.5"></head>
+<script src="../../assets/shared/cmf-clinical-v145.js?v=1.4.5-rx2"></script><link rel="stylesheet" href="../../assets/shared/cmf-workflow-v145.css?v=1.4.5"></head>
 
 
 <body>
@@ -363,20 +363,32 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
           <label class="text-sm text-slate-600">Plantilla — Adulto</label>
           <select id="tplAdulto" class="mt-1 w-full rounded-xl border p-2">
             <option value="">— Selecciona —</option>
-            <option value="Post_Qx1">Postquirúrgico 1 — ketoprofeno + paracetamol c/6 h</option>
-            <option value="Post_Qx2">Postquirúrgico 2 — ibuprofeno + paracetamol c/6 h</option>
+            <option value="Post_Qx1">Postquirúrgico 1 — ketoprofeno + paracetamol 1 g c/8 h</option>
+            <option value="Post_Qx2">Postquirúrgico 2 — ibuprofeno + paracetamol 1 g c/8 h</option>
             <option value="post_sin_aine">Postquirúrgico — sin AINE</option>
             <option value="ttm_mialgia">TTM — dolor muscular agudo</option>
             <option value="ttm_articular">TTM — dolor articular agudo</option>
             <option value="ttm_relajante">TTM — relajante muscular opcional (adulto)</option>
             <option value="pericoronaritis">Pericoronaritis — manejo local y analgesia</option>
             <option value="pericoronaritis_atb">Pericoronaritis — antibiótico si está indicado</option>
+            <option value="profilaxis_ei_amoxicilina">Profilaxis endocarditis (alto riesgo) — amoxicilina 2 g, dosis única</option>
+            <option value="profilaxis_ei_azitromicina">Profilaxis endocarditis (alto riesgo, alergia a penicilinas) — azitromicina 500 mg, dosis única</option>
             <option value="PRE_QX">PRE-QUIRURGICOS</option>
             <option value="alergia_penicilina">Alergia a Penicilinas</option>
             <option value="hipertenso">Paciente HTA</option>
             <option value="diabetico">Paciente DM</option>
             <option value="embarazo">Embarazo/Puerperio (Seguridad)</option>
           </select>
+          <div id="orionPostSteroidWrap" class="mt-3 p-3 rounded-xl border border-slate-200 bg-slate-50" hidden>
+            <label for="orionPostSteroid" class="text-xs font-bold text-slate-700">Corticoide perioperatorio (solo Postquirúrgico 1)</label>
+            <select id="orionPostSteroid" class="mt-1 w-full rounded-lg border p-2">
+              <option value="dexametasona">Dexametasona 8 mg — dosis única oral perioperatoria</option>
+              <option value="prednisona">Prednisona 40 mg — dosis única oral alternativa</option>
+              <option value="ninguno">Ningún corticoide</option>
+            </select>
+            <p class="mt-2 text-xs text-slate-600">Alternativas, nunca juntas. Revisar momento quirúrgico, diabetes, infección activa y contraindicaciones. No agregar ciclos prolongados automáticamente.</p>
+          </div>
+          <p id="orionProphylaxisNotice" class="mt-2 p-3 rounded-lg border border-amber-300 bg-amber-50 text-xs text-amber-950" role="note" hidden>Profilaxis de endocarditis: exclusiva de pacientes cardíacos de alto riesgo y procedimientos indicados. Dosis única 30–60 min antes. Verificar alergias e interacciones; no corresponde en extracciones de rutina.</p>
         </div>
         <div>
           <label class="text-sm text-slate-600">Plantilla — Pediátrico</label>
@@ -415,8 +427,8 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
 
 
               <!-- EDITA AQUÍ (posología analgésicos) -->
-              <option value="PARACETAMOL 1 gr
-1 Comprimido cada 6–8 hr por 3–5 días">Paracetamol 1 gr (adulto)</option>
+              <option value="PARACETAMOL 1 g
+1 comprimido por vía oral cada 8 horas según dolor, hasta 5 días. Máximo 3.000 mg/día incluyendo otras fuentes; individualizar si hay hepatopatía o bajo peso.">Paracetamol 1 g — c/8 h (adulto)</option>
               <option value="PARACETAMOL (PED)
 10–15 mg/kg cada 4–6 hr (máx. 60 mg/kg/día) por 3–5 días">Paracetamol (pediátrico, gotas/susp)</option>
               <option value="IBUPROFENO 400–600 mg
@@ -484,9 +496,9 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
             <optgroup label="Corticoides sistémicos">
               <!-- EDITA AQUÍ (posología otros) -->
               <option value="DEXAMETASONA 4 mg
-1 Comprimido cada 8 hr por 1–3 días">Dexametasona 4 mg</option>
-              <option value="PREDNISONA 5 mg
-1 Comprimido cada 8 hr por 3–5 días">Prednisona 5 mg</option>
+2 comprimidos (8 mg total) por vía oral en dosis única perioperatoria, habitualmente 60–90 minutos antes del procedimiento. Solo si corresponde; no repetir cada 8 horas.">Dexametasona — 8 mg dosis única</option>
+              <option value="PREDNISONA 20 mg
+2 comprimidos (40 mg total) por vía oral, dosis única 60 minutos antes del procedimiento, solo si fue indicada. Alternativa a dexametasona; no combinar ambas.">Prednisona — 40 mg dosis única</option>
             </optgroup>
             <optgroup label="Corticoide Oralbase">
               <option value="TRIAMCINOLONA 0,1% PASTA
@@ -557,6 +569,7 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
           <option value="ind_tm">Terceros Molares</option>
           <option value="ind_ttm">Disfunción temporomandibular — autocuidado</option>
           <option value="ind_pericoronaritis">Pericoronaritis — cuidados y alertas</option>
+          <option value="ind_profilaxis_ei">Profilaxis de endocarditis — selección clínica y precauciones</option>
           <option value="ind_pedia">Postoperatorio pediátrico — cuidador</option>
           <option value="ind_exo_colgajo">Exodoncia a Colgajo</option>
           <option value="ind_exo_rog">Extracción + ROG (Preservación Alveolar)</option>
@@ -1160,7 +1173,7 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
     const indicaciones = document.getElementById('indicaciones');
     const safeRender = ()=>{ try{ if(typeof render === 'function') render(); }catch(_){} };
 
-    const nonsurgical=()=>['ind_ttm','ind_pericoronaritis','ind_pedia'].includes(selInd?.value);
+    const nonsurgical=()=>['ind_ttm','ind_pericoronaritis','ind_pedia','ind_profilaxis_ei'].includes(selInd?.value);
     function insertPre(){
       if(nonsurgical()){insertPost();return;}
       if(!indicaciones) return;
@@ -1240,11 +1253,26 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
     receta.dispatchEvent(new Event('input',{bubbles:true}));
     render();
   }
+  const postSteroid=$('orionPostSteroid');
+  const postSteroidWrap=$('orionPostSteroidWrap');
+  const prophylaxisNotice=$('orionProphylaxisNotice');
+  function adultChoice(){
+    const key=tplAdulto.value;
+    postSteroidWrap.hidden=key!=='Post_Qx1';
+    prophylaxisNotice.hidden=!['profilaxis_ei_amoxicilina','profilaxis_ei_azitromicina'].includes(key);
+    receta.value=window.ORION_CMF_CLINICAL.adultRegimen(key,postSteroid.value);
+    receta.dispatchEvent(new Event('input',{bubbles:true}));
+    render();
+  }
   tplAdulto?.addEventListener('change',()=>{
     activePediatric=false;pediatricError='';tplPedia.value='';$('pediaSettings').hidden=true;$('pediaStatus').textContent='';
-    receta.value=PLANTILLAS[tplAdulto.value]||'';receta.dispatchEvent(new Event('input',{bubbles:true}));render();
+    adultChoice();
   });
-  tplPedia?.addEventListener('change',()=>{activePediatric=!!tplPedia.value;tplAdulto.value='';generatePediatric();});
+  postSteroid?.addEventListener('change',()=>{if(tplAdulto.value==='Post_Qx1')adultChoice();});
+  tplPedia?.addEventListener('change',()=>{
+    activePediatric=!!tplPedia.value;tplAdulto.value='';postSteroidWrap.hidden=true;prophylaxisNotice.hidden=true;
+    generatePediatric();
+  });
   ['p_peso','p_edad','pediaApap','pediaIbu','pediaAmoxi'].forEach(id=>$(id)?.addEventListener('input',()=>{if(activePediatric)generatePediatric();}));
   window.ORION_CMF_VALIDATE_OUTPUT=()=>{
     if(activePediatric&&pediatricError){alert(pediatricError);return false;}

@@ -82,7 +82,7 @@ test('Pediatría requiere concentración, recalcula y no acumula dosis antiguas'
 test('Pautas e indicaciones nuevas se insertan sin instrucciones preoperatorias para TTM',async({page})=>{
   const frame=await open(page,'cmf');
   await frame.locator('#tplAdulto').selectOption('Post_Qx1');
-  await expect(frame.locator('#receta')).toHaveValue(/PARACETAMOL 500 mg[\s\S]*cada 6 horas[\s\S]*48 horas[\s\S]*KETOPROFENO 50 mg/);
+  await expect(frame.locator('#receta')).toHaveValue(/PARACETAMOL 1 g[\s\S]*cada 8 horas[\s\S]*48 horas[\s\S]*KETOPROFENO 50 mg/);
   await frame.locator('#tplAdulto').selectOption('ttm_relajante');
   await expect(frame.locator('#receta')).toHaveValue(/CICLOBENZAPRINA 5 mg[\s\S]*no conducir[\s\S]*IMAO/);
   await frame.locator('#selInd').selectOption('ind_ttm');
