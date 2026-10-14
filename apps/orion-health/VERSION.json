@@ -1,18 +1,18 @@
 {
   "product": "ORION Dental App",
   "version": "1.4.5-final-piloto",
-  "date": "2026-08-30",
+  "date": "2026-10-14",
   "modules": {
     "portal": "1.4.5",
     "comunicaciones": "5.7.8",
     "insumos": "4.5.4",
-    "cmf": "4.3.41",
+    "cmf": "4.3.42",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
     "armonizacion_orofacial": "2.1.0-motor-hilos"
   },
-  "release_status": "CORRECCIONES DE ESTADOS Y AMPLIACIÓN DE PLANTILLAS CMF",
+  "release_status": "CMF 4.3.42: paracetamol 1 g c/8 h en postoperatorios adultos, corticoide alternativo y profilaxis de endocarditis selectiva",
   "clinical_status": "Hilos incorpora producto, tipo, material, longitud, calibre, lote, vencimiento, cantidad, sesión, anestesia, lista de seguridad, puntos de entrada, vectores, áreas o mallas, plano, lateralidad, entrada, salida, fijación, comentarios y confirmación por elemento",
   "security_status": "ORION documenta la técnica decidida por el clínico y no recomienda vector, plano, cantidad ni tipo de hilo; la confirmación exige zona y tipo de hilo",
   "identity_status": "Los seis motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
@@ -24,8 +24,8 @@
   "cmf_update": {
     "status": "Estados de Excel/Drive conservados sin convertir Citado en Ausente",
     "interconsultation": "Generar y Cerrar en cabecera",
-    "templates": "Analgesia adulta c/6 h 48 h, pediatría con concentración, TTM, pericoronaritis y alerta de alveolitis",
+    "templates": "Postquirúrgicos adultos con paracetamol 1 g cada 8 h (máximo 3 g/día), selección de dexametasona/prednisona/ninguno, profilaxis de endocarditis para alto riesgo con amoxicilina o azitromicina; resto de plantillas conservado.",
     "legacy_clinical_checklist": "Suspendido por solicitud del usuario; firma, folio, trazabilidad y validación del cálculo pediátrico conservados",
-    "clinical_review": "Plantillas editables para revisión profesional; no equivalen a validación clínica externa"
+    "clinical_review": "Plantillas editables sujetas a indicación profesional; profilaxis según criterios AHA 2024. No usar clindamicina en profilaxis dental de endocarditis."
   }
 }
