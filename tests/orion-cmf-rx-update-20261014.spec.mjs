@@ -80,7 +80,10 @@ test('Indicaciones de profilaxis insertan una pauta de selección clínica sin P
   await frame.locator('#insPost').click();
   await expect(frame.locator('#indicaciones')).toHaveValue(/ALTO RIESGO[\s\S]*30–60 minutos/);
   await expect(frame.locator('#indicaciones')).not.toHaveValue(/Cédula y Estudios|Ayuno/);
-  const clinical=await frame.locator('body').evaluate(()=>window.ORION_CMF_CLINICAL);
-  expect(clinical.adultRegimen('profilaxis_ei_amoxicilina')).toContain('AMOXICILINA 500 mg');
-  expect(clinical.adultRegimen('profilaxis_ei_azitromicina')).toContain('AZITROMICINA 500 mg');
+  const regimens=await frame.locator('body').evaluate(()=>({
+    amoxicilina:window.ORION_CMF_CLINICAL.adultRegimen('profilaxis_ei_amoxicilina'),
+    azitromicina:window.ORION_CMF_CLINICAL.adultRegimen('profilaxis_ei_azitromicina')
+  }));
+  expect(regimens.amoxicilina).toContain('AMOXICILINA 500 mg');
+  expect(regimens.azitromicina).toContain('AZITROMICINA 500 mg');
 });
