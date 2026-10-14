@@ -32,7 +32,8 @@ for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
     await expect(output).not.toHaveValue(/✅ Prequirúrgicas|Llevar Cédula|No es necesario Ayuno/);
     await expect(output).not.toHaveValue(/AMOXICILINA 500 mg|CLINDAMICINA 300 mg/);
     await expect(frame.locator('#v_ind2')).toContainText('ALVEOLITIS SECA');
-    await expect(rx).toHaveValue('');
+    // El módulo añade un pie NPS a la receta base; las indicaciones no deben añadir fármacos.
+    await expect(rx).not.toHaveValue(/AMOXICILINA|AZITROMICINA|CLINDAMICINA|KETOPROFENO|IBUPROFENO/i);
 
     await output.fill('');
     await selector.selectOption('ind_alveolitis_humeda');
@@ -47,7 +48,8 @@ for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
     await expect(output).not.toHaveValue(/✅ Prequirúrgicas|Llevar Cédula|No es necesario Ayuno/);
     await expect(output).not.toHaveValue(/AMOXICILINA 500 mg|CLINDAMICINA 300 mg/);
     await expect(frame.locator('#v_ind2')).toContainText('ALVEOLITIS HÚMEDA O SUPURATIVA');
-    await expect(rx).toHaveValue('');
+    // El módulo añade un pie NPS a la receta base; las indicaciones no deben añadir fármacos.
+    await expect(rx).not.toHaveValue(/AMOXICILINA|AZITROMICINA|CLINDAMICINA|KETOPROFENO|IBUPROFENO/i);
 
     // Las otras opciones antiguas conservan la acción PRE/POST.
     await selector.selectOption('ind_tm');
