@@ -1,6 +1,18 @@
 /* ORION CMF: fuente única de plantillas y cálculo. Bases y límites en docs/CMF-V1.4.5.md. */
 (()=>{
   'use strict';
+  // Opción explícita: nunca sumar dos corticoides al mismo esquema.
+  // Dosis únicas perioperatorias, individualizar según antecedentes y el momento de cirugía.
+  const postSteroids=Object.freeze({
+    dexametasona: `DEXAMETASONA 8 mg — solo si fue indicada por el clínico
+Administrar 8 mg por vía oral en dosis ÚNICA perioperatoria (habitualmente 60–90 minutos antes de la cirugía, si corresponde).
+Confirmar presentación, vía y momento. No repetir cada 6–8 horas. Revisar diabetes, infección activa y contraindicaciones.`,
+    prednisona: `PREDNISONA 20 mg — alternativa a dexametasona, solo si fue indicada
+2 comprimidos (40 mg en total) por vía oral, en dosis ÚNICA 60 minutos antes del procedimiento, cuando corresponda.
+No asociar a dexametasona ni repetir durante varios días de manera automática. Individualizar según glucemia, infección, comorbilidades y pauta quirúrgica.`,
+    ninguno:''
+  });
+
   const adult = {
     embarazo: `PARACETAMOL 500–1.000 mg
 Cada 8 horas solo si es necesario.
@@ -38,34 +50,43 @@ Días 2 a 5: 250 mg cada 24 horas.
 Reevaluar clínicamente dentro de 3 días. Suspender 24 horas después de la resolución completa de los signos y síntomas sistémicos.
 
 Clindamicina no queda como alternativa automática por su mayor riesgo de infección por C. difficile. Individualizar cuando no exista una opción más segura.`,
-    Post_Qx1: `PARACETAMOL 500 mg
-1 comprimido por vía oral cada 6 horas durante las primeras 48 horas; después, cada 6 horas solo si hay dolor, hasta completar 5 días.
-Máximo de esta pauta: 2.000 mg/día. No superar 3.000 mg/día sumando otros productos.
+    Post_Qx1: `PARACETAMOL 1 g
+1 comprimido por vía oral cada 8 horas durante las primeras 48 horas; después, cada 8 horas solo si hay dolor, hasta completar 5 días.
+Máximo de esta pauta: 3.000 mg/día sumando todos los productos que contengan paracetamol. Ajustar si hay bajo peso, hepatopatía o consumo elevado de alcohol.
 
 KETOPROFENO 50 mg — liberación inmediata
 1 cápsula por vía oral cada 6 horas durante 48 horas; después, cada 8 horas solo si hay dolor, hasta completar 3 días.
 Tomar con alimentos. Máximo: 200 mg/día. No combinar con otro AINE.
 
-DEXAMETASONA 8 mg — solo si fue indicada por el clínico
-Dosis única perioperatoria; confirmar vía y momento. No repetir cada 6 horas.
+${postSteroids.dexametasona}
 
 Control: ____________________ a las __________ horas.`,
     Post_Qx2: `IBUPROFENO 400 mg
 1 comprimido por vía oral cada 6 horas durante las primeras 48 horas; luego cada 8 horas solo si hay dolor, hasta completar 3 días.
 Máximo inicial: 1.600 mg/día, bajo prescripción. Tomar con alimentos. No combinar con otro AINE.
 
-PARACETAMOL 500 mg
-1 comprimido por vía oral cada 6 horas durante 48 horas; luego cada 6 horas solo si hay dolor, hasta completar 5 días.
-Puede tomarse junto con ibuprofeno. Máximo de esta pauta: 2.000 mg/día; máximo total de todas las fuentes: 3.000 mg/día.
+PARACETAMOL 1 g
+1 comprimido por vía oral cada 8 horas durante 48 horas; luego cada 8 horas solo si hay dolor, hasta completar 5 días.
+Puede tomarse junto con ibuprofeno. Máximo: 3.000 mg/día, considerando todos los productos con paracetamol. Individualizar si hay hepatopatía, bajo peso o consumo elevado de alcohol.
 
 CLORHEXIDINA 0,12% — solo si fue indicada
 15 ml durante 30 segundos cada 12 horas por 7 días. No ingerir. Tras extracción, iniciar después de 24 horas con enjuague suave.
 
 Control: ____________________ a las __________ horas.`,
-    post_sin_aine: `PARACETAMOL 500 mg
-1 comprimido por vía oral cada 6 horas durante 48 horas; luego cada 6 horas solo si hay dolor, hasta completar 5 días.
-Máximo de esta pauta: 2.000 mg/día. No superar 3.000 mg/día sumando otros productos. Ajustar si hay hepatopatía, bajo peso o consumo de alcohol.
+    post_sin_aine: `PARACETAMOL 1 g
+1 comprimido por vía oral cada 8 horas durante 48 horas; luego cada 8 horas solo si hay dolor, hasta completar 5 días.
+Máximo: 3.000 mg/día incluyendo todas las fuentes de paracetamol. Reducir o individualizar ante hepatopatía, bajo peso o consumo elevado de alcohol.
 Si el dolor no se controla, consultar; no aumentar la dosis por cuenta propia.`,
+    profilaxis_ei_amoxicilina: `PROFILAXIS ANTIBIÓTICA DE ENDOCARDITIS INFECCIOSA — SOLO INDICACIÓN CARDIOLÓGICA DE ALTO RIESGO
+AMOXICILINA 500 mg
+4 cápsulas (2 g en total) por vía oral en UNA dosis, 30–60 minutos ANTES del procedimiento odontológico indicado.
+No repetir dosis después del procedimiento, salvo otra indicación terapéutica independiente.
+Confirmar indicación, antecedentes de alergia a penicilinas y medicación concomitante. No usar como profilaxis rutinaria de extracciones en personas sin criterio de alto riesgo.`,
+    profilaxis_ei_azitromicina: `PROFILAXIS ANTIBIÓTICA DE ENDOCARDITIS INFECCIOSA — ALERGIA A PENICILINAS, SOLO ALTO RIESGO
+AZITROMICINA 500 mg
+1 comprimido (500 mg) por vía oral en UNA dosis, 30–60 minutos ANTES del procedimiento odontológico indicado.
+Solo alternativa si corresponde profilaxis de endocarditis y existe alergia a penicilinas confirmada. Verificar intervalo QT, interacciones, antecedentes cardíacos y función hepática.
+No usar clindamicina como alternativa automática para esta profilaxis. No continuar antibiótico en el postoperatorio sin indicación terapéutica.`,
     PRE_QX: `PARACETAMOL 1 g
 1 comprimido cada 8 horas; comenzar 24 horas antes.
 Máximo: 3 g/día.
@@ -129,6 +150,13 @@ No agregar otro antibiótico sin reevaluación. Disfagia, disnea o extensión ce
 • Analgesia según receta. No automedicarse con antibióticos ni prolongarlos sin control.
 • Control en 48–72 horas; adelantar ante fiebre, dolor creciente o menor apertura.
 • Dificultad para tragar saliva, respirar o hinchazón hacia cuello/piso de boca: acudir inmediatamente a urgencias.`,
+    ind_profilaxis_ei: `PROFILAXIS ANTIBIÓTICA ANTES DE PROCEDIMIENTO DENTAL (ENDOCARDITIS INFECCIOSA)
+• Confirmar que existe una condición cardíaca de ALTO RIESGO y un procedimiento odontológico que manipule encía, región periapical o perfore mucosa oral.
+• Verificar indicación clínica, alergias, medicamentos, gestación si corresponde, y registrar el motivo en la ficha.
+• Seguir SOLO UNA alternativa antibiótica de la receta; dosis única 30–60 minutos antes del procedimiento.
+• No indicar profilaxis sistemática a todos los pacientes ni agregar antibióticos postoperatorios sin una infección u otra indicación independiente.
+• Clindamicina ya no se recomienda para profilaxis dental de endocarditis según AHA. Controlar antecedentes de reacción grave a betalactámicos y posibles interacciones.
+• Si el horario de la dosis se omitió, el paciente presentó reacción o la indicación es dudosa: consultar al equipo tratante antes de continuar.`,
     ind_pedia: `CUIDADOS POSTOPERATORIOS PEDIÁTRICOS
 • Un adulto debe supervisar los medicamentos y anotar hora y cantidad; medir con jeringa oral, nunca con cuchara doméstica.
 • Confirmar en el frasco la concentración indicada en la receta; no intercambiar presentaciones manteniendo los mismos ml.
@@ -169,5 +197,11 @@ No agregar otro antibiótico sin reevaluación. Disfagia, disnea o extensión ce
     }).join('\n\n');
     return {doses,text:`PESO: ${fmt(kg)} kg · EDAD: ${fmt(age)} años\n\n${text}\n\nAgitar el frasco; medir con jeringa oral. Confirmar presentación, alergias y medicación concomitante.${key==='pedia_postqx'?' No añadir dosis intermedias ni alternar por cuenta propia.':''}`};
   }
-  globalThis.ORION_CMF_CLINICAL={version:'1.4.5',adult,instructions,alveolitis,pediatric,concentrations};
+  function adultRegimen(key,steroid='dexametasona'){
+    const base=adult[key]||'';
+    if(key!=='Post_Qx1')return base;
+    const alternative=Object.hasOwn(postSteroids,steroid)?postSteroids[steroid]:postSteroids.dexametasona;
+    return base.replace(postSteroids.dexametasona,alternative).replace(/\n{3,}/g,'\n\n').trim();
+  }
+  globalThis.ORION_CMF_CLINICAL={version:'1.4.5',adult,instructions,alveolitis,pediatric,concentrations,postSteroids,adultRegimen};
 })();
