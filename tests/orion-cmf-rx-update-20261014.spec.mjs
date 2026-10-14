@@ -55,6 +55,23 @@ test('Profilaxis cardíaca de alto riesgo: dosis única sin asociar dos antibió
   await expect(rx).not.toHaveValue(/AMOXICILINA 500 mg|AZITROMICINA 500 mg/);
 });
 
+test('El catálogo manual de fármacos usa máximos coherentes y no introduce corticoides cada 8 h',async({page})=>{
+  const frame=await openCmf(page);
+  await frame.locator('#modoComp').check();
+  await expect(frame.locator('#panelComponentes')).toBeVisible();
+  const rx=await frame.locator('body').evaluate(()=>{
+    const analg=[...document.querySelectorAll('#selAnalgesico option')].find(el=>el.textContent.includes('Paracetamol 1 g'));
+    const dex=[...document.querySelectorAll('#selCorti option')].find(el=>el.textContent.includes('Dexametasona —'));
+    const pred=[...document.querySelectorAll('#selCorti option')].find(el=>el.textContent.includes('Prednisona —'));
+    return{analg:analg?.value||'',dex:dex?.value||'',pred:pred?.value||''};
+  });
+  expect(rx.analg).toMatch(/PARACETAMOL 1 g[\s\S]*cada 8 horas[\s\S]*3\.000 mg\/día/);
+  expect(rx.dex).toMatch(/8 mg total[\s\S]*dosis única/);
+  expect(rx.pred).toMatch(/40 mg total[\s\S]*dosis única/);
+  expect(rx.dex).not.toMatch(/cada 8 hr por/);
+  expect(rx.pred).not.toMatch(/cada 8 hr por/);
+});
+
 test('Indicaciones de profilaxis insertan una pauta de selección clínica sin PRE quirúrgico genérico',async({page})=>{
   const frame=await openCmf(page);
   await frame.locator('#selInd').selectOption('ind_profilaxis_ei');
