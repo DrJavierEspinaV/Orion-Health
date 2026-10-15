@@ -50,19 +50,20 @@ const ESSENTIAL_SHELL=[
 
 async function cacheShell(){
   const cache=await caches.open(CACHE_NAME);
-  const outcomes=await Promise.allSettled(SHELL.map(async path=>{
+  const cacheFile=async path=>{
     const request=new Request(path,{cache:'reload'});
     const response=await fetch(request);
     if(!response.ok)throw new Error(`${path}: HTTP ${response.status}`);
     await cache.put(request,response);
-  }));
-  // No activar ni eliminar la versión previa si falta un CSS estructural.
-  const missing=ESSENTIAL_SHELL.filter(path=>{
-    const index=SHELL.indexOf(path);
-    return index<0||outcomes[index].status!=='fulfilled';
-  });
+  };
+  // Priorizar el núcleo evita saturar el servidor con decenas de recursos
+  // secundarios antes de descargar la maquetación imprescindible.
+  const essential=await Promise.allSettled(ESSENTIAL_SHELL.map(cacheFile));
+  const missing=ESSENTIAL_SHELL.filter((path,index)=>
+    !SHELL.includes(path)||essential[index].status!=='fulfilled');
   if(missing.length)throw new Error('ORION PWA: precarga esencial incompleta: '+missing.join(', '));
-  // Los recursos secundarios pueden recuperarse al navegar con conexión.
+  // Los recursos secundarios se recuperan también durante la navegación.
+  await Promise.allSettled(SHELL.filter(path=>!ESSENTIAL_SHELL.includes(path)).map(cacheFile));
 }
 
 self.addEventListener('install',event=>{
