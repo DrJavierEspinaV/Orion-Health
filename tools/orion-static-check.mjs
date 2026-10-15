@@ -84,7 +84,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui6-cmf-alveolitis',
+  'orion-dental-app-v1.4.5-health-os-ui7-css-recovery',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -281,6 +281,15 @@ includesAll('Service worker R47',serviceWorker,[
   'portal-route-selector-v144r6.css','portal-aesthetic-v144r7.css','portal-armonizacion-v152.js',
   'clinical-certificate-cmf-v144r6.css','modules/armonizacion/index.html','filler-engine-v170.js',
   'caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js'
+]);
+includesAll('PWA restauración de estilos',serviceWorker,[
+  'ESSENTIAL_SHELL',
+  'portal-route-selector-v144r6.css',
+  'portal-health-os-bridge-v1.css',
+  'cacheShell().then(()=>self.skipWaiting())',
+  'ignoreSearch:true',
+  'await cache.put(request,response.clone())',
+  'precarga esencial incompleta'
 ]);
 if(serviceWorker.includes('maxilofacial-pro-plus-compact.svg'))failures.push('Service worker aún distribuye un logo CMF para documentos');
 
