@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui6-cmf-alveolitis';
+const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui7-css-recovery';
 const APP_SCOPE='./';
 const SHELL=[
   './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
@@ -37,9 +37,96 @@ const SHELL=[
   './modules/armonizacion/anatomy-atlas-female-v145-r17-01.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-02.js',
   './modules/armonizacion/anatomy-atlas-female-v145-r17-03.js','./modules/armonizacion/anatomy-atlas-female-v145-r17-04.js'
 ];
-async function cacheShell(){const cache=await caches.open(CACHE_NAME);await Promise.allSettled(SHELL.map(async path=>{const request=new Request(path,{cache:'reload'});const response=await fetch(request);if(!response.ok)throw new Error(`${path}: HTTP ${response.status}`);await cache.put(request,response);}));}
-self.addEventListener('install',event=>{event.waitUntil(cacheShell());self.skipWaiting();});
-self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('orion-dental-app-')&&key!==CACHE_NAME).map(key=>caches.delete(key)))));self.clients.claim();});
-self.addEventListener('message',event=>{if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting();});
-async function networkFirst(request,fallback){try{const response=await fetch(request,{cache:'no-store'});if(response&&response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});}return response;}catch(_){return(await caches.match(request))||(fallback?await caches.match(fallback):null)||Response.error();}}
-self.addEventListener('fetch',event=>{const request=event.request;if(request.method!=='GET')return;const url=new URL(request.url);if(url.origin!==self.location.origin)return;if(request.mode==='navigate'){event.respondWith(networkFirst(request,APP_SCOPE+'index.html'));return;}if(url.pathname.endsWith('/modules/armonizacion/index.html')){event.respondWith(networkFirst(request,APP_SCOPE+'modules/armonizacion/index.html'));return;}if(/\.(?:js|css|part|json|html|svg|webmanifest)$/.test(url.pathname)){event.respondWith(networkFirst(request));return;}event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{if(response&&response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)).catch(()=>{});}return response;})));});
+// La navegación usa ?v=... mientras la precarga guarda archivos sin query.
+// Sin ignoreSearch, un corte de red puede dejar la PWA sin su maquetación.
+const ESSENTIAL_SHELL=[
+  './index.html','./styles-1.css','./layout-fixes.css','./script-1.js',
+  './assets/shared/orion-identity-system-v140.css',
+  './assets/shared/orion-mobile-v141.css',
+  './assets/shared/portal-route-selector-v144r6.css',
+  './assets/shared/portal-aesthetic-v144r7.css',
+  './assets/shared/portal-health-os-bridge-v1.css'
+];
+
+async function cacheShell(){
+  const cache=await caches.open(CACHE_NAME);
+  const cacheFile=async path=>{
+    const request=new Request(path,{cache:'reload'});
+    const response=await fetch(request);
+    if(!response.ok)throw new Error(`${path}: HTTP ${response.status}`);
+    await cache.put(request,response);
+  };
+  // Priorizar el núcleo evita saturar el servidor con decenas de recursos
+  // secundarios antes de descargar la maquetación imprescindible.
+  const essential=await Promise.allSettled(ESSENTIAL_SHELL.map(cacheFile));
+  const missing=ESSENTIAL_SHELL.filter((path,index)=>
+    !SHELL.includes(path)||essential[index].status!=='fulfilled');
+  if(missing.length)throw new Error('ORION PWA: precarga esencial incompleta: '+missing.join(', '));
+  // Los recursos secundarios se recuperan también durante la navegación.
+  await Promise.allSettled(SHELL.filter(path=>!ESSENTIAL_SHELL.includes(path)).map(cacheFile));
+}
+
+self.addEventListener('install',event=>{
+  event.waitUntil(cacheShell().then(()=>self.skipWaiting()));
+});
+self.addEventListener('activate',event=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(key=>key.startsWith('orion-dental-app-')&&key!==CACHE_NAME)
+      .map(key=>caches.delete(key)));
+    await self.clients.claim();
+  })());
+});
+self.addEventListener('message',event=>{
+  if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting();
+});
+
+async function cachedVersion(request,fallback){
+  const pathname=new URL(request.url).pathname;
+  const ignoreSearch=/\.(?:js|css|part|json|html|svg|webmanifest)$/.test(pathname);
+  const options=ignoreSearch?{ignoreSearch:true}:{};
+  return (await caches.match(request,options))
+    ||(fallback?await caches.match(fallback,{ignoreSearch:true}):null);
+}
+
+async function networkFirst(request,fallback){
+  let unsuccessful=null;
+  try{
+    const response=await fetch(request,{cache:'no-store'});
+    if(response&&response.ok){
+      // Esperar escritura evita una caché intermitentemente incompleta.
+      try{const cache=await caches.open(CACHE_NAME);await cache.put(request,response.clone());}catch(_){}
+      return response;
+    }
+    unsuccessful=response;
+  }catch(_){}
+  return (await cachedVersion(request,fallback))||unsuccessful||Response.error();
+}
+
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET')return;
+  const url=new URL(request.url);
+  if(url.origin!==self.location.origin)return;
+  if(request.mode==='navigate'){
+    event.respondWith(networkFirst(request,APP_SCOPE+'index.html'));
+    return;
+  }
+  if(url.pathname.endsWith('/modules/armonizacion/index.html')){
+    event.respondWith(networkFirst(request,APP_SCOPE+'modules/armonizacion/index.html'));
+    return;
+  }
+  if(/\.(?:js|css|part|json|html|svg|webmanifest)$/.test(url.pathname)){
+    event.respondWith(networkFirst(request));
+    return;
+  }
+  event.respondWith((async()=>{
+    const cached=await caches.match(request);
+    if(cached)return cached;
+    const response=await fetch(request);
+    if(response&&response.ok){
+      try{const cache=await caches.open(CACHE_NAME);await cache.put(request,response.clone());}catch(_){}
+    }
+    return response;
+  })());
+});
