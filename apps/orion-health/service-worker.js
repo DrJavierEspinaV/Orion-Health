@@ -119,11 +119,13 @@ self.addEventListener('fetch',event=>{
     event.respondWith(networkFirst(request));
     return;
   }
-  event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{
+  event.respondWith((async()=>{
+    const cached=await caches.match(request);
+    if(cached)return cached;
+    const response=await fetch(request);
     if(response&&response.ok){
-      const copy=response.clone();
-      event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put(request,copy)));
+      try{const cache=await caches.open(CACHE_NAME);await cache.put(request,response.clone());}catch(_){}
     }
     return response;
-  })));
+  })());
 });
