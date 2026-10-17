@@ -2,7 +2,7 @@
   "id": "/Orion-Health/apps/orion-health/",
   "name": "ORION Dental App — Plataforma Clínica",
   "short_name": "ORION Dental",
-  "description": "Plataforma clínica modular ORION Health con siete módulos integrados y experiencia ORION Health OS V2.",
+  "description": "Plataforma clínica modular de ORION Health SpA con siete módulos integrados.",
   "lang": "es-CL",
   "start_url": "./index.html",
   "scope": "./",
