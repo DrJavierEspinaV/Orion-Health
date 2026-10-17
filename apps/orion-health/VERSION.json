@@ -12,7 +12,7 @@
     "odontopediatria": "1.5.2",
     "armonizacion_orofacial": "2.1.0-motor-hilos"
   },
-  "release_status": "ORION Health OS UX V2.0: experiencia visual y accesibilidad, sin alterar funciones clínicas",
+  "release_status": "ORION Health OS UX V2.0.1: pulido dinámico del portal y eliminación controlada de CSS redundante",
   "clinical_status": "Hilos incorpora producto, tipo, material, longitud, calibre, lote, vencimiento, cantidad, sesión, anestesia, lista de seguridad, puntos de entrada, vectores, áreas o mallas, plano, lateralidad, entrada, salida, fijación, comentarios y confirmación por elemento",
   "security_status": "ORION documenta la técnica decidida por el clínico y no recomienda vector, plano, cantidad ni tipo de hilo; la confirmación exige zona y tipo de hilo",
   "identity_status": "Los seis motores utilizan el atlas clínico único validado; no existe selector de sexo ni fotografías externas",
@@ -28,6 +28,6 @@
     "legacy_clinical_checklist": "Suspendido por solicitud del usuario; firma, folio, trazabilidad y validación del cálculo pediátrico conservados",
     "clinical_review": "Indicaciones editables de alveolitis con reevaluación odontológica, signos de alarma, manejo local y antibioticoterapia restringida a infección diseminada/sistémica o alto riesgo."
   },
-  "ux_version": "2.0.0",
-  "ux_status": "Sistema visual unificado V2 con tokens canónicos, componentes compartidos, foco accesible y siete módulos en integración"
+  "ux_version": "2.0.1",
+  "ux_status": "Navegación accesible: estado de carga real en módulos, limpieza del puente CSS sombreado y respaldo de los siete módulos"
 }

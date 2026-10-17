@@ -42,7 +42,7 @@ if(manifest.display!=='standalone')failures.push('display PWA debe ser standalon
 
 // ORION UX V2 · contrato visual opt-in, seguridad de impresión y siete módulos.
 const uxVersion=String(version.ux_version||'');
-if(uxVersion!=='2.0.0')failures.push('UX V2 debe constar en VERSION.json.');
+if(uxVersion!=='2.0.1')failures.push('UX V2 debe constar en VERSION.json.');
 if(!/siete módulos/i.test(manifest.description||''))failures.push('El manifiesto PWA debe declarar siete módulos.');
 
 for(const path of [
@@ -75,6 +75,18 @@ for(const path of [
   if(!source.includes('orion-ux-v2'))failures.push('UX V2: módulo sin opt-in '+path);
 }
 const portalHtml=read('index.html');
+if(!read('index.html').includes('id="moduleLoadStatus"'))
+  failures.push('UX V2: debe existir una indicación de carga accesible en la navegación.');
+if(read('index.html').includes('portal-aesthetic-v144r7.css')||read('service-worker.js').includes('portal-aesthetic-v144r7.css'))
+  failures.push('UX V2: puente CSS antiguo sombreado no debe continuar cargándose.');
+const stageNavigation=read('script-1.js');
+includesAll('UX V2: estado de carga del módulo',stageNavigation,[
+  'setModuleLoading(true)',
+  'setModuleLoading(false)',
+  'appFrame.title = app.title',
+  'appFrame?.setAttribute("aria-busy"'
+]);
+
 const portal=read('script-1.js');
 for(const moduleName of modules)if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
 includesAll('Portal ORION',portalHtml,['orion-identity-system-v140.css','orion-mobile-v141.css','orion-portal','script-1.js','portal-armonizacion-v152.js']);
@@ -136,7 +148,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui9-ux-v2',
+  'orion-dental-app-v1.4.5-health-os-ui10-ux-v2-polish',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -330,7 +342,7 @@ else{
 const serviceWorker=read('service-worker.js');
 includesAll('Service worker R47',serviceWorker,[
   'orion-dental-app-v1.4.5','orion-identity-system-v140.css','orion-mobile-v141.css',
-  'portal-route-selector-v144r6.css','portal-aesthetic-v144r7.css','portal-armonizacion-v152.js',
+  'portal-route-selector-v144r6.css','portal-ux-v2.css','portal-armonizacion-v152.js',
   'clinical-certificate-cmf-v144r6.css','modules/armonizacion/index.html','filler-engine-v170.js',
   'caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js'
 ]);
