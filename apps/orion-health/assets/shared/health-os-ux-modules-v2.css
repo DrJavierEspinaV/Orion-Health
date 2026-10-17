@@ -198,3 +198,18 @@
     min-height: 44px !important;
   }
 }
+
+/* Contraste real validado por capturas: el header.wrap heredaba blanco
+ * y ocultaba títulos blancos en Ortodoncia/Odontopediatría. */
+@media screen {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] .topbar > header.wrap,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] .topbar > header.wrap {
+    background-color: var(--orion-ui-primary) !important;
+    background-image: none !important;
+    border-color: var(--orion-ui-primary-deep) !important;
+  }
+  html.orion-ux-v2[data-orion-module="ortodoncia"] .topbar > header.wrap :where(h1, .sub),
+  html.orion-ux-v2[data-orion-module="odontopediatria"] .topbar > header.wrap :where(h1, .sub) {
+    color: #FFFFFF !important;
+  }
+}
