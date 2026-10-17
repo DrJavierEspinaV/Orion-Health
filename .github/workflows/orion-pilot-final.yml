@@ -48,5 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: orion-playwright-report
-          path: playwright-report
+          path: |
+            playwright-report
+            test-results/orion-ux-v2-*.png
           retention-days: 14
