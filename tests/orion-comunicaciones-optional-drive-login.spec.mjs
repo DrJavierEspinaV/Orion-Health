@@ -44,6 +44,9 @@ test('Conexión a Drive se ofrece a solicitud y Cancelar permite continuar sin c
   await expect(frame.locator('#orionDriveReconnect')).toBeVisible();
   await frame.locator('#orionDriveReconnect').click();
   await expect(modal).toBeVisible();
+  const inline=await modal.evaluate(el=>({parent:el.parentElement?.id,position:getComputedStyle(el).position}));
+  expect(inline.parent).toBe('orionDriveStatusCard');
+  expect(inline.position).toBe('relative');
   await expect(frame.locator('#orionDriveTokenInput')).toHaveAttribute('type','password');
   await expect(frame.locator('#orionDriveConnectNow')).toBeVisible();
   await frame.locator('#orionDriveCancel').click();
