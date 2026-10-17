@@ -20,6 +20,10 @@ for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
     await expect(frame.locator('#orionDriveStatusCard')).toBeHidden();
     await frame.locator('#orionDataSourcePanel > summary').click();
     await expect(frame.locator('#orionDriveReconnect')).toBeVisible();
+    // Simular evento provocado por teclado móvil / cambio de altura del iframe.
+    await frame.locator('#orionDataSourcePanel').evaluate(()=>window.dispatchEvent(new Event('resize')));
+    await expect(frame.locator('#orionDataSourcePanel')).toHaveAttribute('open','');
+    await expect(frame.locator('#orionDriveReconnect')).toBeVisible();
     await expect(frame.locator('#orionPatientPriorityControls')).toBeVisible();
     await expect(frame.locator('#mensajeTipo')).toBeVisible();
     await page.waitForTimeout(450);
