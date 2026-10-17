@@ -60,6 +60,7 @@ setTimeout(()=>{
   },true);
 })();
 </script><script src="../../assets/shared/session-config.js?v=5.7.9"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.9"></script></body>`);
+    h=h.replace('</head>',`<link rel="stylesheet" href="../../assets/shared/health-os-design-tokens-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ui-components-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ux-modules-v2.css?v=2.0"><script>document.documentElement.classList.add('orion-ux-v2');document.documentElement.dataset.orionModule='comunicaciones';</script></head>`);
     document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();
