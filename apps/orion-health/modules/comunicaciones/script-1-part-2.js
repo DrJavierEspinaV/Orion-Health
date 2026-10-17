@@ -57,7 +57,16 @@ function actualizarPreviewLinks(){
   const box = $('#linksPreview');
   if(!links.length){ box.hidden = true; box.innerHTML=''; return; }
   box.hidden = false;
-  box.innerHTML = '<b>Enlaces activos:</b><br>' + links.map((l,i)=>`${i+1}. ${l}`).join('<br>');
+  // Los enlaces pueden proceder de campos editables: no interpretar su contenido como HTML.
+  box.replaceChildren();
+  const heading = document.createElement('strong');
+  heading.textContent = 'Enlaces activos:';
+  box.appendChild(heading);
+  links.forEach((link, index) => {
+    const line = document.createElement('div');
+    line.textContent = `${index + 1}. ${link}`;
+    box.appendChild(line);
+  });
 }
 $('#linksPublicos').addEventListener('input', actualizarPreviewLinks);
 

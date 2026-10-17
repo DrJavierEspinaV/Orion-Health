@@ -35,3 +35,13 @@ test('No convertir datos clínicos protegidos en acceso anónimo', () => {
   assert.match(loader, /const tok = .*dbToken/);
   assert.match(loader, /if\(!url \|\| !tok\) return;/);
 });
+
+test('Comunicaciones: los enlaces editables se muestran como texto, no HTML', () => {
+  for (const path of ['modules/comunicaciones/source.html', 'modules/comunicaciones/script-1-part-2.js']) {
+    const content = read(path);
+    assert.match(content, /function actualizarPreviewLinks\(\)/);
+    assert.match(content, /box\.replaceChildren\(\)/);
+    assert.match(content, /line\.textContent = /);
+    assert.doesNotMatch(content, /box\.innerHTML = '<b>Enlaces activos:/);
+  }
+});
