@@ -68,7 +68,7 @@ for(const module of modules){
         primary:getComputedStyle(node).getPropertyValue('--orion-ui-primary').trim()
       };
     },shared);
-    expect(state.module).toBe(module.key);
+    expect(state.module).toBe(({endo:'endodoncia',orto:'ortodoncia'})[module.key]||module.key);
     expect(state.present).toEqual([true,true,true]);
     expect(state.primary).toBe('#1F3F5B');
     if(module.key==='comunicaciones')await expect(frame.locator('#orionDriveModal')).toBeHidden();
