@@ -84,7 +84,7 @@ includesAll('UX V2: estado de carga del módulo',stageNavigation,[
   'setModuleLoading(true)',
   'setModuleLoading(false)',
   'appFrame.title = app.title',
-  'appFrame.setAttribute("aria-busy"'
+  'appFrame?.setAttribute("aria-busy"'
 ]);
 
 const portal=read('script-1.js');
