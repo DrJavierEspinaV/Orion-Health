@@ -32,6 +32,32 @@
     font-weight: 800;
     color: var(--orion-ui-primary);
   }
+  body.orion-portal.orion-ux-v2 .stage-title #moduleLoadStatus[hidden] { display: none !important; }
+  body.orion-portal.module-selected.orion-ux-v2 .stage-title #moduleLoadStatus:not([hidden]) {
+    display: inline-flex !important;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 24px;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 9px;
+    border: 1px solid var(--orion-ui-border);
+    border-radius: var(--orion-ui-radius-pill);
+    background: var(--orion-ui-surface-soft);
+    color: var(--orion-ui-primary) !important;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  body.orion-portal.module-selected.orion-ux-v2 .stage-title #moduleLoadStatus:not([hidden])::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--orion-ui-primary);
+    animation: orion-module-activity 1.2s ease-in-out infinite alternate;
+  }
+  @keyframes orion-module-activity { from {opacity:.4;} to {opacity:1;} }
   body.orion-portal.module-selected.orion-ux-v2 .stage-head {
     border-bottom: 1px solid var(--orion-ui-border);
     background: rgba(255,255,255,.98);
@@ -58,5 +84,8 @@
 @media screen and (prefers-reduced-motion: reduce) {
   body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn:hover {
     transform: none !important;
+  }
+  body.orion-portal.module-selected.orion-ux-v2 #moduleLoadStatus::before {
+    animation: none !important;
   }
 }
