@@ -183,3 +183,18 @@
     font-size: 14px !important;
   }
 }
+
+/* Campos de búsqueda compartidos: prioridad de lectura para uso clínico móvil. */
+@media screen {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] #fSearch,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] #fSearch {
+    font-size: 14px !important;
+    min-height: 42px !important;
+  }
+}
+@media screen and (max-width: 640px) {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] #fSearch,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] #fSearch {
+    min-height: 44px !important;
+  }
+}
