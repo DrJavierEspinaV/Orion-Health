@@ -48,6 +48,12 @@ for(const module of modules){
     if(module.key==='orto'||module.key==='odontopediatria'){
       const size=await frame.locator('#fSearch').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
       expect(size).toBeGreaterThanOrEqual(13);
+      const header=await frame.locator('.topbar > header.wrap').evaluate(el=>({
+        background:getComputedStyle(el).backgroundColor,
+        titleColor:getComputedStyle(el.querySelector('h1')).color
+      }));
+      expect(header.background).toBe('rgb(31, 63, 91)');
+      expect(header.titleColor).toBe('rgb(255, 255, 255)');
     }
     if(module.key==='armonizacion'){
       await expect(frame.locator('#atlasImage')).toBeAttached();
