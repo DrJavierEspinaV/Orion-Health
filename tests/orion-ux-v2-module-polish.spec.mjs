@@ -29,6 +29,7 @@ for(const module of modules){
     expect(meta.token).toBe('#1F3F5B');
 
     if(module.key==='comunicaciones'){
+      await expect(frame.locator('#orionHdr h1')).toContainText('V5.7.9');
       await expect(frame.locator('#orionDriveModal')).toBeHidden();
       const size=await frame.locator('#mensajeTipo').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
       expect(size).toBeGreaterThanOrEqual(13);
@@ -54,6 +55,8 @@ for(const module of modules){
       }));
       expect(header.background).toBe('rgb(31, 63, 91)');
       expect(header.titleColor).toBe('rgb(255, 255, 255)');
+      await expect(frame.locator('.topbar h1')).toContainText(module.key==='orto'?'ORION Ortodoncia':'ORION Odontopediatría');
+      await expect(frame.locator('.topbar h1')).toContainText(module.key==='orto'?'v1.2.1':'v1.5.2');
     }
     if(module.key==='armonizacion'){
       await expect(frame.locator('#atlasImage')).toBeAttached();
