@@ -40,6 +40,40 @@ if(manifest.start_url!=='./index.html')failures.push('start_url PWA incorrecta')
 if(manifest.scope!=='./')failures.push('scope PWA incorrecto');
 if(manifest.display!=='standalone')failures.push('display PWA debe ser standalone');
 
+// ORION UX V2 · contrato visual opt-in, seguridad de impresión y siete módulos.
+const uxVersion=String(version.ux_version||'');
+if(uxVersion!=='2.0.0')failures.push('UX V2 debe constar en VERSION.json.');
+if(!/siete módulos/i.test(manifest.description||''))failures.push('El manifiesto PWA debe declarar siete módulos.');
+
+for(const path of [
+  'assets/shared/health-os-design-tokens-v2.css',
+  'assets/shared/health-os-ui-components-v2.css',
+  'assets/shared/portal-ux-v2.css',
+  'assets/shared/health-os-ux-modules-v2.css'
+]) {
+  const css=read(path);
+  if(!css.includes('@media screen')&&path!=='assets/shared/health-os-design-tokens-v2.css')
+    failures.push('UX V2: reglas de interfaz sin ámbito de pantalla en '+path);
+  if(/@media\\s+print/i.test(css))failures.push('UX V2 no debe intervenir impresión: '+path);
+}
+const uxTokens=read('assets/shared/health-os-design-tokens-v2.css');
+includesAll('Tokens canónicos UX V2',uxTokens,[
+  '--orion-ui-primary: #1F3F5B',
+  '--orion-ui-accent: #8C8C8C',
+  '--orion-ui-bg: #F3F3F3',
+  '--orion-ui-success: #12805C'
+]);
+for(const path of [
+  'modules/comunicaciones/loader.js','modules/cmf/loader.js',
+  'modules/insumos/loader.js','modules/endodoncia/loader.js',
+  'modules/ortodoncia/loader.js','modules/odontopediatria/loader.js',
+  'modules/armonizacion/index.html'
+]){
+  const source=read(path);
+  for(const asset of ['health-os-design-tokens-v2.css','health-os-ui-components-v2.css','health-os-ux-modules-v2.css'])
+    if(!source.includes(asset))failures.push('UX V2: falta '+asset+' en '+path);
+  if(!source.includes('orion-ux-v2'))failures.push('UX V2: módulo sin opt-in '+path);
+}
 const portalHtml=read('index.html');
 const portal=read('script-1.js');
 for(const moduleName of modules)if(!portal.includes(`./modules/${moduleName}/index.html`))failures.push(`Portal no referencia ${moduleName}`);
@@ -102,7 +136,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui8-communications-access',
+  'orion-dental-app-v1.4.5-health-os-ui9-ux-v2',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
@@ -299,6 +333,12 @@ includesAll('Service worker R47',serviceWorker,[
   'portal-route-selector-v144r6.css','portal-aesthetic-v144r7.css','portal-armonizacion-v152.js',
   'clinical-certificate-cmf-v144r6.css','modules/armonizacion/index.html','filler-engine-v170.js',
   'caha-engine-v180.js','plla-engine-v190.js','skinbooster-engine-v200.js'
+]);
+includesAll('PWA UX V2',serviceWorker,[
+  'health-os-design-tokens-v2.css',
+  'health-os-ui-components-v2.css',
+  'portal-ux-v2.css',
+  'health-os-ux-modules-v2.css'
 ]);
 includesAll('PWA restauración de estilos',serviceWorker,[
   'ESSENTIAL_SHELL',
