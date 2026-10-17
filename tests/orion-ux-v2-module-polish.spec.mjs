@@ -40,6 +40,7 @@ for(const module of modules){
       expect(columns).toContain('tabular-nums');
     }
     if(module.key==='cmf'||module.key==='endo'){
+      if(module.key==='endo')await expect(frame.locator('header.no-print h1')).toContainText('V4.6.3');
       const selector=module.key==='cmf'?'#selInd':'#p_nombre';
       const input=frame.locator(selector);
       const height=await input.evaluate(el=>el.getBoundingClientRect().height);
