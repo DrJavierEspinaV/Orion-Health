@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui8-communications-access';
+const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui9-ux-v2';
 const APP_SCOPE='./';
 const SHELL=[
   './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
@@ -7,7 +7,10 @@ const SHELL=[
   './assets/brand/orion-health.png','./assets/icons/icon-192.png','./assets/icons/icon-512.png',
   './assets/shared/orion-identity-system-v140.css','./assets/shared/orion-mobile-v141.css',
   './assets/shared/portal-route-selector-v144r6.css','./assets/shared/portal-aesthetic-v144r7.css',
-  './assets/shared/portal-health-os-bridge-v1.css','./assets/shared/clinical-mobile-cmf-v142.css',
+  './assets/shared/portal-health-os-bridge-v1.css',
+  './assets/shared/health-os-design-tokens-v2.css',
+  './assets/shared/health-os-ui-components-v2.css',
+  './assets/shared/portal-ux-v2.css','./assets/shared/health-os-design-tokens-v2.css','./assets/shared/health-os-ui-components-v2.css','./assets/shared/portal-ux-v2.css','./assets/shared/health-os-ux-modules-v2.css','./assets/shared/clinical-mobile-cmf-v142.css',
   './modules/comunicaciones/health-os-comunicaciones-v1.css',
   './modules/cmf/health-os-cmf-v1.css',
   './assets/shared/health-os-messaging-v1.css','./modules/insumos/health-os-insumos-v1.css',
