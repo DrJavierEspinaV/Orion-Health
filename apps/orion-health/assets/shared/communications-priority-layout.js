@@ -88,7 +88,8 @@
         if(sidebar.nextElementSibling!==left)layout.insertBefore(sidebar,left);
         if(dataPanel?.parentElement!==layout)layout.appendChild(dataPanel);
         dataPanel?.classList.add('orion-data-source-detached');
-        if(dataPanel)dataPanel.open=false;
+        // No cerrar details en cada resize: el teclado móvil y el iframe cambian
+        // de altura durante la interacción y ocultarían los controles de acceso.
       }else{
         if(left.nextElementSibling!==sidebar)layout.insertBefore(left,sidebar);
         if(dataPanel?.parentElement!==layout)layout.appendChild(dataPanel);

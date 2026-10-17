@@ -35,7 +35,7 @@
       .orion-drive-badge{display:inline-flex;align-items:center;min-height:30px;padding:0 11px;border-radius:999px;background:#e2e8f0;color:#475569;font-size:11px;font-weight:900;white-space:nowrap}
       .orion-drive-badge.connecting{background:#fef3c7;color:#92400e}.orion-drive-badge.ready{background:#dcfce7;color:#166534}.orion-drive-badge.error{background:#fee2e2;color:#991b1b}
       .orion-drive-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.orion-drive-btn{appearance:none;border:1px solid #bfd0df;background:#fff;color:#17324d;border-radius:12px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer}.orion-drive-btn.primary{border-color:#0e7490;background:#0e7490;color:#fff}
-      .orion-drive-modal{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(2,6,23,.58);backdrop-filter:blur(6px)}.orion-drive-modal[hidden]{display:none!important}.orion-drive-dialog{width:min(460px,100%);border-radius:22px;background:#fff;padding:22px;box-shadow:0 24px 70px rgba(2,6,23,.32)}.orion-drive-dialog h2{margin:0;color:#17324d;font-size:22px}.orion-drive-dialog p{margin:8px 0 16px;color:#64748b;font-size:13px;line-height:1.45}.orion-drive-input{width:100%;border:1px solid #cbd5e1;border-radius:14px;padding:12px 14px;font:inherit}.orion-drive-error{min-height:18px;margin-top:7px;color:#b91c1c;font-size:12px;font-weight:700}.orion-drive-dialog-actions{display:flex;gap:10px;margin-top:12px}.orion-drive-dialog-actions button{flex:1}.bdDetails>summary .muted{font-weight:800!important}
+      .orion-drive-modal{position:relative;inset:auto;z-index:auto;display:block;width:100%;margin-top:12px;padding:0;background:transparent;backdrop-filter:none}.orion-drive-modal[hidden]{display:none!important}.orion-drive-dialog{width:100%;max-width:540px;border:1px solid #cbd5e1;border-radius:14px;background:#fff;padding:16px;box-shadow:none}.orion-drive-dialog h2{margin:0;color:#17324d;font-size:22px}.orion-drive-dialog p{margin:8px 0 16px;color:#64748b;font-size:13px;line-height:1.45}.orion-drive-input{width:100%;border:1px solid #cbd5e1;border-radius:14px;padding:12px 14px;font:inherit}.orion-drive-error{min-height:18px;margin-top:7px;color:#b91c1c;font-size:12px;font-weight:700}.orion-drive-dialog-actions{display:flex;gap:10px;margin-top:12px}.orion-drive-dialog-actions button{flex:1}.bdDetails>summary .muted{font-weight:800!important}
       @media(max-width:640px){.orion-drive-dialog-actions{flex-direction:column}.orion-drive-dialog-actions button{width:100%}}
     `;
     document.head.appendChild(style);
@@ -68,7 +68,7 @@
     card=document.createElement('div');
     card.id='orionDriveStatusCard';
     card.className='orion-drive-card';
-    card.innerHTML=`<div class="orion-drive-row"><div><div class="orion-drive-title">Base clínica en Drive</div><div class="orion-drive-text" id="orionDriveStatusText">Acceso protegido por sesión.</div></div><span class="orion-drive-badge" id="orionDriveStatusBadge">Pendiente</span></div><div class="orion-drive-actions"><button class="orion-drive-btn primary" id="orionDriveReconnect" type="button">Conectar / recargar</button><button class="orion-drive-btn" id="orionDriveChangeAccess" type="button">Cambiar acceso</button><button class="orion-drive-btn" id="orionDriveForget" type="button">Cerrar acceso</button></div>`;
+    card.innerHTML=`<div class="orion-drive-row"><div><div class="orion-drive-title">Base clínica en Drive</div><div class="orion-drive-text" id="orionDriveStatusText">Puedes utilizar Comunicaciones sin conectar Drive. La consulta de pacientes requiere acceso autorizado.</div></div><span class="orion-drive-badge" id="orionDriveStatusBadge">Pendiente</span></div><div class="orion-drive-actions"><button class="orion-drive-btn primary" id="orionDriveReconnect" type="button">Conectar base clínica</button><button class="orion-drive-btn" id="orionDriveChangeAccess" type="button">Cambiar acceso</button><button class="orion-drive-btn" id="orionDriveForget" type="button">Cerrar acceso</button></div>`;
     e.card.prepend(card);
     return card;
   }
@@ -80,8 +80,9 @@
     modal.id='orionDriveModal';
     modal.className='orion-drive-modal';
     modal.hidden=true;
-    modal.innerHTML=`<div class="orion-drive-dialog" role="dialog" aria-modal="true" aria-labelledby="orionDriveModalTitle"><h2 id="orionDriveModalTitle">Conectar base clínica</h2><p>La clave no se guarda en GitHub ni se incorpora a la dirección web. Se conserva únicamente durante esta sesión del navegador.</p><label for="orionDriveTokenInput" style="display:block;font-size:12px;font-weight:800;color:#475569;margin-bottom:6px">Clave de acceso ORION</label><input class="orion-drive-input" id="orionDriveTokenInput" type="password" autocomplete="off" placeholder="Clave vigente"><div class="orion-drive-error" id="orionDriveModalError"></div><div class="orion-drive-dialog-actions"><button class="orion-drive-btn primary" id="orionDriveConnectNow" type="button">Conectar ahora</button><button class="orion-drive-btn" id="orionDriveCancel" type="button">Cancelar</button></div></div>`;
-    document.body.appendChild(modal);
+    modal.innerHTML=`<div class="orion-drive-dialog" role="group" aria-labelledby="orionDriveModalTitle"><h2 id="orionDriveModalTitle">Conectar base clínica</h2><p>La clave no se guarda en GitHub ni se incorpora a la dirección web. Se conserva únicamente durante esta sesión del navegador.</p><label for="orionDriveTokenInput" style="display:block;font-size:12px;font-weight:800;color:#475569;margin-bottom:6px">Clave de acceso ORION</label><input class="orion-drive-input" id="orionDriveTokenInput" type="password" autocomplete="off" placeholder="Clave vigente"><div class="orion-drive-error" id="orionDriveModalError"></div><div class="orion-drive-dialog-actions"><button class="orion-drive-btn primary" id="orionDriveConnectNow" type="button">Conectar ahora</button><button class="orion-drive-btn" id="orionDriveCancel" type="button">Cancelar</button></div></div>`;
+    // Inline, dentro del panel de fuentes: nunca fuera de la ventana cuando el iframe crece.
+    (document.getElementById('orionDriveStatusCard')||document.body).appendChild(modal);
     return modal;
   }
 
@@ -102,7 +103,8 @@
     if(input)input.value=prefill||session.get(TOKEN_KEY)||'';
     if(error)error.textContent='';
     modal.hidden=false;
-    setTimeout(()=>input?.focus(),30);
+    // El formulario se muestra debajo del botón, sin superposición ni bloqueo.
+    setTimeout(()=>{modal.scrollIntoView({block:'nearest',behavior:'auto'});input?.focus();},30);
   }
 
   function closeModal(){const modal=document.getElementById('orionDriveModal');if(modal)modal.hidden=true;}
@@ -117,7 +119,7 @@
 
   function connect(e,{pingFirst=false}={}){
     const token=String(e.token?.value||session.get(TOKEN_KEY)||'').trim();
-    if(!token){setStatus('error','Ingresa la clave vigente para esta sesión.');openModal();return;}
+    if(!token){setStatus('', 'Base clínica sin conectar. Puedes trabajar sin abrir Drive.');openModal();return;}
     applyToken(token,e);
     setStatus('connecting','Conectando con la base clínica de Google Drive…');
     if(e.status)e.status.textContent='Conectando con Google Sheets…';
@@ -153,8 +155,8 @@
       session.remove(TOKEN_KEY);
       e.token.value='';
       if(e.status)e.status.textContent='';
-      setStatus('error','Acceso cerrado en esta sesión.');
-      openModal();
+      setStatus('', 'Acceso a Drive cerrado. El módulo sigue disponible sin conexión.');
+      closeModal();
     });
     document.getElementById('orionDriveConnectNow')?.addEventListener('click',()=>{
       const input=document.getElementById('orionDriveTokenInput');
@@ -168,7 +170,7 @@
 
     const active=session.get(TOKEN_KEY);
     if(active){applyToken(active,e);setStatus('connecting','Acceso reconocido. Actualizando pacientes…');setTimeout(()=>connect(e),AUTOLOAD_DELAY_MS);}
-    else{setStatus('error','Primera conexión pendiente. Pulsa “Conectar / recargar”.');setTimeout(()=>openModal(),250);}
+    else{setStatus('','Sin conexión a Drive. Pulsa “Conectar base clínica” solo cuando necesites consultar pacientes.');}
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});

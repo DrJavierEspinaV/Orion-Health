@@ -59,7 +59,7 @@ setTimeout(()=>{
     catch(error){alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');console.error(error);}
   },true);
 })();
-</script><script src="../../assets/shared/session-config.js?v=1.4.5"></script><script src="../../assets/shared/communications-priority-layout.js?v=1.4.5"></script></body>`);
+</script><script src="../../assets/shared/session-config.js?v=5.7.9"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.9"></script></body>`);
     document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();
