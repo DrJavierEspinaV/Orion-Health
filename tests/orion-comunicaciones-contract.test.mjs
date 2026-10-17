@@ -45,3 +45,12 @@ test('Comunicaciones: los enlaces editables se muestran como texto, no HTML', ()
     assert.doesNotMatch(content, /box\.innerHTML = '<b>Enlaces activos:/);
   }
 });
+
+test('WhatsApp: abrir un enlace no equivale a mensaje enviado', () => {
+  for (const path of ['modules/comunicaciones/source.html', 'modules/comunicaciones/script-1-part-6.js']) {
+    const code = read(path);
+    assert.match(code, /El envío debe confirmarse en WhatsApp/);
+    assert.doesNotMatch(code, /btn\.textContent='Enviado'/);
+    assert.doesNotMatch(code, /btn\.textContent = 'Enviando…'/);
+  }
+});
