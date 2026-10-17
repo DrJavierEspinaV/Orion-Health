@@ -104,7 +104,7 @@
     if(error)error.textContent='';
     modal.hidden=false;
     // El formulario se muestra debajo del botón, sin superposición ni bloqueo.
-    setTimeout(()=>{modal.scrollIntoView({block:'nearest',behavior:'instant'});input?.focus();},30);
+    setTimeout(()=>{modal.scrollIntoView({block:'nearest',behavior:'auto'});input?.focus();},30);
   }
 
   function closeModal(){const modal=document.getElementById('orionDriveModal');if(modal)modal.hidden=true;}
