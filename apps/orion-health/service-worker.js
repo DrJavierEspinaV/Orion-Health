@@ -10,7 +10,9 @@ const SHELL=[
   './assets/shared/portal-health-os-bridge-v1.css',
   './assets/shared/health-os-design-tokens-v2.css',
   './assets/shared/health-os-ui-components-v2.css',
-  './assets/shared/portal-ux-v2.css','./assets/shared/health-os-design-tokens-v2.css','./assets/shared/health-os-ui-components-v2.css','./assets/shared/portal-ux-v2.css','./assets/shared/health-os-ux-modules-v2.css','./assets/shared/clinical-mobile-cmf-v142.css',
+  './assets/shared/portal-ux-v2.css',
+  './assets/shared/health-os-ux-modules-v2.css',
+  './assets/shared/clinical-mobile-cmf-v142.css',
   './modules/comunicaciones/health-os-comunicaciones-v1.css',
   './modules/cmf/health-os-cmf-v1.css',
   './assets/shared/health-os-messaging-v1.css','./modules/insumos/health-os-insumos-v1.css',
@@ -48,7 +50,10 @@ const ESSENTIAL_SHELL=[
   './assets/shared/orion-mobile-v141.css',
   './assets/shared/portal-route-selector-v144r6.css',
   './assets/shared/portal-aesthetic-v144r7.css',
-  './assets/shared/portal-health-os-bridge-v1.css'
+  './assets/shared/portal-health-os-bridge-v1.css',
+  './assets/shared/health-os-design-tokens-v2.css',
+  './assets/shared/health-os-ui-components-v2.css',
+  './assets/shared/portal-ux-v2.css'
 ];
 
 async function cacheShell(){
