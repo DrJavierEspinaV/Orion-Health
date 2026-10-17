@@ -1,0 +1,62 @@
+/*
+ * ORION Dental App — Centro de aplicaciones UX V2.0.
+ * Solo capa de pulido visual. Los siete botones y la ruta externa permanecen intactos.
+ */
+@media screen {
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn {
+    gap: 0;
+    outline-color: var(--orion-ui-focus);
+    overflow-wrap: anywhere;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn::before {
+    border: 1px solid rgba(31,63,91,.055);
+    font-variant-numeric: tabular-nums;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn .title {
+    text-wrap: pretty;
+    letter-spacing: -.015em !important;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn .sub {
+    text-wrap: pretty;
+    line-height: 1.55 !important;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn:active {
+    box-shadow: 0 2px 10px rgba(31,63,91,.08) !important;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn.portal-external-link {
+    border-style: dashed !important;
+    border-color: #A8BAC9 !important;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn.portal-external-link .sub::after {
+    content: " · Sitio externo";
+    font-weight: 800;
+    color: var(--orion-ui-primary);
+  }
+  body.orion-portal.module-selected.orion-ux-v2 .stage-head {
+    border-bottom: 1px solid var(--orion-ui-border);
+    background: rgba(255,255,255,.98);
+    backdrop-filter: blur(10px);
+  }
+  body.orion-portal.module-selected.orion-ux-v2 .stage-tools .tool-btn:focus-visible {
+    outline-offset: 2px !important;
+  }
+  body.orion-portal.module-selected.orion-ux-v2 .sync-card {
+    box-shadow: var(--orion-ui-shadow-soft);
+  }
+}
+@media screen and (max-width: 640px) {
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn {
+    min-height: 112px !important;
+  }
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn .sub {
+    font-size: 12px !important;
+  }
+  body.orion-portal.module-selected.orion-ux-v2 .stage-tools {
+    flex-wrap: wrap !important;
+  }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  body.orion-portal.route-selector-mode.orion-ux-v2 .menu-btn:hover {
+    transform: none !important;
+  }
+}
