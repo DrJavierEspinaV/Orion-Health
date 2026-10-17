@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="./assets/shared/orion-identity-system-v140.css?v=1.4.5">
   <link rel="stylesheet" href="./assets/shared/orion-mobile-v141.css?v=1.4.5">
   <link rel="stylesheet" href="./assets/shared/portal-route-selector-v144r6.css?v=1.4.5">
-  <link rel="stylesheet" href="./assets/shared/portal-aesthetic-v144r7.css?v=1.4.5">
   <link rel="stylesheet" href="./assets/shared/portal-health-os-bridge-v1.css?v=1">
   <link rel="stylesheet" href="./assets/shared/health-os-design-tokens-v2.css?v=2.0">
   <link rel="stylesheet" href="./assets/shared/health-os-ui-components-v2.css?v=2.0">
@@ -60,6 +59,7 @@
       <section class="stage-wrap">
         <div class="stage-head">
           <div class="stage-title"><strong id="currentAppTitle">Módulo ORION</strong><span id="currentAppDesc">Selecciona una ruta para comenzar</span></div>
+          <span id="moduleLoadStatus" class="module-load-status" role="status" aria-live="polite" hidden>Abriendo módulo…</span>
           <div class="stage-tools">
             <button class="tool-btn route-change" id="btnChangeModule" type="button">Cambiar módulo</button>
             <button class="tool-btn primary" id="btnGoCMF" type="button">Ir a CMF</button>
