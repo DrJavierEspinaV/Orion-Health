@@ -1,0 +1,36 @@
+/*
+ * ORION Health OS — Sistema de diseño V2.0 (ORH-UX-MAN-001)
+ * Contrato: variables compartidas únicamente, sin alterar impresión o motores clínicos.
+ * Fuente canónica: ORION-App-Clinica/agent/v3.12-shared-core
+ */
+:root {
+  --orion-ui-primary: #1F3F5B;
+  --orion-ui-primary-deep: #17324D;
+  --orion-ui-accent: #8C8C8C;
+  --orion-ui-bg: #F3F3F3;
+  --orion-ui-surface: #FFFFFF;
+  --orion-ui-surface-soft: #F7F9FB;
+  --orion-ui-border: #D9DEE3;
+  --orion-ui-ink: #1F3F5B;
+  --orion-ui-muted: #627486;
+  --orion-ui-success: #12805C;
+  --orion-ui-warning: #C06A16;
+  --orion-ui-danger: #C93C4D;
+  --orion-ui-focus: #517E9E;
+  --orion-ui-font: Montserrat, "Segoe UI", Arial, Helvetica, sans-serif;
+  --orion-ui-space-1: 4px;
+  --orion-ui-space-2: 8px;
+  --orion-ui-space-3: 12px;
+  --orion-ui-space-4: 16px;
+  --orion-ui-space-6: 24px;
+  --orion-ui-space-8: 32px;
+  --orion-ui-radius-sm: 10px;
+  --orion-ui-radius-card: 16px;
+  --orion-ui-radius-pill: 999px;
+  --orion-ui-shadow-soft: 0 9px 28px rgba(31, 63, 91, .07);
+  --orion-ui-shadow-lift: 0 16px 34px rgba(31, 63, 91, .12);
+  --orion-ui-transition: 160ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --orion-ui-transition: 0ms; }
+}
