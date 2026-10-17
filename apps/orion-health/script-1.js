@@ -46,6 +46,14 @@ const EVENT_NAVIGATE = "ORION_NAVIGATE_TO_APP";
 const EVENT_SCROLL_MODULE_TOP = "ORION_SCROLL_MODULE_TOP";
 
 const appFrame = document.getElementById("appFrame");
+const moduleLoadStatus = document.getElementById("moduleLoadStatus");
+function setModuleLoading(loading){
+  if(moduleLoadStatus){
+    moduleLoadStatus.hidden=!loading;
+    moduleLoadStatus.textContent=loading?"Abriendo módulo…":"";
+  }
+  appFrame?.setAttribute("aria-busy",loading?"true":"false");
+}
 const currentAppTitle = document.getElementById("currentAppTitle");
 const currentAppDesc = document.getElementById("currentAppDesc");
 const syncNombre = document.getElementById("syncNombre");
@@ -227,6 +235,8 @@ function showRouteSelector(){
   document.body.classList.add("route-selector-mode");
   currentAppTitle.textContent = "Módulo ORION";
   currentAppDesc.textContent = "Selecciona una ruta para comenzar";
+  setModuleLoading(false);
+  appFrame.title = "Aplicación ORION";
   appFrame.src = "about:blank";
   appFrame.style.height = "620px";
   resetPortalViewport();
@@ -238,6 +248,8 @@ function loadApp(appKey){
   state.currentApp = appKey;
   currentAppTitle.textContent = app.title;
   currentAppDesc.textContent = app.desc;
+  appFrame.title = app.title;
+  setModuleLoading(true);
   setActive(appKey);
   disconnectFrameObservers();
   document.body.classList.remove("route-selector-mode");
@@ -268,12 +280,17 @@ document.getElementById("btnReloadApp").addEventListener("click",() => {
   const app = APPS[state.currentApp];
   if(!app) return;
   const separator = app.src.includes("?") ? "&" : "?";
+  setModuleLoading(true);
   appFrame.src = `${app.src}${separator}reload=${Date.now()}`;
 });
 document.getElementById("btnClearPaciente").addEventListener("click",() => { clearPatient(); sendActive(); });
 
 appFrame.addEventListener("load",() => {
   if(!state.currentApp) return;
+  try{
+    if(appFrame.contentWindow?.location.href==="about:blank")return;
+  }catch(_){}
+  setModuleLoading(false);
   try{ appFrame.contentWindow?.scrollTo(0,0); }catch(_){}
   bindFrameAutoHeight();
   setTimeout(sendActive,180);
