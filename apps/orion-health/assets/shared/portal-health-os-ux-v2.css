@@ -1,0 +1,64 @@
+/* ORION Health OS · Portal UX V2 / UX-02
+ * Refinamiento únicamente en pantalla; prevalecen los diseños clínicos.
+ */
+@media screen {
+  body.orion-portal.route-selector-mode .portal-os-intro {
+    align-items: center;
+  }
+  body.orion-portal.route-selector-mode .menu-btn {
+    gap: 0;
+    overflow-wrap: anywhere;
+    transition: border-color var(--orion-os-duration) var(--orion-os-ease),
+      box-shadow var(--orion-os-duration) var(--orion-os-ease),
+      transform var(--orion-os-duration) var(--orion-os-ease) !important;
+  }
+  body.orion-portal.route-selector-mode .menu-btn:focus-visible {
+    outline: 3px solid var(--orion-os-focus) !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 8px 20px rgba(31,63,91,.11) !important;
+  }
+  body.orion-portal.route-selector-mode .menu-btn:active {
+    transform: translateY(0) !important;
+  }
+  body.orion-portal.route-selector-mode .menu-btn .sub {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+  body.orion-portal.route-selector-mode .menu-btn.portal-external-link {
+    border-style: dashed !important;
+  }
+  body.orion-portal.route-selector-mode .menu-btn.portal-external-link::after {
+    content: 'Acceso externo';
+    display: block;
+    margin-top: auto;
+    padding-top: 9px;
+    color: var(--orion-os-muted);
+    font: 700 10px/1.3 var(--orion-os-font);
+    letter-spacing: .035em;
+  }
+  body.orion-portal.module-selected .stage-tools .tool-btn:focus-visible {
+    outline: 3px solid var(--orion-os-focus);
+    outline-offset: 2px;
+  }
+  body.orion-portal.route-selector-mode .menu-btn[data-app]::before {
+    color: var(--orion-os-primary);
+    background: #EAF0F5;
+  }
+  @media (max-width: 640px) {
+    body.orion-portal.route-selector-mode .menu-btn .sub {
+      font-size: 12px !important;
+      line-height: 1.45 !important;
+    }
+    body.orion-portal.route-selector-mode .menu-btn.portal-external-link::after {
+      padding-top: 6px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body.orion-portal.route-selector-mode .menu-btn,
+    body.orion-portal.route-selector-mode .menu-btn:hover,
+    body.orion-portal.route-selector-mode .menu-btn:active {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+}
