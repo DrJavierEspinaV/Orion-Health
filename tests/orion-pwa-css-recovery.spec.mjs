@@ -20,13 +20,13 @@ test('PWA conserva interfaz de Health OS offline incluso con consultas CSS de ve
   // El trabajador instala todos los CSS esenciales sin parámetros de versión.
   const ready=await page.evaluate(async paths=>{
     const names=await caches.keys();
-    const active=names.find(name=>name.includes('health-os-ui7-css-recovery'));
+    const active=names.find(name=>name.includes('health-os-ui8-communications-access'));
     if(!active)return{active:null,files:[]};
     const cache=await caches.open(active);
     const files=await Promise.all(paths.map(async path=>Boolean(await cache.match(path))));
     return{active,files};
   },assets);
-  expect(ready.active).toContain('health-os-ui7-css-recovery');
+  expect(ready.active).toContain('health-os-ui8-communications-access');
   expect(ready.files).toEqual(assets.map(()=>true));
 
   try{
