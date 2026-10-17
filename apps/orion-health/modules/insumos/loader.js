@@ -230,7 +230,8 @@ window.addEventListener('DOMContentLoaded', function(){
       fetch(SOURCE_URL,{cache:'no-store'}).then(response=>{ if(!response.ok) throw new Error('HTTP ' + response.status); return response.text(); }),
       loadCatalog()
     ]);
-    const html = injectModuleEnhancements(source, catalog);
+    let html = injectModuleEnhancements(source, catalog);
+    html=html.replace('</head>',`<link rel="stylesheet" href="../../assets/shared/health-os-design-tokens-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ui-components-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ux-modules-v2.css?v=2.0"><script>document.documentElement.classList.add('orion-ux-v2');document.documentElement.dataset.orionModule='insumos';</script></head>`);
     document.open();
     document.write(html);
     document.close();
