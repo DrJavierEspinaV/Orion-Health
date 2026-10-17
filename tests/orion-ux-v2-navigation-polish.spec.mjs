@@ -15,7 +15,8 @@ test('UX V2.0.1: carga de módulo comunica progreso real y finaliza con iframe a
   await expect(indicator).toHaveAttribute('aria-live','polite');
   await expect(indicator).toBeHidden();
 
-  await page.locator('.menu-btn[data-app="comunicaciones"]').click();
+  // Disparar la acción sin el auto-wait de Playwright, para observar el estado transitorio.
+  await page.locator('.menu-btn[data-app="comunicaciones"]').evaluate(el=>el.click());
   await expect(indicator).toBeVisible();
   await expect(frame).toHaveAttribute('aria-busy','true');
   await expect(frame).toHaveAttribute('title','ORION Comunicaciones Clínicas');

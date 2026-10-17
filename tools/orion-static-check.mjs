@@ -42,7 +42,7 @@ if(manifest.display!=='standalone')failures.push('display PWA debe ser standalon
 
 // ORION UX V2 · contrato visual opt-in, seguridad de impresión y siete módulos.
 const uxVersion=String(version.ux_version||'');
-if(uxVersion!=='2.0.1')failures.push('UX V2 debe constar en VERSION.json.');
+if(uxVersion!=='2.0.2')failures.push('UX V2 debe constar en VERSION.json.');
 if(!/siete módulos/i.test(manifest.description||''))failures.push('El manifiesto PWA debe declarar siete módulos.');
 
 for(const path of [
@@ -74,6 +74,15 @@ for(const path of [
     if(!source.includes(asset))failures.push('UX V2: falta '+asset+' en '+path);
   if(!source.includes('orion-ux-v2'))failures.push('UX V2: módulo sin opt-in '+path);
 }
+includesAll('UX V2: accesibilidad por módulo',read('assets/shared/health-os-ux-modules-v2.css'),[
+  'UX-04 a UX-09',
+  '#orionPatientPriorityControls',
+  '#orionClinicalEditPane',
+  '#orionPrintPreviewPane',
+  '#tabla tbody tr:hover',
+  '#filtrosCard',
+  '.oa-record-panel:focus-within'
+]);
 const portalHtml=read('index.html');
 if(!read('index.html').includes('id="moduleLoadStatus"'))
   failures.push('UX V2: debe existir una indicación de carga accesible en la navegación.');
@@ -148,7 +157,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui10-ux-v2-polish',
+  'orion-dental-app-v1.4.5-health-os-ui11-ux-v2-modules',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 

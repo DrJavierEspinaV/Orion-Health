@@ -80,3 +80,136 @@
     font-size: 12px;
   }
 }
+
+/* UX-04 a UX-09 · Pulido de legibilidad, jerarquía y respuesta visual,
+ * sin mover formularios, mapas, controles clínicos ni documentos impresos. */
+@media screen {
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionPrioritySearch :where(input,select) {
+    min-height: 42px;
+    font-size: 13px !important;
+    border-radius: var(--orion-ui-radius-sm) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionPatientPriorityControls {
+    scroll-margin-top: var(--orion-ui-space-4);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] :where(.crm-left > .card, .crm-sidebar > .card):focus-within {
+    border-color: #B0C3D1 !important;
+    box-shadow: 0 8px 24px rgba(31,63,91,.09) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #mensajeTipo {
+    line-height: 1.6 !important;
+    min-height: 138px;
+    font-size: 13px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .table .row:focus-within > div {
+    border-bottom-color: #A8BAC9 !important;
+  }
+
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > section.card.no-print:focus-within {
+    border-color: #B0C3D1 !important;
+    box-shadow: var(--orion-ui-shadow-soft) !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane :where(label, h2, h3) {
+    text-wrap: pretty;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalTabs .orion-clinical-tab {
+    transition: background-color var(--orion-ui-transition), border-color var(--orion-ui-transition);
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionPrintPreviewPane {
+    overscroll-behavior: contain;
+  }
+
+  html.orion-ux-v2[data-orion-module="endodoncia"] main > section.card.no-print:focus-within {
+    border-color: #B0C3D1 !important;
+    box-shadow: var(--orion-ui-shadow-soft) !important;
+  }
+  html.orion-ux-v2[data-orion-module="endodoncia"] main > section.card.no-print :where(label, p) {
+    line-height: 1.5;
+  }
+  html.orion-ux-v2[data-orion-module="endodoncia"] main > section.card.no-print :where(textarea, select) {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  html.orion-ux-v2[data-orion-module="insumos"] #orionCatalogCard {
+    border-radius: var(--orion-ui-radius-card);
+  }
+  html.orion-ux-v2[data-orion-module="insumos"] #tabla tbody tr:hover > td,
+  html.orion-ux-v2[data-orion-module="insumos"] #tabla tbody tr:focus-within > td {
+    background: #EDF3F7 !important;
+  }
+  html.orion-ux-v2[data-orion-module="insumos"] :where(#search, #selector) {
+    border-radius: var(--orion-ui-radius-sm);
+    min-width: 0;
+  }
+
+  html.orion-ux-v2[data-orion-module="ortodoncia"] :where(#filtrosCard,#mensajeriaCard,#resultadosCard):focus-within,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] :where(#filtrosCard,#mensajeriaCard,#resultadosCard):focus-within {
+    border-color: #B0C3D1 !important;
+    box-shadow: var(--orion-ui-shadow-soft) !important;
+  }
+  html.orion-ux-v2[data-orion-module="ortodoncia"] .filters-grid > *,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] .filters-grid > * {
+    min-width: 0;
+  }
+  html.orion-ux-v2[data-orion-module="ortodoncia"] :where(#filtrosCard,#mensajeriaCard) :where(input, select, textarea),
+  html.orion-ux-v2[data-orion-module="odontopediatria"] :where(#filtrosCard,#mensajeriaCard) :where(input, select, textarea) {
+    max-width: 100%;
+  }
+
+  html.orion-ux-v2[data-orion-module="armonizacion"] .oa-record-panel:focus-within {
+    border-color: #B0C3D1 !important;
+    box-shadow: var(--orion-ui-shadow-soft) !important;
+  }
+  html.orion-ux-v2[data-orion-module="armonizacion"] .oa-record-heading {
+    gap: var(--orion-ui-space-2);
+  }
+  html.orion-ux-v2[data-orion-module="armonizacion"] .oa-top-actions :where(button, a) {
+    transition: border-color var(--orion-ui-transition), background-color var(--orion-ui-transition);
+  }
+}
+@media screen and (max-width: 640px) {
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane :where(select, input:not([type="checkbox"]):not([type="radio"])) {
+    min-height: 44px;
+    font-size: 13px !important;
+  }
+  html.orion-ux-v2[data-orion-module="endodoncia"] main > section.card.no-print :where(select, input:not([type="checkbox"]):not([type="radio"])) {
+    min-height: 44px;
+    font-size: 13px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #mensajeTipo { min-height: 150px; }
+  html.orion-ux-v2[data-orion-module="ortodoncia"] :where(#filtrosCard,#mensajeriaCard) :where(input,select,textarea),
+  html.orion-ux-v2[data-orion-module="odontopediatria"] :where(#filtrosCard,#mensajeriaCard) :where(input,select,textarea) {
+    font-size: 14px !important;
+  }
+}
+
+/* Campos de búsqueda compartidos: prioridad de lectura para uso clínico móvil. */
+@media screen {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] #fSearch,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] #fSearch {
+    font-size: 14px !important;
+    min-height: 42px !important;
+  }
+}
+@media screen and (max-width: 640px) {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] #fSearch,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] #fSearch {
+    min-height: 44px !important;
+  }
+}
+
+/* Contraste real validado por capturas: el header.wrap heredaba blanco
+ * y ocultaba títulos blancos en Ortodoncia/Odontopediatría. */
+@media screen {
+  html.orion-ux-v2[data-orion-module="ortodoncia"] .topbar > header.wrap,
+  html.orion-ux-v2[data-orion-module="odontopediatria"] .topbar > header.wrap {
+    background-color: var(--orion-ui-primary) !important;
+    background-image: none !important;
+    border-color: var(--orion-ui-primary-deep) !important;
+  }
+  html.orion-ux-v2[data-orion-module="ortodoncia"] .topbar > header.wrap :where(h1, .sub),
+  html.orion-ux-v2[data-orion-module="odontopediatria"] .topbar > header.wrap :where(h1, .sub) {
+    color: #FFFFFF !important;
+  }
+}
