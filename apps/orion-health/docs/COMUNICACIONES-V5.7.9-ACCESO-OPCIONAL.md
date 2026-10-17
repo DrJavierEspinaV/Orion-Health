@@ -11,7 +11,7 @@ Eliminar el cuadro **“Conectar base clínica / Clave de acceso ORION”** que 
 - Con la sesión sin token, ORION Comunicaciones carga su interfaz sin mostrar el modal.
 - Se puede visualizar la interfaz y usar herramientas locales que no requieren consultas al servidor.
 - El estado muestra **“Sin conexión a Drive”** y el botón **“Conectar base clínica”** queda disponible para solicitud expresa del usuario.
-- La clave solo se ingresa al pulsar el botón; continúa almacenándose exclusivamente en `sessionStorage` para la sesión y nunca en GitHub, URL ni `localStorage`.
+- La clave solo se ingresa al pulsar el botón; el formulario aparece **dentro del panel Fuente de datos y conexión**, sin modal flotante ni bloqueo de la interfaz, y continúa almacenándose exclusivamente en `sessionStorage` para la sesión y nunca en GitHub, URL ni `localStorage`.
 - Si existe un token de sesión válido, se mantiene la conexión automática, como en las versiones previas.
 - Cancelar y Cerrar acceso mantienen el modal cerrado; no fuerzan un inicio de sesión nuevo.
 - Una petición protegida de listar/consultar pacientes en Google Sheets sigue exigiendo autenticación del servidor mediante el token.
