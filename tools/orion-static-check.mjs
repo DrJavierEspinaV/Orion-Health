@@ -83,6 +83,10 @@ if(secureSession.includes('setTimeout(()=>openModal(),250)'))
   failures.push('Comunicaciones no debe mostrar modal de clave al iniciar sin sesión.');
 if(!read('modules/comunicaciones/loader.js').includes('session-config.js?v=5.7.9'))
   failures.push('Comunicaciones debe cargar versión actualizada de acceso opcional.');
+if(!read('modules/comunicaciones/loader.js').includes('communications-priority-layout.js?v=5.7.9'))
+  failures.push('Comunicaciones debe actualizar su controlador responsive.');
+if(read('assets/shared/communications-priority-layout.js').includes('dataPanel.open=false'))
+  failures.push('El panel de conexión no debe cerrarse automáticamente en resize móvil.');
 const communicationsOsCss=read('modules/comunicaciones/health-os-comunicaciones-v1.css');
 includesAll('Comunicaciones Health OS Bridge',communicationsOsCss,[
   '--comm-os-primary: #1F3F5B',
