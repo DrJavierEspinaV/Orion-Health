@@ -1,0 +1,53 @@
+/*
+ * ORION Health OS — Componentes UX V2.0.
+ * Opt-in: html.orion-ux-v2. Exclusivo @media screen, jamás hojas imprimibles.
+ * No se alteran handlers, datos, lógica de guardado ni significado de estados.
+ */
+@media screen {
+  html.orion-ux-v2 {
+    accent-color: var(--orion-ui-primary);
+    scroll-padding-top: 72px;
+  }
+  html.orion-ux-v2 :where(button, a, input, select, textarea, summary, [role="tab"]):focus-visible {
+    outline: 3px solid var(--orion-ui-focus) !important;
+    outline-offset: 3px !important;
+  }
+  html.orion-ux-v2 :where(button, [role="button"], summary, a) {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.orion-ux-v2 :where(input, textarea, select) {
+    caret-color: var(--orion-ui-primary);
+  }
+  html.orion-ux-v2 :where(button, input, select, textarea):disabled {
+    cursor: not-allowed;
+  }
+  html.orion-ux-v2 :where(button, [role="button"], a):not(:disabled):not([aria-disabled="true"]) {
+    transition: border-color var(--orion-ui-transition),
+      background-color var(--orion-ui-transition),
+      box-shadow var(--orion-ui-transition),
+      color var(--orion-ui-transition);
+  }
+  html.orion-ux-v2 :where(button, a, input, select, textarea, summary)[aria-invalid="true"] {
+    border-color: var(--orion-ui-danger) !important;
+  }
+  html.orion-ux-v2 :where(button, [role="button"])[aria-busy="true"] {
+    cursor: progress;
+  }
+  html.orion-ux-v2 :where(details > summary) {
+    cursor: pointer;
+  }
+  html.orion-ux-v2 :where(button, a, summary) {
+    touch-action: manipulation;
+  }
+  @media (max-width: 640px) {
+    html.orion-ux-v2 :where(.stage-tools .tool-btn, .orion-clinical-tab, #orionDataSourcePanel > summary, .orion-drive-btn, .topbar .tabBtn, .oa-top-actions button) {
+      min-height: 44px;
+    }
+  }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  html.orion-ux-v2 :where(button, a, summary, .card, .menu-btn) {
+    transition-duration: 0ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
