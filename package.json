@@ -7,7 +7,7 @@
     "check:orion": "node tools/orion-static-check.mjs",
     "test:e2e": "playwright test",
     "test": "npm run check:orion && npm run test:unit && npm run test:e2e",
-    "test:unit": "node --test tests/orion-clinical-unit.mjs"
+    "test:unit": "node --test tests/orion-clinical-unit.mjs tests/orion-comunicaciones-contract.test.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0"
