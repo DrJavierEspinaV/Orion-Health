@@ -68,7 +68,7 @@
     card=document.createElement('div');
     card.id='orionDriveStatusCard';
     card.className='orion-drive-card';
-    card.innerHTML=`<div class="orion-drive-row"><div><div class="orion-drive-title">Base clínica en Drive</div><div class="orion-drive-text" id="orionDriveStatusText">Acceso protegido por sesión.</div></div><span class="orion-drive-badge" id="orionDriveStatusBadge">Pendiente</span></div><div class="orion-drive-actions"><button class="orion-drive-btn primary" id="orionDriveReconnect" type="button">Conectar / recargar</button><button class="orion-drive-btn" id="orionDriveChangeAccess" type="button">Cambiar acceso</button><button class="orion-drive-btn" id="orionDriveForget" type="button">Cerrar acceso</button></div>`;
+    card.innerHTML=`<div class="orion-drive-row"><div><div class="orion-drive-title">Base clínica en Drive</div><div class="orion-drive-text" id="orionDriveStatusText">Puedes utilizar Comunicaciones sin conectar Drive. La consulta de pacientes requiere acceso autorizado.</div></div><span class="orion-drive-badge" id="orionDriveStatusBadge">Pendiente</span></div><div class="orion-drive-actions"><button class="orion-drive-btn primary" id="orionDriveReconnect" type="button">Conectar base clínica</button><button class="orion-drive-btn" id="orionDriveChangeAccess" type="button">Cambiar acceso</button><button class="orion-drive-btn" id="orionDriveForget" type="button">Cerrar acceso</button></div>`;
     e.card.prepend(card);
     return card;
   }
@@ -117,7 +117,7 @@
 
   function connect(e,{pingFirst=false}={}){
     const token=String(e.token?.value||session.get(TOKEN_KEY)||'').trim();
-    if(!token){setStatus('error','Ingresa la clave vigente para esta sesión.');openModal();return;}
+    if(!token){setStatus('', 'Base clínica sin conectar. Puedes trabajar sin abrir Drive.');openModal();return;}
     applyToken(token,e);
     setStatus('connecting','Conectando con la base clínica de Google Drive…');
     if(e.status)e.status.textContent='Conectando con Google Sheets…';
@@ -153,8 +153,8 @@
       session.remove(TOKEN_KEY);
       e.token.value='';
       if(e.status)e.status.textContent='';
-      setStatus('error','Acceso cerrado en esta sesión.');
-      openModal();
+      setStatus('', 'Acceso a Drive cerrado. El módulo sigue disponible sin conexión.');
+      closeModal();
     });
     document.getElementById('orionDriveConnectNow')?.addEventListener('click',()=>{
       const input=document.getElementById('orionDriveTokenInput');
@@ -168,7 +168,7 @@
 
     const active=session.get(TOKEN_KEY);
     if(active){applyToken(active,e);setStatus('connecting','Acceso reconocido. Actualizando pacientes…');setTimeout(()=>connect(e),AUTOLOAD_DELAY_MS);}
-    else{setStatus('error','Primera conexión pendiente. Pulsa “Conectar / recargar”.');setTimeout(()=>openModal(),250);}
+    else{setStatus('','Sin conexión a Drive. Pulsa “Conectar base clínica” solo cuando necesites consultar pacientes.');}
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
