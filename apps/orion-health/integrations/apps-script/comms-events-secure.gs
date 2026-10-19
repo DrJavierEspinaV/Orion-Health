@@ -121,7 +121,7 @@ function orionAppendCommsEventSecure_(event, actor) {
     // Todo control debe pasar con el bloqueo adquirido; no se escribe si el esquema cambia.
     orionAssertCommsSchema_(sheet);
     var row = [
-      Utilities.getUuid(), new Date().toISOString(), run, cita, channel, type,
+      '', '', run, cita, channel, type,
       'OPERADOR_MANUAL', userId, consent, hash, requestId, '1.0'
     ];
     // Referencia idempotente para impedir eventos duplicados por reintentos.
@@ -136,8 +136,10 @@ function orionAppendCommsEventSecure_(event, actor) {
         }
       }
     }
-    var eventId = row[0];
-    var at = row[1];
+    var eventId = Utilities.getUuid();
+    var at = new Date().toISOString();
+    row[0] = eventId;
+    row[1] = at;
     sheet.appendRow(row);
     SpreadsheetApp.flush();
     return {eventId: eventId, duplicate: false, serverTimestamp: at};
