@@ -1,10 +1,10 @@
 {
   "product": "ORION Dental App",
   "version": "1.4.5-final-piloto",
-  "date": "2026-10-17",
+  "date": "2026-10-18",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.9",
+    "comunicaciones": "5.7.10",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -29,5 +29,11 @@
     "clinical_review": "Indicaciones editables de alveolitis con reevaluación odontológica, signos de alarma, manejo local y antibioticoterapia restringida a infección diseminada/sistémica o alto riesgo."
   },
   "ux_version": "2.0.2",
-  "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad"
+  "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
+  "comunicaciones_update": {
+    "version": "5.7.10",
+    "summary": "Bitácora temporal con estado de enlace seleccionado, envío confirmado manualmente, respuesta registrada y corrección",
+    "persistence": "sessionStorage, 12 horas de actividad y máximo 500 eventos; exportación CSV manual",
+    "limitations": "Sin sincronización automática con Drive ni comprobante de entrega del proveedor; requiere backend autorizado para auditoría clínica permanente"
+  }
 }
