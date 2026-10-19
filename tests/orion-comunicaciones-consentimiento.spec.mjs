@@ -96,7 +96,8 @@ test('el envío manual promocional no conserva ni ejecuta un enlace previo', asy
   }));
   expect(result.mode).toBe('promocion');
   expect(result.link).toBe('');
-  // La navegación solo se bloquea al click: nunca queda habilitada la URL anterior.
+  expect(result.oldHref).toBeNull();
+  // El handler también debe impedir la navegación cuando falta autorización.
   page.on('dialog', dialog => dialog.dismiss());
   await frame.locator('#manualOpen').evaluate(el => el.click());
   await expect(frame.locator('#manualOpen')).not.toHaveAttribute('href', /.+/);
