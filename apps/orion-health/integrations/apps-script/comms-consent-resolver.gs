@@ -35,6 +35,10 @@ function orionResolveCommsConsentSecure_(rawRun, channel, purpose, actor) {
       (actor.canReadCommunications !== true && actor.canWriteCommunications !== true)) {
     throw new Error('No autorizado para consultar consentimientos');
   }
+  var operatorId = String(actor.userId).trim();
+  if (!/^[A-Za-z0-9][A-Za-z0-9@._+-]{2,127}$/.test(operatorId)) {
+    throw new Error('Identidad del profesional inválida');
+  }
   var run = orionNormalizeRun_(rawRun);
   var normalizedChannel = String(channel || '').trim().toUpperCase();
   var normalizedPurpose = String(purpose || '').trim().toUpperCase();
@@ -55,7 +59,7 @@ function orionResolveCommsConsentSecure_(rawRun, channel, purpose, actor) {
   var now = Date.now();
   for (var i = rows.length - 1; i >= 0; i--) {
     var row = rows[i];
-    if (String(row[1] || '').trim().toUpperCase() !== run) continue;
+    if (String(row[1] || '').toUpperCase().replace(/[.\s]/g, '') !== run) continue;
     if (String(row[2] || '').trim().toUpperCase() !== normalizedChannel) continue;
     if (String(row[3] || '').trim().toUpperCase() !== normalizedPurpose) continue;
     var eventType = String(row[4] || '').trim().toUpperCase();
