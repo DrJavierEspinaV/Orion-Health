@@ -143,7 +143,17 @@
     actions.className = 'orion-audit-actions';
     function setState() {
       const type = latest(info);
-      status.textContent = stateLabel(type);
+      const shortLabels = {
+        enlace_seleccionado: 'Abierto',
+        envio_confirmado_manual: 'Envío manual',
+        respuesta_registrada_manual: 'Respondió',
+        correccion_manual: 'Corregido'
+      };
+      // Etiqueta corta en tabla; significado clínico completo en título accesible.
+      status.textContent = shortLabels[type] || '';
+      status.title = stateLabel(type);
+      status.setAttribute('aria-label', stateLabel(type));
+      status.hidden = !type;
       response.disabled = type !== 'envio_confirmado_manual' && type !== 'respuesta_registrada_manual';
       undo.disabled = !type || type === 'correccion_manual';
     }
@@ -167,7 +177,16 @@
       }
     });
     actions.append(sent, response, undo);
-    line.append(status, actions);
+    // Un menú plegado reemplaza los tres botones persistentes de cada paciente.
+    // Se conservan eventos, confirmaciones y rectificaciones sin alargar las filas.
+    const menu = document.createElement('details');
+    menu.className = 'orion-audit-menu';
+    const trigger = document.createElement('summary');
+    trigger.textContent = '⋯';
+    trigger.title = 'Opciones de seguimiento';
+    trigger.setAttribute('aria-label', 'Opciones de seguimiento');
+    menu.append(trigger, actions);
+    line.append(status, menu);
     // Actualizar el estado del control aun cuando se reconstruye la lista.
     row.orionAuditUpdate = setState;
     setState();
