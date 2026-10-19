@@ -30,7 +30,7 @@ for(const file of [
 const version=JSON.parse(read('VERSION.json'));
 if(!String(version.version).startsWith('1.4.5'))failures.push(`Versión inesperada: ${version.version}`);
 if(!String(version.modules?.portal||'').startsWith('1.4.5'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
-if(version.modules?.comunicaciones!=='5.7.9')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
+if(version.modules?.comunicaciones!=='5.7.10')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
 if(version.modules?.cmf!=='4.3.43')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.1.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
