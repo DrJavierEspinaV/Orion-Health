@@ -833,6 +833,8 @@ function setPlantilla(){
 }
 setPlantilla();
 $('#tipoMensaje').addEventListener('change', setPlantilla);
+// Al cambiar a Promoción, invalidar inmediatamente los enlaces previos.
+$('#tipoMensaje').addEventListener('change', render);
 setupEncuestaUI_();
 
 function normalizarLinkPublico(s){
@@ -1465,6 +1467,14 @@ function prepRow(r){
   const telefonoRaw = r['WhatsApp'] ?? r['whatsapp'] ?? r['Teléfono'] ?? r['telefono'] ?? r['Telefono'] ??
                       r['Celular'] ?? r['celular'] ?? r['Fono'] ?? r['fono'] ?? '';
   const telefono = cleanPhone(telefonoRaw);
+  // El consentimiento clínico NO equivale a autorización publicitaria.
+  // Ausencia, revocación o valores ambiguos se interpretan como NO autorizado.
+  const consentimientoPromoRaw =
+    r['Consentimiento Promociones'] ?? r['Consentimiento promociones'] ??
+    r['Consentimiento Marketing'] ?? low['consentimiento promociones'] ??
+    low['consentimiento marketing'] ?? '';
+  const consentimientoPromociones = /^(s[ií]|true|1|autorizado|verificado)$/i
+    .test(String(consentimientoPromoRaw).trim());
   const estado = window.ORION_APPOINTMENT_STATUS.fromRow(r);
   let motivo = r['Txt.tp.planificación'] ?? r['txt.tp.planificación'] ?? r['Motivo consulta'] ?? r['motivo consulta'] ?? '';
   motivo = String(motivo||'').trim() || 'SIN REGISTRO';
@@ -1481,7 +1491,7 @@ function prepRow(r){
   if(linksRow.length === 0){ for(const key in r){ linksRow = linksRow.concat(extractUrlsFromCell(r[key])); } }
   linksRow = linksRow.map(normalizarLinkPublico).filter(Boolean);
 
-  return { paciente, sexo, edad, rut, telefono, estado: String(estado).trim(), motivo, fechaFmt, horaFmt, datetimeFmt, compDate, linksRow };
+  return { paciente, sexo, edad, rut, telefono, consentimientoPromociones, estado: String(estado).trim(), motivo, fechaFmt, horaFmt, datetimeFmt, compDate, linksRow };
 }
 async function onExcel(e){
   const file = e.target.files[0]; if(!file) return;
@@ -1642,7 +1652,9 @@ function render(){
     const isRetrasoAtencionActive = retrasoTipo === 'atencion';
     const isRetrasoActive = !!retrasoTipo;
     const msg = buildMessage(r, estadoLabel, retrasoTipo, retrasoMinutos);
-    const wa = phone ? buildWaUrl(phone, msg) : '';
+    const promocionBloqueada = $('#tipoMensaje')?.value === 'promocion' &&
+      r.consentimientoPromociones !== true;
+    const wa = phone && !promocionBloqueada ? buildWaUrl(phone, msg) : '';
     const rutKey = normalizeDocumentoRut(r.rut);
     const isUDCActive = !!rutKey && rutKey === activeDocumentoRut;
     const isFranjaActive = !!franjaKey && getRetrasoRowKey(r) === franjaKey;
@@ -1679,7 +1691,7 @@ function render(){
         <div class="paciente-nombre">${escapeHtml(formatPacienteDisplay(r)||'Sin nombre')}</div>
         <div class="muted">${phone? '+'+escapeHtml(phone):'Sin teléfono'}</div>
         <div class="wa-row-line">
-          ${wa ? `<a class="btn whatsapp wa-action ${waModeClass}" target="_blank" rel="noopener" href="${wa}">${waLabel}</a>` : '<span class="muted">Sin número</span>'}
+          ${promocionBloqueada ? '<span class="muted orion-promo-blocked">Promoción bloqueada: consentimiento no registrado</span>' : (wa ? `<a class="btn whatsapp wa-action ${waModeClass}" target="_blank" rel="noopener" href="${wa}">${waLabel}</a>` : '<span class="muted">Sin número</span>')}
         </div>
       </div>
       <div>${r.rut ? escapeHtml(r.rut) : '—'}</div>
@@ -1808,6 +1820,8 @@ function buildManualMessage(){
   return buildMessage(r, '');
 }
 function getManualLink(){
+  // El contacto manual carece de consentimiento promocional registrado.
+  if($('#tipoMensaje')?.value === 'promocion') return '';
   const phone = normalizeManualPhone();
   if(!phone) return '';
   const msg = buildManualMessage();
@@ -1822,17 +1836,30 @@ function refreshManualPreview(){
 }
 manualPhoneEl?.addEventListener('input', refreshManualPreview);
 manualNameEl?.addEventListener('input', refreshManualPreview);
+document.getElementById('tipoMensaje')?.addEventListener('change', ()=>{
+  // La URL anterior no debe permanecer accesible al cambiar de contexto.
+  manualOpenEl?.removeAttribute('href');
+  refreshManualPreview();
+});
 
 manualCopyEl?.addEventListener('click', async ()=>{
   const link = getManualLink();
-  if(!link) return alert('Ingresa un número válido.');
+  if(!link) return alert($('#tipoMensaje')?.value === 'promocion'
+    ? 'Promoción bloqueada: consentimiento promocional no registrado.'
+    : 'Ingresa un número válido.');
   try{ await navigator.clipboard.writeText(link); alert('✅ Enlace copiado.'); }
   catch(e){ alert('No se pudo copiar automáticamente. Copia desde la vista previa.'); }
 });
 
-manualOpenEl?.addEventListener('click', ()=>{
+manualOpenEl?.addEventListener('click', (event)=>{
   const link = getManualLink();
-  if(!link) return alert('Ingresa un número válido.');
+  if(!link){
+    event.preventDefault();
+    manualOpenEl.removeAttribute('href');
+    return alert($('#tipoMensaje')?.value === 'promocion'
+      ? 'Promoción bloqueada: consentimiento promocional no registrado.'
+      : 'Ingresa un número válido.');
+  }
   manualOpenEl.setAttribute('href', link);
 });
 

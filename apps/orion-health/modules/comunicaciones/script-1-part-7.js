@@ -41,6 +41,8 @@ function buildManualMessage(){
   return buildMessage(r, '');
 }
 function getManualLink(){
+  // El contacto manual carece de consentimiento promocional registrado.
+  if($('#tipoMensaje')?.value === 'promocion') return '';
   const phone = normalizeManualPhone();
   if(!phone) return '';
   const msg = buildManualMessage();
@@ -55,17 +57,30 @@ function refreshManualPreview(){
 }
 manualPhoneEl?.addEventListener('input', refreshManualPreview);
 manualNameEl?.addEventListener('input', refreshManualPreview);
+document.getElementById('tipoMensaje')?.addEventListener('change', ()=>{
+  // La URL anterior no debe permanecer accesible al cambiar de contexto.
+  manualOpenEl?.removeAttribute('href');
+  refreshManualPreview();
+});
 
 manualCopyEl?.addEventListener('click', async ()=>{
   const link = getManualLink();
-  if(!link) return alert('Ingresa un número válido.');
+  if(!link) return alert($('#tipoMensaje')?.value === 'promocion'
+    ? 'Promoción bloqueada: consentimiento promocional no registrado.'
+    : 'Ingresa un número válido.');
   try{ await navigator.clipboard.writeText(link); alert('✅ Enlace copiado.'); }
   catch(e){ alert('No se pudo copiar automáticamente. Copia desde la vista previa.'); }
 });
 
-manualOpenEl?.addEventListener('click', ()=>{
+manualOpenEl?.addEventListener('click', (event)=>{
   const link = getManualLink();
-  if(!link) return alert('Ingresa un número válido.');
+  if(!link){
+    event.preventDefault();
+    manualOpenEl.removeAttribute('href');
+    return alert($('#tipoMensaje')?.value === 'promocion'
+      ? 'Promoción bloqueada: consentimiento promocional no registrado.'
+      : 'Ingresa un número válido.');
+  }
   manualOpenEl.setAttribute('href', link);
 });
 

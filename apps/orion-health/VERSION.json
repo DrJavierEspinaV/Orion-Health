@@ -1,10 +1,10 @@
 {
   "product": "ORION Dental App",
   "version": "1.4.5-final-piloto",
-  "date": "2026-10-18",
+  "date": "2026-10-19",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.10",
+    "comunicaciones": "5.7.11",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.10",
-    "summary": "Bitácora temporal con estado de enlace seleccionado, envío confirmado manualmente, respuesta registrada y corrección",
-    "persistence": "sessionStorage, 12 horas de actividad y máximo 500 eventos; exportación CSV manual",
-    "limitations": "Sin sincronización automática con Drive ni comprobante de entrega del proveedor; requiere backend autorizado para auditoría clínica permanente"
+    "version": "5.7.11",
+    "summary": "Protección de campañas promocionales por consentimiento explícito en la fuente; mantenimiento de mensajería clínica y bitácora temporal",
+    "persistence": "Bitácora local de sesión; contrato de servidor seguro no desplegado",
+    "limitations": "La columna de consentimiento promocional no existe en la agenda ORION_DB_SAP actual. Las promociones quedan bloqueadas allí hasta incorporar una fuente verificable de consentimiento. La comprobación en navegador es una barrera de interfaz, no autorización del servidor."
   }
 }

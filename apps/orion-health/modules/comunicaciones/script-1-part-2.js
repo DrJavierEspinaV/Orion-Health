@@ -34,6 +34,8 @@ function setPlantilla(){
 }
 setPlantilla();
 $('#tipoMensaje').addEventListener('change', setPlantilla);
+// Al cambiar a Promoción, invalidar inmediatamente los enlaces previos.
+$('#tipoMensaje').addEventListener('change', render);
 setupEncuestaUI_();
 
 function normalizarLinkPublico(s){
