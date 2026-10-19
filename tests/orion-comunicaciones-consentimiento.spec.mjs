@@ -37,7 +37,7 @@ async function seedSyntheticPatients(frame) {
         'Paciente': 'CASO SIN CONSENTIMIENTO',
         'RUN': '12.345.678-5', 'WhatsApp': '56911111111',
         'fecha': '19/10/2026', 'hora': '12:00', 'Estado': 'Citado'
-      }),
+      },
       {
         'Paciente': 'CASO CON CONSENTIMIENTO',
         'RUN': '11.111.111-1', 'WhatsApp': '56922222222',
