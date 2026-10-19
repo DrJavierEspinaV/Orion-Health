@@ -1836,6 +1836,11 @@ function refreshManualPreview(){
 }
 manualPhoneEl?.addEventListener('input', refreshManualPreview);
 manualNameEl?.addEventListener('input', refreshManualPreview);
+document.getElementById('tipoMensaje')?.addEventListener('change', ()=>{
+  // La URL anterior no debe permanecer accesible al cambiar de contexto.
+  manualOpenEl?.removeAttribute('href');
+  refreshManualPreview();
+});
 
 manualCopyEl?.addEventListener('click', async ()=>{
   const link = getManualLink();
