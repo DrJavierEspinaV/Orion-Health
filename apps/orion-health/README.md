@@ -1,17 +1,25 @@
-# ORION Dental App V1.3.1 — Final Piloto
+# ORION Dental App V1.4.5 — ORION Health OS
 
 Plataforma clínica modular desarrollada por ORION Health SpA.
 
 ## Arquitectura vigente
 
-- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.2.
-- `modules/insumos/` — Insumos V4.5.3.
-- `modules/cmf/` — Clínico CMF V4.3.26.
-- `modules/endodoncia/` — Endodoncia V4.6.2.
-- `modules/ortodoncia/` — Ortodoncia V1.2.
-- `modules/odontopediatria/` — Odontopediatría V1.5.1.
+- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.10.
+- `modules/insumos/` — Insumos V4.5.4.
+- `modules/cmf/` — Clínico CMF V4.3.43.
+- `modules/endodoncia/` — Endodoncia V4.6.3.
+- `modules/ortodoncia/` — Ortodoncia V1.2.1.
+- `modules/odontopediatria/` — Odontopediatría V1.5.2.
+- `modules/armonizacion/` — Armonización Orofacial V2.1.0.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
+
+## Comunicaciones Clínicas V5.7.10
+
+- Vista previa de enlaces en texto seguro.
+- WhatsApp no aparece como enviado por el mero hecho de abrir la conversación.
+- Bitácora temporal con confirmación manual, registro de respuesta y corrección, exportable a CSV.
+- La bitácora local **no** equivale a auditoría clínica permanente ni se sincroniza aún con Google Drive.
 
 ## Página continua y rendimiento
 
@@ -20,7 +28,7 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 - Menú lateral visible en escritorio.
 - Comunicaciones restaura la agenda desde caché de sesión y actualiza Drive en segundo plano.
 - XLSX se carga bajo demanda.
-- Service worker V1.3.1 con soporte offline para el núcleo y los seis módulos.
+- Service worker V1.4.5 con soporte offline para el núcleo y los siete módulos.
 
 ## ORION Insumos
 
@@ -54,7 +62,7 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 
 - Verificación estática de arquitectura, versión, manifiesto, catálogo y controles clínicos.
 - Pruebas Playwright en escritorio y emulación Pixel 7.
-- Navegación de los seis módulos.
+- Navegación de los siete módulos.
 - Catálogo persistente, catálogo farmacológico restaurado, controles clínicos, página continua y recursos PWA.
 - GitHub Actions ejecuta las pruebas antes de fusionar.
 
@@ -62,7 +70,7 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 
 - Google Apps Script continúa usando JSONP heredado.
 - Algunas funciones de Excel y PDF dependen todavía de CDN.
-- V1.3.1 es una versión final del piloto personal, no una plataforma clínica multiusuario certificada.
+- V1.4.5 es una versión de piloto personal, no una plataforma clínica multiusuario certificada.
 
 ## Estado
 
