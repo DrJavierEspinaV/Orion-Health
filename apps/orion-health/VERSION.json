@@ -4,7 +4,7 @@
   "date": "2026-10-19",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.11",
+    "comunicaciones": "5.7.12",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.11",
-    "summary": "Protección de campañas promocionales por consentimiento explícito en la fuente; mantenimiento de mensajería clínica y bitácora temporal",
-    "persistence": "Bitácora local de sesión; contrato de servidor seguro no desplegado",
-    "limitations": "La columna de consentimiento promocional no existe en la agenda ORION_DB_SAP actual. Las promociones quedan bloqueadas allí hasta incorporar una fuente verificable de consentimiento. La comprobación en navegador es una barrera de interfaz, no autorización del servidor."
+    "version": "5.7.12",
+    "summary": "Restitución de lista compacta, WhatsApp pequeño y seguimiento agrupado en menú opcional. Acceso automático desde sesión o gestor seguro de contraseñas cuando el navegador lo permite.",
+    "persistence": "Bitácora temporal de sesión sin modificar mensajes ni base clínica.",
+    "limitations": "Acceso continuo sin introducir clave requiere credencial autorizada existente o SSO servidor, no se publica token ni se permite acceso sin autenticación."
   }
 }
