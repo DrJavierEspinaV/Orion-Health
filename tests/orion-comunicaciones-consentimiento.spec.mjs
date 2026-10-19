@@ -3,6 +3,25 @@ import { test, expect } from '@playwright/test';
 const portal = '/apps/orion-health/index.html';
 
 async function openComunicaciones(page) {
+  // Instrumentación exclusiva de Playwright: las funciones clínicas siguen
+  // encapsuladas en la aplicación distribuida (sin API global de pruebas).
+  await page.route('**/modules/comunicaciones/source.html*', async route => {
+    const response = await route.fetch();
+    const html = await response.text();
+    const end = '}); // DOMContentLoaded';
+    if (!html.includes(end)) throw new Error('Ancla de instrumentación ausente');
+    const instrumented = html.replace(end, `
+window.__orionCommsTest = {
+  prepRow,
+  getManualLink,
+  seed(rows) {
+    DATA.splice(0, DATA.length, ...rows.map(prepRow));
+    render();
+  }
+};
+` + end);
+    await route.fulfill({ response, body: instrumented });
+  });
   await page.goto(portal, { waitUntil: 'domcontentloaded' });
   await page.locator('.menu-btn[data-app="comunicaciones"]').click();
   const frame = page.frameLocator('#appFrame');
@@ -13,20 +32,19 @@ async function openComunicaciones(page) {
 async function seedSyntheticPatients(frame) {
   await frame.locator('body').evaluate(() => {
     // Datos totalmente ficticios; no usa Drive ni contactos reales.
-    DATA.splice(0, DATA.length,
-      prepRow({
+    window.__orionCommsTest.seed([
+      {
         'Paciente': 'CASO SIN CONSENTIMIENTO',
         'RUN': '12.345.678-5', 'WhatsApp': '56911111111',
         'fecha': '19/10/2026', 'hora': '12:00', 'Estado': 'Citado'
       }),
-      prepRow({
+      {
         'Paciente': 'CASO CON CONSENTIMIENTO',
         'RUN': '11.111.111-1', 'WhatsApp': '56922222222',
         'fecha': '19/10/2026', 'hora': '13:00', 'Estado': 'Citado',
         'Consentimiento Promociones': 'Sí'
-      })
-    );
-    render();
+      }
+    ]);
   });
 }
 
@@ -54,11 +72,11 @@ test('promoción bloqueada por defecto y permitida solo con autorización explí
 test('un valor ambiguo o negativo de consentimiento no autoriza promociones', async ({ page }) => {
   const frame = await openComunicaciones(page);
   const parsed = await frame.locator('body').evaluate(() => [
-    prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'NO' }).consentimientoPromociones,
-    prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'pendiente' }).consentimientoPromociones,
-    prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': '' }).consentimientoPromociones,
-    prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'revocado' }).consentimientoPromociones,
-    prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': true }).consentimientoPromociones
+    window.__orionCommsTest.prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'NO' }).consentimientoPromociones,
+    window.__orionCommsTest.prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'pendiente' }).consentimientoPromociones,
+    window.__orionCommsTest.prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': '' }).consentimientoPromociones,
+    window.__orionCommsTest.prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': 'revocado' }).consentimientoPromociones,
+    window.__orionCommsTest.prepRow({ 'Paciente': 'X', 'Consentimiento Promociones': true }).consentimientoPromociones
   ]);
   expect(parsed).toEqual([false, false, false, false, true]);
 });
@@ -73,7 +91,7 @@ test('el envío manual promocional no conserva ni ejecuta un enlace previo', asy
   await frame.locator('#tipoMensaje').selectOption('promocion');
   const result = await frame.locator('#manualOpen').evaluate(el => ({
     mode: document.getElementById('tipoMensaje').value,
-    link: getManualLink(),
+    link: window.__orionCommsTest.getManualLink(),
     oldHref: el.getAttribute('href')
   }));
   expect(result.mode).toBe('promocion');
