@@ -23,6 +23,15 @@ Esquema en orden: EVENT_ID, FECHA_SERVIDOR_UTC, RUN_PACIENTE, CITA_ID, CANAL, TI
 
 El backend existente tendrá que construir `actor` a partir de una autorización real de Google Workspace o un servicio equivalente. **Nunca** aceptar `actor` de un cuerpo JSON, parámetro URL ni formulario público.
 
+## Endurecimiento de integridad (19-10-2026)
+
+- El servicio valida el encabezado exacto `COMMS_EVENTOS!A1:L1` antes de cada escritura. Si cambia el orden o nombre de una columna, la operación se bloquea sin completar el registro.
+- Una referencia idempotente repetida se considera el mismo evento solo si coincide el RUN, cita, canal, tipo, identidad profesional, estado de consentimiento, hash del mensaje (si existe), origen y versión del esquema. Si difiere un campo, la operación devuelve error y **no** declara éxito.
+- Si el consentimiento servidor está `REVOCADO`, se bloquean los nuevos eventos salientes `enlace_seleccionado` y `envio_confirmado_manual`; se conserva la posibilidad de anotar `correccion_manual` para rectificar registros. Este control es defensivo y **no reemplaza** la validación del consentimiento previa a enviar mensajes desde otra aplicación.
+- El identificador del evento se crea solo después de verificar autorización, esquema e idempotencia. Se mantienen el bloqueo de concurrencia y las pruebas automáticas.
+
+**Estado:** código preparado para integrarse en el Apps Script autorizado, sin despliegue ni emisión automática a pacientes.
+
 ## Integración pendiente, no activada
 
 1. Incorporar el archivo al proyecto Apps Script real tras identificar su repositorio y sus mecanismos existentes de autorización.
