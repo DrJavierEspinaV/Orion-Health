@@ -9,7 +9,7 @@ const read = (p) => readFileSync(join(root, 'apps/orion-health', p), 'utf8');
 test('Comunicaciones: conexión protegida voluntaria', () => {
   const config = read('assets/shared/session-config.js');
   const loader = read('modules/comunicaciones/loader.js');
-  assert.match(loader, /session-config\.js\?v=5\.7\.9/);
+  assert.match(loader, /session-config\.js\?v=5\.7\.12/);
   assert.match(loader, /id="dbToken" type="password"|type="password" id="dbToken"/);
   assert.match(loader, /if\(!url \|\| !tok\) return;/);
   assert.match(loader, /\.replace\(\/localStorage\/g,'sessionStorage'\)/);
@@ -59,13 +59,13 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   const js = read('modules/comunicaciones/audit-session-v1.js');
   const loader = read('modules/comunicaciones/loader.js');
   const sw = read('service-worker.js');
-  assert.match(loader, /audit-session-v1\.js\?v=1\.0/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.0/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.1/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.1/);
   assert.match(js, /sessionStorage\.setItem/);
   assert.match(js, /confirm\('¿Confirmas que enviaste/);
   assert.match(js, /respuesta_registrada_manual/);
   assert.match(js, /correccion_manual/);
-  assert.match(js, /textContent = stateLabel/);
+  assert.match(js, /textContent = shortLabels/);
   assert.doesNotMatch(js, /localStorage\.setItem|fetch\(|XMLHttpRequest|\.send\(/);
   assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.js/);
   assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.css/);
