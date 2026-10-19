@@ -22,7 +22,7 @@ test('PWA conserva interfaz de Health OS offline incluso con consultas CSS de ve
   await expect.poll(async()=>{
     return await page.evaluate(async paths=>{
       const names=await caches.keys();
-      const active=names.find(name=>name.includes('health-os-ui11-ux-v2-modules'));
+      const active=names.find(name=>name.includes('health-os-ui12-comms-audit'));
       if(!active)return false;
       const cache=await caches.open(active);
       return (await Promise.all(paths.map(async path=>Boolean(await cache.match(path))))).every(Boolean);
