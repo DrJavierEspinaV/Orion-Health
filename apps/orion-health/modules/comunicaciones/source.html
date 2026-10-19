@@ -1650,7 +1650,9 @@ function render(){
     const isRetrasoAtencionActive = retrasoTipo === 'atencion';
     const isRetrasoActive = !!retrasoTipo;
     const msg = buildMessage(r, estadoLabel, retrasoTipo, retrasoMinutos);
-    const wa = phone ? buildWaUrl(phone, msg) : '';
+    const promocionBloqueada = $('#tipoMensaje')?.value === 'promocion' &&
+      r.consentimientoPromociones !== true;
+    const wa = phone && !promocionBloqueada ? buildWaUrl(phone, msg) : '';
     const rutKey = normalizeDocumentoRut(r.rut);
     const isUDCActive = !!rutKey && rutKey === activeDocumentoRut;
     const isFranjaActive = !!franjaKey && getRetrasoRowKey(r) === franjaKey;
@@ -1687,7 +1689,7 @@ function render(){
         <div class="paciente-nombre">${escapeHtml(formatPacienteDisplay(r)||'Sin nombre')}</div>
         <div class="muted">${phone? '+'+escapeHtml(phone):'Sin teléfono'}</div>
         <div class="wa-row-line">
-          ${wa ? `<a class="btn whatsapp wa-action ${waModeClass}" target="_blank" rel="noopener" href="${wa}">${waLabel}</a>` : '<span class="muted">Sin número</span>'}
+          ${promocionBloqueada ? '<span class="muted orion-promo-blocked">Promoción bloqueada: consentimiento no registrado</span>' : (wa ? `<a class="btn whatsapp wa-action ${waModeClass}" target="_blank" rel="noopener" href="${wa}">${waLabel}</a>` : '<span class="muted">Sin número</span>')}
         </div>
       </div>
       <div>${r.rut ? escapeHtml(r.rut) : '—'}</div>
