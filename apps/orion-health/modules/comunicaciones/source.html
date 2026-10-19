@@ -1465,6 +1465,14 @@ function prepRow(r){
   const telefonoRaw = r['WhatsApp'] ?? r['whatsapp'] ?? r['Teléfono'] ?? r['telefono'] ?? r['Telefono'] ??
                       r['Celular'] ?? r['celular'] ?? r['Fono'] ?? r['fono'] ?? '';
   const telefono = cleanPhone(telefonoRaw);
+  // El consentimiento clínico NO equivale a autorización publicitaria.
+  // Ausencia, revocación o valores ambiguos se interpretan como NO autorizado.
+  const consentimientoPromoRaw =
+    r['Consentimiento Promociones'] ?? r['Consentimiento promociones'] ??
+    r['Consentimiento Marketing'] ?? low['consentimiento promociones'] ??
+    low['consentimiento marketing'] ?? '';
+  const consentimientoPromociones = /^(s[ií]|true|1|autorizado|verificado)$/i
+    .test(String(consentimientoPromoRaw).trim());
   const estado = window.ORION_APPOINTMENT_STATUS.fromRow(r);
   let motivo = r['Txt.tp.planificación'] ?? r['txt.tp.planificación'] ?? r['Motivo consulta'] ?? r['motivo consulta'] ?? '';
   motivo = String(motivo||'').trim() || 'SIN REGISTRO';
@@ -1481,7 +1489,7 @@ function prepRow(r){
   if(linksRow.length === 0){ for(const key in r){ linksRow = linksRow.concat(extractUrlsFromCell(r[key])); } }
   linksRow = linksRow.map(normalizarLinkPublico).filter(Boolean);
 
-  return { paciente, sexo, edad, rut, telefono, estado: String(estado).trim(), motivo, fechaFmt, horaFmt, datetimeFmt, compDate, linksRow };
+  return { paciente, sexo, edad, rut, telefono, consentimientoPromociones, estado: String(estado).trim(), motivo, fechaFmt, horaFmt, datetimeFmt, compDate, linksRow };
 }
 async function onExcel(e){
   const file = e.target.files[0]; if(!file) return;
