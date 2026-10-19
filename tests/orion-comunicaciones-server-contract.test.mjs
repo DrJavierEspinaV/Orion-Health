@@ -55,3 +55,43 @@ test('Servidor: idempotencia y registro mínimo, sin teléfono ni mensaje', () =
   assert.equal(second.eventId,first.eventId);
   assert.equal(rows.length,2);
 });
+
+test('Servidor: detener escritura cuando cambie el encabezado de COMMS_EVENTOS', () => {
+  const { ctx, rows } = harness();
+  rows[0][4] = 'CANAL_DESPLAZADO';
+  assert.throws(() => ctx.orionAppendCommsEventSecure_(event, actor), /Esquema COMMS_EVENTOS incompatible/);
+  assert.equal(rows.length, 1);
+});
+
+test('Servidor: idempotencia rechaza la colisión de otro paciente, cita, tipo o profesional', () => {
+  const { ctx, rows } = harness();
+  const first = ctx.orionAppendCommsEventSecure_(event, actor);
+  assert.ok(first.eventId);
+  const attempts = [
+    [{ ...event, appointmentId: 'cita-distinta' }, actor],
+    [{ ...event, type: 'respuesta_registrada_manual' }, actor],
+    [{ ...event, messageSha256: 'a'.repeat(64) }, actor],
+    [event, { ...actor, userId: 'another.operator@orion.invalid' }]
+  ];
+  for (const [attempt, identity] of attempts) {
+    assert.throws(() => ctx.orionAppendCommsEventSecure_(attempt, identity), /Referencia de evento reutilizada/);
+  }
+  assert.equal(rows.length, 2);
+  const next = ctx.orionAppendCommsEventSecure_({ ...event, requestId: 'request-002' }, actor);
+  assert.equal(next.duplicate, false);
+  assert.equal(rows.length, 3);
+});
+
+test('Servidor: consentimiento revocado bloquea evento saliente y permite corrección trazable', () => {
+  const { ctx, rows } = harness();
+  const revoked = { ...actor, consentStatus: 'REVOCADO' };
+  assert.throws(() => ctx.orionAppendCommsEventSecure_(event, revoked), /consentimiento revocado/);
+  assert.throws(() => ctx.orionAppendCommsEventSecure_(
+    { ...event, type: 'envio_confirmado_manual' }, revoked), /consentimiento revocado/);
+  assert.equal(rows.length, 1);
+  const corrected = ctx.orionAppendCommsEventSecure_(
+    { ...event, type: 'correccion_manual' }, revoked);
+  assert.equal(corrected.duplicate, false);
+  assert.equal(rows[1][8], 'REVOCADO');
+  assert.equal(rows[1][5], 'correccion_manual');
+});
