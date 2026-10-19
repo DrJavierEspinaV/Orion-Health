@@ -87,9 +87,18 @@
 
   @media (max-width:900px) {
     body .crm-sidebar .table .row {
+      display:grid !important;
+      grid-template-columns:repeat(6,minmax(0,1fr)) !important;
       border-radius:9px !important; box-shadow:none !important;
       margin:0 0 5px !important;
     }
+    /* Tres franjas por paciente: identificación, cita y estado/motivo. */
+    body .crm-sidebar .table .row > .patient-main { grid-column:1/-1 !important; }
+    body .crm-sidebar .table .row > .patient-run { grid-column:span 3 !important; }
+    body .crm-sidebar .table .row > .patient-date { grid-column:span 2 !important; }
+    body .crm-sidebar .table .row > .patient-time { grid-column:span 1 !important; }
+    body .crm-sidebar .table .row > .patient-status { grid-column:span 2 !important; }
+    body .crm-sidebar .table .row > .patient-motive { grid-column:span 4 !important; }
     body .crm-sidebar .table .row > div {
       padding:5px 6px !important; font-size:10px !important; line-height:1.15 !important;
     }
@@ -97,7 +106,7 @@
     body .crm-sidebar .table .row .wa-row-line a.btn.whatsapp.wa-action {
       width:auto !important; max-width:120px !important; min-height:28px !important;
     }
-    body .crm-sidebar .table .row > div:nth-child(6) { grid-column:1/-1 !important; }
+    body .crm-sidebar .table .row > div:nth-child(6) { grid-column:span 4 !important; }
     body .crm-sidebar .table .row > div[class^="patient-"]:not(.patient-main)::before {
       margin-bottom:1px !important; font-size:8px !important;
     }
