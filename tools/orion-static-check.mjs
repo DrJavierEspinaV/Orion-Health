@@ -131,12 +131,12 @@ includesAll('Comunicaciones acceso opcional',secureSession,[
   "if(!token){",
   'openModal()',
   'orionDriveReconnect',
-  'Sin conexión a Drive. Pulsa',
+  'Sin conexión a Drive. La agenda requiere sesión autorizada.',
   'Acceso a Drive cerrado. El módulo sigue disponible'
 ]);
 if(secureSession.includes('setTimeout(()=>openModal(),250)'))
   failures.push('Comunicaciones no debe mostrar modal de clave al iniciar sin sesión.');
-if(!read('modules/comunicaciones/loader.js').includes('session-config.js?v=5.7.9'))
+if(!read('modules/comunicaciones/loader.js').includes('session-config.js?v=5.7.12'))
   failures.push('Comunicaciones debe cargar versión actualizada de acceso opcional.');
 if(!read('modules/comunicaciones/loader.js').includes('communications-priority-layout.js?v=5.7.9'))
   failures.push('Comunicaciones debe actualizar su controlador responsive.');
