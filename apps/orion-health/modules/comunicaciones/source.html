@@ -1696,8 +1696,9 @@ function render(){
         const freshMsg = buildMessage(r, estadoLabel, tipoActual, minutosActuales);
         const freshUrl = buildWaUrl(phone, freshMsg);
         btn.setAttribute('href', freshUrl);
-        btn.textContent = 'Enviando…';
-        setTimeout(()=>{ btn.textContent='Enviado'; btn.classList.add('sent'); }, 300);
+        // Abrir WhatsApp no acredita entrega ni envío del mensaje.
+        btn.textContent = 'Abrir WhatsApp';
+        btn.title = 'El envío debe confirmarse en WhatsApp; ORION no verifica su entrega.';
         if(tipoActual){
           setTimeout(()=>{
             retrasoWhatsappKeys.delete(retrasoKey);
