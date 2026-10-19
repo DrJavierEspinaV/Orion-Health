@@ -3,6 +3,8 @@
 
   const TOKEN_KEY='orion_comunicaciones_token';
   const AUTOLOAD_DELAY_MS=500;
+  const CREDENTIAL_ID='orion-clinical-drive';
+  let browserStoreRequested=false;
 
   const session={
     get(key){try{return sessionStorage.getItem(key)||'';}catch(_){return'';}},
@@ -54,7 +56,7 @@
     });
     if(e.token){
       e.token.type='password';
-      e.token.autocomplete='off';
+      e.token.autocomplete='current-password';
       e.token.value=session.get(TOKEN_KEY);
       e.token.dataset.orionSessionKey=TOKEN_KEY;
       e.token.addEventListener('input',()=>session.set(TOKEN_KEY,e.token.value));
@@ -80,7 +82,7 @@
     modal.id='orionDriveModal';
     modal.className='orion-drive-modal';
     modal.hidden=true;
-    modal.innerHTML=`<div class="orion-drive-dialog" role="group" aria-labelledby="orionDriveModalTitle"><h2 id="orionDriveModalTitle">Conectar base clínica</h2><p>La clave no se guarda en GitHub ni se incorpora a la dirección web. Se conserva únicamente durante esta sesión del navegador.</p><label for="orionDriveTokenInput" style="display:block;font-size:12px;font-weight:800;color:#475569;margin-bottom:6px">Clave de acceso ORION</label><input class="orion-drive-input" id="orionDriveTokenInput" type="password" autocomplete="off" placeholder="Clave vigente"><div class="orion-drive-error" id="orionDriveModalError"></div><div class="orion-drive-dialog-actions"><button class="orion-drive-btn primary" id="orionDriveConnectNow" type="button">Conectar ahora</button><button class="orion-drive-btn" id="orionDriveCancel" type="button">Cancelar</button></div></div>`;
+    modal.innerHTML=`<div class="orion-drive-dialog" role="group" aria-labelledby="orionDriveModalTitle"><h2 id="orionDriveModalTitle">Conectar base clínica</h2><p>La clave solo se conserva en esta sesión, salvo que autorices recordarla en el gestor seguro del navegador.</p><label for="orionDriveTokenInput" style="display:block;font-size:12px;font-weight:800;color:#475569;margin-bottom:6px">Clave de acceso ORION</label><input class="orion-drive-input" id="orionDriveTokenInput" type="password" autocomplete="current-password" placeholder="Clave vigente"><label style="display:flex;align-items:flex-start;gap:7px;margin-top:9px;font-size:11px;color:#475569"><input id="orionDriveRememberBrowser" type="checkbox" style="margin-top:2px">Recordar acceso con el gestor seguro del navegador (opcional)</label><div class="orion-drive-error" id="orionDriveModalError"></div><div class="orion-drive-dialog-actions"><button class="orion-drive-btn primary" id="orionDriveConnectNow" type="button">Conectar ahora</button><button class="orion-drive-btn" id="orionDriveCancel" type="button">Cancelar</button></div></div>`;
     // Inline, dentro del panel de fuentes: nunca fuera de la ventana cuando el iframe crece.
     (document.getElementById('orionDriveStatusCard')||document.body).appendChild(modal);
     return modal;
@@ -117,6 +119,26 @@
     return true;
   }
 
+  async function saveToBrowserManager(token){
+    try{
+      if(!token || !navigator.credentials?.create || !navigator.credentials?.store)return;
+      const credential=await navigator.credentials.create({password:{id:CREDENTIAL_ID,password:token,name:'ORION Drive'}});
+      if(credential)await navigator.credentials.store(credential);
+    }catch(_){/* Sin soporte o usuario rechazó guardar: sesión normal. */}
+  }
+
+  async function restoreBrowserManager(e){
+    try{
+      if(!navigator.credentials?.get)return;
+      const credential=await navigator.credentials.get({password:true,mediation:'silent'});
+      if(!credential || credential.id!==CREDENTIAL_ID || !credential.password)return;
+      if(session.get(TOKEN_KEY))return;
+      applyToken(credential.password,e);
+      setStatus('connecting','Acceso seguro recuperado. Cargando pacientes…');
+      connect(e);
+    }catch(_){/* El acceso sigue cerrado sin pedir clave automáticamente. */}
+  }
+
   function connect(e,{pingFirst=false}={}){
     const token=String(e.token?.value||session.get(TOKEN_KEY)||'').trim();
     if(!token){setStatus('', 'Base clínica sin conectar. Puedes trabajar sin abrir Drive.');openModal();return;}
@@ -133,6 +155,13 @@
       const value=String(e.status.textContent||'').trim();
       if(!value)return;
       if(/error|fall|invál|incorrect|deneg|token|permiso|no se pudo/i.test(value))setStatus('error',value);
+      else if(/✅ BD cargada:\s*\d+\s+filas/i.test(value)){
+        setStatus('ready',value);
+        if(browserStoreRequested){
+          browserStoreRequested=false;
+          saveToBrowserManager(String(e.token?.value||'').trim());
+        }
+      }
       else if(/cargad|conectad|ok|éxito|listo|paciente/i.test(value))setStatus('ready',value);
       else if(/cargando|conectando|leyendo|consultando/i.test(value))setStatus('connecting',value);
     };
@@ -154,6 +183,8 @@
     document.getElementById('orionDriveForget')?.addEventListener('click',()=>{
       session.remove(TOKEN_KEY);
       e.token.value='';
+      browserStoreRequested=false;
+      try{navigator.credentials?.preventSilentAccess?.().catch(()=>{});}catch(_){}
       if(e.status)e.status.textContent='';
       setStatus('', 'Acceso a Drive cerrado. El módulo sigue disponible sin conexión.');
       closeModal();
@@ -163,6 +194,7 @@
       const error=document.getElementById('orionDriveModalError');
       const token=String(input?.value||'').trim();
       if(!token){if(error)error.textContent='Ingresa la clave vigente.';return;}
+      browserStoreRequested=Boolean(document.getElementById('orionDriveRememberBrowser')?.checked);
       applyToken(token,e);closeModal();connect(e,{pingFirst:true});
     });
     document.getElementById('orionDriveCancel')?.addEventListener('click',closeModal);
@@ -170,7 +202,10 @@
 
     const active=session.get(TOKEN_KEY);
     if(active){applyToken(active,e);setStatus('connecting','Acceso reconocido. Actualizando pacientes…');setTimeout(()=>connect(e),AUTOLOAD_DELAY_MS);}
-    else{setStatus('','Sin conexión a Drive. Pulsa “Conectar base clínica” solo cuando necesites consultar pacientes.');}
+    else{
+      setStatus('','Sin conexión a Drive. La agenda requiere sesión autorizada.');
+      restoreBrowserManager(e);
+    }
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
