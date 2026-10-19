@@ -34,6 +34,37 @@ function orionSafeId_(value, label, minLen, maxLen) {
   return s;
 }
 
+// El orden de este esquema corresponde a COMMS_EVENTOS!A1:L1.
+var ORION_COMMS_EVENT_HEADERS_ = [
+  'EVENT_ID', 'FECHA_SERVIDOR_UTC', 'RUN_PACIENTE', 'CITA_ID',
+  'CANAL', 'TIPO_EVENTO', 'ORIGEN_CONFIRMACION', 'USUARIO_ID',
+  'CONSENTIMIENTO_CANAL', 'MENSAJE_HASH_SHA256', 'REFERENCIA_EVENTO',
+  'VERSION_ESQUEMA'
+];
+
+function orionAssertCommsSchema_(sheet) {
+  // Rechazo explícito antes de appendRow; nunca rellenar columnas desplazadas.
+  var actual = sheet.getRange(1, 1, 1, ORION_COMMS_EVENT_HEADERS_.length).getValues()[0];
+  for (var i = 0; i < ORION_COMMS_EVENT_HEADERS_.length; i++) {
+    if (String(actual[i] || '') !== ORION_COMMS_EVENT_HEADERS_[i]) {
+      throw new Error('Esquema COMMS_EVENTOS incompatible; escritura detenida');
+    }
+  }
+}
+
+function orionAssertCommsDuplicate_(previous, incoming) {
+  // Idempotencia estricta: misma referencia + mismo evento y mismo profesional.
+  // Nunca informar éxito para otra cita/paciente o un evento de diferente tipo.
+  var indices = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  for (var i = 0; i < indices.length; i++) {
+    var column = indices[i];
+    if (String(previous[column] == null ? '' : previous[column]) !==
+        String(incoming[column] == null ? '' : incoming[column])) {
+      throw new Error('Referencia de evento reutilizada con contenido diferente');
+    }
+  }
+}
+
 /**
  * @param {{run:string, appointmentId:string, channel:string, type:string,
  *   requestId:string, messageSha256?:string}} event
@@ -71,6 +102,11 @@ function orionAppendCommsEventSecure_(event, actor) {
   if (['VERIFICADO', 'NO_VERIFICADO', 'REVOCADO'].indexOf(consent) < 0) {
     throw new Error('Estado de consentimiento inválido');
   }
+  // No autorizar nuevos intentos salientes después de una revocación conocida.
+  if (consent === 'REVOCADO' &&
+      (type === 'enlace_seleccionado' || type === 'envio_confirmado_manual')) {
+    throw new Error('Comunicaciones salientes bloqueadas por consentimiento revocado');
+  }
   var hash = String(event.messageSha256 || '').toLowerCase();
   if (hash && !/^[a-f0-9]{64}$/.test(hash)) throw new Error('Hash de mensaje inválido');
 
@@ -82,23 +118,27 @@ function orionAppendCommsEventSecure_(event, actor) {
   var lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
+    // Todo control debe pasar con el bloqueo adquirido; no se escribe si el esquema cambia.
+    orionAssertCommsSchema_(sheet);
+    var row = [
+      Utilities.getUuid(), new Date().toISOString(), run, cita, channel, type,
+      'OPERADOR_MANUAL', userId, consent, hash, requestId, '1.0'
+    ];
     // Referencia idempotente para impedir eventos duplicados por reintentos.
     var last = sheet.getLastRow();
     if (last >= 2) {
       var refs = sheet.getRange(2, 11, last - 1, 1).getValues();
       for (var i = refs.length - 1; i >= 0; i--) {
         if (String(refs[i][0]) === requestId) {
-          var existing = sheet.getRange(i + 2, 1, 1, 2).getValues()[0];
+          var existing = sheet.getRange(i + 2, 1, 1, 12).getValues()[0];
+          orionAssertCommsDuplicate_(existing, row);
           return {eventId: String(existing[0]), duplicate: true, serverTimestamp: String(existing[1])};
         }
       }
     }
-    var eventId = Utilities.getUuid();
-    var at = new Date().toISOString();
-    sheet.appendRow([
-      eventId, at, run, cita, channel, type,
-      'OPERADOR_MANUAL', userId, consent, hash, requestId, '1.0'
-    ]);
+    var eventId = row[0];
+    var at = row[1];
+    sheet.appendRow(row);
     SpreadsheetApp.flush();
     return {eventId: eventId, duplicate: false, serverTimestamp: at};
   } finally {
