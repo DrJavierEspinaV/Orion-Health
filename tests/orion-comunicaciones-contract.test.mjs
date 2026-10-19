@@ -70,3 +70,25 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.js/);
   assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.css/);
 });
+
+test('Comunicaciones: campañas restringidas por consentimiento promocional explícito', () => {
+  const src = read('modules/comunicaciones/source.html');
+  const patients = read('modules/comunicaciones/script-1-part-5.js');
+  const listing = read('modules/comunicaciones/script-1-part-6.js');
+  const manual = read('modules/comunicaciones/script-1-part-7.js');
+  for (const code of [src, patients]) {
+    assert.match(code, /consentimientoPromociones/);
+    assert.match(code, /Consentimiento Promociones/);
+  }
+  for (const code of [src, listing]) {
+    assert.match(code, /promocionBloqueada/);
+    assert.match(code, /Promoción bloqueada: consentimiento no registrado/);
+  }
+  for (const code of [src, manual]) {
+    assert.match(code, /El contacto manual carece de consentimiento promocional registrado/);
+    assert.match(code, /event\.preventDefault\(\)/);
+    assert.match(code, /manualOpenEl\.removeAttribute\('href'\)/);
+  }
+  assert.match(src, /addEventListener\('change', render\)/);
+  assert.match(read('modules/comunicaciones/script-1-part-2.js'), /addEventListener\('change', render\)/);
+});
