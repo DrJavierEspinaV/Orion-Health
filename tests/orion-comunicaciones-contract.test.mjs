@@ -92,3 +92,29 @@ test('Comunicaciones: campañas restringidas por consentimiento promocional expl
   assert.match(src, /addEventListener\('change', render\)/);
   assert.match(read('modules/comunicaciones/script-1-part-2.js'), /addEventListener\('change', render\)/);
 });
+
+test('Comunicaciones V5.7.12: lista compacta y acciones de seguimiento plegables', () => {
+  const css = read('modules/comunicaciones/audit-session-v1.css');
+  const audit = read('modules/comunicaciones/audit-session-v1.js');
+  const loader = read('modules/comunicaciones/loader.js');
+  assert.match(css, /max-width:120px !important/);
+  assert.match(css, /grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
+  assert.match(css, /min-height:28px !important/);
+  assert.match(audit, /document\.createElement\('details'\)/);
+  assert.match(audit, /Opciones de seguimiento/);
+  assert.match(audit, /actions\.append\(sent, response, undo\)/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.1/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.1/);
+});
+
+test('Drive: recuperación optativa sin contraseña pública ni almacenamiento local permanente', () => {
+  const code = read('assets/shared/session-config.js');
+  assert.match(code, /mediation:'silent'/);
+  assert.match(code, /navigator\.credentials\.get/);
+  assert.match(code, /navigator\.credentials\.store/);
+  assert.match(code, /orionDriveRememberBrowser/);
+  assert.match(code, /restoreBrowserManager\(e\)/);
+  assert.match(code, /if\(active\)/);
+  assert.match(code, /preventSilentAccess/);
+  assert.doesNotMatch(code, /localStorage\.setItem|const\s+TOKEN\s*=\s*['"][^'"]+['"]/);
+});
