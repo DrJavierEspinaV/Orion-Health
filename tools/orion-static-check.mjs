@@ -157,7 +157,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui11-ux-v2-modules',
+  'orion-dental-app-v1.4.5-health-os-ui12-comms-audit',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
