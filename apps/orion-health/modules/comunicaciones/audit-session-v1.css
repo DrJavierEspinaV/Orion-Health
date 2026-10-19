@@ -64,12 +64,13 @@
     border-radius:7px; cursor:pointer; font-size:16px; line-height:1;
   }
   .wa-row-line .orion-audit-menu > summary::-webkit-details-marker { display:none; }
+  .wa-row-line .orion-audit-menu[open] { flex-basis:100%; }
   .wa-row-line .orion-audit-actions {
-    position:absolute; z-index:40; top:calc(100% + 4px); left:0;
-    display:none; width:max-content; min-width:150px; max-width:195px;
-    padding:6px; margin:0; gap:4px; flex-direction:column;
-    border:1px solid #d4dfe9; border-radius:9px; background:#fff;
-    box-shadow:0 5px 16px rgba(31,63,91,.14);
+    position:static; display:none; box-sizing:border-box;
+    width:100%; min-width:0; max-width:190px;
+    padding:5px; margin-top:4px; gap:3px; flex-direction:column;
+    border:1px solid #d4dfe9; border-radius:8px; background:#fff;
+    box-shadow:none;
   }
   .wa-row-line .orion-audit-menu[open] .orion-audit-actions { display:flex; }
   .wa-row-line .orion-audit-actions .orion-audit-btn {
@@ -106,7 +107,7 @@
     #orionAuditSummary { order:1; flex-basis:100%; }
     #orionAuditToolbar .orion-audit-btn { flex:0 1 auto !important; }
     body .crm-sidebar .table .row .wa-row-line .orion-audit-actions {
-      left:auto; right:0;
+      max-width:100%;
     }
   }
 }
