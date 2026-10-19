@@ -14,7 +14,7 @@ async function addSyntheticRow(frame) {
     row.className = 'row';
     row.innerHTML =
       '<div><div class="paciente-nombre">CASO FICTICIO</div>' +
-      '<div class="wa-row-line"><a class="wa-action" href="#">WhatsApp</a></div></div>' +
+      '<div class="wa-row-line"><a class="btn whatsapp wa-action" href="#">WhatsApp</a></div></div>' +
       '<div>TEST-RUN</div><div>18/10/2026</div><div>12:30</div>' +
       '<div>PENDIENTE</div><div>CONTROL</div>';
     list.appendChild(row);
@@ -25,11 +25,15 @@ test('bitácora ORION distingue apertura, confirmación humana, respuesta y corr
   const frame = await openComms(page);
   await addSyntheticRow(frame);
   const status = frame.locator('.orion-audit-status');
-  await expect(status).toHaveText('Sin registro de comunicación');
+  await expect(status).toBeHidden();
+  const menu = frame.locator('.orion-audit-menu');
+  await expect(menu).toHaveCount(1);
+  await expect(menu).not.toHaveAttribute('open','');
+  await expect(menu.locator('summary')).toBeVisible();
   await expect(frame.locator('.orion-audit-actions button')).toHaveCount(3);
 
   await frame.locator('a.wa-action').click();
-  await expect(status).toContainText('envío sin verificar');
+  await expect(status).toHaveText('Abierto');
   let events = await frame.locator('body').evaluate(() =>
     JSON.parse(sessionStorage.getItem('orion_comunicaciones_bitacora_sesion_v1') || '{}').events || []);
   expect(events).toHaveLength(1);
@@ -38,10 +42,11 @@ test('bitácora ORION distingue apertura, confirmación humana, respuesta y corr
   expect(events[0]).not.toHaveProperty('mensaje');
 
   page.on('dialog', dialog => dialog.accept());
+  await menu.locator('summary').click();
   await frame.getByRole('button', { name: 'Confirmé envío' }).click();
-  await expect(status).toHaveText('Envío confirmado manualmente');
+  await expect(status).toHaveText('Envío manual');
   await frame.getByRole('button', { name: 'Registré respuesta' }).click();
-  await expect(status).toHaveText('Respuesta registrada manualmente');
+  await expect(status).toHaveText('Respondió');
 
   const downloadPromise = page.waitForEvent('download');
   await frame.getByRole('button', { name: 'Exportar bitácora CSV' }).click();
@@ -49,7 +54,7 @@ test('bitácora ORION distingue apertura, confirmación humana, respuesta y corr
   expect(download.suggestedFilename()).toBe('ORION_Comunicaciones_Bitacora_Sesion.csv');
 
   await frame.getByRole('button', { name: 'Corregir' }).click();
-  await expect(status).toContainText('corrección registrada');
+  await expect(status).toHaveText('Corregido');
   events = await frame.locator('body').evaluate(() =>
     JSON.parse(sessionStorage.getItem('orion_comunicaciones_bitacora_sesion_v1') || '{}').events || []);
   expect(events.map(e => e.type)).toEqual([
@@ -62,6 +67,17 @@ test('bitácora móvil respeta ancho y no crea registros automáticamente', asyn
   const frame = await openComms(page);
   await expect(frame.locator('#orionAuditSummary')).toContainText('Sin verificar: 0');
   await addSyntheticRow(frame);
+  await expect(frame.locator('.orion-audit-menu > summary')).toBeVisible();
+  await expect(frame.getByRole('button', { name: 'Confirmé envío' })).toBeHidden();
+  const initial = await frame.locator('#list .row').evaluate(row => ({
+    rowHeight: row.getBoundingClientRect().height,
+    whatsappWidth: row.querySelector('.wa-action').getBoundingClientRect().width,
+    menuOpen: row.querySelector('.orion-audit-menu').open
+  }));
+  expect(initial.whatsappWidth).toBeLessThanOrEqual(130);
+  expect(initial.rowHeight).toBeLessThan(310);
+  expect(initial.menuOpen).toBe(false);
+  await frame.locator('.orion-audit-menu > summary').click();
   await expect(frame.getByRole('button', { name: 'Confirmé envío' })).toBeVisible();
   const saved = await frame.locator('body').evaluate(() => ({
     events: sessionStorage.getItem('orion_comunicaciones_bitacora_sesion_v1'),
