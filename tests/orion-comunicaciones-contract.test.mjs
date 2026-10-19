@@ -54,3 +54,19 @@ test('WhatsApp: abrir un enlace no equivale a mensaje enviado', () => {
     assert.doesNotMatch(code, /btn\.textContent = 'Enviando…'/);
   }
 });
+
+test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo', () => {
+  const js = read('modules/comunicaciones/audit-session-v1.js');
+  const loader = read('modules/comunicaciones/loader.js');
+  const sw = read('service-worker.js');
+  assert.match(loader, /audit-session-v1\.js\?v=1\.0/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.0/);
+  assert.match(js, /sessionStorage\.setItem/);
+  assert.match(js, /confirm\('¿Confirmas que enviaste/);
+  assert.match(js, /respuesta_registrada_manual/);
+  assert.match(js, /correccion_manual/);
+  assert.match(js, /textContent = stateLabel/);
+  assert.doesNotMatch(js, /localStorage\.setItem|fetch\(|XMLHttpRequest|\.send\(/);
+  assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.js/);
+  assert.match(sw, /modules\/comunicaciones\/audit-session-v1\.css/);
+});
