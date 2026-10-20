@@ -11,7 +11,8 @@ test('Comunicaciones: conexión protegida voluntaria', () => {
   const loader = read('modules/comunicaciones/loader.js');
   assert.match(loader, /session-config\.js\?v=5\.7\.17/);
   assert.match(loader, /id="dbToken" type="password"|type="password" id="dbToken"/);
-  assert.match(loader, /if\(!url \|\| !tok\) return;/);
+  assert.doesNotMatch(loader, /if\(!url \|\| !tok\) return;/);
+  assert.match(config, /if\(sapManual\)/);
   assert.match(loader, /\.replace\(\/localStorage\/g,'sessionStorage'\)/);
   assert.doesNotMatch(loader, /ODP-KIDS-2026|sk-proj-|AIza[0-9A-Za-z_-]{20}/);
   assert.match(config, /sessionStorage/);
@@ -32,8 +33,12 @@ test('Comunicaciones: la fuente y el cargador permanecen disponibles', () => {
 
 test('No convertir datos clínicos protegidos en acceso anónimo', () => {
   const loader = read('modules/comunicaciones/loader.js');
-  assert.match(loader, /const tok = .*dbToken/);
-  assert.match(loader, /if\(!url \|\| !tok\) return;/);
+  const source = read('modules/comunicaciones/source.html');
+  const session = read('assets/shared/session-config.js');
+  assert.doesNotMatch(loader, /Actualizando Drive en segundo plano/);
+  // La conexión avanzada conserva su autenticación cuando alguien la solicita.
+  assert.match(source, /if \(!tok\) return alert\('Falta el token\.'\)/);
+  assert.match(session, /if\(!token\)\{setStatus/);
 });
 
 test('Comunicaciones: los enlaces editables se muestran como texto, no HTML', () => {
