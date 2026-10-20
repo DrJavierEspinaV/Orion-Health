@@ -4,7 +4,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 ## Arquitectura vigente
 
-- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.14.
+- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.15.
 - `modules/insumos/` — Insumos V4.5.4.
 - `modules/cmf/` — Clínico CMF V4.3.43.
 - `modules/endodoncia/` — Endodoncia V4.6.3.
@@ -14,13 +14,13 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Comunicaciones Clínicas V5.7.14
+## Comunicaciones Clínicas V5.7.15
 
 - Vista previa de enlaces en texto seguro.
 - WhatsApp no aparece como enviado por el mero hecho de abrir la conversación.
 - Bitácora temporal con confirmación manual, registro de respuesta y corrección, exportable a CSV.
 - Las promociones solo generan enlaces para pacientes cuyo origen de datos declara consentimiento promocional afirmativo explícito. Sin ese dato quedan bloqueadas; la agenda clínica actual no aporta el campo.
-- Lista clínica: nombre prioritario; teléfono, WhatsApp reducido, seguimiento y botón «Acciones» en banda compacta. UDC, retrasos y ETA aparecen al desplegar «Acciones», sin cambiar su comportamiento. Barra de bitácora plegada.
+- Lista clínica: nombre prioritario; teléfono, WhatsApp reducido, seguimiento y botón «Acciones» en banda compacta. UDC permanece visible y diferenciado junto al nombre. «Acciones» contiene únicamente retrasos de llegada/atención y ETA. Barra de bitácora plegada.
 - Acceso recuperable sin repetir clave mediante sesión autorizada o gestor seguro del navegador (cuando es compatible y previamente autorizado); nunca token público.
 - La bitácora local **no** equivale a auditoría clínica permanente ni se sincroniza aún con Google Drive.
 
