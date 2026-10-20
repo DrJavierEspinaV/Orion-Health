@@ -329,7 +329,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
 </style>
 <script src="../../assets/shared/appointment-status.js?v=1.4.5"></script></head>
 
-<body>
+<body data-orion-source="sap-manual">
 <header id="orionHdr">
   <!-- ✅ Si lo publicas en /apps/comunicaciones/, deja los logos dentro de ESTA carpeta o ajusta a ../../assets/... -->
   <img alt="Orion Comunicaciones" src="orion-logo.png"/>
@@ -461,9 +461,9 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
       <div class="card">
         <div class="bar">
           <div>
-            <label class="small">1️⃣ EXCEL-SAP PACIENTES</label>
+            <label class="small">1️⃣ IMPORTAR ARCHIVO SAP</label>
             <input accept=".xlsx,.xls" id="file" type="file"/>
-            <div class="muted" style="font-size:11px"></div>
+            <div class="muted" id="orionSapSourceStatus" role="status" aria-live="polite" style="font-size:11px">Selecciona el archivo Excel exportado de SAP. La agenda no se sincroniza automáticamente.</div>
           </div>
 
           <div class="bdCard">
@@ -636,6 +636,7 @@ Adjunto Documentos.`
 };
 
 let DATA = [];
+let dataSourceMeta = {kind:'none', loadedAt:0, count:0};
 let activeDocumentoRut = '';
 let retrasoWhatsappKeys = new Map();
 let retrasoMinutosKeys = new Map();
@@ -923,11 +924,33 @@ function reviveCacheRows(rows){
   });
 }
 
+function renderSAPSourceStatus(fromCache=false){
+  const status = document.getElementById('orionSapSourceStatus');
+  if(!status)return;
+  const source = dataSourceMeta?.kind || 'none';
+  if(source === 'sap-file'){
+    const at = Number(dataSourceMeta.loadedAt);
+    const when = Number.isFinite(at) && at > 0
+      ? new Date(at).toLocaleString('es-CL', {dateStyle:'short',timeStyle:'short'})
+      : 'fecha no disponible';
+    status.textContent = (fromCache ? 'Último archivo SAP conservado en sesión' : 'Archivo SAP cargado manualmente') +
+      ' · ' + (Number(dataSourceMeta.count)||0) + ' registros · ' + when +
+      '. No hay sincronización automática.';
+  }else if(source === 'drive-manual'){
+    status.textContent = 'Se muestran datos obtenidos por una conexión técnica manual, no un archivo SAP. Para actualizar desde SAP, importa un Excel.';
+  }else if(DATA.length){
+    status.textContent = 'Hay datos anteriores de origen sin verificar. Para garantizar vigencia, importa el archivo SAP actualizado.';
+  }else{
+    status.textContent = 'Selecciona el archivo Excel exportado de SAP. La agenda no se sincroniza automáticamente.';
+  }
+}
+
 function saveCacheState(){
   try{
     const payload = {
       ts: Date.now(),
       data: DATA,
+      dataSourceMeta,
       activeDocumentoRut,
       retrasosWhatsapp: Array.from(retrasoWhatsappKeys.entries()),
       retrasosMinutos: Array.from(retrasoMinutosKeys.entries()),
@@ -950,6 +973,9 @@ function restoreCacheState(){
     if(Date.now() - cache.ts > CACHE_TTL_MS) return false;
 
     DATA = reviveCacheRows(cache.data);
+    dataSourceMeta = cache.dataSourceMeta && typeof cache.dataSourceMeta === 'object'
+      ? cache.dataSourceMeta : {kind:'unknown',loadedAt:0,count:DATA.length};
+    renderSAPSourceStatus(true);
     activeDocumentoRut = cache.activeDocumentoRut || '';
     const retrasosCache = Array.isArray(cache.retrasosWhatsapp) ? cache.retrasosWhatsapp : [];
     retrasoWhatsappKeys = new Map(retrasosCache.map(item => {
@@ -1439,6 +1465,8 @@ async function loadDb_() {
     const rows = Array.isArray(data.rows) ? data.rows : [];
     restoredFromCache = false;
     DATA = rows.map(prepRowFromDb_);
+    dataSourceMeta = {kind:'drive-manual',loadedAt:Date.now(),count:DATA.length};
+    renderSAPSourceStatus();
     poblarEstadosUnicos();
     applyTodayFilter();
     autoScrollFranjaPending = true;
@@ -1507,6 +1535,8 @@ async function onExcel(e){
   const rows = XLSX.utils.sheet_to_json(ws, {defval:""});
   restoredFromCache = false;
   DATA = rows.map(prepRow);
+  dataSourceMeta = {kind:'sap-file',loadedAt:Date.now(),count:DATA.length};
+  renderSAPSourceStatus();
   poblarEstadosUnicos();
   applyTodayFilter();
   autoScrollFranjaPending = true;
@@ -1947,21 +1977,12 @@ document.getElementById('fFechaClear')?.addEventListener('click', ()=>{
   render();
 });
 
-/* ✅ Auto-carga BD al abrir + caché 10 min */
+/* SAP es la fuente operacional: solo importación manual desde Excel.
+   Se admite caché de sesión para retomar una importación anterior,
+   pero nunca se consulta Drive ni se modifica SAP al abrir el módulo. */
 const cacheRestoredOnStart = restoreCacheState();
+renderSAPSourceStatus(cacheRestoredOnStart);
 render();
-
-
-setTimeout(()=>{
-  try{
-    if(cacheRestoredOnStart && Array.isArray(DATA) && DATA.length){
-      return;
-    }
-    const url = (document.getElementById('dbWebappUrl')?.value || '').trim();
-    if(!url) return;
-    loadDb_();
-  }catch(e){}
-}, 350);
 
 setInterval(()=>{
   try{
