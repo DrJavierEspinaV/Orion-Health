@@ -22,6 +22,8 @@ for(const width of [1600,1440,1100,390]) {
       return {
         innerWidth:document.documentElement.clientWidth,
         gridColumns:styles.gridTemplateColumns,
+        display:styles.display,
+        direction:styles.flexDirection,
         editorWidth:editor?.width, agendaWidth:agenda?.width,
         editorTop:editor?.top, agendaTop:agenda?.top,
         editorLeft:editor?.left, agendaLeft:agenda?.left,
@@ -38,6 +40,8 @@ for(const width of [1600,1440,1100,390]) {
       expect(layout.ratio).toBeGreaterThan(0.56);
       expect(layout.ratio).toBeLessThan(0.65);
     }else{
+      expect(layout.display).toBe('flex');
+      expect(layout.direction).toBe('column');
       expect(layout.agendaTop).toBeLessThan(layout.editorTop);
       expect(layout.agendaWidth).toBeLessThanOrEqual(layout.areaWidth+3);
       expect(layout.editorWidth).toBeLessThanOrEqual(layout.areaWidth+3);
