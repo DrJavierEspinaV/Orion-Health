@@ -46,7 +46,7 @@ body.orion-communications-mobile .retraso-wrap,
 body.orion-communications-mobile .retraso-estimado-wrap{flex:0 1 auto!important;max-width:100%!important;}
 body.orion-communications-mobile .paciente-nombre{font-size:14px!important;line-height:1.18!important;}
 body.orion-communications-mobile .wa-row-line{width:100%!important;}
-body.orion-communications-mobile .btn.whatsapp.wa-action{width:100%!important;max-width:none!important;min-height:38px!important;}
+body.orion-communications-mobile .btn.whatsapp.wa-action{width:auto!important;min-width:0!important;max-width:112px!important;min-height:28px!important;padding:5px 9px!important;border-radius:8px!important;box-shadow:none!important;}
 
 /* Mensajes después de la lista y con menos altura/padding. */
 body.orion-communications-mobile .crm-left>.card{padding:10px!important;}
