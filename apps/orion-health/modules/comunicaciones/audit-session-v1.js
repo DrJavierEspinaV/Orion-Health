@@ -174,24 +174,44 @@
     const controls = main.querySelector('.paciente-top');
     const line = main.querySelector('.wa-row-line');
     const phone = main.querySelector(':scope > .muted');
+    const name = main.querySelector('.paciente-nombre');
     if (!line) return;
+
+    // UDC es una selección clínica primaria y permanece siempre junto al nombre.
+    // Trasladar el label original conserva checked, disabled y listeners de UDC.
+    const udc = controls?.querySelector('.udc-wrap');
+    if (name && udc) {
+      const heading = document.createElement('div');
+      heading.className = 'orion-patient-heading';
+      main.insertBefore(heading, name);
+      heading.append(name, udc);
+      udc.classList.add('orion-udc-visible');
+      udc.title = 'UDC · Usar en documento clínico';
+    }
 
     // Se conserva el nodo de cada input y sus listeners originales.
     // No recrear checkboxes: de lo contrario se perdería su comportamiento clínico.
     if (phone) {
       phone.classList.add('orion-patient-phone');
       line.insertBefore(phone, line.firstChild);
+      // La fuente usa dos rótulos cuando falta número; evitar repetir la misma ausencia.
+      if (phone.textContent.trim() === 'Sin teléfono') {
+        const duplicate = Array.from(line.children).find(function (child) {
+          return child !== phone && child.classList.contains('muted') &&
+            child.textContent.trim() === 'Sin número';
+        });
+        if (duplicate) duplicate.remove();
+      }
     }
     if (controls) {
       const details = document.createElement('details');
       details.className = 'orion-clinical-tools';
       const summary = document.createElement('summary');
       summary.className = 'orion-clinical-tools-toggle';
-      const active = !!(row.classList.contains('udc-active') ||
-        row.classList.contains('retraso-active'));
+      const active = row.classList.contains('retraso-active');
       summary.textContent = active ? 'Acciones • activo' : 'Acciones';
-      summary.setAttribute('aria-label', 'Opciones clínicas: UDC y retrasos');
-      summary.title = 'Usar en documento clínico y avisar retrasos';
+      summary.setAttribute('aria-label', 'Opciones de retraso de llegada, retraso de atención y ETA');
+      summary.title = 'Avisos de retraso y tiempo estimado; UDC permanece junto al paciente';
       const identity = [
         cells[1]?.textContent?.trim() || main.querySelector('.paciente-nombre')?.textContent?.trim() || '',
         cells[2]?.textContent?.trim() || '',

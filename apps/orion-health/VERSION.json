@@ -4,7 +4,7 @@
   "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.14",
+    "comunicaciones": "5.7.15",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.14",
-    "summary": "Agenda clínica con nombre prioritario, teléfono y WhatsApp en línea compacta, UDC y retrasos bajo Acciones desplegables, seguimiento intacto.",
-    "persistence": "La bitácora se mantiene temporal en sesión. No cambia el sistema de mensajes ni backend.",
-    "limitations": "No modifica ni elimina autenticación, claves, datos clínicos ni Google Apps Script; se requieren verificaciones visuales en producción."
+    "version": "5.7.15",
+    "summary": "UDC siempre visible junto al nombre; Acciones solo retraso de llegada, retraso de atención y ETA. Agenda con mejor legibilidad y sin duplicar ausencia de teléfono.",
+    "persistence": "No cambia bitácora, conexión, Google Sheets ni información de pacientes.",
+    "limitations": "La publicación y apariencia exacta del equipo del usuario requieren validación posterior al despliegue."
   }
 }

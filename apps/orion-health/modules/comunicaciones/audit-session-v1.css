@@ -265,3 +265,87 @@
     overflow-wrap:anywhere !important; word-break:normal !important;
   }
 }
+
+/* ORH-COM-UX-007 · Jerarquía de ficha en agenda.
+   El RUN y la cita se siguen mostrando; UDC permanece a la vista, acciones secundarias plegadas. */
+@media screen {
+  body .crm-sidebar .table .row > .patient-main {
+    padding:9px 11px !important;
+    justify-content:center !important;
+  }
+  body .crm-sidebar .table .row > div:not(.patient-main) {
+    padding:9px 7px !important;
+    line-height:1.35 !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading {
+    display:flex !important;
+    width:100%; min-width:0;
+    flex-wrap:wrap; align-items:center;
+    justify-content:space-between;
+    gap:5px 10px; margin:0 0 5px;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .paciente-nombre {
+    flex:1 1 170px; min-width:0; width:auto !important;
+    font-size:12.8px !important; font-weight:800 !important;
+    line-height:1.28 !important;
+    margin:0 !important; overflow-wrap:anywhere;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .udc-wrap.orion-udc-visible {
+    display:inline-flex !important; flex:0 0 auto !important;
+    align-items:center !important; justify-content:center !important;
+    min-height:29px !important; padding:5px 8px !important; margin:0 !important;
+    border:1.5px solid #39719f !important;
+    background:#eaf3fb !important; color:#124b79 !important;
+    border-radius:7px !important;
+    box-shadow:none !important;
+    white-space:nowrap !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .udc-wrap.orion-udc-visible .udc-label {
+    color:#124b79 !important; font-size:10px !important; letter-spacing:.1px;
+    font-weight:900 !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .udc-wrap.orion-udc-visible .udc-check {
+    width:15px !important; height:15px !important;
+    accent-color:#145b87 !important; cursor:pointer;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .udc-wrap.orion-udc-visible.active,
+  body .crm-sidebar .table .row.udc-active .orion-patient-heading .udc-wrap.orion-udc-visible {
+    background:#145b87 !important; border-color:#0c456c !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .udc-wrap.orion-udc-visible.active .udc-label,
+  body .crm-sidebar .table .row.udc-active .orion-patient-heading .udc-wrap.orion-udc-visible .udc-label {
+    color:white !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line {
+    gap:5px 9px !important; margin-top:0 !important;
+    row-gap:5px !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line .orion-patient-phone {
+    font-size:10.5px !important; line-height:1.4 !important;
+    padding:0 !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line a.btn.whatsapp.wa-action {
+    font-size:10px !important; font-weight:800 !important;
+    min-height:29px !important; max-height:34px !important;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools > summary {
+    padding:6px 9px !important; min-height:29px !important;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools:not([open]) > .paciente-top {
+    display:none !important;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools .udc-wrap { display:none !important; }
+}
+@media screen and (max-width:900px) {
+  body .crm-sidebar .table .row {margin:0 0 8px !important;}
+  body .crm-sidebar .table .row > .patient-main {padding:10px 11px !important;}
+  body .crm-sidebar .table .row > div:not(.patient-main) {
+    padding:8px 10px !important; min-height:30px !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading {
+    gap:7px; margin-bottom:7px;
+  }
+  body .crm-sidebar .table .row .orion-patient-heading .paciente-nombre {
+    font-size:13px !important; line-height:1.3 !important;
+  }
+}
