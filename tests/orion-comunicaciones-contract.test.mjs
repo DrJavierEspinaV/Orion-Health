@@ -60,7 +60,7 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   const loader = read('modules/comunicaciones/loader.js');
   const sw = read('service-worker.js');
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.4/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
   assert.match(js, /sessionStorage\.setItem/);
   assert.match(js, /confirm\('¿Confirmas que enviaste/);
   assert.match(js, /respuesta_registrada_manual/);
@@ -103,7 +103,7 @@ test('Comunicaciones V5.7.12: lista compacta y acciones de seguimiento plegables
   assert.match(audit, /document\.createElement\('details'\)/);
   assert.match(audit, /Opciones de seguimiento/);
   assert.match(audit, /actions\.append\(sent, response, undo\)/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.4/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
 });
 
@@ -149,7 +149,7 @@ test('Comunicaciones V5.7.14: acciones clínicas agrupadas y sin pérdida de nod
   assert.match(css, /orion-clinical-tools/);
   assert.match(css, /orion-patient-phone/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.4/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
 });
 
 test('Comunicaciones V5.7.15: UDC se mantiene visible al lado del nombre', () => {
@@ -164,5 +164,26 @@ test('Comunicaciones V5.7.15: UDC se mantiene visible al lado del nombre', () =>
   assert.match(css, /orion-patient-heading/);
   assert.match(css, /orion-udc-visible/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.4/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
+});
+
+test('Comunicaciones V5.7.16: resumen sin duplicar filtros clínicos', () => {
+  const source = read('modules/comunicaciones/source.html');
+  const rendering = read('modules/comunicaciones/script-1-part-6.js');
+  const events = read('modules/comunicaciones/script-1-part-7.js');
+  const css = read('modules/comunicaciones/audit-session-v1.css');
+  assert.match(source, /id="orionAgendaCount"/);
+  assert.match(source, /id="orionAgendaClearFilters"/);
+  assert.match(source, /id="orionAgendaEmpty"/);
+  for (const s of [source, rendering]) {
+    assert.match(s, /filtered\.length \+ ' de ' \+ DATA\.length \+ ' citas'/);
+    assert.match(s, /No hay citas que coincidan con estos filtros/);
+    assert.match(s, /No hay citas cargadas todavía/);
+  }
+  for (const s of [source, events]) {
+    assert.match(s, /getElementById\('orionAgendaClearFilters'\)/);
+    assert.match(s, /clearDateFilterState\(\)/);
+  }
+  assert.match(css, /orion-agenda-feedback/);
+  assert.match(css, /orion-agenda-feedback \[hidden\]/);
 });

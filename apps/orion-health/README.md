@@ -4,7 +4,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 ## Arquitectura vigente
 
-- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.15.
+- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.16.
 - `modules/insumos/` — Insumos V4.5.4.
 - `modules/cmf/` — Clínico CMF V4.3.43.
 - `modules/endodoncia/` — Endodoncia V4.6.3.
@@ -14,7 +14,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Comunicaciones Clínicas V5.7.15
+## Comunicaciones Clínicas V5.7.16
 
 - Vista previa de enlaces en texto seguro.
 - WhatsApp no aparece como enviado por el mero hecho de abrir la conversación.

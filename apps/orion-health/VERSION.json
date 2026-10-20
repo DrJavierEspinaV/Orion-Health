@@ -4,7 +4,7 @@
   "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.15",
+    "comunicaciones": "5.7.16",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.15",
-    "summary": "UDC siempre visible junto al nombre; Acciones solo retraso de llegada, retraso de atención y ETA. Agenda con mejor legibilidad y sin duplicar ausencia de teléfono.",
-    "persistence": "No cambia bitácora, conexión, Google Sheets ni información de pacientes.",
-    "limitations": "La publicación y apariencia exacta del equipo del usuario requieren validación posterior al despliegue."
+    "version": "5.7.16",
+    "summary": "Agenda: contador de citas visibles y totales, estados sin coincidencias vs. sin datos, botón único Limpiar filtros. Se mantiene UDC visible y diseño V5.7.15.",
+    "persistence": "Sin cambios en pacientes, caché de datos, credenciales, APIs ni bitácora clínica.",
+    "limitations": "Despliegue público pendiente de comprobación visual real."
   }
 }

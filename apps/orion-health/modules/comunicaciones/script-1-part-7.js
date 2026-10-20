@@ -88,6 +88,19 @@ manualOpenEl?.addEventListener('click', (event)=>{
 document.getElementById('file').addEventListener('change', onExcel);
 document.getElementById('showFilter').addEventListener('change', render);
 document.getElementById('q').addEventListener('input', render);
+document.getElementById('orionAgendaClearFilters')?.addEventListener('click', () => {
+  const search = document.getElementById('q');
+  const status = document.getElementById('showFilter');
+  const from = document.getElementById('fFechaFrom');
+  const to = document.getElementById('fFechaTo');
+  if (search) search.value = '';
+  if (status) status.value = '__todos__';
+  if (from) from.value = '';
+  if (to) to.value = '';
+  clearDateFilterState();
+  render();
+  search?.focus();
+});
 document.getElementById('export').addEventListener('click', copyLinks);
 document.getElementById('copiarMensaje').addEventListener('click', ()=>{
   const m = ($('#mensajeTipo').value||'').trim();

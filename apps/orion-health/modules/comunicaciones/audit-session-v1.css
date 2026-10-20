@@ -349,3 +349,42 @@
     font-size:13px !important; line-height:1.3 !important;
   }
 }
+
+/* ORH-COM-UX-008 · Orientación de búsqueda sin alterar la agenda existente. */
+@media screen {
+  body .orion-agenda-feedback {
+    box-sizing:border-box;
+    display:flex; flex-wrap:wrap; align-items:center; gap:5px 9px;
+    margin:5px 0 7px; padding:7px 10px;
+    border:1px solid #dce6ed; border-radius:9px;
+    background:#f8fafc; color:#29465d;
+    font:650 11px/1.35 Montserrat,Arial,sans-serif;
+  }
+  body .orion-agenda-feedback [hidden] { display:none !important; }
+  body #orionAgendaCount {font-weight:800; color:#1f3f5b;}
+  body #orionAgendaFilterHint {
+    display:inline-flex; color:#61748a;
+    padding:2px 6px; border-radius:6px;
+    background:#e9f1f7; font-size:10px;
+  }
+  body .orion-agenda-feedback .orion-agenda-clear {
+    display:inline-flex; align-items:center; justify-content:center;
+    margin-left:auto; padding:4px 8px;
+    border:1px solid #afc2d3; border-radius:7px; background:#fff;
+    color:#1f3f5b; cursor:pointer;
+    font:700 10px/1.25 Montserrat,Arial,sans-serif;
+    min-height:27px;
+  }
+  body .orion-agenda-feedback .orion-agenda-clear:hover {background:#eaf2f8;}
+  body .orion-agenda-feedback .orion-agenda-clear:focus-visible {
+    outline:2px solid #145b87; outline-offset:2px;
+  }
+  body #orionAgendaEmpty {
+    flex-basis:100%; color:#64748b;
+    font-size:11px; line-height:1.4; font-weight:500;
+  }
+  @media(max-width:640px) {
+    body .orion-agenda-feedback {padding:7px 8px;}
+    body .orion-agenda-feedback .orion-agenda-clear {margin-left:0;}
+  }
+}
