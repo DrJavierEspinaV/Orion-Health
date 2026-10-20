@@ -4,7 +4,7 @@
   "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.16",
+    "comunicaciones": "5.7.17",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.16",
-    "summary": "Agenda: contador de citas visibles y totales, estados sin coincidencias vs. sin datos, botón único Limpiar filtros. Se mantiene UDC visible y diseño V5.7.15.",
-    "persistence": "Sin cambios en pacientes, caché de datos, credenciales, APIs ni bitácora clínica.",
-    "limitations": "Despliegue público pendiente de comprobación visual real."
+    "version": "5.7.17",
+    "summary": "SAP es la fuente de pacientes mediante exportación manual Excel. Importador SAP prioritario, última carga visible y caché identificada. Sin auto-refresco desde Drive.",
+    "persistence": "Caché local de sesión para reabrir datos previamente importados; sin sincronización automática SAP ni Drive.",
+    "limitations": "Drive permanece como configuración técnica opcional, exclusivamente de ejecución manual. No se solicita contraseña en el flujo habitual SAP."
   }
 }
