@@ -6,7 +6,7 @@
     "portal": "1.4.5",
     "comunicaciones": "5.7.19",
     "insumos": "4.5.4",
-    "cmf": "4.3.43",
+    "cmf": "4.3.44",
     "endodoncia": "4.6.3",
     "ortodoncia": "1.2.1",
     "odontopediatria": "1.5.2",
@@ -22,11 +22,9 @@
   "standalone_status": "Armonización conserva orion-armonizacion-v2.1.0; portal usa orion-dental-app-v1.4.5",
   "output_status": "Hilos genera un informe carta independiente con registro, mapa final, trazabilidad, consentimiento e indicaciones posteriores",
   "cmf_update": {
-    "status": "Estados de Excel/Drive conservados sin convertir Citado en Ausente",
-    "interconsultation": "Generar y Cerrar en cabecera",
-    "templates": "Postquirúrgicos 1 g, corticoides excluyentes, profilaxis EI selectiva y nuevas indicaciones para alveolitis seca/húmeda; sin antibioticoterapia automática.",
-    "legacy_clinical_checklist": "Suspendido por solicitud del usuario; firma, folio, trazabilidad y validación del cálculo pediátrico conservados",
-    "clinical_review": "Indicaciones editables de alveolitis con reevaluación odontológica, signos de alarma, manejo local y antibioticoterapia restringida a infección diseminada/sistémica o alto riesgo."
+    "version": "4.3.44",
+    "scope": "Exclusivamente UI de pantalla: logotipo Maxilofacial PRO+ más grande, marca de agua y tres espacios Datos / Tipo / Receta e indicaciones.",
+    "medical_engine": "Sin alteraciones de dosis, indicaciones, plantillas, firma, folios ni impresión Statement."
   },
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
