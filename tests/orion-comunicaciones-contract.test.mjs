@@ -59,8 +59,8 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   const js = read('modules/comunicaciones/audit-session-v1.js');
   const loader = read('modules/comunicaciones/loader.js');
   const sw = read('service-worker.js');
-  assert.match(loader, /audit-session-v1\.js\?v=1\.1/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.1/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.2/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.2/);
   assert.match(js, /sessionStorage\.setItem/);
   assert.match(js, /confirm\('¿Confirmas que enviaste/);
   assert.match(js, /respuesta_registrada_manual/);
@@ -103,8 +103,8 @@ test('Comunicaciones V5.7.12: lista compacta y acciones de seguimiento plegables
   assert.match(audit, /document\.createElement\('details'\)/);
   assert.match(audit, /Opciones de seguimiento/);
   assert.match(audit, /actions\.append\(sent, response, undo\)/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.1/);
-  assert.match(loader, /audit-session-v1\.js\?v=1\.1/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.2/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.2/);
 });
 
 test('Drive: recuperación optativa sin contraseña pública ni almacenamiento local permanente', () => {
@@ -117,4 +117,21 @@ test('Drive: recuperación optativa sin contraseña pública ni almacenamiento l
   assert.match(code, /if\(active\)/);
   assert.match(code, /preventSilentAccess/);
   assert.doesNotMatch(code, /localStorage\.setItem|const\s+TOKEN\s*=\s*['"][^'"]+['"]/);
+});
+
+test('Comunicaciones V5.7.13: ningún estilo original agranda el botón de WhatsApp', () => {
+  const responsive = read('modules/comunicaciones/responsive-fixes.css');
+  const mobile = read('modules/comunicaciones/mobile-v142.css');
+  const source = read('modules/comunicaciones/source.html');
+  const audit = read('modules/comunicaciones/audit-session-v1.js');
+  const loader = read('modules/comunicaciones/loader.js');
+  assert.doesNotMatch(responsive, /\.btn\.whatsapp\.wa-action\{width:100% !important/);
+  assert.doesNotMatch(mobile, /\.btn\.whatsapp\.wa-action\{width:100%!important/);
+  assert.match(source, /max-width:112px !important/);
+  assert.match(audit, /function enforceWhatsAppCompact/);
+  assert.match(audit, /action\.style\.setProperty\(key, values\[key\], 'important'\)/);
+  assert.match(audit, /document\.createElement\('details'\)/);
+  assert.match(audit, /orion-audit-toolbar-toggle/);
+  assert.match(loader, /responsive-fixes\.css\?v=1\.4\.6/);
+  assert.match(loader, /mobile-v142\.css\?v=1\.4\.6/);
 });
