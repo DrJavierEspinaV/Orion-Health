@@ -1,10 +1,10 @@
 {
   "product": "ORION Dental App",
   "version": "1.4.5-final-piloto",
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.12",
+    "comunicaciones": "5.7.13",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.12",
-    "summary": "Restitución de lista compacta, WhatsApp pequeño y seguimiento agrupado en menú opcional. Acceso automático desde sesión o gestor seguro de contraseñas cuando el navegador lo permite.",
-    "persistence": "Bitácora temporal de sesión sin modificar mensajes ni base clínica.",
-    "limitations": "Acceso continuo sin introducir clave requiere credencial autorizada existente o SSO servidor, no se publica token ni se permite acceso sin autenticación."
+    "version": "5.7.13",
+    "summary": "WhatsApp compacto desde CSS original y refuerzo de interfaz; barra de seguimiento plegada. Filas clínicas reducidas en escritorio y móvil.",
+    "persistence": "Sin cambio en agenda, bitácora ni conexión Google Drive.",
+    "limitations": "Interfaz corregida sin modificar autenticación. Acceso a la base requiere sesión autorizada existente."
   }
 }
