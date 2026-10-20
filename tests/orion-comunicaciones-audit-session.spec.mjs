@@ -48,6 +48,7 @@ test('bitácora ORION distingue apertura, confirmación humana, respuesta y corr
   await frame.getByRole('button', { name: 'Registré respuesta' }).click();
   await expect(status).toHaveText('Respondió');
 
+  await frame.locator('#orionAuditToolbar > summary').click();
   const downloadPromise = page.waitForEvent('download');
   await frame.getByRole('button', { name: 'Exportar bitácora CSV' }).click();
   const download = await downloadPromise;
@@ -66,16 +67,20 @@ test('bitácora móvil respeta ancho y no crea registros automáticamente', asyn
   await page.setViewportSize({ width: 390, height: 844 });
   const frame = await openComms(page);
   await expect(frame.locator('#orionAuditSummary')).toContainText('Sin verificar: 0');
+  await expect(frame.locator('#orionAuditToolbar')).not.toHaveAttribute('open','');
+  await expect(frame.getByRole('button', { name: 'Exportar bitácora CSV' })).toBeHidden();
   await addSyntheticRow(frame);
   await expect(frame.locator('.orion-audit-menu > summary')).toBeVisible();
   await expect(frame.getByRole('button', { name: 'Confirmé envío' })).toBeHidden();
   const initial = await frame.locator('#list .row').evaluate(row => ({
     rowHeight: row.getBoundingClientRect().height,
     whatsappWidth: row.querySelector('.wa-action').getBoundingClientRect().width,
+    whatsappHeight: row.querySelector('.wa-action').getBoundingClientRect().height,
     menuOpen: row.querySelector('.orion-audit-menu').open
   }));
-  expect(initial.whatsappWidth).toBeLessThanOrEqual(130);
-  expect(initial.rowHeight).toBeLessThan(310);
+  expect(initial.whatsappWidth).toBeLessThanOrEqual(118);
+  expect(initial.whatsappHeight).toBeLessThanOrEqual(36);
+  expect(initial.rowHeight).toBeLessThan(245);
   expect(initial.menuOpen).toBe(false);
   await frame.locator('.orion-audit-menu > summary').click();
   await expect(frame.getByRole('button', { name: 'Confirmé envío' })).toBeVisible();
@@ -85,4 +90,37 @@ test('bitácora móvil respeta ancho y no crea registros automáticamente', asyn
   }));
   expect(saved.events).toBeNull();
   expect(saved.overflow).toBe(false);
+});
+
+test('el botón de WhatsApp vence estilos heredados incluso con !important', async ({page}) => {
+  await page.setViewportSize({width: 390, height: 844});
+  const frame = await openComms(page);
+  await frame.locator('#list').evaluate(list => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = [
+      '<div class="patient-main">',
+      '<div class="paciente-nombre">CASO SINTÉTICO</div>',
+      '<div class="wa-row-line"><a class="btn whatsapp wa-action" href="#">WhatsApp</a></div>',
+      '</div>',
+      '<div class="patient-run">TEST-RUN</div>',
+      '<div class="patient-date">20-10-2026</div>',
+      '<div class="patient-time">09:00</div>',
+      '<div class="patient-status">Citado</div>',
+      '<div class="patient-motive">CONTROL</div>'
+    ].join('');
+    const action = row.querySelector('a.whatsapp');
+    action.style.setProperty('width','100%','important');
+    action.style.setProperty('height','600px','important');
+    action.style.setProperty('min-height','600px','important');
+    action.style.setProperty('border-radius','999px','important');
+    list.appendChild(row);
+  });
+  const action = frame.locator('#list a.wa-action');
+  await expect(action).toHaveCSS('max-width', '112px');
+  await expect(action).toHaveCSS('max-height', '34px');
+  await expect.poll(async() => action.evaluate(el => {
+    const r=el.getBoundingClientRect();
+    return r.width <= 118 && r.height <= 36 && getComputedStyle(el).borderRadius === '8px';
+  })).toBe(true);
 });
