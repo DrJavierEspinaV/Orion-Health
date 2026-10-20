@@ -335,18 +335,19 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
   <img alt="Orion Comunicaciones" src="orion-logo.png"/>
   <div class="hgroup">
     <h1>Orion Comunicaciones Clínicas <span class="r">®</span> — v5.7 PRO_BD</h1>
-    <p>Mensajería Clínica · Estados · Plantillas · Enlaces</p>
+    <p>ORION Dental App® · Mensajes, plantillas y agenda clínica</p>
   </div>
 </header>
 
 <main>
   <div class="crm-layout">
     <div class="crm-left">
-      <div class="card">
+      <div class="card orion-message-workspace">
+        <div class="orion-message-heading"><strong>Preparar comunicación</strong><span>Plantilla, mensaje y adjuntos · ORION Dental App®</span></div>
 
         <div class="bar-2 editable">
           <div>
-            <label class="small">2️⃣ TIPO DE MENSAJES</label>
+            <label class="small" for="tipoMensaje">Tipo de comunicación</label>
             <select id="tipoMensaje">
               <option value="ausente">🦷 Paciente Ausente</option>
               <option value="consentimiento">📄 Consentimiento Informado</option>
@@ -358,6 +359,8 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
           </div>
         </div>
 
+        <details class="orion-message-supplement" id="orionSurveyDisclosure">
+          <summary><span>Encuesta clínica opcional</span><small>Agregar preguntas solo cuando se necesiten</small></summary>
         <div class="surveyBox editable" id="bloqueEncuesta">
           <div class="surveyTop">
             <div class="left">
@@ -398,6 +401,7 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
             <textarea id="encuestaTexto" class="mono" rows="6"></textarea>
           </div>
         </div>
+        </details>
 
         <div id="bloqueDerivacion" class="card editable" style="display:none; margin-top:12px;">
           <div class="section-title">🩺 Derivación</div>
@@ -414,19 +418,22 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
           <div class="hint">Este bloque aparece solo en “Derivación por WhatsApp” y se inserta automáticamente en el Mensaje.</div>
         </div>
 
+        <details class="orion-message-supplement orion-attachments-disclosure" id="orionAttachmentsDisclosure">
+          <summary><span>Adjuntos y enlaces</span><small>Recursos vinculados a la plantilla</small></summary>
         <textarea id="linksPublicos" class="mono" rows="3" style="display:none" aria-hidden="true"></textarea>
         <div id="linksStatus" class="mini-status mini-status-compact" aria-live="polite">ℹ️ Adjuntos/Enlaces: Control Automático</div>
         <div id="linksPreview" class="links-preview" hidden></div>
         <div class="muted" style="margin-top:6px">Los enlaces de Drive se convierten a Descarga Directa si son archivos.</div>
+        </details>
 
         <div class="editable" style="margin-top:12px">
-          <label class="small">3️⃣ MENSAJES BASE (Editable)</label>
+          <label class="small" for="mensajeTipo">Mensaje base · editable</label>
           <textarea class="mono" id="mensajeTipo" placeholder="Se carga automáticamente según 'Tipo de mensaje'"></textarea>
         </div>
 
         <div style="margin-top:12px; display:flex; gap:12px">
           <button class="btn" id="copiarMensaje" type="button">📋 Copiar Mensaje</button>
-          <button class="btn primary" id="generar" type="button">5️⃣ REGENERAR LISTA</button>
+          <button class="btn primary" id="generar" type="button">Actualizar lista</button>
         </div>
       </div>
 
@@ -449,7 +456,10 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
           <a class="btn whatsapp" href="#" id="manualOpen" rel="noopener" target="_blank">WHATSAPP</a>
         </div>
 
-        <div class="links-preview" hidden="" id="manualPreview"></div>
+        <details class="orion-manual-preview-disclosure" id="orionManualPreviewDetails" hidden>
+          <summary>Ver enlace generado</summary>
+          <div class="links-preview" hidden="" id="manualPreview"></div>
+        </details>
         <div class="muted" style="margin-top:6px">
           Usa el mismo <b>Mensaje Base</b>. Los adjuntos se agregan Automáticamente desde la Lista Seleccionada.
         </div>
@@ -1889,10 +1899,24 @@ function getManualLink(){
 }
 function refreshManualPreview(){
   if(!manualPrevEl) return;
+  const details = document.getElementById('orionManualPreviewDetails');
   const link = getManualLink();
-  if(!link){ manualPrevEl.hidden = true; manualPrevEl.innerHTML=''; return; }
+  if(!link){
+    manualPrevEl.hidden = true;
+    manualPrevEl.replaceChildren();
+    if(details){ details.hidden = true; details.open = false; }
+    return;
+  }
+  if(details) details.hidden = false;
   manualPrevEl.hidden = false;
-  manualPrevEl.innerHTML = `<b>Enlace:</b><br><span class="mono" style="word-break:break-all">${link}</span>`;
+  // URL en texto literal y sólo visible al desplegar: evita enlaces enormes.
+  manualPrevEl.replaceChildren();
+  const label = document.createElement('strong');
+  label.textContent = 'Enlace preparado:';
+  const value = document.createElement('code');
+  value.textContent = link;
+  value.className = 'orion-manual-link-value';
+  manualPrevEl.append(label, value);
 }
 manualPhoneEl?.addEventListener('input', refreshManualPreview);
 manualNameEl?.addEventListener('input', refreshManualPreview);
@@ -1908,7 +1932,11 @@ manualCopyEl?.addEventListener('click', async ()=>{
     ? 'Promoción bloqueada: consentimiento promocional no registrado.'
     : 'Ingresa un número válido.');
   try{ await navigator.clipboard.writeText(link); alert('✅ Enlace copiado.'); }
-  catch(e){ alert('No se pudo copiar automáticamente. Copia desde la vista previa.'); }
+  catch(e){
+    const preview=document.getElementById('orionManualPreviewDetails');
+    if(preview && !preview.hidden) preview.open=true;
+    alert('No se pudo copiar automáticamente. El enlace está disponible en la vista previa.');
+  }
 });
 
 manualOpenEl?.addEventListener('click', (event)=>{

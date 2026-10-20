@@ -50,10 +50,24 @@ function getManualLink(){
 }
 function refreshManualPreview(){
   if(!manualPrevEl) return;
+  const details = document.getElementById('orionManualPreviewDetails');
   const link = getManualLink();
-  if(!link){ manualPrevEl.hidden = true; manualPrevEl.innerHTML=''; return; }
+  if(!link){
+    manualPrevEl.hidden = true;
+    manualPrevEl.replaceChildren();
+    if(details){ details.hidden = true; details.open = false; }
+    return;
+  }
+  if(details) details.hidden = false;
   manualPrevEl.hidden = false;
-  manualPrevEl.innerHTML = `<b>Enlace:</b><br><span class="mono" style="word-break:break-all">${link}</span>`;
+  // URL en texto literal y sólo visible al desplegar: evita enlaces enormes.
+  manualPrevEl.replaceChildren();
+  const label = document.createElement('strong');
+  label.textContent = 'Enlace preparado:';
+  const value = document.createElement('code');
+  value.textContent = link;
+  value.className = 'orion-manual-link-value';
+  manualPrevEl.append(label, value);
 }
 manualPhoneEl?.addEventListener('input', refreshManualPreview);
 manualNameEl?.addEventListener('input', refreshManualPreview);
@@ -69,7 +83,11 @@ manualCopyEl?.addEventListener('click', async ()=>{
     ? 'Promoción bloqueada: consentimiento promocional no registrado.'
     : 'Ingresa un número válido.');
   try{ await navigator.clipboard.writeText(link); alert('✅ Enlace copiado.'); }
-  catch(e){ alert('No se pudo copiar automáticamente. Copia desde la vista previa.'); }
+  catch(e){
+    const preview=document.getElementById('orionManualPreviewDetails');
+    if(preview && !preview.hidden) preview.open=true;
+    alert('No se pudo copiar automáticamente. El enlace está disponible en la vista previa.');
+  }
 });
 
 manualOpenEl?.addEventListener('click', (event)=>{
