@@ -47,6 +47,13 @@ for (const size of [{width:1440,height:900},{width:390,height:844}]) {
     await expect(row.locator('.orion-clinical-tools')).not.toHaveAttribute('open','');
     await expect(row.locator('.paciente-top')).toBeHidden();
     await expect(row.locator('.orion-clinical-tools > summary')).toHaveText('Acciones');
+    // UDC no se esconde ni depende de abrir Acciones: queda junto al nombre.
+    const udc=row.locator('.orion-patient-heading .udc-wrap.orion-udc-visible');
+    await expect(udc).toBeVisible();
+    await expect(udc.locator('.udc-check')).toBeVisible();
+    await expect(row.locator('.orion-clinical-tools .udc-check')).toHaveCount(0);
+    await expect(row.locator('.orion-patient-heading .paciente-nombre'))
+      .toHaveText('PACIENTE SINTÉTICO DE PRUEBA');
     const geo=await row.locator('.patient-main').evaluate(main => {
       const phone=main.querySelector('.orion-patient-phone');
       const wa=main.querySelector('.wa-action');
@@ -65,14 +72,17 @@ for (const size of [{width:1440,height:900},{width:390,height:844}]) {
     expect(geo.mainHeight).toBeLessThan(105);
     expect(geo.overflow).toBe(false);
 
+    // Click directo UDC conserva el evento original, incluso con Acciones cerrado.
+    await udc.locator('.udc-check').check();
+    await expect.poll(async()=>frame.locator('body').evaluate(el=>el.dataset.orionTestUdc)).toBe('preserved');
+    await expect(udc.locator('.udc-check')).toBeChecked();
     await row.locator('.orion-clinical-tools > summary').click();
     await expect(row.locator('.paciente-top')).toBeVisible();
-    await expect(row.locator('.udc-check')).toBeVisible();
     await expect(row.locator('.retraso-check')).toHaveCount(2);
     await expect(row.locator('.retraso-minutos')).toBeVisible();
-    await row.locator('.udc-check').check();
-    await expect.poll(async()=>frame.locator('body').evaluate(el=>el.dataset.orionTestUdc)).toBe('preserved');
+    await expect(row.locator('.orion-clinical-tools .udc-wrap')).toHaveCount(0);
     await row.locator('.orion-clinical-tools > summary').click();
     await expect(row.locator('.paciente-top')).toBeHidden();
+    await expect(udc).toBeVisible();
   });
 }
