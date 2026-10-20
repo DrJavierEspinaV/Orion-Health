@@ -194,6 +194,14 @@
     if (phone) {
       phone.classList.add('orion-patient-phone');
       line.insertBefore(phone, line.firstChild);
+      // La fuente usa dos rótulos cuando falta número; evitar repetir la misma ausencia.
+      if (phone.textContent.trim() === 'Sin teléfono') {
+        const duplicate = Array.from(line.children).find(function (child) {
+          return child !== phone && child.classList.contains('muted') &&
+            child.textContent.trim() === 'Sin número';
+        });
+        if (duplicate) duplicate.remove();
+      }
     }
     if (controls) {
       const details = document.createElement('details');
