@@ -83,7 +83,11 @@ manualCopyEl?.addEventListener('click', async ()=>{
     ? 'Promoción bloqueada: consentimiento promocional no registrado.'
     : 'Ingresa un número válido.');
   try{ await navigator.clipboard.writeText(link); alert('✅ Enlace copiado.'); }
-  catch(e){ alert('No se pudo copiar automáticamente. Copia desde la vista previa.'); }
+  catch(e){
+    const preview=document.getElementById('orionManualPreviewDetails');
+    if(preview && !preview.hidden) preview.open=true;
+    alert('No se pudo copiar automáticamente. El enlace está disponible en la vista previa.');
+  }
 });
 
 manualOpenEl?.addEventListener('click', (event)=>{
