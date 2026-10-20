@@ -6,13 +6,19 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 - `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.19.
 - `modules/insumos/` — Insumos V4.5.4.
-- `modules/cmf/` — Clínico CMF V4.3.43.
+- `modules/cmf/` — Clínico CMF V4.3.44.
 - `modules/endodoncia/` — Endodoncia V4.6.3.
 - `modules/ortodoncia/` — Ortodoncia V1.2.1.
 - `modules/odontopediatria/` — Odontopediatría V1.5.2.
 - `modules/armonizacion/` — Armonización Orofacial V2.1.0.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
+
+## CMF V4.3.44 — Redistribución visual de pantalla
+
+- Logo Maxilofacial PRO+ oficial ampliado en la esquina superior izquierda y marca de agua discreta detrás del área de trabajo.
+- Flujo 1) Datos del Paciente; 2) Tipo de receta/documento y plantillas; 3) Receta e indicaciones, separado en dos columnas de escritorio.
+- Sin cambios de fórmulas, plantillas, datos clínicos, firma, formatos de impresión ni autenticación.
 
 ## Comunicaciones Clínicas V5.7.19
 

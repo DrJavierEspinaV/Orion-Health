@@ -51,8 +51,9 @@ test('CMF utiliza identidad Health OS y mantiene el formulario de prescripción'
   expect(observed.headerBackground).toBe('rgb(255, 255, 255)');
   expect(observed.logoSrc).toContain('maxilofacial-pro-plus.svg');
   expect(observed.logoHeight).toBeGreaterThan(45);
-  expect(observed.logoHeight).toBeLessThanOrEqual(78);
-  expect(observed.cardBackground).toBe('rgb(255, 255, 255)');
+  expect(observed.logoHeight).toBeGreaterThanOrEqual(82);
+  expect(observed.logoHeight).toBeLessThanOrEqual(101);
+  expect(observed.cardBackground).toMatch(/^rgba\(255, 255, 255, 0\.8/);
   expect(observed.cardRadius).toBe('16px');
   expect(observed.inputRadius).toBe('10px');
   expect(observed.tabActive).toBe('true');
@@ -83,7 +84,8 @@ test('CMF móvil prioriza edición legible sin desborde y conserva documentos',a
   });
   expect(observed.mobileClass).toBe(true);
   expect(observed.scrollWidth).toBeLessThanOrEqual(observed.width+3);
-  expect(observed.logoHeight).toBeLessThanOrEqual(58);
+  expect(observed.logoHeight).toBeGreaterThanOrEqual(60);
+  expect(observed.logoHeight).toBeLessThanOrEqual(82);
   expect(observed.tabsColumns).toBe(2);
   expect(observed.allActionsWithinViewport).toBe(true);
   expect(observed.printIds).toBe(true);
