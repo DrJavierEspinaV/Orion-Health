@@ -34,6 +34,30 @@ function render(){
     return matchQ && matchEstado && matchFecha;
   });
 
+  // Feedback de agenda: refleja el MISMO resultado usado para dibujar las filas.
+  // No añade consultas a Drive ni cambia el criterio de búsqueda existente.
+  const hasAgendaFilters = Boolean(($('#q').value || '').trim()) ||
+    selEstado !== '__todos__' ||
+    Boolean(document.getElementById('fFechaFrom')?.value) ||
+    Boolean(document.getElementById('fFechaTo')?.value);
+  const feedbackCount = document.getElementById('orionAgendaCount');
+  const feedbackFilters = document.getElementById('orionAgendaFilterHint');
+  const feedbackClear = document.getElementById('orionAgendaClearFilters');
+  const feedbackEmpty = document.getElementById('orionAgendaEmpty');
+  if (feedbackCount) {
+    feedbackCount.textContent = hasAgendaFilters
+      ? filtered.length + ' de ' + DATA.length + ' citas'
+      : DATA.length + ' citas en agenda';
+  }
+  if (feedbackFilters) feedbackFilters.hidden = !hasAgendaFilters;
+  if (feedbackClear) feedbackClear.hidden = !hasAgendaFilters;
+  if (feedbackEmpty) {
+    feedbackEmpty.hidden = filtered.length > 0;
+    feedbackEmpty.textContent = DATA.length === 0
+      ? 'No hay citas cargadas todavía.'
+      : 'No hay citas que coincidan con estos filtros.';
+  }
+
   listEl.innerHTML = '';
   for(const r of filtered){
     const estadoLabel = r.estado || 'Sin estado';
