@@ -35,7 +35,7 @@ const rows = [
 for (const width of [1440, 390]) {
   test('Agenda '+width+'px: resultados, búsqueda sin coincidencia y limpieza integral', async ({ page }) => {
     const frame = await openAgenda(page, width);
-    await frame.locator('body').evaluate(rows => window.__orionAgendaTest.seed(rows), rows);
+    await frame.locator('body').evaluate((_element, syntheticRows) => window.__orionAgendaTest.seed(syntheticRows), rows);
     const count = frame.locator('#orionAgendaCount');
     const empty = frame.locator('#orionAgendaEmpty');
     const clear = frame.locator('#orionAgendaClearFilters');
