@@ -209,3 +209,30 @@ test('ORION SAP: solo importación de archivo en flujo ordinario, sin autoload D
   assert.doesNotMatch(loader,/Actualizando Drive en segundo plano/);
   assert.doesNotMatch(html,/setTimeout\(\(\)=>\{\s*try\{\s*if\(cacheRestoredOnStart/);
 });
+
+test('ORION Dental App V5.7.18: editor único y complementos plegables sin alterar el origen SAP',()=>{
+  const html=read('modules/comunicaciones/source.html');
+  const script=read('modules/comunicaciones/script-1-part-7.js');
+  const loader=read('modules/comunicaciones/loader.js');
+  const css=read('modules/comunicaciones/panel-ux-v1.css');
+  const pwa=read('service-worker.js');
+  assert.match(html,/class="card orion-message-workspace"/);
+  assert.match(html,/id="orionSurveyDisclosure"/);
+  assert.match(html,/id="orionAttachmentsDisclosure"/);
+  assert.match(html,/id="orionManualPreviewDetails" hidden/);
+  assert.match(html,/id="bloqueEncuesta"/);
+  assert.match(html,/id="linksPublicos"/);
+  assert.match(html,/data-orion-source="sap-manual"/);
+  assert.match(css,/var\(--orion-ui-primary/);
+  assert.match(css,/data-orion-module="comunicaciones"/);
+  assert.match(css,/orion-message-supplement:not\(\[open\]\)/);
+  assert.match(css,/#orionManualPreviewDetails:not\(\[open\]\)/);
+  assert.match(loader,/panel-ux-v1\.css\?v=1\.0/);
+  assert.match(pwa,/\.\/modules\/comunicaciones\/panel-ux-v1\.css/);
+  for (const s of [html,script]){
+    assert.match(s,/manualPrevEl\.replaceChildren\(\)/);
+    assert.match(s,/value\.textContent = link/);
+    assert.match(s,/orionManualPreviewDetails/);
+  }
+  assert.doesNotMatch(loader,/Actualizando Drive en segundo plano/);
+});
