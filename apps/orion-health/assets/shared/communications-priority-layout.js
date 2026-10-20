@@ -51,7 +51,12 @@
       priority.innerHTML='<div class="orion-priority-heading"><div><strong>Pacientes y agenda</strong><span>Búsqueda, fechas y lista clínica</span></div></div><div class="orion-priority-search" id="orionPrioritySearch"></div>';
       controlsCard.prepend(priority);
 
+      // La importación SAP es el primer paso operativo, no un ajuste avanzado.
       const searchGrid=priority.querySelector('#orionPrioritySearch');
+      if(fileBlock){
+        fileBlock.classList.add('orion-sap-import-primary');
+        priority.insertBefore(fileBlock,searchGrid);
+      }
       [qBlock,statusBlock,exportBlock].filter(Boolean).forEach(node=>searchGrid.appendChild(node));
       [dateRow,todayChip,slotCard,documentStatus].filter(Boolean).forEach(node=>priority.appendChild(node));
 
@@ -59,11 +64,11 @@
       dataPanel.id='orionDataSourcePanel';
       dataPanel.className='card orion-data-source-panel';
       dataPanel.dataset.orionPlacement='layout-footer';
-      dataPanel.innerHTML='<summary><span class="orion-data-source-title">⚙️ Fuente de datos y conexión</span><span class="orion-data-source-status" id="orionDataSourceStatus">Estado pendiente</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>';
+      dataPanel.innerHTML='<summary><span class="orion-data-source-title">⚙️ Conexión técnica avanzada (opcional)</span><span class="orion-data-source-status" id="orionDataSourceStatus">Sin conexión</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>';
       layout.appendChild(dataPanel);
 
       const dataGrid=dataPanel.querySelector('#orionDataSourceGrid');
-      [fileBlock,driveBlock].filter(Boolean).forEach(node=>dataGrid.appendChild(node));
+      [driveBlock].filter(Boolean).forEach(node=>dataGrid.appendChild(node));
       if(themeRow)dataPanel.querySelector('.orion-data-source-body').appendChild(themeRow);
       if(!bar.children.length)bar.remove();
     }
