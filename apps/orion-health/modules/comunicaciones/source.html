@@ -551,6 +551,12 @@ button:active, .btn:active{ transform: translateY(0px); box-shadow: 0 6px 12px r
 
       </div>
 
+      <div class="orion-agenda-feedback" id="orionAgendaFeedback" role="region" aria-label="Resultados de la agenda">
+        <span id="orionAgendaCount" role="status" aria-live="polite">Agenda sin cargar</span>
+        <span class="orion-agenda-filter-hint" id="orionAgendaFilterHint" hidden>Filtros activos</span>
+        <button class="orion-agenda-clear" id="orionAgendaClearFilters" type="button" hidden>Limpiar filtros</button>
+        <span id="orionAgendaEmpty" class="orion-agenda-empty" role="status" hidden></span>
+      </div>
       <div class="card table">
         <div class="header">
           <div>PACIENTE</div>
