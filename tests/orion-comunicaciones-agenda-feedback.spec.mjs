@@ -23,6 +23,9 @@ window.__orionAgendaTest = {
   await page.locator('.menu-btn[data-app="comunicaciones"]').click();
   const frame = page.frameLocator('#appFrame');
   await expect(frame.locator('#orionAgendaFeedback')).toBeVisible({ timeout: 30000 });
+  // Esperar al final de DOMContentLoaded; el resumen existe antes del sembrador QA.
+  await expect.poll(async () => frame.locator('body').evaluate(() =>
+    typeof window.__orionAgendaTest?.seed === 'function')).toBe(true);
   return frame;
 }
 
