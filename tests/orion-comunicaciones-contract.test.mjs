@@ -59,8 +59,8 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   const js = read('modules/comunicaciones/audit-session-v1.js');
   const loader = read('modules/comunicaciones/loader.js');
   const sw = read('service-worker.js');
-  assert.match(loader, /audit-session-v1\.js\?v=1\.2/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.2/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.3/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.3/);
   assert.match(js, /sessionStorage\.setItem/);
   assert.match(js, /confirm\('¿Confirmas que enviaste/);
   assert.match(js, /respuesta_registrada_manual/);
@@ -103,8 +103,8 @@ test('Comunicaciones V5.7.12: lista compacta y acciones de seguimiento plegables
   assert.match(audit, /document\.createElement\('details'\)/);
   assert.match(audit, /Opciones de seguimiento/);
   assert.match(audit, /actions\.append\(sent, response, undo\)/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.2/);
-  assert.match(loader, /audit-session-v1\.js\?v=1\.2/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.3/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.3/);
 });
 
 test('Drive: recuperación optativa sin contraseña pública ni almacenamiento local permanente', () => {
@@ -134,4 +134,20 @@ test('Comunicaciones V5.7.13: ningún estilo original agranda el botón de Whats
   assert.match(audit, /orion-audit-toolbar-toggle/);
   assert.match(loader, /responsive-fixes\.css\?v=1\.4\.6/);
   assert.match(loader, /mobile-v142\.css\?v=1\.4\.6/);
+});
+
+test('Comunicaciones V5.7.14: acciones clínicas agrupadas y sin pérdida de nodos', () => {
+  const js=read('modules/comunicaciones/audit-session-v1.js');
+  const css=read('modules/comunicaciones/audit-session-v1.css');
+  const loader=read('modules/comunicaciones/loader.js');
+  assert.match(js, /function compactClinicalRow\(row\)/);
+  assert.match(js, /const openClinicalTools = new Set\(\)/);
+  assert.match(js, /details\.append\(summary, controls\)/);
+  assert.match(js, /line\.insertBefore\(phone, line\.firstChild\)/);
+  assert.match(js, /'Opciones clínicas: UDC y retrasos'/);
+  assert.match(js, /compactClinicalRow\(row\);\s*enforceWhatsAppCompact\(row\)/);
+  assert.match(css, /orion-clinical-tools/);
+  assert.match(css, /orion-patient-phone/);
+  assert.match(loader, /audit-session-v1\.js\?v=1\.3/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.3/);
 });

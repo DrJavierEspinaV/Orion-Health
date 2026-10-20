@@ -4,7 +4,7 @@
   "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.13",
+    "comunicaciones": "5.7.14",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.13",
-    "summary": "WhatsApp compacto desde CSS original y refuerzo de interfaz; barra de seguimiento plegada. Filas clínicas reducidas en escritorio y móvil.",
-    "persistence": "Sin cambio en agenda, bitácora ni conexión Google Drive.",
-    "limitations": "Interfaz corregida sin modificar autenticación. Acceso a la base requiere sesión autorizada existente."
+    "version": "5.7.14",
+    "summary": "Agenda clínica con nombre prioritario, teléfono y WhatsApp en línea compacta, UDC y retrasos bajo Acciones desplegables, seguimiento intacto.",
+    "persistence": "La bitácora se mantiene temporal en sesión. No cambia el sistema de mensajes ni backend.",
+    "limitations": "No modifica ni elimina autenticación, claves, datos clínicos ni Google Apps Script; se requieren verificaciones visuales en producción."
   }
 }

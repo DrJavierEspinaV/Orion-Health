@@ -179,3 +179,89 @@
   body .crm-sidebar .table .row > div {padding:4px 6px !important;}
   body .crm-sidebar .table .row > .patient-main {padding:5px 6px !important;}
 }
+
+/* ORH-COM-UX-006 · Agenda como centro del trabajo.
+   Nombre primero, teléfono y acciones en una sola banda; controles clínicos a demanda. */
+@media screen {
+  body .crm-sidebar .table .row > .patient-main {
+    gap:0 !important; justify-content:center !important;
+    min-width:0; padding:5px 7px !important;
+  }
+  body .crm-sidebar .table .row .paciente-nombre {
+    width:100%; margin:0 0 2px !important;
+    font-size:12px !important; line-height:1.17 !important;
+    color:#1f3f5b !important; font-weight:800 !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line {
+    display:flex !important; align-items:center !important; justify-content:flex-start !important;
+    flex-wrap:wrap !important; gap:4px 6px !important;
+    width:100% !important; margin:1px 0 0 !important; min-width:0 !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line .orion-patient-phone {
+    width:auto !important; max-width:100%; margin:0 !important;
+    font:500 10px/1.25 Montserrat,Arial,sans-serif !important;
+    color:#64748b; white-space:nowrap;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools {
+    box-sizing:border-box; display:inline-block; position:relative; flex:0 0 auto;
+    min-width:0; max-width:100%; margin:0;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools > summary {
+    box-sizing:border-box; display:inline-flex; align-items:center; justify-content:center;
+    min-height:27px; padding:5px 8px;
+    border:1px solid #cad7e2; border-radius:7px;
+    background:#f4f7fa; color:#274963;
+    font:700 10px/1.2 Montserrat,Arial,sans-serif;
+    cursor:pointer; list-style:none; white-space:nowrap;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools > summary::-webkit-details-marker {display:none;}
+  body .crm-sidebar .table .row .orion-clinical-tools > summary:focus-visible {
+    outline:2px solid #0e7490; outline-offset:2px;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools[open] {
+    flex-basis:100%; width:100%; margin:1px 0 0;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools[open] > summary {
+    border-color:#1f3f5b; background:#eaf1f8;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools:not([open]) > .paciente-top {
+    display:none !important;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools > .paciente-top {
+    display:flex !important; box-sizing:border-box; flex-wrap:wrap !important;
+    width:100% !important; gap:4px !important; padding:6px !important;
+    margin:4px 0 0 !important; overflow:visible !important;
+    border:1px solid #d7e2eb; border-radius:8px; background:#f8fbfe;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools .retraso-estimado-wrap {
+    min-height:25px !important;
+  }
+  body .crm-sidebar .table .row .orion-clinical-tools .retraso-minutos {
+    width:auto !important; min-height:26px !important; max-height:30px !important;
+  }
+  body .crm-sidebar .table .row .wa-row-line .orion-audit-menu > summary {
+    min-width:27px; height:27px; border-radius:7px;
+  }
+  body .crm-sidebar .table .row .wa-row-line a.btn.whatsapp.wa-action {
+    max-height:32px !important; min-height:27px !important;
+    padding:4px 8px !important; border-radius:7px !important;
+  }
+}
+@media screen and (max-width:900px) {
+  body .crm-sidebar .table .row {
+    margin-bottom:5px !important; border-radius:9px !important;
+  }
+  body .crm-sidebar .table .row > div {
+    box-sizing:border-box !important; min-height:0 !important;
+    padding:5px 7px !important; line-height:1.23 !important;
+  }
+  body .crm-sidebar .table .row > .patient-main {
+    padding:7px !important;
+  }
+  body .crm-sidebar .table .row .orion-patient-phone {
+    font-size:10px !important;
+  }
+  body .crm-sidebar .table .row > .patient-motive {
+    overflow-wrap:anywhere !important; word-break:normal !important;
+  }
+}
