@@ -13,26 +13,6 @@
       .replace(/\.\.\/\.\.\/sw\.js/g,'../../service-worker.js')
       .replace(/<script[^>]+xlsx@0\.18\.5[^>]*><\/script>/i,'')
       .replace(/const CACHE_TTL_MS = 10 \* 60 \* 1000;/,'const CACHE_TTL_MS = 4 * 60 * 60 * 1000;')
-      .replace(
-        /const url = \(document\.getElementById\('dbWebappUrl'\)\?\.value \|\| ''\)\.trim\(\);\s*if\(!url\) return;\s*loadDb_\(\);/,
-        "const url = (document.getElementById('dbWebappUrl')?.value || '').trim(); const tok = (document.getElementById('dbToken')?.value || '').trim(); if(!url || !tok) return; loadDb_();"
-      )
-      .replace(
-        /\/\* ✅ Auto-carga BD al abrir \+ caché 10 min \*\/[\s\S]*?\}, 350\);/,
-        `/* ✅ Inicio rápido: caché inmediata + actualización silenciosa */
-const cacheRestoredOnStart = restoreCacheState();
-render();
-setTimeout(()=>{
-  try{
-    const url = (document.getElementById('dbWebappUrl')?.value || '').trim();
-    const tok = (document.getElementById('dbToken')?.value || '').trim();
-    if(!url || !tok) return;
-    const st = document.getElementById('dbStatus');
-    if(cacheRestoredOnStart && st) st.textContent = '✅ Agenda disponible desde caché. Actualizando Drive en segundo plano…';
-    loadDb_();
-  }catch(e){}
-}, cacheRestoredOnStart ? 1400 : 220);`
-      )
       .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.6"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.6"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"><link rel="stylesheet" href="./health-os-comunicaciones-v1.css?v=1"></head>')
       .replace('</body>',`<script>
 (function(){
