@@ -34,7 +34,7 @@
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-workspace #mensajeTipo {
     min-height:190px; line-height:1.55 !important;
-    font-size:12px !important; resize:vertical;
+    font-size:13px !important; resize:vertical;
     max-width:100%;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement {
