@@ -200,9 +200,18 @@
     document.getElementById('orionDriveCancel')?.addEventListener('click',closeModal);
     document.getElementById('orionDriveTokenInput')?.addEventListener('keydown',event=>{if(event.key==='Enter')document.getElementById('orionDriveConnectNow')?.click();});
 
+    // El módulo Comunicaciones se alimenta de exportaciones manuales de SAP.
+    // Evitar que un token antiguo sobreescriba el Excel importado por el operador.
+    const sapManual = document.body?.dataset.orionSource === 'sap-manual';
     const active=session.get(TOKEN_KEY);
-    if(active){applyToken(active,e);setStatus('connecting','Acceso reconocido. Actualizando pacientes…');setTimeout(()=>connect(e),AUTOLOAD_DELAY_MS);}
-    else{
+    if(sapManual){
+      setStatus('','Sin conexión a Drive. Importa manualmente el archivo SAP; la conexión avanzada es opcional.');
+      // No solicitar ni recuperar contraseñas, ni conectar silenciosamente.
+    }else if(active){
+      applyToken(active,e);
+      setStatus('connecting','Acceso reconocido. Actualizando pacientes…');
+      setTimeout(()=>connect(e),AUTOLOAD_DELAY_MS);
+    }else{
       setStatus('','Sin conexión a Drive. La agenda requiere sesión autorizada.');
       restoreBrowserManager(e);
     }
