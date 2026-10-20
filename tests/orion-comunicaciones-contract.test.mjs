@@ -9,9 +9,10 @@ const read = (p) => readFileSync(join(root, 'apps/orion-health', p), 'utf8');
 test('Comunicaciones: conexión protegida voluntaria', () => {
   const config = read('assets/shared/session-config.js');
   const loader = read('modules/comunicaciones/loader.js');
-  assert.match(loader, /session-config\.js\?v=5\.7\.12/);
+  assert.match(loader, /session-config\.js\?v=5\.7\.17/);
   assert.match(loader, /id="dbToken" type="password"|type="password" id="dbToken"/);
-  assert.match(loader, /if\(!url \|\| !tok\) return;/);
+  assert.doesNotMatch(loader, /if\(!url \|\| !tok\) return;/);
+  assert.match(config, /if\(sapManual\)/);
   assert.match(loader, /\.replace\(\/localStorage\/g,'sessionStorage'\)/);
   assert.doesNotMatch(loader, /ODP-KIDS-2026|sk-proj-|AIza[0-9A-Za-z_-]{20}/);
   assert.match(config, /sessionStorage/);
@@ -32,8 +33,12 @@ test('Comunicaciones: la fuente y el cargador permanecen disponibles', () => {
 
 test('No convertir datos clínicos protegidos en acceso anónimo', () => {
   const loader = read('modules/comunicaciones/loader.js');
-  assert.match(loader, /const tok = .*dbToken/);
-  assert.match(loader, /if\(!url \|\| !tok\) return;/);
+  const source = read('modules/comunicaciones/source.html');
+  const session = read('assets/shared/session-config.js');
+  assert.doesNotMatch(loader, /Actualizando Drive en segundo plano/);
+  // La conexión avanzada conserva su autenticación cuando alguien la solicita.
+  assert.match(source, /if \(!tok\) return alert\('Falta el token\.'\)/);
+  assert.match(session, /if\(!token\)\{setStatus/);
 });
 
 test('Comunicaciones: los enlaces editables se muestran como texto, no HTML', () => {
@@ -60,7 +65,7 @@ test('Comunicaciones: bitácora temporal protegida y enlazada al módulo activo'
   const loader = read('modules/comunicaciones/loader.js');
   const sw = read('service-worker.js');
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.6/);
   assert.match(js, /sessionStorage\.setItem/);
   assert.match(js, /confirm\('¿Confirmas que enviaste/);
   assert.match(js, /respuesta_registrada_manual/);
@@ -103,7 +108,7 @@ test('Comunicaciones V5.7.12: lista compacta y acciones de seguimiento plegables
   assert.match(audit, /document\.createElement\('details'\)/);
   assert.match(audit, /Opciones de seguimiento/);
   assert.match(audit, /actions\.append\(sent, response, undo\)/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.6/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
 });
 
@@ -149,7 +154,7 @@ test('Comunicaciones V5.7.14: acciones clínicas agrupadas y sin pérdida de nod
   assert.match(css, /orion-clinical-tools/);
   assert.match(css, /orion-patient-phone/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.6/);
 });
 
 test('Comunicaciones V5.7.15: UDC se mantiene visible al lado del nombre', () => {
@@ -164,7 +169,7 @@ test('Comunicaciones V5.7.15: UDC se mantiene visible al lado del nombre', () =>
   assert.match(css, /orion-patient-heading/);
   assert.match(css, /orion-udc-visible/);
   assert.match(loader, /audit-session-v1\.js\?v=1\.4/);
-  assert.match(loader, /audit-session-v1\.css\?v=1\.5/);
+  assert.match(loader, /audit-session-v1\.css\?v=1\.6/);
 });
 
 test('Comunicaciones V5.7.16: resumen sin duplicar filtros clínicos', () => {
@@ -186,4 +191,21 @@ test('Comunicaciones V5.7.16: resumen sin duplicar filtros clínicos', () => {
   }
   assert.match(css, /orion-agenda-feedback/);
   assert.match(css, /orion-agenda-feedback \[hidden\]/);
+});
+
+test('ORION SAP: solo importación de archivo en flujo ordinario, sin autoload Drive',()=>{
+  const html=read('modules/comunicaciones/source.html');
+  const loader=read('modules/comunicaciones/loader.js');
+  const credentials=read('assets/shared/session-config.js');
+  const layout=read('assets/shared/communications-priority-layout.js');
+  assert.match(html,/data-orion-source="sap-manual"/);
+  assert.match(html,/id="file" type="file"/);
+  assert.match(html,/id="orionSapSourceStatus"/);
+  assert.match(html,/dataSourceMeta = \{kind:'sap-file',loadedAt:Date\.now\(\),count:DATA\.length\}/);
+  assert.match(html,/function renderSAPSourceStatus/);
+  assert.match(layout,/priority\.insertBefore\(fileBlock,searchGrid\)/);
+  assert.match(credentials,/if\(sapManual\)/);
+  assert.match(credentials,/No solicitar ni recuperar contraseñas/);
+  assert.doesNotMatch(loader,/Actualizando Drive en segundo plano/);
+  assert.doesNotMatch(html,/setTimeout\(\(\)=>\{\s*try\{\s*if\(cacheRestoredOnStart/);
 });

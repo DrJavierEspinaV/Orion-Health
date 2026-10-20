@@ -4,7 +4,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 ## Arquitectura vigente
 
-- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.16.
+- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.17.
 - `modules/insumos/` — Insumos V4.5.4.
 - `modules/cmf/` — Clínico CMF V4.3.43.
 - `modules/endodoncia/` — Endodoncia V4.6.3.
@@ -14,7 +14,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Comunicaciones Clínicas V5.7.16
+## Comunicaciones Clínicas V5.7.17
 
 - Vista previa de enlaces en texto seguro.
 - WhatsApp no aparece como enviado por el mero hecho de abrir la conversación.
@@ -29,7 +29,7 @@ Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones
 - Un solo desplazamiento vertical en el portal.
 - Altura automática de los módulos mediante `ResizeObserver` y `MutationObserver`.
 - Menú lateral visible en escritorio.
-- Comunicaciones restaura la agenda desde caché de sesión y actualiza Drive en segundo plano.
+- Comunicaciones trabaja con archivos Excel exportados manualmente desde SAP. Muestra la fecha de carga, restaura caché de sesión sin afirmar sincronización y no actualiza Drive en segundo plano. La conexión avanzada permanece opcional y manual.
 - XLSX se carga bajo demanda.
 - Service worker V1.4.5 con soporte offline para el núcleo y los siete módulos.
 

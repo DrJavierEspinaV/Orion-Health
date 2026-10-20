@@ -30,7 +30,7 @@ for(const file of [
 const version=JSON.parse(read('VERSION.json'));
 if(!String(version.version).startsWith('1.4.5'))failures.push(`Versión inesperada: ${version.version}`);
 if(!String(version.modules?.portal||'').startsWith('1.4.5'))failures.push(`Versión Portal inesperada: ${version.modules?.portal}`);
-if(version.modules?.comunicaciones!=='5.7.16')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
+if(version.modules?.comunicaciones!=='5.7.17')failures.push(`Versión Comunicaciones inesperada: ${version.modules?.comunicaciones}`);
 if(version.modules?.cmf!=='4.3.43')failures.push(`Versión CMF inesperada: ${version.modules?.cmf}`);
 if(version.modules?.insumos!=='4.5.4')failures.push(`Versión Insumos inesperada: ${version.modules?.insumos}`);
 if(!String(version.modules?.armonizacion_orofacial||'').startsWith('2.1.0'))failures.push(`Versión Armonización inesperada: ${version.modules?.armonizacion_orofacial}`);
@@ -136,9 +136,9 @@ includesAll('Comunicaciones acceso opcional',secureSession,[
 ]);
 if(secureSession.includes('setTimeout(()=>openModal(),250)'))
   failures.push('Comunicaciones no debe mostrar modal de clave al iniciar sin sesión.');
-if(!read('modules/comunicaciones/loader.js').includes('session-config.js?v=5.7.12'))
+if(!read('modules/comunicaciones/loader.js').includes('session-config.js?v=5.7.17'))
   failures.push('Comunicaciones debe cargar versión actualizada de acceso opcional.');
-if(!read('modules/comunicaciones/loader.js').includes('communications-priority-layout.js?v=5.7.9'))
+if(!read('modules/comunicaciones/loader.js').includes('communications-priority-layout.js?v=5.7.17'))
   failures.push('Comunicaciones debe actualizar su controlador responsive.');
 if(read('assets/shared/communications-priority-layout.js').includes('dataPanel.open=false'))
   failures.push('El panel de conexión no debe cerrarse automáticamente en resize móvil.');
@@ -157,7 +157,7 @@ if(!communicationsLoaderVisual.includes('health-os-comunicaciones-v1.css?v=1'))
   failures.push('El loader de Comunicaciones no aplica el CSS Health OS.');
 const osPwa=read('service-worker.js');
 includesAll('PWA Health OS',osPwa,[
-  'orion-dental-app-v1.4.5-health-os-ui18-comms-filtros-visibles',
+  'orion-dental-app-v1.4.5-health-os-ui19-comms-sap-manual',
   './modules/comunicaciones/health-os-comunicaciones-v1.css'
 ]);
 
