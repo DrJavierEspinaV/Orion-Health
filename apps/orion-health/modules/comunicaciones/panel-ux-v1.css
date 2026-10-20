@@ -148,3 +148,250 @@
     }
   }
 }
+
+/* ORION Dental App® · V5.7.19
+   Composición completa: agenda 60 %, editor 40 %.
+   Todas las reglas son presentacionales y limitadas a Comunicaciones.
+   Mantener SAP manual, UDC, WhatsApp, seguimiento y botones originales.
+*/
+@media screen {
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body > main {
+    box-sizing:border-box;
+    padding:clamp(12px,1.5vw,24px) !important;
+    max-width:1800px !important;
+    margin-inline:auto !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout {
+    min-width:0 !important;
+    align-items:start !important;
+    gap:clamp(14px,1.4vw,24px) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar {
+    box-sizing:border-box;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:none !important;
+    position:relative !important;
+    top:auto !important;
+    max-height:none !important;
+    overflow:visible !important;
+    padding-right:0 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left > .card,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar > .card {
+    box-sizing:border-box;
+    margin:0 0 14px !important;
+    padding:clamp(14px,1.3vw,20px) !important;
+    border-radius:14px !important;
+    border:1px solid var(--orion-ui-border,#d9e2ea) !important;
+    background:var(--orion-ui-surface,#fff) !important;
+    box-shadow:0 5px 20px rgba(25,55,82,.055) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar > .card.table {
+    padding:10px !important;
+  }
+
+  /* Jerarquía visual consistente entre ambas áreas de trabajo. */
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading {
+    padding-bottom:13px !important;
+    margin-bottom:2px !important;
+    border-bottom:1px solid #e1e9ef !important;
+    position:relative;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading::before,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading::before {
+    content:"";
+    width:34px; height:3px;
+    position:absolute; bottom:-2px; left:0;
+    border-radius:3px; background:#306b94;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading strong,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading strong {
+    font:800 clamp(16px,1.2vw,19px)/1.32 Montserrat,Arial,sans-serif !important;
+    letter-spacing:-.02em;
+    color:#1f3f5b !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading span,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading span {
+    color:#677b8d !important;
+    font:500 11px/1.45 Montserrat,Arial,sans-serif !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #orionPatientPriorityControls {
+    gap:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-sap-import-primary {
+    margin:6px 0 2px !important;
+    padding:11px 13px !important;
+    border:1px solid #cbdde9 !important;
+    border-left:4px solid #28688f !important;
+    background:#f4f8fb !important;
+    border-radius:9px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #orionSapSourceStatus {
+    font-size:11px !important; line-height:1.45 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search {
+    display:grid !important;
+    grid-template-columns:minmax(170px,1.45fr) minmax(140px,.85fr) minmax(112px,auto) !important;
+    gap:10px !important;
+    align-items:end !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search > div {
+    min-width:0;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search input,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search select {
+    box-sizing:border-box; width:100%;
+    min-height:41px !important;
+    font-size:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search #export {
+    width:auto !important;
+    min-height:41px !important;
+    padding:8px 12px !important;
+    border-radius:9px !important;
+    font-size:11px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-agenda-feedback {
+    padding:9px 12px !important;
+    margin:0 0 10px !important;
+    border-color:#d8e2ea !important;
+    background:#f7fafc !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #orionAgendaCount {
+    font-size:12px !important; letter-spacing:-.01em;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #documentoStatus {
+    border-radius:10px !important;
+    padding:10px 12px !important;
+    margin-top:2px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row > div {
+    padding:9px 8px !important;
+    line-height:1.35 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row > .patient-main {
+    padding:10px 11px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .paciente-nombre {
+    font-size:13px !important;
+    line-height:1.3 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .orion-udc-visible {
+    min-height:30px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .wa-row-line a.wa-action {
+    width:auto !important;
+    max-width:112px !important;
+    min-height:28px !important;
+    max-height:34px !important;
+    flex:0 0 auto !important;
+    box-shadow:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .orion-clinical-tools:not([open]) > .paciente-top {
+    display:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .orion-patient-heading .orion-udc-visible {
+    display:inline-flex !important;
+  }
+
+  /* Editor legible: botones sin crecer a todo el ancho y espaciado regular. */
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-left .orion-message-workspace {
+    gap:15px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #mensajeTipo {
+    min-height:220px !important;
+    padding:12px 14px !important;
+    font:500 13px/1.6 Montserrat,Arial,sans-serif !important;
+    color:#213e54 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #copiarMensaje,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #generar {
+    min-height:38px !important;
+    padding:8px 12px !important;
+    width:auto !important; flex:0 1 auto;
+    font-size:11px !important;
+    border-radius:9px !important;
+  }
+}
+
+@media screen and (min-width:1260px) {
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout {
+    display:grid !important;
+    grid-template-columns:minmax(0,2fr) minmax(0,3fr) !important;
+    gap:clamp(18px,1.6vw,26px) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left {
+    grid-column:1 !important; grid-row:1 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar {
+    grid-column:2 !important; grid-row:1 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .orion-data-source-panel {
+    grid-column:1/-1 !important;
+    grid-row:2 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar #list {
+    max-height:min(64vh,820px) !important;
+    overflow-y:auto !important;
+    overscroll-behavior:contain;
+  }
+}
+@media screen and (max-width:1259px) {
+  /* Mantener el layout flex original de móvil para conservar el contrato
+     de ORION y evitar alterar la navegación por teclado y la altura PWA. */
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout {
+    display:flex !important;
+    flex-direction:column !important;
+    grid-template-columns:none !important;
+    gap:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar {
+    order:1 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left {
+    order:2 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .orion-data-source-panel {
+    order:3 !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar #list {
+    max-height:none !important; overflow:visible !important;
+  }
+}
+@media screen and (max-width:740px) {
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body > main {
+    padding:9px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left > .card,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar > .card {
+    padding:12px !important;
+    margin-bottom:9px !important;
+    border-radius:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search {
+    grid-template-columns:minmax(0,1fr) !important; gap:8px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search #export {
+    width:100% !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading strong,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading strong {
+    font-size:16px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row {
+    margin-bottom:8px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row > div {
+    padding:8px 9px !important;
+    font-size:11px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar .table .row .paciente-nombre {
+    font-size:13px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] body #mensajeTipo {
+    min-height:180px !important;
+  }
+}

@@ -29,7 +29,7 @@ for(const module of modules){
     expect(meta.token).toBe('#1F3F5B');
 
     if(module.key==='comunicaciones'){
-      await expect(frame.locator('#orionHdr h1')).toContainText('V5.7.18');
+      await expect(frame.locator('#orionHdr h1')).toContainText('V5.7.19');
       await expect(frame.locator('#orionDriveModal')).toBeHidden();
       const size=await frame.locator('#mensajeTipo').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
       expect(size).toBeGreaterThanOrEqual(13);

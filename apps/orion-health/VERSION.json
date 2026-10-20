@@ -4,7 +4,7 @@
   "date": "2026-10-20",
   "modules": {
     "portal": "1.4.5",
-    "comunicaciones": "5.7.18",
+    "comunicaciones": "5.7.19",
     "insumos": "4.5.4",
     "cmf": "4.3.43",
     "endodoncia": "4.6.3",
@@ -31,9 +31,9 @@
   "ux_version": "2.0.2",
   "ux_status": "Refinamiento compartido de los siete módulos: jerarquía, foco contextual, controles móviles y legibilidad",
   "comunicaciones_update": {
-    "version": "5.7.18",
-    "summary": "Panel editorial de ORION Dental App®: plantilla y mensaje como elementos principales, Encuesta y Adjuntos plegados, enlace manual bajo vista previa discreta y escapada; identidad visual Health OS V2.",
-    "persistence": "Fuente SAP por exportación Excel manual, sin sincronización automática ni cambios en datos clínicos.",
-    "limitations": "La compatibilidad futura con ORION Health Clinical SO queda como contrato de integración planificado, no como conexión activa."
+    "version": "5.7.19",
+    "summary": "Rediseño de la pantalla completa: editor 40 %, agenda 60 % en escritorio; agenda primero en pantallas estrechas, tarjetas equilibradas, jerarquía corporativa, filtros y registros más legibles.",
+    "persistence": "Importación manual de Excel SAP, sin sincronización automática ni cambios de bases/credenciales.",
+    "limitations": "La aprobación visual definitiva en el equipo del usuario sigue pendiente de contrastar con captura real; la suite automatizada verifica dimensiones, accesibilidad y funciones."
   }
 }
