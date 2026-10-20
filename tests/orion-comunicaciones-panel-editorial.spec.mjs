@@ -23,7 +23,7 @@ for(const width of [1440,390]){
     await expect(frame.locator('#orionAttachmentsDisclosure > summary')).toBeVisible();
 
     await frame.locator('#tipoMensaje').selectOption('indicaciones');
-    await expect(frame.locator('#mensajeTipo')).toContainText('Indicaciones');
+    await expect(frame.locator('#mensajeTipo')).toHaveValue(/Indicaciones/);
     await frame.locator('#orionSurveyDisclosure > summary').click();
     await expect(frame.locator('#encuestaOn')).toBeVisible();
     await frame.locator('#encuestaOn').check();
