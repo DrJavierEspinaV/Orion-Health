@@ -224,6 +224,9 @@
   body .crm-sidebar .table .row .orion-clinical-tools[open] > summary {
     border-color:#1f3f5b; background:#eaf1f8;
   }
+  body .crm-sidebar .table .row .orion-clinical-tools:not([open]) > .paciente-top {
+    display:none !important;
+  }
   body .crm-sidebar .table .row .orion-clinical-tools > .paciente-top {
     display:flex !important; box-sizing:border-box; flex-wrap:wrap !important;
     width:100% !important; gap:4px !important; padding:6px !important;
