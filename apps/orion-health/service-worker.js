@@ -1,4 +1,4 @@
-const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui16-comms-agenda-prioritaria';
+const CACHE_NAME='orion-dental-app-v1.4.5-health-os-ui17-comms-udc-visible';
 const APP_SCOPE='./';
 const SHELL=[
   './assets/shared/clinical-output-fixes-cmf-v144r4.css','./assets/shared/clinical-output-fixes-cmf-v144r4.js',
