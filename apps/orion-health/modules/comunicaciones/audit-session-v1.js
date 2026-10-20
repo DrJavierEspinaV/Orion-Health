@@ -94,18 +94,24 @@
   }
   function buildToolbar(list) {
     if (document.getElementById('orionAuditToolbar')) return;
-    const toolbar = document.createElement('section');
+    // Compacto por defecto: herramientas adicionales disponibles a demanda.
+    const toolbar = document.createElement('details');
     toolbar.id = 'orionAuditToolbar';
     toolbar.setAttribute('aria-label', 'Bitácora de comunicaciones');
+    const summary = document.createElement('summary');
+    summary.className = 'orion-audit-toolbar-toggle';
     const heading = document.createElement('strong');
-    heading.textContent = 'Seguimiento de comunicaciones';
-    const desc = document.createElement('p');
-    desc.textContent = 'Registro temporal de esta pestaña. No confirma entrega automática ni se sincroniza con Drive. Exporte el CSV antes de cerrar la sesión.';
+    heading.textContent = 'Seguimiento';
     const status = document.createElement('span');
     status.id = 'orionAuditSummary';
     status.setAttribute('role', 'status');
     status.setAttribute('aria-live', 'polite');
-    toolbar.append(heading, desc, status,
+    summary.append(heading, status);
+    const extra = document.createElement('div');
+    extra.className = 'orion-audit-toolbar-extra';
+    const desc = document.createElement('p');
+    desc.textContent = 'Bitácora temporal de esta pestaña; no confirma entrega automática ni sincroniza con Drive. Exportar antes de cerrar la sesión.';
+    extra.append(desc,
       makeButton('Exportar bitácora CSV', exportCsv),
       makeButton('Vaciar bitácora local', function () {
         if (!confirm('¿Vaciar el historial temporal de esta pestaña? Esta acción no modifica la ficha clínica.')) return;
@@ -113,6 +119,7 @@
         saveEvents();
         refresh();
       }));
+    toolbar.append(summary, extra);
     const table = list.closest('.table') || list;
     table.parentNode.insertBefore(toolbar, table);
     updateSummary();
@@ -128,7 +135,34 @@
       ' · Envíos confirmados manualmente: ' + counts.envio_confirmado_manual +
       ' · Respuestas registradas: ' + counts.respuesta_registrada_manual;
   }
+  function enforceWhatsAppCompact(row) {
+    const action = row.querySelector('.wa-row-line a.btn.whatsapp.wa-action');
+    if (!action) return;
+    // Defensa ante estilos heredados/PWA que fuerzan width:100% y botones gigantes.
+    // Solo modifica el botón de lista, nunca el botón manual ni el mensaje.
+    const values = {
+      'box-sizing': 'border-box',
+      'display': 'inline-flex',
+      'width': 'auto',
+      'min-width': '0',
+      'max-width': '112px',
+      'height': 'auto',
+      'min-height': '28px',
+      'max-height': '34px',
+      'padding': '5px 9px',
+      'font-size': '10px',
+      'line-height': '1.15',
+      'border-radius': '8px',
+      'box-shadow': 'none',
+      'flex': '0 0 auto',
+      'align-self': 'flex-start'
+    };
+    Object.keys(values).forEach(function (key) {
+      action.style.setProperty(key, values[key], 'important');
+    });
+  }
   function enhance(row) {
+    enforceWhatsAppCompact(row);
     if (row.dataset.orionAuditEnhanced === '1') return;
     const wa = row.querySelector('a.wa-action');
     const line = row.querySelector('.wa-row-line');

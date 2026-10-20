@@ -33,7 +33,7 @@ setTimeout(()=>{
   }catch(e){}
 }, cacheRestoredOnStart ? 1400 : 220);`
       )
-      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.5"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.5"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"><link rel="stylesheet" href="./health-os-comunicaciones-v1.css?v=1"></head>')
+      .replace('</head>','<link rel="stylesheet" href="../../assets/shared/orion-identity-system-v140.css?v=1.4.5"><link rel="stylesheet" href="./responsive-fixes.css?v=1.4.6"><link rel="stylesheet" href="./mobile-v142.css?v=1.4.6"><link rel="stylesheet" href="./desktop-balance-v144r6.css?v=1.4.5"><link rel="stylesheet" href="./health-os-comunicaciones-v1.css?v=1"></head>')
       .replace('</body>',`<script>
 (function(){
   const XLSX_URL='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
@@ -59,9 +59,9 @@ setTimeout(()=>{
     catch(error){alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');console.error(error);}
   },true);
 })();
-</script><script src="../../assets/shared/session-config.js?v=5.7.12"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.9"></script><script src="./audit-session-v1.js?v=1.1"></script></body>`);
+</script><script src="../../assets/shared/session-config.js?v=5.7.12"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.9"></script><script src="./audit-session-v1.js?v=1.2"></script></body>`);
     h=h.replace('</head>',`<link rel="stylesheet" href="../../assets/shared/health-os-design-tokens-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ui-components-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ux-modules-v2.css?v=2.0"><script>document.documentElement.classList.add('orion-ux-v2');document.documentElement.dataset.orionModule='comunicaciones';</script></head>`);
-    h=h.replace('</head>','<link rel="stylesheet" href="./audit-session-v1.css?v=1.1"></head>');
-    h=h.replace("Orion Comunicaciones Clínicas <span class=\"r\">®</span> — v5.7 PRO_BD","ORION Comunicaciones Clínicas <span class=\"r\">®</span> — V5.7.12");document.open();document.write(h);document.close();
+    h=h.replace('</head>','<link rel="stylesheet" href="./audit-session-v1.css?v=1.2"></head>');
+    h=h.replace("Orion Comunicaciones Clínicas <span class=\"r\">®</span> — v5.7 PRO_BD","ORION Comunicaciones Clínicas <span class=\"r\">®</span> — V5.7.13");document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();

@@ -217,7 +217,7 @@ input,select,textarea,button{max-width:100%;}
   .retraso-estimado-wrap{flex-wrap:wrap !important;}
   .retraso-minutos{min-width:64px !important;max-width:78px !important;}
   .wa-row-line{width:100% !important;}
-  .btn.whatsapp.wa-action{width:100% !important;max-width:none !important;min-height:38px !important;}
+  .btn.whatsapp.wa-action{width:auto !important;min-width:0 !important;max-width:112px !important;min-height:28px !important;padding:5px 9px !important;border-radius:8px !important;box-shadow:none !important;}
 
   .orion-data-source-grid{grid-template-columns:1fr;}
   .orion-data-source-panel{margin-top:0 !important;margin-bottom:8px !important;}
