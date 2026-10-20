@@ -38,6 +38,8 @@
      No intercepta entradas ni botones y se proyecta detrás del contenido 1→2→3. */
   html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane {
     position:relative;
+    /* Mantener encima del encabezado los drawers fijos (interconsulta y exámenes). */
+    z-index:2;
     isolation:isolate;
     padding-top:4px;
   }
