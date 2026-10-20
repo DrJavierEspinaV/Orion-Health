@@ -1,0 +1,214 @@
+/*
+ * ORION Dental App® · ORION Clínico CMF V4.3.44 · Diseño 1→2→3
+ * Sistema corporativo Health OS. EXCLUSIVO PANTALLA.
+ * NO modifica documentos, #print*, firmas, dosis ni lógica de prescripción.
+ */
+@media screen {
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print {
+    position:relative;
+    background:linear-gradient(115deg,#f5f9fc 0%,#fff 55%,#f6f9fb 100%) !important;
+    border-bottom:1px solid #d9dee3 !important;
+    overflow:hidden;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print > div {
+    max-width:1580px !important;
+    min-height:117px;
+    padding:12px clamp(16px,2.3vw,36px) !important;
+    gap:clamp(18px,2.2vw,30px) !important;
+    position:relative; z-index:1;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print img[alt="Maxilofacial PRO+"] {
+    width:clamp(220px,21vw,302px) !important;
+    max-width:302px !important;
+    height:98px !important;
+    min-height:80px !important;
+    max-height:98px !important;
+    object-fit:contain !important;
+    object-position:left center !important;
+    flex:0 0 auto !important;
+    filter:grayscale(20%);
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print h1 {
+    font-size:clamp(19px,1.65vw,26px) !important;
+    line-height:1.23 !important;
+  }
+
+  /* Gran marca de agua anclada a la esquina superior izquierda.
+     No intercepta entradas ni botones y se proyecta detrás del contenido 1→2→3. */
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane {
+    position:relative;
+    isolation:isolate;
+    padding-top:4px;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane::before {
+    content:"";
+    position:absolute;
+    left:clamp(-25px,-2vw,-8px);
+    top:0;
+    width:min(95%,1060px);
+    height:min(73vw,660px);
+    min-height:350px;
+    background-image:url("../../assets/brand/maxilofacial-pro-plus.svg");
+    background-repeat:no-repeat;
+    background-position:left top;
+    background-size:contain;
+    opacity:.16;
+    z-index:-1;
+    pointer-events:none;
+    user-select:none;
+    transform:rotate(-7deg);
+    transform-origin:top left;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > #cmfPatientCard,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns > .card.no-print {
+    position:relative;
+    box-sizing:border-box;
+    min-width:0;
+    overflow:visible;
+    background:rgba(255,255,255,.87) !important;
+    border:1px solid #d9e3ea !important;
+    border-radius:16px !important;
+    box-shadow:0 10px 30px rgba(31,63,91,.065) !important;
+    padding:clamp(15px,1.5vw,24px) !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > #cmfPatientCard {
+    margin:0 0 18px !important;
+    border-top:3px solid #406f91 !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    align-items:start;
+    gap:18px;
+    position:relative;
+    z-index:1;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns > .card.no-print {
+    margin:0 !important;
+    border-top:3px solid #9bb8cb !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent {
+    border-top-color:#2d6a90 !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfPatientCard h2,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions h2,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent h2 {
+    font-family:Montserrat,"Segoe UI",Arial,sans-serif !important;
+    font-size:clamp(17px,1.25vw,20px) !important;
+    font-weight:850 !important;
+    line-height:1.28 !important;
+    color:#1f3f5b !important;
+    letter-spacing:-.02em;
+    padding:0 0 10px !important;
+    margin:0 0 14px !important;
+    border-bottom:1px solid #e2eaf0;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions > .mb-4.flex.items-center.justify-between {
+    display:flex;
+    align-items:start;
+    flex-direction:column;
+    gap:10px;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions > .mb-4.flex.items-center.justify-between > div {
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-start;
+    gap:7px;
+    align-items:center;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #btnDocCert,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #btnDocBiopsia,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #btnDocExams,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #btnDocInter {
+    border-radius:9px !important;
+    min-height:36px !important;
+    font-size:11px !important;
+    padding:7px 10px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelPlantillas > .grid,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelComponentes > .grid {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelPlantillas > .grid > :last-child {
+    grid-column:1 / -1;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions select,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent :is(textarea,select,input),
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfPatientCard input {
+    font-size:13px !important;
+    line-height:1.45 !important;
+    max-width:100%;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent #receta {
+    min-height:220px !important;
+    resize:vertical;
+    background:rgba(255,255,255,.96) !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent #indicaciones {
+    min-height:250px !important;
+    resize:vertical;
+    background:rgba(255,255,255,.96) !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent > .mt-4 {
+    margin-top:0 !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent > .mt-6 {
+    margin-top:18px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent > .mt-6.grid {
+    grid-template-columns:minmax(0,1fr) !important;
+    gap:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent .fase-actions {
+    margin-top:9px;
+    gap:6px;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent .fase-actions .chip {
+    border-radius:8px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent #selInd {
+    width:100%;
+  }
+}
+@media screen and (max-width:1080px) {
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns {
+    grid-template-columns:minmax(0,1fr);
+    gap:12px;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > #cmfPatientCard {
+    margin-bottom:12px !important;
+  }
+}
+@media screen and (max-width:700px) {
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print > div {
+    flex-direction:column;
+    align-items:flex-start !important;
+    min-height:0;
+    gap:6px !important;
+    padding:14px 12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print img[alt="Maxilofacial PRO+"] {
+    width:min(78vw,245px) !important;
+    height:78px !important;
+    max-width:245px !important;
+    max-height:78px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns > .card.no-print {
+    padding:13px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelPlantillas > .grid,
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelComponentes > .grid {
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions #panelPlantillas > .grid > :last-child {
+    grid-column:auto;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane::before {
+    width:100%;
+    height:400px;
+    opacity:.095;
+    transform:rotate(-9deg);
+  }
+}
