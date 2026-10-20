@@ -12,6 +12,7 @@ async function openAgenda(page, width) {
 window.__orionAgendaTest = {
   seed(rows) {
     DATA.splice(0, DATA.length, ...rows.map(prepRow));
+    poblarEstadosUnicos();
     render();
   }
 };
