@@ -58,12 +58,12 @@ test('Enlace manual: URL oculta por defecto y visible a solicitud',async({page})
   await expect(frame.locator('#manualPreview')).toBeHidden();
   await details.locator('summary').click();
   await expect(frame.locator('#manualPreview')).toBeVisible();
-  await expect(frame.locator('#manualPreview .orion-manual-link-value')).toContainText('api.whatsapp.com/send?phone=');
+  await expect(frame.locator('#manualPreview .orion-manual-link-value')).toHaveText(/^https:\/\/(?:api\.whatsapp\.com\/send\?phone=|wa\.me\/)/);
   const safe=await frame.locator('#manualPreview').evaluate(el=>({
     html:el.innerHTML,
     value:el.querySelector('code')?.textContent || ''
   }));
-  expect(safe.value).toContain('api.whatsapp.com/send?phone=');
+  expect(/^https:\/\/(?:api\.whatsapp\.com\/send\?phone=|wa\.me\/)/.test(safe.value)).toBe(true);
   expect(safe.html).not.toContain('<iframe');
   await details.locator('summary').click();
   await expect(frame.locator('#manualPreview')).toBeHidden();
