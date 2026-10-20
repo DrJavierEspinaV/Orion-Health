@@ -1,0 +1,150 @@
+/* ORION Dental App® · Comunicaciones · Panel editorial V1
+ * Utiliza exclusivamente tokens ORION Health OS V2.
+ * CSS de pantalla; no modifica controladores, impresión ni estados de pacientes.
+ */
+@media screen {
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .crm-left .orion-message-workspace {
+    display:flex; flex-direction:column; gap:12px;
+    padding:16px !important;
+    background:var(--orion-ui-surface,#fff) !important;
+    border:1px solid var(--orion-ui-border,#d9dee3) !important;
+    border-radius:var(--orion-ui-radius-card,16px) !important;
+    box-shadow:var(--orion-ui-shadow-soft,0 9px 28px rgba(31,63,91,.07)) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-heading {
+    display:flex; flex-direction:column; gap:3px; padding:0 0 12px;
+    border-bottom:1px solid var(--orion-ui-border,#d9dee3);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-heading strong {
+    font:800 15px/1.3 var(--orion-ui-font,Montserrat,Arial,sans-serif);
+    color:var(--orion-ui-primary,#1f3f5b);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-heading span {
+    font:500 11px/1.45 var(--orion-ui-font,Montserrat,Arial,sans-serif);
+    color:var(--orion-ui-muted,#627486);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-workspace > .bar-2.editable,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-workspace > .editable:not(.surveyBox) {
+    padding:0 !important; margin:0 !important; border:0 !important;
+    border-radius:0 !important; box-shadow:none !important;
+    background:transparent !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-workspace #tipoMensaje {
+    max-width:100%; font-size:12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-workspace #mensajeTipo {
+    min-height:190px; line-height:1.55 !important;
+    font-size:12px !important; resize:vertical;
+    max-width:100%;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement {
+    display:block; box-sizing:border-box;
+    border:1px solid var(--orion-ui-border,#d9dee3);
+    border-radius:10px; background:var(--orion-ui-surface-soft,#f7f9fb);
+    overflow:clip; margin:0;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary {
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:4px 12px; padding:10px 12px; min-height:40px;
+    box-sizing:border-box; cursor:pointer; list-style:none;
+    color:var(--orion-ui-primary,#1f3f5b);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary::-webkit-details-marker {
+    display:none;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary::after {
+    content:"⌄"; color:var(--orion-ui-muted,#627486); font-size:16px;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement[open] > summary::after {
+    transform:rotate(180deg);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary span {
+    font:800 12px/1.4 var(--orion-ui-font,Montserrat,Arial,sans-serif);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary small {
+    flex:1 1 135px;
+    font:500 10px/1.4 var(--orion-ui-font,Montserrat,Arial,sans-serif);
+    color:var(--orion-ui-muted,#627486);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement:not([open]) > :not(summary) {
+    display:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > .surveyBox {
+    border:0 !important;
+    border-top:1px solid var(--orion-ui-border,#d9dee3) !important;
+    border-radius:0 !important; box-shadow:none !important;
+    padding:12px !important; margin:0 !important;
+    background:var(--orion-ui-surface,#fff) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionSurveyDisclosure:has(#encuestaOn:checked) > summary {
+    background:#edf5f8;
+    border-left:3px solid var(--orion-ui-success,#12805c);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionSurveyDisclosure:has(#encuestaOn:checked) > summary span::after {
+    content:" · activada"; font-weight:600;
+    color:var(--orion-ui-success,#12805c);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-attachments-disclosure > :not(summary) {
+    margin:8px 12px !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-attachments-disclosure #linksPreview[hidden] {
+    display:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-attachments-disclosure:has(#linksPreview:not([hidden])) > summary {
+    background:#edf5f8;
+  }
+
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #whatsappManualCard {
+    border-color:var(--orion-ui-border,#d9dee3) !important;
+    background:var(--orion-ui-surface,#fff) !important;
+    box-shadow:var(--orion-ui-shadow-soft,0 9px 28px rgba(31,63,91,.07)) !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #whatsappManualCard .manual-title {
+    color:var(--orion-ui-primary,#1f3f5b);
+    text-transform:none; font-size:13px;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #manualOpen,
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #manualCopy {
+    display:inline-flex !important; flex:0 1 auto !important;
+    width:auto !important; max-width:180px !important;
+    min-height:34px !important; padding:7px 12px !important;
+    border-radius:8px !important; font-size:11px !important;
+    box-shadow:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionManualPreviewDetails[hidden],
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #manualPreview[hidden] {
+    display:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionManualPreviewDetails {
+    margin-top:12px; border:1px solid var(--orion-ui-border,#d9dee3);
+    border-radius:9px; background:var(--orion-ui-surface-soft,#f7f9fb);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionManualPreviewDetails > summary {
+    padding:9px 12px; font:750 11px/1.3 var(--orion-ui-font,Montserrat,Arial,sans-serif);
+    color:var(--orion-ui-primary,#1f3f5b);
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #orionManualPreviewDetails:not([open]) > #manualPreview {
+    display:none !important;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] #manualPreview {
+    margin:0 10px 10px; padding:10px;
+  }
+  html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-manual-link-value {
+    display:block; margin-top:6px; overflow-wrap:anywhere; word-break:break-word;
+    color:var(--orion-ui-muted,#627486);
+    font:500 10px/1.4 ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+
+  @media(max-width:640px) {
+    html.orion-ux-v2[data-orion-module="comunicaciones"] .crm-left .orion-message-workspace {
+      padding:12px !important; gap:10px;
+    }
+    html.orion-ux-v2[data-orion-module="comunicaciones"] .orion-message-supplement > summary {
+      padding:10px;
+    }
+    html.orion-ux-v2[data-orion-module="comunicaciones"] #manualOpen,
+    html.orion-ux-v2[data-orion-module="comunicaciones"] #manualCopy {
+      max-width:100% !important;
+    }
+  }
+}
