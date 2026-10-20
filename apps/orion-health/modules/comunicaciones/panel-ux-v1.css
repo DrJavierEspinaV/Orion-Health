@@ -340,19 +340,22 @@
   }
 }
 @media screen and (max-width:1259px) {
+  /* Mantener el layout flex original de móvil para conservar el contrato
+     de ORION y evitar alterar la navegación por teclado y la altura PWA. */
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout {
-    display:grid !important;
-    grid-template-columns:minmax(0,1fr) !important;
+    display:flex !important;
+    flex-direction:column !important;
+    grid-template-columns:none !important;
     gap:12px !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar {
-    grid-column:1 !important; grid-row:1 !important;
+    order:1 !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left {
-    grid-column:1 !important; grid-row:2 !important;
+    order:2 !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .orion-data-source-panel {
-    grid-column:1 !important; grid-row:3 !important;
+    order:3 !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-sidebar #list {
     max-height:none !important; overflow:visible !important;
