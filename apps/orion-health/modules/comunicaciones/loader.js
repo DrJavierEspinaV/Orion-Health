@@ -39,9 +39,9 @@
     catch(error){alert('No fue posible habilitar la importación Excel. La base de Drive continúa disponible.');console.error(error);}
   },true);
 })();
-</script><script src="../../assets/shared/session-config.js?v=5.7.12"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.9"></script><script src="./audit-session-v1.js?v=1.4"></script></body>`);
+</script><script src="../../assets/shared/session-config.js?v=5.7.17"></script><script src="../../assets/shared/communications-priority-layout.js?v=5.7.17"></script><script src="./audit-session-v1.js?v=1.4"></script></body>`);
     h=h.replace('</head>',`<link rel="stylesheet" href="../../assets/shared/health-os-design-tokens-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ui-components-v2.css?v=2.0"><link rel="stylesheet" href="../../assets/shared/health-os-ux-modules-v2.css?v=2.0"><script>document.documentElement.classList.add('orion-ux-v2');document.documentElement.dataset.orionModule='comunicaciones';</script></head>`);
-    h=h.replace('</head>','<link rel="stylesheet" href="./audit-session-v1.css?v=1.5"></head>');
-    h=h.replace("Orion Comunicaciones Clínicas <span class=\"r\">®</span> — v5.7 PRO_BD","ORION Comunicaciones Clínicas <span class=\"r\">®</span> — V5.7.16");document.open();document.write(h);document.close();
+    h=h.replace('</head>','<link rel="stylesheet" href="./audit-session-v1.css?v=1.6"></head>');
+    h=h.replace("Orion Comunicaciones Clínicas <span class=\"r\">®</span> — v5.7 PRO_BD","ORION Comunicaciones Clínicas <span class=\"r\">®</span> — V5.7.17");document.open();document.write(h);document.close();
   }catch(e){document.body.textContent='No se pudo cargar ORION Comunicaciones Clínicas.';console.error(e);}
 })();
