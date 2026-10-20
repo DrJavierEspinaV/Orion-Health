@@ -8,14 +8,14 @@ async function openAgenda(page, width) {
     const html = await response.text();
     const anchor = '}); // DOMContentLoaded';
     if (!html.includes(anchor)) throw new Error('No se encontró el ancla de QA de la agenda');
-    const instrumented = html.replace(anchor, String.raw\`
+    const instrumented = html.replace(anchor, String.raw`
 window.__orionAgendaTest = {
   seed(rows) {
     DATA.splice(0, DATA.length, ...rows.map(prepRow));
     render();
   }
 };
-\` + anchor);
+` + anchor);
     await route.fulfill({ response, body: instrumented });
   });
   await page.goto('/apps/orion-health/index.html', { waitUntil: 'domcontentloaded' });
