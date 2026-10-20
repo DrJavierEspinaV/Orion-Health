@@ -161,7 +161,54 @@
       action.style.setProperty(key, values[key], 'important');
     });
   }
+  // Mantener abierto el panel si el profesional cambia UDC o retraso y render() recrea la fila.
+  const openClinicalTools = new Set();
+
+  function compactClinicalRow(row) {
+    if (!row || row.dataset.orionAgendaCompact === '1') return;
+    const cells = Array.from(row.children);
+    if (cells.length < 6) return;
+    const classes = ['patient-main','patient-run','patient-date','patient-time','patient-status','patient-motive'];
+    cells.slice(0, 6).forEach((cell, i) => cell.classList.add(classes[i]));
+    const main = cells[0];
+    const controls = main.querySelector('.paciente-top');
+    const line = main.querySelector('.wa-row-line');
+    const phone = main.querySelector(':scope > .muted');
+    if (!line) return;
+
+    // Se conserva el nodo de cada input y sus listeners originales.
+    // No recrear checkboxes: de lo contrario se perdería su comportamiento clínico.
+    if (phone) {
+      phone.classList.add('orion-patient-phone');
+      line.insertBefore(phone, line.firstChild);
+    }
+    if (controls) {
+      const details = document.createElement('details');
+      details.className = 'orion-clinical-tools';
+      const summary = document.createElement('summary');
+      summary.className = 'orion-clinical-tools-toggle';
+      const active = !!(row.classList.contains('udc-active') ||
+        row.classList.contains('retraso-active'));
+      summary.textContent = active ? 'Acciones • activo' : 'Acciones';
+      summary.setAttribute('aria-label', 'Opciones clínicas: UDC y retrasos');
+      summary.title = 'Usar en documento clínico y avisar retrasos';
+      const identity = [
+        cells[1]?.textContent?.trim() || main.querySelector('.paciente-nombre')?.textContent?.trim() || '',
+        cells[2]?.textContent?.trim() || '',
+        cells[3]?.textContent?.trim() || ''
+      ].join('|');
+      if (openClinicalTools.has(identity)) details.open = true;
+      details.append(summary, controls);
+      details.addEventListener('toggle', function () {
+        if (details.open) openClinicalTools.add(identity);
+        else openClinicalTools.delete(identity);
+      });
+      line.appendChild(details);
+    }
+    row.dataset.orionAgendaCompact = '1';
+  }
   function enhance(row) {
+    compactClinicalRow(row);
     enforceWhatsAppCompact(row);
     if (row.dataset.orionAuditEnhanced === '1') return;
     const wa = row.querySelector('a.wa-action');
