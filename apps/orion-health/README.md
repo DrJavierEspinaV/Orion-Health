@@ -4,7 +4,7 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 ## Arquitectura vigente
 
-- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.17.
+- `modules/comunicaciones/` — Comunicaciones Clínicas V5.7.18.
 - `modules/insumos/` — Insumos V4.5.4.
 - `modules/cmf/` — Clínico CMF V4.3.43.
 - `modules/endodoncia/` — Endodoncia V4.6.3.
@@ -14,7 +14,11 @@ Plataforma clínica modular desarrollada por ORION Health SpA.
 
 Cada módulo posee una ruta estable `modules/<modulo>/index.html`; las versiones no forman parte del nombre de las carpetas.
 
-## Comunicaciones Clínicas V5.7.17
+## Comunicaciones Clínicas V5.7.18
+
+- Editor visual integrado en ORION Dental App® y tokens Health OS: plantilla y mensaje predominantes; encuesta y adjuntos secundarios plegados.
+- Contacto manual: enlace largo oculto tras «Ver enlace generado», con protección de texto literal.
+- Interoperabilidad futura con ORION Health Clinical SO prevista mediante adaptador de datos independiente; no hay integración activa.
 
 - Vista previa de enlaces en texto seguro.
 - WhatsApp no aparece como enviado por el mero hecho de abrir la conversación.
