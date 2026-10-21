@@ -13,7 +13,7 @@ async function openCmf(page, width) {
 }
 
 for (const width of [1440,390]) {
-  test('CMF 1-2-3 '+width+'px: jerarquía y firma de agua, preservando receta',async ({page})=>{
+  test('CMF 1-2-3 '+width+'px: jerarquía compacta sin marca de agua, preservando receta',async ({page})=>{
     const frame=await openCmf(page,width);
     await expect(frame.locator('#p_nombre')).toBeVisible();
     await expect(frame.locator('#tplAdulto')).toBeVisible();
@@ -52,17 +52,15 @@ for (const width of [1440,390]) {
     expect(layout.allPrintPages).toBe(true);
     expect(layout.patient.bottom).toBeLessThan(layout.options.top+15);
     expect(layout.logoSrc).toContain('maxilofacial-pro-plus.svg');
-    expect(layout.watermarkImage).toContain('maxilofacial-pro-plus.svg');
-    expect(layout.watermarkOpacity).toBeGreaterThan(0);
-    expect(layout.watermarkOpacity).toBeLessThanOrEqual(0.18);
+    expect(layout.watermarkOpacity).toBe(1);
     expect(layout.scrollWidth).toBeLessThanOrEqual(layout.viewWidth+4);
     if(width>=1081){
-      expect(layout.logoWidth).toBeGreaterThan(205);
+      expect(layout.logoWidth).toBeLessThanOrEqual(160);
       expect(layout.options.left).toBeLessThan(layout.content.left);
       expect(Math.abs(layout.options.top-layout.content.top)).toBeLessThan(10);
       expect(layout.options.right).toBeLessThan(layout.content.left);
     }else{
-      expect(layout.logoWidth).toBeGreaterThan(185);
+      expect(layout.logoWidth).toBeLessThanOrEqual(110);
       expect(layout.options.top).toBeLessThan(layout.content.top);
     }
     // El formulario real mantiene los identificadores y la escritura del profesional.
