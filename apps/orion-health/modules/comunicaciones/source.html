@@ -846,7 +846,7 @@ function setPlantilla(){
   // ✅ Cambio único: WhatsApp Manual también aparece para “Paciente Ausente”.
   // ✅ Derivación mantiene su bloque propio solo para “Derivación por WhatsApp”.
   const showDerivacion = (tipo === 'derivacion_whatsapp');
-  const showWhatsappManual = (tipo === 'derivacion_whatsapp' || tipo === 'ausente');
+  const showWhatsappManual = ['derivacion_whatsapp', 'ausente', 'control', 'control_online'].includes(tipo);
 
   const bd = document.getElementById('bloqueDerivacion');
   const wm = document.getElementById('whatsappManualCard');
