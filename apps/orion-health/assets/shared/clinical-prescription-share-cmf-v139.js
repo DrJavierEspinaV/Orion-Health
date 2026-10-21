@@ -100,7 +100,7 @@
   function createPdfStage(pages){
     const stage=document.createElement('div');
     stage.id='orionSignedPdfStage';
-    stage.style.cssText='position:absolute;left:0;top:0;width:528px;background:#fff;z-index:99999;pointer-events:none;overflow:visible;';
+    stage.style.cssText='position:fixed;left:0;top:0;width:528px;background:#fff;z-index:-1;pointer-events:none;overflow:visible;';
 
     const css=document.createElement('style');
     css.textContent=`
@@ -179,48 +179,51 @@
     try{
       await waitForImages(stage);
       const papers=[...stage.querySelectorAll('.orion-pdf-paper')];
-      const options={
-        margin:0,
-        image:{type:'jpeg',quality:0.97},
-        html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
-          logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816,
-          onclone:doc=>{
-            const stage=doc.getElementById('orionSignedPdfStage');
-            if(stage){stage.style.position='absolute';stage.style.left='0';stage.style.top='0';}
-            for(const el of doc.querySelectorAll('#orionSignedPdfStage .orion-pdf-paper,#orionSignedPdfStage .page')){
-              el.style.margin='0';el.style.transform='none';el.style.left='0';el.style.top='0';
-            }
-          }},
-        jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
-        pagebreak:{mode:[]}
-      };
-      // Cada hoja se rasteriza por separado: no se divide un contenedor alto
-      // mediante reglas CSS de salto que producían páginas sin contenido.
-      let pdf=null;
+      // Render independiente por página y composición con un único formato.
+      // No dejar que html2pdf fragmente ni reescale el documento completo.
+      const canvases=[];
       for(let index=0;index<papers.length;index++){
-        const worker=html2pdf().set(options).from(papers[index]);
+        const node=papers[index];
+        const worker=html2pdf().set({
+          margin:0,
+          html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
+            logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816},
+          jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
+          pagebreak:{mode:[]}
+        }).from(node);
         const canvas=await worker.toCanvas().get('canvas');
-        if(!canvas||canvas.width===0||canvas.height===0){
-          throw new Error('No se pudo representar la hoja '+(index+1)+'.');
+        if(!canvas||canvas.width<528||canvas.height<816){
+          throw new Error('No se pudo renderizar correctamente la hoja '+(index+1));
         }
         const context=canvas.getContext('2d',{willReadFrequently:true});
-        if(!context)throw new Error('No se puede verificar el contenido de la hoja '+(index+1)+'.');
-        const {data}=context.getImageData(0,0,canvas.width,canvas.height);
-        let hasInk=false;
-        for(let p=0;p<data.length;p+=Math.max(4,Math.floor(data.length/40000/4)*4)){
-          if(data[p+3]>100&&(data[p]<218||data[p+1]<218||data[p+2]<218)){hasInk=true;break;}
+        if(!context)throw new Error('No se puede verificar la hoja '+(index+1));
+        let marked=false;
+        const data=context.getImageData(0,0,canvas.width,canvas.height).data;
+        for(let pixel=0;pixel<data.length;pixel+=160){
+          if(data[pixel+3]>100&&Math.min(data[pixel],data[pixel+1],data[pixel+2])<175){
+            marked=true;break;
+          }
         }
-        if(!hasInk)throw new Error('La hoja '+(index+1)+' está en blanco. Se canceló la exportación.');
-        if(!pdf){
-          pdf=await worker.toPdf().get('pdf');
-          if(!pdf)throw new Error('No se pudo crear el PDF.');
-        }else{
-          pdf.addPage([5.5,8.5],'portrait');
-          pdf.addImage(canvas.toDataURL('image/jpeg',0.97),'JPEG',0,0,5.5,8.5,undefined,'FAST');
-        }
+        if(!marked)throw new Error('La hoja '+(index+1)+' está vacía; se canceló la exportación.');
+        canvases.push(canvas);
       }
-      if(pdf.internal?.getNumberOfPages?.()!==pages.length){
-        throw new Error('PDF incompleto: el número de hojas no coincide.');
+      // Usar el PDF del worker solo como instancia jsPDF y reconstruir
+      // todas las páginas con los lienzos verificados (incluida la primera).
+      const bootstrap=html2pdf().set({
+        margin:0,
+        jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
+        html2canvas:{scale:1,backgroundColor:'#FFFFFF'},
+        pagebreak:{mode:[]}
+      }).from(papers[0]);
+      const pdf=await bootstrap.toPdf().get('pdf');
+      while(pdf.internal.getNumberOfPages()>1)pdf.deletePage(pdf.internal.getNumberOfPages());
+      for(let i=0;i<canvases.length;i++){
+        if(i>0)pdf.addPage([5.5,8.5],'portrait');
+        pdf.setPage(i+1);
+        pdf.addImage(canvases[i].toDataURL('image/jpeg',0.97),'JPEG',0,0,5.5,8.5,undefined,'FAST');
+      }
+      if(pdf.internal.getNumberOfPages()!==pages.length){
+        throw new Error('PDF incompleto: número de páginas inconsistente.');
       }
       pdf.setProperties?.({
         title:`Receta ORION ${auth.folio}`,
