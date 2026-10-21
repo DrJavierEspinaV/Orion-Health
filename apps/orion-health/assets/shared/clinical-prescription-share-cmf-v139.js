@@ -176,20 +176,42 @@
     const stage=createPdfStage(pages);
     try{
       await waitForImages(stage);
-      // Mismo motor Statement de 5,5 × 8,5 usado por la exportación clínica.
-      // El worker entrega el jsPDF, sin depender de globals que el bundle no garantiza.
-      const pdf=await html2pdf().set({
+      const papers=[...stage.querySelectorAll('.orion-pdf-paper')];
+      const options={
         margin:0,
-        image:{type:'jpeg',quality:0.98},
+        image:{type:'jpeg',quality:0.97},
         html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
           logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816},
         jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
-        pagebreak:{mode:['css','legacy'],after:'.orion-pdf-paper:not(:last-child)'}
-      }).from(stage).toPdf().get('pdf');
-
-      // No publicar un PDF de cero páginas; el documento se verifica antes de guardarlo.
-      if(!pdf||pdf.internal?.getNumberOfPages?.()<pages.length){
-        throw new Error('PDF incompleto: faltan hojas del documento solicitado.');
+        pagebreak:{mode:[]}
+      };
+      // Cada hoja se rasteriza por separado: no se divide un contenedor alto
+      // mediante reglas CSS de salto que producían páginas sin contenido.
+      let pdf=null;
+      for(let index=0;index<papers.length;index++){
+        const worker=html2pdf().set(options).from(papers[index]);
+        const canvas=await worker.toCanvas().get('canvas');
+        if(!canvas||canvas.width===0||canvas.height===0){
+          throw new Error('No se pudo representar la hoja '+(index+1)+'.');
+        }
+        const context=canvas.getContext('2d',{willReadFrequently:true});
+        if(!context)throw new Error('No se puede verificar el contenido de la hoja '+(index+1)+'.');
+        const {data}=context.getImageData(0,0,canvas.width,canvas.height);
+        let hasInk=false;
+        for(let p=0;p<data.length;p+=Math.max(4,Math.floor(data.length/40000/4)*4)){
+          if(data[p+3]>100&&(data[p]<218||data[p+1]<218||data[p+2]<218)){hasInk=true;break;}
+        }
+        if(!hasInk)throw new Error('La hoja '+(index+1)+' está en blanco. Se canceló la exportación.');
+        if(!pdf){
+          pdf=await worker.toPdf().get('pdf');
+          if(!pdf)throw new Error('No se pudo crear el PDF.');
+        }else{
+          pdf.addPage([5.5,8.5],'portrait');
+          pdf.addImage(canvas.toDataURL('image/jpeg',0.97),'JPEG',0,0,5.5,8.5,undefined,'FAST');
+        }
+      }
+      if(pdf.internal?.getNumberOfPages?.()!==pages.length){
+        throw new Error('PDF incompleto: el número de hojas no coincide.');
       }
       pdf.setProperties?.({
         title:`Receta ORION ${auth.folio}`,
@@ -312,7 +334,7 @@
         const raw=window.prompt('Número WhatsApp del paciente con código de país (ej.: 56912345678):','');
         if(raw===null)return;
         recipient=String(raw).replace(/[^0-9]/g,'');
-        if(!/^\\d{8,15}$/.test(recipient)){
+        if(!/^[0-9]{8,15}$/.test(recipient)){
           alert('Ingresa un número válido con código de país, sin + ni espacios.');
           return;
         }
