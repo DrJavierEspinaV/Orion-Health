@@ -325,3 +325,16 @@
   }
  }
 }
+
+/* Exámenes: las acciones superiores nunca deben superponerse al panel modal. */
+@media screen {
+ html.orion-ux-v2[data-orion-module="cmf"] .orion-actions-top {
+  position:relative!important;z-index:1!important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] #examBackdrop {z-index:90!important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #examDrawer {
+  z-index:91!important;top:0!important;height:100dvh!important;
+  max-height:100dvh!important;overflow-y:auto!important;
+  overscroll-behavior:contain;
+ }
+}

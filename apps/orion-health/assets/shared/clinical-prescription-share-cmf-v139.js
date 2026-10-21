@@ -100,11 +100,12 @@
   function createPdfStage(pages){
     const stage=document.createElement('div');
     stage.id='orionSignedPdfStage';
-    stage.style.cssText='position:fixed;left:0;top:0;width:528px;background:#fff;z-index:99999;pointer-events:none;overflow:visible;';
+    stage.style.cssText='position:absolute;left:0;top:0;width:528px;background:#fff;z-index:99999;pointer-events:none;overflow:visible;';
 
     const css=document.createElement('style');
     css.textContent=`
       #orionSignedPdfStage .orion-pdf-paper{
+        margin:0!important;transform:none!important;left:0!important;top:0!important;
         width:528px!important;
         height:816px!important;
         padding:26.4567px!important;
@@ -118,6 +119,7 @@
       #orionSignedPdfStage .orion-pdf-paper>.page{
         display:block!important;
         width:100%!important;
+        max-width:none!important;margin:0!important;transform:none!important;
         height:100%!important;
         min-height:0!important;
         max-height:none!important;
@@ -181,7 +183,14 @@
         margin:0,
         image:{type:'jpeg',quality:0.97},
         html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
-          logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816},
+          logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816,
+          onclone:doc=>{
+            const stage=doc.getElementById('orionSignedPdfStage');
+            if(stage){stage.style.position='absolute';stage.style.left='0';stage.style.top='0';}
+            for(const el of doc.querySelectorAll('#orionSignedPdfStage .orion-pdf-paper,#orionSignedPdfStage .page')){
+              el.style.margin='0';el.style.transform='none';el.style.left='0';el.style.top='0';
+            }
+          }},
         jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
         pagebreak:{mode:[]}
       };
@@ -244,35 +253,20 @@
   async function shareWhatsApp(reservedTab=null,recipient=''){
     const auth=await authorization('WHATSAPP');
     if(!auth){reservedTab?.close?.();return;}
-    const pdf=await buildSignedPdf(auth);
-    const blob=pdf.output('blob');
-    if(!blob||blob.size<1000)throw new Error('No se generó un PDF válido. No se enviará el documento.');
-    const file=new File([blob],filename(auth),{type:'application/pdf',lastModified:Date.now()});
     const text=buildClinicalText(auth);
-
-    // Web Share (móvil compatible): comparte archivo y texto en selector del sistema.
-    // WhatsApp Web no admite adjuntar archivos automáticamente mediante enlaces.
-    if(navigator.share&&navigator.canShare?.({files:[file]})){
-      try{
-        await navigator.share({title:`Receta ORION · ${auth.folio}`,text,files:[file]});
-        reservedTab?.close?.();
-        await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_FILE',auth);
-        return;
-      }catch(error){
-        if(error?.name==='AbortError'){reservedTab?.close?.();return;}
-        console.warn('ORION WhatsApp share:',error);
-      }
-    }
-
-    pdf.save(filename(auth));
-    const encoded=encodeURIComponent(text);
-    const webUrl=`https://api.whatsapp.com/send?phone=${recipient}&text=${encoded}`;
-    const mobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    const webUrl='https://api.whatsapp.com/send?phone='+recipient+'&text='+encodeURIComponent(text);
+    // Abrir mensaje primero: no bloquear navegación mientras se genera el PDF.
     if(reservedTab&&!reservedTab.closed)reservedTab.location.replace(webUrl);
-    else if(mobile)window.location.assign(webUrl);
-    else openExternal(webUrl);
-    // Es necesaria la adjunción manual del PDF descargado en WhatsApp Web.
-    await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_PDF_DOWNLOADED',auth);
+    else window.location.assign(webUrl);
+    await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_TEXT_PREPARED',auth);
+    try{
+      const pdf=await buildSignedPdf(auth);
+      if(pdf.output('blob').size<1000)throw new Error('PDF demasiado pequeño.');
+      pdf.save(filename(auth));
+      await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_PDF_DOWNLOADED',auth);
+    }catch(error){
+      console.warn('ORION WhatsApp: PDF no disponible, chat preparado:',error);
+    }
   }
 
   async function printPrescription(){
