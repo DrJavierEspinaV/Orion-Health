@@ -10,8 +10,8 @@ const APPS = {
     src: "./modules/insumos/index.html"
   },
   cmf: {
-    title: "ORION Clínico CMF",
-    desc: "Documentos clínicos CMF.",
+    title: "ORION Clínico CMF ® — v4.3.44",
+    desc: "Recetas, indicaciones y documentos clínicos maxilofaciales",
     src: "./modules/cmf/index.html"
   },
   endo: {
