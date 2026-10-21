@@ -2258,7 +2258,37 @@ INDICACIONES:
     }
   });
 
+  // Conserva certificado y biopsia como dos hojas independientes en la misma emisión.
+  // El documento activo sigue usando printDoc; el anterior se preserva sin IDs duplicados.
+  const savedDocuments=new Map();
+  function snapshotDocument(mode){
+    const source=get('printDoc');
+    if(!source||source.classList.contains('hidden'))return;
+    const clone=source.cloneNode(true);
+    clone.classList.remove('hidden');
+    clone.removeAttribute('aria-hidden');
+    clone.id='orionExtraDocument_'+mode;
+    clone.dataset.orionDocument=mode;
+    clone.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
+    savedDocuments.set(mode,clone);
+  }
+  function mountSavedDocuments(activeMode){
+    document.querySelectorAll('[data-orion-document]').forEach(node=>node.remove());
+    const current=get('printDoc');
+    if(!current)return;
+    let previous=current;
+    for(const [mode,page] of savedDocuments){
+      if(mode===activeMode)continue;
+      const node=page.cloneNode(true);
+      previous.insertAdjacentElement('afterend',node);
+      previous=node;
+    }
+  }
   function showDoc(mode){
+    const previousTitle=(get('docTitulo')?.textContent||'').toUpperCase();
+    const previousMode=previousTitle.includes('CERTIFICADO')?'cert':
+      previousTitle.includes('BIOPSIA')?'bio':null;
+    if(previousMode&&previousMode!==mode)snapshotDocument(previousMode);
     const s3 = get('printDoc');
     const sLab = get('printExamLab');
     const sImg = get('printExamImg');
@@ -2287,6 +2317,7 @@ INDICACIONES:
       return;
     }
     s3.classList.remove('hidden'); s3.removeAttribute('aria-hidden');
+    mountSavedDocuments(mode);
     window.__orionUpdatePrintBreaks && window.__orionUpdatePrintBreaks();
     s3.scrollIntoView({behavior:'smooth', block:'start'});
   }
