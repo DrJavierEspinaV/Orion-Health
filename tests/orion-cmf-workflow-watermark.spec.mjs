@@ -55,12 +55,12 @@ for (const width of [1440,390]) {
     expect(layout.watermarkOpacity).toBe(1);
     expect(layout.scrollWidth).toBeLessThanOrEqual(layout.viewWidth+4);
     if(width>=1081){
-      expect(layout.logoWidth).toBeLessThanOrEqual(160);
+      expect(layout.logoWidth).toBe(0);
       expect(layout.options.left).toBeLessThan(layout.content.left);
       expect(Math.abs(layout.options.top-layout.content.top)).toBeLessThan(10);
       expect(layout.options.right).toBeLessThan(layout.content.left);
     }else{
-      expect(layout.logoWidth).toBeLessThanOrEqual(110);
+      expect(layout.logoWidth).toBe(0);
       expect(layout.options.top).toBeLessThan(layout.content.top);
     }
     // El formulario real mantiene los identificadores y la escritura del profesional.
