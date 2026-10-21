@@ -2269,7 +2269,12 @@ INDICACIONES:
     clone.removeAttribute('aria-hidden');
     clone.id='orionExtraDocument_'+mode;
     clone.dataset.orionDocument=mode;
-    clone.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
+    // Conservar la familia fixedFoot: sus reglas definen dimensiones de logo y firma.
+    // Evitar únicamente IDs duplicados del contenido editable del documento.
+    clone.querySelectorAll('[id]').forEach(node=>{
+      if(node.id.startsWith('fixedFoot'))node.id='fixedFootExtra_'+mode;
+      else node.removeAttribute('id');
+    });
     savedDocuments.set(mode,clone);
   }
   function mountSavedDocuments(activeMode){
