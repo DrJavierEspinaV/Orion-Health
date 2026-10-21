@@ -170,49 +170,23 @@
     pdfRunning=true;
     const button=$('btnPdf');
     const originalLabel=button?.textContent||'PDF';
-    setPdfButtonState(true,'Generando PDF…');
-
-    let stage=null;
+    setPdfButtonState(true,'Preparando documento…');
     try{
       const auth=await authorizePdf();
       if(!auth)return;
-
-      try{if(typeof window.render==='function')window.render();}catch(_){ }
+      try{if(typeof window.render==='function')window.render();}catch(error){console.warn('ORION render:',error);}
       await window.ORION_CMF_MOBILE_V142?.prepareOutput?.();
-      const html2pdf=await loadPdfLibrary();
       const pages=visiblePages();
       if(!pages.length)throw new Error('No hay hojas clínicas visibles para exportar.');
-
-      stage=createPdfStage(pages);
-      await waitForImages(stage);
-
-      const worker=html2pdf().set({
-        margin:0,
-        filename:pdfFilename(pages,auth),
-        image:{type:'jpeg',quality:.98},
-        html2canvas:{
-          scale:2,
-          useCORS:true,
-          allowTaint:false,
-          backgroundColor:'#FFFFFF',
-          logging:false,
-          scrollX:0,
-          scrollY:0,
-          windowWidth:528,
-          windowHeight:816
-        },
-        jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
-        pagebreak:{mode:['css','legacy']}
-      }).from(stage);
-
-      await worker.save();
-      await window.ORION_CMF_RX_AUTH?.logOutput?.('PDF',auth);
-    }catch(error){
-      console.error('ORION PDF R4:',error);
-      alert('No fue posible generar el PDF directo. Se abrirá la impresión en formato Statement para guardarlo como PDF.');
+      // Salida conservadora: la impresión nativa conserva las hojas originales,
+      // sus estilos y sus imágenes, sin capturas html2pdf potencialmente blancas.
+      // En la ventana seleccionar «Guardar como PDF».
       window.print();
+      await window.ORION_CMF_RX_AUTH?.logOutput?.('PDF_PRINT_DIALOG',auth);
+    }catch(error){
+      console.error('ORION PDF:',error);
+      alert(error?.message||'No se pudo preparar el PDF.');
     }finally{
-      stage?.remove();
       setPdfButtonState(false,originalLabel);
       pdfRunning=false;
     }
