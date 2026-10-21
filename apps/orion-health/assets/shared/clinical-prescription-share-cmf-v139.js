@@ -255,18 +255,10 @@
     if(!auth){reservedTab?.close?.();return;}
     const text=buildClinicalText(auth);
     const webUrl='https://api.whatsapp.com/send?phone='+recipient+'&text='+encodeURIComponent(text);
-    // Abrir mensaje primero: no bloquear navegación mientras se genera el PDF.
+    // Solo abrir WhatsApp con el texto clínico: no generar ni descargar PDF.
     if(reservedTab&&!reservedTab.closed)reservedTab.location.replace(webUrl);
     else window.location.assign(webUrl);
     await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_TEXT_PREPARED',auth);
-    try{
-      const pdf=await buildSignedPdf(auth);
-      if(pdf.output('blob').size<1000)throw new Error('PDF demasiado pequeño.');
-      pdf.save(filename(auth));
-      await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_PDF_DOWNLOADED',auth);
-    }catch(error){
-      console.warn('ORION WhatsApp: PDF no disponible, chat preparado:',error);
-    }
   }
 
   async function printPrescription(){
