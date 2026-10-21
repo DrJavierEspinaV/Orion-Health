@@ -202,3 +202,60 @@ html,body{height:auto !important;min-height:100%;overflow-x:clip !important;max-
   width:148px !important;height:56px !important;
  }
 }
+
+/* CMF · identidad Clinical OS: más jerarquía sin aumentar el alto del formulario.
+   Solo presentación de la cabecera del portal. */
+@media screen and (min-width:900px) {
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-head {
+  grid-template-columns:minmax(590px,1.12fr) minmax(490px,1fr) !important;
+  gap:18px !important;align-items:center !important;
+  padding:7px 14px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {
+  grid-template-columns:250px minmax(0,1fr) !important;
+  column-gap:20px !important;
+  align-items:center !important;min-height:77px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title::before {
+  width:244px !important;height:75px !important;align-self:center !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppTitle {
+  font-size:clamp(21px,1.65vw,27px) !important;font-weight:800 !important;
+  line-height:1.13 !important;letter-spacing:-.45px !important;
+  color:#123956 !important;text-wrap:balance;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppDesc {
+  display:block !important;font-size:12px !important;
+  line-height:1.28 !important;color:#526c82 !important;
+  margin-top:4px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-tools .tool-btn {
+  font-weight:600 !important;
+ }
+}
+@media screen and (min-width:900px) and (max-width:1279px) {
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-head {
+  grid-template-columns:minmax(0,1fr) 360px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {
+  grid-template-columns:180px minmax(0,1fr) !important;column-gap:12px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title::before {
+  width:176px !important;height:64px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppTitle {
+  font-size:19px !important;
+ }
+}
+@media screen and (max-width:899px) {
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {
+  grid-template-columns:158px minmax(0,1fr) !important;column-gap:12px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title::before {
+  width:152px !important;height:58px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppTitle {
+  font-size:18px !important;font-weight:800 !important;line-height:1.16 !important;
+  color:#123956 !important;
+ }
+}
