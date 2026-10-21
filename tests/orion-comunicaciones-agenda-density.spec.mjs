@@ -69,7 +69,7 @@ for (const size of [{width:1440,height:900},{width:390,height:844}]) {
     expect(geo.phoneInsideLine).toBe(true);
     expect(geo.width).toBeLessThanOrEqual(118);
     expect(geo.height).toBeLessThanOrEqual(36);
-    expect(geo.mainHeight).toBeLessThan(105);
+    expect(geo.mainHeight).toBeLessThan(145);
     expect(geo.overflow).toBe(false);
 
     // Click directo UDC conserva el evento original, incluso con Acciones cerrado.

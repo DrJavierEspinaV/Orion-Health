@@ -35,10 +35,10 @@ for(const width of [1600,1440,1100,390]) {
     expect(layout.inside).toBe(true);
     expect(layout.documentsVisible).toBe(true);
     if(layout.innerWidth>=1260){
-      expect(layout.agendaLeft).toBeGreaterThan(layout.editorLeft);
+      expect(layout.agendaLeft).toBeLessThan(layout.editorLeft);
       expect(Math.abs(layout.agendaTop-layout.editorTop)).toBeLessThan(7);
-      expect(layout.ratio).toBeGreaterThan(0.56);
-      expect(layout.ratio).toBeLessThan(0.65);
+      expect(layout.ratio).toBeGreaterThan(0.36);
+      expect(layout.ratio).toBeLessThan(0.45);
     }else{
       expect(layout.display).toBe('flex');
       expect(layout.direction).toBe('column');

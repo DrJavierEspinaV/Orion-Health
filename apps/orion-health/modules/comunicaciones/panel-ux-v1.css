@@ -323,11 +323,13 @@
     grid-template-columns:minmax(0,2fr) minmax(0,3fr) !important;
     gap:clamp(18px,1.6vw,26px) !important;
   }
+  /* Prioridad de lectura: agenda a la izquierda (40 %), editor a la derecha (60 %).
+     Únicamente orden visual: los nodos y sus eventos conservan su estructura original. */
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-left {
-    grid-column:1 !important; grid-row:1 !important;
+    grid-column:2 !important; grid-row:1 !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .crm-sidebar {
-    grid-column:2 !important; grid-row:1 !important;
+    grid-column:1 !important; grid-row:1 !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .crm-layout > .orion-data-source-panel {
     grid-column:1/-1 !important;
