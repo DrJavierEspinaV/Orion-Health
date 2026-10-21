@@ -51,23 +51,27 @@
   }
 
   function ensurePdfLibrary(){
-    if(window.html2canvas&&window.jspdf?.jsPDF)return Promise.resolve();
+    // El bundle expone html2pdf; no exige html2canvas ni jsPDF como globals.
+    if(typeof window.html2pdf==='function')return Promise.resolve(window.html2pdf);
     if(pdfLibraryPromise)return pdfLibraryPromise;
     pdfLibraryPromise=new Promise((resolve,reject)=>{
       const existing=document.querySelector('script[data-orion-pdf-bundle="1"]');
-      if(existing){
-        existing.addEventListener('load',resolve,{once:true});
-        existing.addEventListener('error',()=>reject(new Error('No fue posible cargar el motor PDF.')),{once:true});
-        return;
+      const script=existing||document.createElement('script');
+      const verify=()=>{
+        if(typeof window.html2pdf==='function')resolve(window.html2pdf);
+        else reject(new Error('Motor PDF no disponible. Revisa el acceso a la biblioteca PDF.'));
+      };
+      script.addEventListener('load',verify,{once:true});
+      script.addEventListener('error',()=>reject(new Error('No fue posible cargar el motor PDF.')),{once:true});
+      if(!existing){
+        script.src=PDF_BUNDLE_URL;
+        script.async=true;
+        script.dataset.orionPdfBundle='1';
+        document.head.appendChild(script);
+      }else if(script.readyState==='complete'){
+        verify();
       }
-      const script=document.createElement('script');
-      script.src=PDF_BUNDLE_URL;
-      script.async=true;
-      script.dataset.orionPdfBundle='1';
-      script.onload=resolve;
-      script.onerror=()=>reject(new Error('No fue posible cargar el motor PDF.'));
-      document.head.appendChild(script);
-    });
+    }).catch(error=>{pdfLibraryPromise=null;throw error;});
     return pdfLibraryPromise;
   }
 
@@ -157,45 +161,32 @@
 
   async function buildSignedPdf(auth){
     try{if(typeof window.render==='function')window.render();}catch(_){ }
-    await ensurePdfLibrary();
-    if(!window.html2canvas||!window.jspdf?.jsPDF)throw new Error('Motor PDF incompleto.');
-
+    const html2pdf=await ensurePdfLibrary();
     const pages=visiblePages();
-    if(!pages.length)throw new Error('No hay hojas visibles para generar.');
-    const stage=createPdfStage(pages);
+    if(!pages.length)throw new Error('No hay hojas clínicas visibles para generar.');
 
+    const stage=createPdfStage(pages);
     try{
       await waitForImages(stage);
-      const papers=Array.from(stage.querySelectorAll('.orion-pdf-paper'));
-      const {jsPDF}=window.jspdf;
-      const pdf=new jsPDF({orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true});
+      // Mismo motor Statement de 5,5 × 8,5 usado por la exportación clínica.
+      // El worker entrega el jsPDF, sin depender de globals que el bundle no garantiza.
+      const pdf=await html2pdf().set({
+        margin:0,
+        image:{type:'jpeg',quality:0.98},
+        html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
+          logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816},
+        jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
+        pagebreak:{mode:['css','legacy']}
+      }).from(stage).toPdf().get('pdf');
+
       pdf.setProperties?.({
         title:`Receta ORION ${auth.folio}`,
         subject:`Prescripción autorizada ${auth.folio} · ${auth.verificationCode} · ${auth.issuedLabel}`,
         author:'Dr. Javier Espina Videla',
         keywords:`${auth.folio},${auth.verificationCode},${auth.contentHash}`,
-        creator:'ORION Dental App 1.3.9'
+        creator:'ORION Dental App'
       });
       try{pdf.setCreationDate?.(new Date(auth.issuedAt));}catch(_){ }
-
-      for(let index=0;index<papers.length;index+=1){
-        const canvas=await window.html2canvas(papers[index],{
-          scale:2,
-          useCORS:true,
-          allowTaint:false,
-          backgroundColor:'#FFFFFF',
-          logging:false,
-          width:528,
-          height:816,
-          windowWidth:528,
-          windowHeight:816,
-          scrollX:0,
-          scrollY:0
-        });
-        const image=canvas.toDataURL('image/jpeg',0.97);
-        if(index>0)pdf.addPage([5.5,8.5],'portrait');
-        pdf.addImage(image,'JPEG',0,0,5.5,8.5,undefined,'FAST');
-      }
       return pdf;
     }finally{
       stage.remove();
@@ -216,9 +207,9 @@
     await window.ORION_CMF_RX_AUTH?.logOutput?.('PDF',auth);
   }
 
-  async function shareWhatsApp(){
+  async function shareWhatsApp(reservedTab=null){
     const auth=await authorization('WHATSAPP');
-    if(!auth)return;
+    if(!auth){reservedTab?.close?.();return;}
     const pdf=await buildSignedPdf(auth);
     const blob=pdf.output('blob');
     const file=new File([blob],filename(auth),{type:'application/pdf',lastModified:Date.now()});
@@ -227,10 +218,11 @@
     if(navigator.share&&navigator.canShare?.({files:[file]})){
       try{
         await navigator.share({title:`Receta ORION · ${auth.folio}`,text,files:[file]});
+        reservedTab?.close?.();
         await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_FILE',auth);
         return;
       }catch(error){
-        if(error?.name==='AbortError')return;
+        if(error?.name==='AbortError'){reservedTab?.close?.();return;}
         console.warn('ORION WhatsApp share:',error);
       }
     }
@@ -252,7 +244,8 @@
         if(document.visibilityState==='visible')openExternal(webUrl);
       },1100);
     }else{
-      openExternal(webUrl);
+      if(reservedTab&&!reservedTab.closed)reservedTab.location.replace(webUrl);
+      else openExternal(webUrl);
     }
     await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_PDF_DOWNLOADED',auth);
   }
@@ -274,7 +267,7 @@
     alert('Texto de receta copiado.');
   }
 
-  async function handle(control){
+  async function handle(control,reservedTab=null){
     if(running)return;
     running=true;
     const original=control.textContent;
@@ -286,13 +279,14 @@
       }else if(control.id==='btnWA'){
         control.disabled=true;
         control.textContent='Preparando receta…';
-        await shareWhatsApp();
+        await shareWhatsApp(reservedTab);
       }else if(control.id==='btnPrint'){
         await printPrescription();
       }else if(control.id==='btnCopy'){
         await copyPrescription();
       }
     }catch(error){
+      reservedTab?.close?.();
       console.error(error);
       alert(error?.message||'No fue posible completar la emisión de la receta.');
     }finally{
@@ -308,7 +302,11 @@
       if(!control||!HANDLED_IDS.has(control.id))return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      handle(control);
+      // Reservar la pestaña durante el gesto del usuario evita bloqueos de popup
+      // después de la generación asíncrona del documento.
+      const reservedTab=control.id==='btnWA'&&!(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent))
+        ?window.open('about:blank','_blank'):null;
+      handle(control,reservedTab);
     },true);
     window.ORION_CMF_RX_SHARE={version:VERSION,pdf:'signed-statement',whatsapp:'file-share+fallback'};
   }
