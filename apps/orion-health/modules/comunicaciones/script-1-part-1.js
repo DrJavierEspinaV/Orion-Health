@@ -13,6 +13,26 @@ Para mayor comodidad, si cuenta con un examen radiográfico, podemos enviar una 
 
 La consulta presencial quedaría recomienda solo si hay dolor, inflamación, infección, antecedentes médicos relevantes o si se requiere una evaluación clínica más detallada.`,
 
+  control: `Hola {{PACIENTE}}, le saluda el Dr. Javier Espina Videla, del equipo de Cirugía Maxilofacial.
+
+Le recordamos su control presencial programado para el {{FECHA_HORA}}.
+
+Este control permite evaluar su evolución, revisar la recuperación y resolver dudas sobre el tratamiento.
+
+Si no puede asistir o necesita confirmar la información de su cita, por favor comuníquese con nosotros.
+
+Saludos cordiales.`,
+
+  control_online: `Hola {{PACIENTE}}, le saluda el Dr. Javier Espina Videla, del equipo de Cirugía Maxilofacial.
+
+Le recordamos su control online programado para el {{FECHA_HORA}}.
+
+Para realizarlo, por favor disponga de conexión a internet y un dispositivo con cámara y audio. El enlace o medio de conexión se compartirá por el canal acordado.
+
+Si presenta dolor intenso, inflamación progresiva, fiebre, sangrado persistente u otros síntomas de alarma, avísenos: podría ser necesaria una evaluación presencial.
+
+Saludos cordiales.`,
+
   consentimiento: `Hola {{PACIENTE}}, Adjunto encontrará el Consentimiento Informado correspondiente a su procedimiento.
 Le recomiendo leerlo con calma antes de la cita del día {{FECHA_HORA}}, ya que contiene información importante sobre el tratamiento, sus beneficios y posibles riesgos.
 
