@@ -125,3 +125,34 @@ html,body{height:auto !important;min-height:100%;overflow-x:clip !important;max-
    grid-column:1/-1 !important; background:#f1f4f7 !important;color:#53677a !important;
  }
 }
+
+/* CMF · identidad en cabecera del portal, sin duplicar cabeceras en pantalla. */
+@media screen {
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {
+  display:grid !important;grid-template-columns:156px minmax(0,1fr);
+  align-items:center !important;column-gap:12px !important;align-content:center;
+  padding:0 !important;min-height:54px;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title::before {
+  content:"";display:block;grid-row:1/3;grid-column:1;
+  width:150px;height:48px;
+  background:url("./assets/brand/maxilofacial-pro-plus.svg") no-repeat left center/contain;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppTitle {
+  grid-column:2;grid-row:1;align-self:end;font-size:17px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #currentAppDesc {
+  grid-column:2;grid-row:2;align-self:start;font-size:11px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title #moduleLoadStatus {
+  grid-column:2;
+ }
+ @media(max-width:899px){
+  body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {
+   grid-template-columns:108px minmax(0,1fr) !important;min-height:48px;
+  }
+  body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title::before {
+   width:104px;height:40px;
+  }
+ }
+}
