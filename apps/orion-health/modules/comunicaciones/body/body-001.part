@@ -16,6 +16,8 @@
 <label class="small">2️⃣ TIPO DE MENSAJES</label>
 <select id="tipoMensaje">
 <option value="ausente">🦷 Paciente Ausente</option>
+<option value="control">🗓️ Recordatorio de control presencial</option>
+<option value="control_online">💻 Recordatorio de control online</option>
 <option value="consentimiento">📄 Consentimiento Informado</option>
 <option value="indicaciones">📋 Indicaciones Pre y Postoperatorias</option>
 <option value="infografia">📢 Infografía Educativa</option>
