@@ -93,3 +93,35 @@ html,body{height:auto !important;min-height:100%;overflow-x:clip !important;max-
   .tool-btn{width:100% !important;white-space:normal !important;padding:8px 6px !important;line-height:1.15;}
   #appFrame{min-height:620px !important;height:620px;}
 }
+
+/* CMF portal · navegación compacta específica, sin cambiar módulos ajenos. */
+@media screen and (min-width:900px) {
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .topbar {margin-bottom:6px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .sync-card {padding:6px 10px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .sync-head {margin-bottom:3px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .field {min-height:42px !important;padding:6px 9px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-head {
+   display:grid !important;grid-template-columns:minmax(0,1fr) 260px !important;
+   align-items:start !important;gap:12px !important;padding:8px 12px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title {padding:4px 0 !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title strong {font-size:15px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-title span {font-size:11px !important;}
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-tools {
+   display:grid !important;grid-template-columns:1fr 1fr !important;
+   gap:5px !important;max-width:260px !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) .stage-tools .tool-btn {
+   min-height:28px !important;padding:5px 8px !important;font-size:10px !important;
+   width:100% !important;white-space:normal !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) #btnGoCMF {
+   background:#1f3f5b !important;color:#fff !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) #btnChangeModule {
+   background:#e4edf5 !important;color:#17324d !important;
+ }
+ body.module-selected:has(.menu-btn.active[data-app="cmf"]) #btnClearPaciente {
+   grid-column:1/-1 !important; background:#f1f4f7 !important;color:#53677a !important;
+ }
+}

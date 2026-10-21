@@ -215,3 +215,52 @@
     transform:rotate(-9deg);
   }
 }
+
+/* CMF · Compactación de la interfaz, solo visual. Documentos e impresión excluidos. */
+@media screen {
+ html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print > div {
+   min-height:0 !important; padding:7px 18px !important; gap:14px !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print img[alt="Maxilofacial PRO+"] {
+   width:clamp(108px,12vw,158px) !important; height:52px !important;
+   min-height:0 !important; max-height:52px !important; max-width:158px !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print h1 {font-size:17px !important;line-height:1.2 !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print p {font-size:11px !important;line-height:1.25 !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane::before {display:none !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > #cmfPatientCard,
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns > .card.no-print {
+   padding:12px 16px !important; background:#fff !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] #orionClinicalEditPane > #cmfPatientCard {margin-bottom:10px !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfEditorColumns {gap:12px !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfPatientCard h2,
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfDocumentOptions h2,
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfClinicalContent h2 {
+   font-size:16px !important; margin:0 0 8px !important; padding:0 0 6px !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfPatientCard input {min-height:36px !important;padding:6px 10px !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #cmfPatientCard .grid {gap:10px !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] .actions-bottom.no-print {
+   padding:0 !important;margin:7px 0 !important;border:0 !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] .actions-bottom.no-print > div {
+   display:flex !important;flex-wrap:wrap !important;justify-content:flex-start !important;
+   gap:8px !important;padding:7px 12px !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] .actions-bottom.no-print button {
+   min-height:34px !important;padding:6px 11px !important;font-size:12px !important;
+ }
+ html.orion-ux-v2[data-orion-module="cmf"] #btnPrint,
+ html.orion-ux-v2[data-orion-module="cmf"] #btnPdf {background:#1f3f5b !important;color:#fff !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #btnWA {background:#12805c !important;color:#fff !important;}
+ html.orion-ux-v2[data-orion-module="cmf"] #btnCopy {background:#eef3f8 !important;color:#1f3f5b !important;}
+ @media(max-width:700px){
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print > div {
+    flex-direction:row !important;align-items:center !important;padding:8px 10px !important;
+  }
+  html.orion-ux-v2[data-orion-module="cmf"] body > header.no-print img[alt="Maxilofacial PRO+"] {
+    width:96px !important;height:42px !important;
+  }
+ }
+}
