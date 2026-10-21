@@ -76,10 +76,16 @@
   }
 
   function visiblePages(){
-    return PAGE_IDS
-      .map(id=>$(id))
-      .filter(Boolean)
-      .filter(page=>!page.classList.contains('hidden')&&page.getAttribute('aria-hidden')!=='true');
+    const base=PAGE_IDS.map(id=>$(id)).filter(Boolean);
+    const extra=[...document.querySelectorAll('[data-orion-document]')];
+    const pages=[];
+    for(const page of base){
+      if(!page.classList.contains('hidden')&&page.getAttribute('aria-hidden')!=='true')pages.push(page);
+      if(page.id==='printDoc')for(const documentPage of extra){
+        if(!documentPage.classList.contains('hidden'))pages.push(documentPage);
+      }
+    }
+    return pages;
   }
 
   function filename(auth){
@@ -94,7 +100,7 @@
   function createPdfStage(pages){
     const stage=document.createElement('div');
     stage.id='orionSignedPdfStage';
-    stage.style.cssText='position:absolute;left:-12000px;top:0;width:528px;background:#fff;z-index:-1;';
+    stage.style.cssText='position:fixed;left:0;top:0;width:528px;background:#fff;z-index:99999;pointer-events:none;overflow:visible;';
 
     const css=document.createElement('style');
     css.textContent=`
@@ -106,6 +112,8 @@
         overflow:hidden!important;
         background:#fff!important;
         position:relative!important;
+        break-after:page!important;
+        page-break-after:always!important;
       }
       #orionSignedPdfStage .orion-pdf-paper>.page{
         display:block!important;
@@ -176,9 +184,13 @@
         html2canvas:{scale:2,useCORS:true,allowTaint:false,backgroundColor:'#FFFFFF',
           logging:false,scrollX:0,scrollY:0,windowWidth:528,windowHeight:816},
         jsPDF:{orientation:'portrait',unit:'in',format:[5.5,8.5],compress:true},
-        pagebreak:{mode:['css','legacy']}
+        pagebreak:{mode:['css','legacy'],after:'.orion-pdf-paper:not(:last-child)'}
       }).from(stage).toPdf().get('pdf');
 
+      // No publicar un PDF de cero páginas; el documento se verifica antes de guardarlo.
+      if(!pdf||pdf.internal?.getNumberOfPages?.()<pages.length){
+        throw new Error('PDF incompleto: faltan hojas del documento solicitado.');
+      }
       pdf.setProperties?.({
         title:`Receta ORION ${auth.folio}`,
         subject:`Prescripción autorizada ${auth.folio} · ${auth.verificationCode} · ${auth.issuedLabel}`,
@@ -207,14 +219,17 @@
     await window.ORION_CMF_RX_AUTH?.logOutput?.('PDF',auth);
   }
 
-  async function shareWhatsApp(reservedTab=null){
+  async function shareWhatsApp(reservedTab=null,recipient=''){
     const auth=await authorization('WHATSAPP');
     if(!auth){reservedTab?.close?.();return;}
     const pdf=await buildSignedPdf(auth);
     const blob=pdf.output('blob');
+    if(!blob||blob.size<1000)throw new Error('No se generó un PDF válido. No se enviará el documento.');
     const file=new File([blob],filename(auth),{type:'application/pdf',lastModified:Date.now()});
     const text=buildClinicalText(auth);
 
+    // Web Share (móvil compatible): comparte archivo y texto en selector del sistema.
+    // WhatsApp Web no admite adjuntar archivos automáticamente mediante enlaces.
     if(navigator.share&&navigator.canShare?.({files:[file]})){
       try{
         await navigator.share({title:`Receta ORION · ${auth.folio}`,text,files:[file]});
@@ -229,24 +244,12 @@
 
     pdf.save(filename(auth));
     const encoded=encodeURIComponent(text);
-    const webUrl=`https://api.whatsapp.com/send?text=${encoded}`;
+    const webUrl=`https://api.whatsapp.com/send?phone=${recipient}&text=${encoded}`;
     const mobile=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-    if(mobile){
-      const scheme=`whatsapp://send?text=${encoded}`;
-      const anchor=document.createElement('a');
-      anchor.href=scheme;
-      anchor.target='_top';
-      anchor.style.display='none';
-      document.body.appendChild(anchor);
-      anchor.click();
-      anchor.remove();
-      setTimeout(()=>{
-        if(document.visibilityState==='visible')openExternal(webUrl);
-      },1100);
-    }else{
-      if(reservedTab&&!reservedTab.closed)reservedTab.location.replace(webUrl);
-      else openExternal(webUrl);
-    }
+    if(reservedTab&&!reservedTab.closed)reservedTab.location.replace(webUrl);
+    else if(mobile)window.location.assign(webUrl);
+    else openExternal(webUrl);
+    // Es necesaria la adjunción manual del PDF descargado en WhatsApp Web.
     await window.ORION_CMF_RX_AUTH?.logOutput?.('WHATSAPP_PDF_DOWNLOADED',auth);
   }
 
@@ -267,7 +270,7 @@
     alert('Texto de receta copiado.');
   }
 
-  async function handle(control,reservedTab=null){
+  async function handle(control,reservedTab=null,recipient=''){
     if(running)return;
     running=true;
     const original=control.textContent;
@@ -279,7 +282,7 @@
       }else if(control.id==='btnWA'){
         control.disabled=true;
         control.textContent='Preparando receta…';
-        await shareWhatsApp(reservedTab);
+        await shareWhatsApp(reservedTab,recipient);
       }else if(control.id==='btnPrint'){
         await printPrescription();
       }else if(control.id==='btnCopy'){
@@ -304,9 +307,19 @@
       event.stopImmediatePropagation();
       // Reservar la pestaña durante el gesto del usuario evita bloqueos de popup
       // después de la generación asíncrona del documento.
+      let recipient='';
+      if(control.id==='btnWA'){
+        const raw=window.prompt('Número WhatsApp del paciente con código de país (ej.: 56912345678):','');
+        if(raw===null)return;
+        recipient=String(raw).replace(/[^0-9]/g,'');
+        if(!/^\\d{8,15}$/.test(recipient)){
+          alert('Ingresa un número válido con código de país, sin + ni espacios.');
+          return;
+        }
+      }
       const reservedTab=control.id==='btnWA'&&!(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent))
         ?window.open('about:blank','_blank'):null;
-      handle(control,reservedTab);
+      handle(control,reservedTab,recipient);
     },true);
     window.ORION_CMF_RX_SHARE={version:VERSION,pdf:'signed-statement',whatsapp:'file-share+fallback'};
   }
