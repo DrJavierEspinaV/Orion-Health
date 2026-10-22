@@ -377,7 +377,9 @@
     grid-template-columns:minmax(0,1fr) !important; gap:8px !important;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-search #export {
-    width:100% !important;
+    width:fit-content !important;
+    max-width:100% !important;
+    justify-self:start;
   }
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-message-heading strong,
   html.orion-ux-v2[data-orion-module="comunicaciones"] body .orion-priority-heading strong {
