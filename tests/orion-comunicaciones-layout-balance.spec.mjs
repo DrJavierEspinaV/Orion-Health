@@ -35,10 +35,10 @@ for(const width of [1600,1440,1100,390]) {
     expect(layout.inside).toBe(true);
     expect(layout.documentsVisible).toBe(true);
     if(layout.innerWidth>=1260){
-      expect(layout.agendaLeft).toBeLessThan(layout.editorLeft);
+      expect(layout.agendaLeft).toBeGreaterThan(layout.editorLeft);
       expect(Math.abs(layout.agendaTop-layout.editorTop)).toBeLessThan(7);
-      expect(layout.ratio).toBeGreaterThan(0.36);
-      expect(layout.ratio).toBeLessThan(0.45);
+      expect(layout.ratio).toBeGreaterThan(0.55);
+      expect(layout.ratio).toBeLessThan(0.65);
     }else{
       expect(layout.display).toBe('flex');
       expect(layout.direction).toBe('column');
@@ -50,6 +50,15 @@ for(const width of [1600,1440,1100,390]) {
     await expect(frame.locator('#file')).toBeVisible();
     await expect(frame.locator('#tipoMensaje')).toBeVisible();
     await expect(frame.locator('#mensajeTipo')).toBeVisible();
+    if(width===390){
+      const exportGeometry=await frame.locator('#export').evaluate(el=>{
+        const rect=el.getBoundingClientRect();
+        return {width:rect.width,right:rect.right,viewport:document.documentElement.clientWidth};
+      });
+      expect(exportGeometry.width).toBeGreaterThan(45);
+      expect(exportGeometry.width).toBeLessThan(200);
+      expect(exportGeometry.right).toBeLessThanOrEqual(exportGeometry.viewport+3);
+    }
   });
 }
 
