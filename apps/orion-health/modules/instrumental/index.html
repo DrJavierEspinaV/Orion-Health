@@ -80,7 +80,7 @@ let kitId=db.kits[0]?.id||'';const getItem=id=>db.items.find(x=>x.id===id);const
 db.folioLedger=Array.isArray(db.folioLedger)?db.folioLedger:[];
 db.folioCounters=(db.folioCounters&&typeof db.folioCounters==='object')?db.folioCounters:{};
 db.history=Array.isArray(db.history)?db.history:[];
-const folioRe=/^EST-(\\d{4})-(\\d+)$/;
+const folioRe=/^EST-(\d{4})-(\\d+)$/;
 function reconcileFolios(){
  const all=new Set([...db.folioLedger,...db.history.map(h=>h.form?.folio)].filter(Boolean));
  db.folioLedger=[...all];
