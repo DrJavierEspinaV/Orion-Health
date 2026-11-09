@@ -5307,4 +5307,117 @@ document.getElementById('a76CSV').onclick=()=>a76Download('\uFEFF'+[['Medida','M
 document.getElementById('a76Import').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>100000)throw Error('Archivo demasiado grande');a76LoadManual(JSON.parse(await file.text()));a47SetDirty(true);safeDraw('importación manual')}catch(err){document.getElementById('a76Result').textContent=err.message}};
 S.editor_version='AVANCE_76_COMPILACION_AUDITADA';S.functional_freeze={status:'OPERATIONAL_SPEC_1.0',next_phase:'MANUAL_DIGITAL_CONCORDANCE',rule:'Cambios metodológicos identificados y contrastables; validación clínica pendiente.'};document.title='ORION Delaire A76 · Protocolo operativo 1.0';safeDraw('A76 compilación');a47SetDirty(false);
 window.ORION_A76={manualResult:a76ManualResult,manualData:a76ManualData,loadManual:a76LoadManual,comparison:a76Comparison,method:ORION_A76_METHOD};
-</script></body></html>
+</script><script id="orion-a77-print">
+/* A77 printing only: snapshot selected SVG layers and all sidebar sections.
+   A preliminary print never changes landmark acceptance or clinical readiness. */
+const a77Sheet=document.createElement('div');a77Sheet.id='a77PrintSheet';document.body.appendChild(a77Sheet);
+const a77PrintStyle=document.createElement('style');a77PrintStyle.id='a77PrintStyle';a77PrintStyle.textContent=`
+#a77PrintSheet{display:none}
+.a77PrintHint{font-size:11px;line-height:1.5;color:#48647b;margin:8px 0}
+.a77FrameLabel{display:grid;gap:4px;font-size:11px;margin:7px 0}
+@media print{
+ @page{size:letter portrait;margin:12mm}
+ html,body{height:auto!important;min-height:0!important;overflow:visible!important;background:white!important;color:#172e42!important}
+ body::before,body::after{display:none!important;content:none!important} body>*:not(#a77PrintSheet){display:none!important}html body>#printSheet{display:none!important}body>#a77PrintSheet{display:block!important;position:static!important;width:auto!important;height:auto!important;max-height:none!important;overflow:visible!important;margin:0!important;padding:0!important;color:#172e42!important;font:9.5pt/1.35 Arial,sans-serif!important}
+ #a77PrintSheet *{box-sizing:border-box}
+ #a77PrintSheet .a77Brand{display:flex;align-items:center;justify-content:space-between;gap:4mm;margin-bottom:3mm}
+ #a77PrintSheet .a77Brand img{height:14mm;max-width:43mm;object-fit:contain}
+ #a77PrintSheet h1{font-size:17pt;margin:3mm 0;color:#1f3f5b}
+ #a77PrintSheet h2{font-size:13pt;margin:6mm 0 3mm;color:#1f3f5b;break-after:avoid}
+ #a77PrintSheet h3{font-size:10.5pt;margin:4mm 0 2mm;break-after:avoid}
+ #a77PrintSheet h4{font-size:10pt;break-after:avoid}
+ #a77PrintSheet p{margin:2mm 0;overflow-wrap:anywhere;white-space:pre-wrap}
+ #a77PrintSheet .a77State{border:1px solid #adbac6;padding:2.5mm;margin:3mm 0;font-size:10pt}
+ #a77PrintSheet .a77Metadata{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 5mm;margin:3mm 0}
+ #a77PrintSheet .a77Figure{height:140mm;border:1px solid #b7c1ca;background:#10151b;break-inside:avoid;overflow:hidden}
+ #a77PrintSheet .a77Figure svg{display:block;width:100%;height:100%;min-height:0;max-height:none}
+ #a77PrintSheet .a77Caption{font-size:8pt;color:#526477;margin:2mm 0}
+ #a77PrintSheet .a77Panel{break-before:page;page-break-before:always}
+ #a77PrintSheet .a77Part{margin:3mm 0}
+ #a77PrintSheet .a77Part>h2{font-size:11pt}
+ #a77PrintSheet table{width:100%;border-collapse:collapse;table-layout:auto;margin:2mm 0 3mm;font-size:8.5pt;overflow-wrap:anywhere}
+ #a77PrintSheet th,#a77PrintSheet td{border:1px solid #cad3dc;padding:1.5mm;text-align:left;vertical-align:top}
+ #a77PrintSheet th{background:#edf2f6;font-weight:bold}
+ #a77PrintSheet thead{display:table-header-group}#a77PrintSheet tr{break-inside:avoid}
+ #a77PrintSheet label{display:block;margin:1mm 0;overflow-wrap:anywhere}
+ #a77PrintSheet .a77Value{font-weight:bold;white-space:pre-wrap;overflow-wrap:anywhere}
+ #a77PrintSheet ul,#a77PrintSheet ol{padding-left:5mm;margin:2mm 0}
+ #a77PrintSheet .a77Foot{font-size:8pt;color:#526477;margin-top:3mm}
+}`;document.head.appendChild(a77PrintStyle);
+function a77Text(tag,text,parent,className){const e=document.createElement(tag);e.textContent=String(text??'');if(className)e.className=className;if(parent)parent.appendChild(e);return e}
+function a77LandmarkTable(){
+ const table=document.createElement('table'),head=table.createTHead().insertRow();for(const s of ['Landmark','Estado','X (px)','Y (px)','Uso'])a77Text('th',s,head);
+ const body=table.createTBody();for(const k of A47_KEYS){const r=body.insertRow(),point=P[k],valid=a47Point(point);for(const v of [k,typeof acceptanceKind==='function'?acceptanceKind(k):(stat[k]||'Pendiente'),valid?point[0].toFixed(2):'Sin marcar',valid?point[1].toFixed(2):'Sin marcar',use[k]||'Pendiente'])a77Text('td',v,r)}return table;
+}
+function a77StaticContent(source){
+ const copy=source.cloneNode(true);
+ const originalControls=[...source.querySelectorAll('input,select,textarea')],copies=[...copy.querySelectorAll('input,select,textarea')];
+ originalControls.forEach((control,i)=>{const target=copies[i];if(!target)return;const type=(control.type||'').toLowerCase();if(['file','hidden','button','submit','reset'].includes(type)){target.remove();return}let value;
+  if(control.tagName==='SELECT')value=[...control.selectedOptions].map(o=>o.textContent.trim()).join(', ')||'Sin definir';
+  else if(['checkbox','radio'].includes(type))value=control.checked?'[Sí] ':'[No] ';
+  else value=control.value?.trim()||'Sin registrar';
+  const span=a77Text('span',['checkbox','radio'].includes(type)?value:': '+value+' ',null,'a77Value');span.dataset.a77Control=control.id||control.name||type;target.replaceWith(span);
+ });
+ const list=copy.querySelector('#plist');if(list)list.replaceWith(a77LandmarkTable());
+ copy.querySelectorAll('button,script,style,svg,input,select,textarea,.reportQuickActions,.a65ReportActions').forEach(e=>e.remove());
+ // Capture folded content, not interactive controls. Keep only semantic markup;
+ // the original screen's fixed positions and display:none must not enter paper.
+ for(const el of [copy,...copy.querySelectorAll('*')]){
+  const control=el.dataset?.a77Control,keepValue=el.classList.contains('a77Value');
+  for(const a of [...el.attributes])if(a.name!=='colspan'&&a.name!=='rowspan')el.removeAttribute(a.name);
+  if(keepValue)el.className='a77Value';if(control)el.dataset.a77Control=control;
+  if(el.tagName==='DETAILS')el.setAttribute('open','');
+ }
+ copy.classList.add('a77Part');return copy;
+}
+function a77SvgSnapshot(frame){
+ const copy=svg.cloneNode(true),originals=[svg,...svg.querySelectorAll('*')],clones=[copy,...copy.querySelectorAll('*')];
+ const styles=['display','visibility','opacity','fill','fill-opacity','stroke','stroke-width','stroke-opacity','stroke-dasharray','stroke-linecap','stroke-linejoin','font-family','font-size','font-weight','text-anchor','paint-order','vector-effect','filter'];
+ originals.forEach((node,i)=>{const target=clones[i],cs=getComputedStyle(node);if(!target)return;for(const name of styles){const v=cs.getPropertyValue(name);if(v)target.style.setProperty(name,v)}for(const a of [...target.attributes])if(a.name.startsWith('on'))target.removeAttribute(a.name);target.removeAttribute('tabindex');});
+ let box=[0,0,IMG_W,IMG_H];if(frame==='VIEW'){const vb=svg.viewBox.baseVal;box=[vb.x,vb.y,vb.width,vb.height]}else if(frame==='ANALYSIS'){box=printAnalysisViewBox()}
+ copy.setAttribute('viewBox',box.join(' '));copy.setAttribute('width','100%');copy.setAttribute('height','100%');copy.setAttribute('preserveAspectRatio','xMidYMid meet');copy.style.display='block';copy.style.visibility='visible';
+ copy.querySelectorAll('script,foreignObject').forEach(e=>e.remove());
+ // Prevent duplicate live SVG IDs while keeping internal SVG references coherent.
+ for(const el of [copy,...copy.querySelectorAll('[id]')])if(el.id){const old=el.id;el.id='a77svg_'+old;for(const item of [copy,...copy.querySelectorAll('*')])for(const attr of [...item.attributes])if(attr.value.includes('url(#'+old+')'))item.setAttribute(attr.name,attr.value.replaceAll('url(#'+old+')','url(#a77svg_'+old+')'));}
+ return copy;
+}
+function a77PreparePrint(){
+ const root=document.createDocumentFragment(),first=document.createElement('section');first.className='a77Cover';root.appendChild(first);
+ const brand=document.createElement('div');brand.className='a77Brand';for(const source of document.querySelectorAll('#printSheet .printHeader img')){if(brand.children.length===2)break;const img=source.cloneNode(true);img.removeAttribute('id');img.removeAttribute('style');brand.appendChild(img)}if(!brand.children.length)a77Text('strong','ORION Health · Maxilofacial PRO+',brand);first.appendChild(brand);
+ a77Text('h1','Informe cefalométrico ORION',first);
+ const final=typeof a49FinalReady==='function'&&a49FinalReady(),placed=A47_KEYS.filter(k=>a47Point(P[k])).length,accepted=A47_KEYS.filter(isAccepted).length;
+ a77Text('div',final?'Estado del estudio: referencias aceptadas para revisión clínica.':'PRELIMINAR · Estudio incompleto o pendiente de aceptación. Los datos no disponibles se conservan como pendientes.',first,'a77State');
+ const patient=S.patient||{},metadata=document.createElement('div');metadata.className='a77Metadata';first.appendChild(metadata);
+ const meta=[['Estudio',S.case_id||'Sin identificador'],['Paciente',patient.display_name||patient.name||'Sin registrar'],['Identificador',patient.patient_id||'Sin registrar'],['Fecha del estudio',patient.study_date||'Sin registrar'],['Impresión',new Date().toLocaleString('es-CL')],['Edad / sexo',[document.getElementById('age')?.value,document.getElementById('sex')?.value].filter(Boolean).join(' / ')||'Sin registrar'],['Landmarks',`${placed}/${A47_KEYS.length} definidos · ${accepted} aceptados`],['Calibración',document.getElementById('pxmm')?.value?document.getElementById('pxmm').value+' px/mm':'Pendiente'],['F1 operativa',a76OperativeMode()==='REAL'?'Real maxilar FM–NP':'Teórica compensada'],['Base F1',activeF1Base()?activeF1Base()+'°':'Pendiente']];
+ for(const [k,v]of meta)a77Text('div',k+': '+v,metadata);
+ const frame=document.getElementById('printFrame')?.value||'SOURCE',fig=document.createElement('div');fig.className='a77Figure';if(a47HasImage())fig.appendChild(a77SvgSnapshot(frame));else a77Text('p','Sin imagen cargada.',fig);first.appendChild(fig);
+ const names={SOURCE:'Imagen completa',ANALYSIS:'Análisis centrado',VIEW:'Encuadre actual del visor'};
+ const selectedLayers=Object.entries(layerState).filter(([,v])=>v).map(([k])=>k).join(', ');
+ a77Text('p',`Encuadre: ${names[frame]||frame}. Se conserva la visibilidad actual del trazado y las capas. Selección: ${selectedLayers||'sin capas'}.`,first,'a77Caption');
+ a77Text('p','Impresión del estado actual · A77 · Las secciones siguientes incluyen también paneles plegados. No modifica el estado clínico del estudio.',first,'a77Foot');
+ const seen=new Set();for(const panel of document.querySelectorAll('.side .orionStagePanel')){const section=document.createElement('section');section.className='a77Panel';const title=panel.querySelector('.orionStageHeaderLeft')?.textContent.trim()||panel.dataset.a35Stage||'Panel lateral';a77Text('h2',title.replace(/^[^\p{L}]+/u,''),section);const body=panel.querySelector('.orionStageBody');if(body)section.appendChild(a77StaticContent(body));root.appendChild(section);seen.add(panel.dataset.a35Stage)}
+ if(!seen.size){const source=document.querySelector('.side');if(source){const section=document.createElement('section');section.className='a77Panel';a77Text('h2','Panel lateral',section);section.appendChild(a77StaticContent(source));root.appendChild(section)}}
+ const manual=document.getElementById('a76Manual');if(manual){const section=document.createElement('section');section.className='a77Panel';a77Text('h2','Comprobación manual y comparación digital',section);section.appendChild(a77StaticContent(manual));root.appendChild(section)}
+ const cogs=document.getElementById('a59CogsPanel');if(cogs&&!cogs.hidden&&getComputedStyle(cogs).display!=='none'){const section=document.createElement('section');section.className='a77Panel';a77Text('h2','Panel COGS activo',section);section.appendChild(a77StaticContent(cogs));root.appendChild(section)}
+ const note=document.getElementById('printNoteInput')?.value;if(note){const section=document.createElement('section');a77Text('h2','Notas de revisión',section);a77Text('p',note,section);root.appendChild(section)}
+ a77Sheet.replaceChildren(root);return a77Sheet;
+}
+let a77Printing=false;
+async function a77Print(){
+ if(a77Printing)return;a77Printing=true;
+ try{a77PreparePrint();await Promise.all([...a77Sheet.querySelectorAll('img')].map(i=>i.decode?.().catch(()=>{})));await new Promise(requestAnimationFrame);window.print();}
+ catch(e){console.error('ORION impresión A77',e);ioStatus('No se pudo preparar la impresión: '+e.message,'Impresión');}
+ finally{a77Printing=false;}
+}
+function a77BindPrint(){for(const id of ['printCeph','a35PrintBtn']){const b=document.getElementById(id);if(b){b.disabled=false;b.title='Imprimir imagen y todas las secciones; los estudios incompletos se rotulan preliminares.';b.onclick=a77Print}}}
+const a77PreviousGate=a47SyncGate;a47SyncGate=function(...args){const r=a77PreviousGate(...args);a77BindPrint();return r};
+preparePrint=a77PreparePrint;
+window.addEventListener('beforeprint',a77PreparePrint);
+const frame=document.getElementById('printFrame');if(frame){frame.innerHTML='<option value="SOURCE">Imagen completa</option><option value="VIEW">Encuadre actual del visor</option><option value="ANALYSIS">Análisis centrado</option>';frame.value='SOURCE';const body=document.querySelector('[data-a35-stage="report"] .orionStageBody');if(body){const label=a77Text('label','Encuadre de la impresión',body,'a77FrameLabel');label.appendChild(frame);a77Text('p','Incluye imagen con las capas visibles y todas las secciones del panel lateral. Puede imprimir un estudio parcial: quedará rotulado como preliminar.',body,'a77PrintHint')}}
+const mode=document.getElementById('printMode');if(mode)mode.innerHTML='<option value="FULL">Imagen y todas las secciones</option>';
+a77BindPrint();
+window.ORION_A77={preparePrint:a77PreparePrint,print:a77Print,version:'A77_PRINT_COMPLETE_SNAPSHOT'};
+
+</script>
+</body></html>
+

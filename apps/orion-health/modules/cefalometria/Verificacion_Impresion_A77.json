@@ -1,0 +1,30 @@
+{
+  "version": "A77",
+  "checks": [
+    "Estudio parcial imprimible y rotulado preliminar",
+    "Imagen incorporada al informe",
+    "Capa oculta no reaparece en impresión",
+    "Incluye Estudio",
+    "Incluye Landmarks",
+    "Incluye Cefalometría",
+    "Incluye Diagnóstico ORION",
+    "Incluye Reporte",
+    "Incluye Comprobación manual y comparación digital",
+    "Controles reemplazados por valores estáticos",
+    "Notas actuales y saltos de línea incluidos",
+    "Encuadre actual respetado",
+    "Botón superior abre impresión",
+    "Imprimir conserva puntos estados y selección de capas",
+    "Ctrl P prepara la imagen",
+    "Caso sintético completo conserva cierre clínico",
+    "Caso completo distingue estado de revisión clínica",
+    "Compensación geométrica permanece sin cambios",
+    "Respeta desactivación real de la capa landmarks",
+    "Plantilla antigua oculta con estudio completo",
+    "Sólo se imprime el nuevo informe",
+    "Flujo de impresión sin errores JavaScript"
+  ],
+  "pass": 22,
+  "errors": [],
+  "scope": "Pruebas sintéticas de impresión; no validación clínica"
+}
