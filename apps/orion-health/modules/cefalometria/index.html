@@ -5461,6 +5461,28 @@ const a78PreviousApply=applyStudyPayload;applyStudyPayload=async function(st){fo
 const a78PreviousReset=resetClinicalStudy;resetClinicalStudy=function(...args){const r=a78PreviousReset(...args);for(const [k]of A78_LINES)layerState['line_'+k]=true;layerState.ramusPoints=true;safeDraw('nuevo estudio A78');return r};
 window.ORION_A78={lines:A78_LINES,heightCorrection:x=>corrHeight(x),refresh:a78Refresh};safeDraw('A78 revisión líneas y compensaciones');a47SetDirty(false);
 
+</script><script id="orion-a79-sn-theory">
+/* A79_SN_THEORY_REFERENCED: educational reference, no new clinical calculation. */
+const a79Theory=document.createElement('details');a79Theory.id='a79SNTheory';a79Theory.open=true;a79Theory.innerHTML=`<summary><b>Fundamento teórico · inclinación incisiva y plano S–N</b></summary>
+<p><b>Construcción.</b> S (Sella) es el centro de la silla turca; N (Nasion) es la referencia de la sutura frontonasal. S–N representa una referencia de la base craneal anterior. U1/S–N relaciona ese plano con el eje longitudinal del incisivo central superior, definido por borde incisal y ápice. Debe conservarse el sector anatómico posteroinferior: no seleccionar automáticamente el ángulo matemático menor ni confundir 102° con su suplementario 78° [1].</p>
+<table><thead><tr><th>Medida</th><th>Análisis / procedencia</th><th>Referencia y alcance</th></tr></thead><tbody>
+<tr><td>U1/S–N</td><td>Jarabak, según tabla I de Gómez-Medina et al. [2]</td><td><b>102° ±2° (100–104°)</b>. En esa clasificación, &lt;100°: retroinclinación; &gt;104°: proinclinación.</td></tr>
+<tr><td>U1/NA</td><td>Steiner [2]</td><td>Centro de referencia 22°; intervalo empleado en el estudio 18–26°.</td></tr>
+<tr><td>L1/NB</td><td>Steiner [2]</td><td>Centro de referencia 25°; intervalo empleado en el estudio 21–29°. No es un ángulo L1/S–N.</td></tr>
+<tr><td>IMPA: L1/plano mandibular</td><td>Tweed [2]</td><td>Centro de referencia 90°; intervalo empleado en el estudio 85–95°. Su plano mandibular no debe equipararse automáticamente a Me–No de ORION.</td></tr>
+<tr><td>U1/F4</td><td>Delaire–ORION, protocolo operativo actual</td><td>110°. Comparar cada medida con su propia referencia; no aplicar 102° a U1/F4.</td></tr>
+</tbody></table>
+<p><b>Qué permite comprobar.</b> Ambas medidas describen la inclinación del mismo incisivo respecto de referencias distintas. Comparar U1/F4 y U1/S–N permite identificar si la lectura depende de la orientación de C1/F4 frente a S–N. Si discrepan, revisar S, N, Cla, M, el eje incisivo y el sector angular antes de interpretar. No escoger automáticamente la lectura que más se acerque a su norma.</p>
+<p><b>Qué no comprueba.</b> F4 en ORION siempre es paralela a C1. Promediar las alturas NP–Od desplaza F4 sin rotarla y, por tanto, no cambia U1/F4. S–N no valida la altura de F4, las proporciones verticales ni la posición anteroposterior del incisivo. Tampoco es una referencia libre de variación anatómica.</p>
+<p><b>Normas y población.</b> Los intervalos anteriores son referencias de la fuente indicada, no objetivos terapéuticos universales. El estudio [2] incluyó adultos de 18–59 años y encontró concordancia limitada entre métodos; no valida por sí solo esas bandas para adolescentes chilenos. Un estudio de 2025 en adultos libaneses [3] recoge una referencia publicada U1/S–N de 102,8° ±5,5°, diferente de la banda clasificatoria anterior. No fusionar una media con desviación estándar y un intervalo diagnóstico ni trasladarlos automáticamente entre poblaciones. Considerar crecimiento, perfil, oclusión y soporte periodontal.</p>
+<p><b>Aplicación actual.</b> Este apartado incorpora teoría y referencias. No activa un cálculo automático U1/S–N, no sustituye F4 y no modifica las normas ni las compensaciones de Delaire–ORION.</p>
+<p><b>Referencias comprobables</b></p><ol>
+<li><a href="https://loinc.org/60611-1" target="_blank" rel="noopener">LOINC 60611-1. Upper central incisor to sella-nasion line [Angle]. Definición del sector posteroinferior.</a></li>
+<li><a href="https://doi.org/10.4067/S0717-95022020000501386" target="_blank" rel="noopener">Gómez-Medina IP et al. Evaluation of Diagnostic Agreement Among Cephalometric Measurements for Determining Incisor Position and Inclination. Int J Morphol. 2020;38(5):1386–1391. Tabla I.</a></li>
+<li><a href="https://doi.org/10.7759/cureus.85437" target="_blank" rel="noopener">Saadeh M et al. Cephalometric Hard and Soft Tissue Norms in Lebanese Adults. Cureus. 2025;17(6):e85437.</a></li></ol>`;
+document.querySelector('#a78LineReview .sectionBody').appendChild(a79Theory);
+a79Theory.style.cssText='margin-top:12px;line-height:1.5';
+
 </script></body></html>
 
 
