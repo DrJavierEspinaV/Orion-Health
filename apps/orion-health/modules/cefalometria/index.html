@@ -1766,7 +1766,7 @@ function a47LegacyGeometry(Q=P){
  // F5 / theoretical vertical architecture
  const pxmm=parseFloat(document.getElementById('pxmm').value)||null;
  let F5=null,NaPrime=null,ENAt=null,MetP=null,Met=null,F6=null,Got=null,Pto=null,F7=null,Om=null,F8=null;
- if(pxmm&&mode&&fl&&ATMp){
+ if(pxmm&&ATMp){
    let mmoff=naPrimeOffset();
    if(mmoff!==null){
      const u=unit(c1); NaPrime=[Q.Na[0]+u[0]*mmoff*pxmm,Q.Na[1]+u[1]*mmoff*pxmm];
@@ -1778,7 +1778,7 @@ function a47LegacyGeometry(Q=P){
        const sign=((ENAt[0]-NaPrime[0])*f5u[0]+(ENAt[1]-NaPrime[1])*f5u[1])>=0?1:-1;
        const low=upper*55/45;
        MetP=[ENAt[0]+f5u[0]*low*sign,ENAt[1]+f5u[1]*low*sign];
-       Met=inter(MetP,c1,fl[0],V(fl[0],fl[1]));
+       Met=fl?inter(MetP,c1,fl[0],V(fl[0],fl[1])):null;
        if(Met){
          const c1u=unit(c1), f5uv=unit(perp);
          const vm=[Q.Me[0]-Met[0],Q.Me[1]-Met[1]];
@@ -2364,6 +2364,7 @@ function renderDiagnosis(){
    : 'Diagnóstico sagital pendiente.';
 }
 
+function a78Wrap(key,content){return '<g data-a78-line="'+key+'">'+content+'</g>'}
 function a47LegacyDraw(){
  const G=geometry();let L='',D='';
  const on=k=>layerState[k]!==false;
@@ -2371,21 +2372,21 @@ function a47LegacyDraw(){
  const b=activeF1Base();
  if(showLines){
    if(on('cranial')){
-     L+=lineEl(P.Op,P.M,'#43c6e8',4,'',70,90);L+=lineEl(P.M,G.Oi,'#55d69b',4,'',80,80);L+=lineEl(P.Clp,P.Od,'#d66cff',4,'',65,80);
-     L+=lineEl(P.Br,P.Pts,'#ffd15c',4,'',65,65);if(G.ATMp)L+=lineEl(P.Cp,[P.Cp[0]+G.f2[0],P.Cp[1]+G.f2[1]],'#ffae42',3,'',75,90);L+=lineEl(P.Sc,G.mc2,'#6dafff',3,'',65,95);
+     L+=a78Wrap('C1',lineEl(P.Op,P.M,'#43c6e8',4,'',70,90));L+=a78Wrap('C2',lineEl(P.M,G.Oi,'#55d69b',4,'',80,80));L+=a78Wrap('C4',lineEl(P.Clp,P.Od,'#d66cff',4,'',65,80));
+     L+=a78Wrap('F2',lineEl(P.Br,P.Pts,'#ffd15c',4,'',65,65));if(G.ATMp)L+=a78Wrap('F3',lineEl(P.Cp,[P.Cp[0]+G.f2[0],P.Cp[1]+G.f2[1]],'#ffae42',3,'',75,90));L+=a78Wrap('C3',lineEl(P.Sc,G.mc2,'#6dafff',3,'',65,95));
    }
    if(on('sagittal')){
-     L+=lineEl(f4a,f4b,'#ff7474',3,'',0,0);L+=lineEl(P.FM,P.NP,'#ff66a5',3,'',45,45);L+=lineEl(P.FM,P.Me,'#79d6ff',3,'',55,55);L+=lineEl(P.ENP,P.ENA,'#7ef2bd',3,'',50,50);
+     L+=a78Wrap('F4',lineEl(f4a,f4b,'#ff7474',3,'',0,0));L+=a78Wrap('F1real',lineEl(P.FM,P.NP,'#ff66a5',3,'',45,45));L+=a78Wrap('F1mand',lineEl(P.FM,P.Me,'#79d6ff',3,'',55,55));L+=a78Wrap('palatal',lineEl(P.ENP,P.ENA,'#7ef2bd',3,'',50,50));
      if(!b){for(const [bb,c] of [[85,'#f5f5f5'],[90,'#a7b7c7']]){const fl=G.f1line(bb);if(fl)L+=lineEl(fl[0],fl[1],c,3,'16 10',100,180)}}
    }
    if(on('theoretical')){
-     if(G.F5)L+=lineEl(G.F5[0],G.F5[1],'#a3ffdc',3,'12 8',100,180);if(G.F6)L+=lineEl(G.F6[0],G.F6[1],'#c7ff7a',3,'12 8',100,180);
-     if(G.F7)L+=lineEl(G.F7[0],G.F7[1],'#f0a6ff',4,'',70,90);if(G.F8)L+=lineEl(G.F8[0],G.F8[1],'#ffe07a',4,'',70,90);
+     if(G.F5)L+=a78Wrap('F5',lineEl(G.F5[0],G.F5[1],'#a3ffdc',3,'12 8',100,180));if(G.F6)L+=a78Wrap('F6',lineEl(G.F6[0],G.F6[1],'#c7ff7a',3,'12 8',100,180));
+     if(G.F7)L+=a78Wrap('F7',lineEl(G.F7[0],G.F7[1],'#f0a6ff',4,'',70,90));if(G.F8)L+=a78Wrap('F8',lineEl(G.F8[0],G.F8[1],'#ffe07a',4,'',70,90));
    }
-   if(on('mandibular')){L+=lineEl(P.Me,P.No,'#ff8f70',4,'',40,55);L+=lineEl(P.Arp,P.BpR,'#8bd3ff',4,'',40,55);}
-   if(on('occlusal'))L+=lineEl(P.Occl1,P.Occl2,'#ffd166',4,'',35,35);
+   if(on('mandibular')){L+=a78Wrap('basal',lineEl(P.Me,P.No,'#ff8f70',4,'',40,55));L+=a78Wrap('ramus',lineEl(P.Arp,P.BpR,'#8bd3ff',4,'',40,55));}
+   if(on('occlusal'))L+=a78Wrap('occlusal',lineEl(P.Occl1,P.Occl2,'#ffd166',4,'',35,35));
    if(on('dental')){
-     L+=lineEl(P.U1_APEX,P.U1_EDGE,'#ff88c8',3,'',20,20);L+=lineEl(P.L1_APEX,P.L1_EDGE,'#82c7ff',3,'',20,20);
+     L+=a78Wrap('U1',lineEl(P.U1_APEX,P.U1_EDGE,'#ff88c8',3,'',20,20));L+=a78Wrap('L1',lineEl(P.L1_APEX,P.L1_EDGE,'#82c7ff',3,'',20,20));
      if(layerState.dentalGuides===true){L+=lineEl(G.d1[0],G.d1[1],'#ffb0d9',2,'10 8',30,80);L+=lineEl(G.d2[0],G.d2[1],'#a8d9ff',2,'10 8',30,80);L+=lineEl(G.d3[0],G.d3[1],'#c7ffea',2,'10 8',30,80);}
    }
    if(on('labels')){
@@ -2455,7 +2456,7 @@ document.getElementById('vis').onchange=e=>{vis[selected]=e.target.value;persist
 document.getElementById('fitImg').onclick=()=>{VB={x:0,y:0,w:IMG_W,h:IMG_H};setVB()};document.getElementById('fitWork').onclick=()=>{VB={x:-650,y:-650,w:IMG_W+1300,h:IMG_H+1300};setVB()};document.getElementById('zoomIn').onclick=()=>{VB.x+=VB.w*.1;VB.y+=VB.h*.1;VB.w*=.8;VB.h*=.8;setVB()};document.getElementById('zoomOut').onclick=()=>{VB.x-=VB.w*.125;VB.y-=VB.h*.125;VB.w*=1.25;VB.h*=1.25;setVB()};
 document.querySelectorAll('input[data-layer]').forEach(cb=>cb.addEventListener('change',()=>{layerState[cb.dataset.layer]=cb.checked;safeDraw('capas')}));
 function applyPreset(name){
- const keys=Object.keys(layerState);keys.forEach(k=>layerState[k]=false);
+ const keys=Object.keys(layerState).filter(k=>!k.startsWith('line_')&&k!=='ramusPoints');keys.forEach(k=>layerState[k]=false);
  const set=(...a)=>a.forEach(k=>layerState[k]=true);
  if(name==='clean')set('landmarks');
  if(name==='cranial')set('cranial','labels','measurements','landmarks','derived');
@@ -3733,7 +3734,7 @@ function a50SyncLayerInputs(){
  document.querySelectorAll('input[data-layer]').forEach(input=>{input.checked=layerState[input.dataset.layer]!==false});
 }
 function a50ClinicalReviewLayers(){
- return{cranial:true,sagittal:true,theoretical:false,mandibular:false,occlusal:false,dental:false,labels:false,measurements:false,landmarks:true,landmarkLabels:false,derived:false,dentalGuides:false,dentalAngles:false,f1Reference:true};
+ return{cranial:true,sagittal:true,theoretical:true,mandibular:false,occlusal:false,dental:false,labels:false,measurements:false,landmarks:true,landmarkLabels:false,derived:false,dentalGuides:false,dentalAngles:false,f1Reference:true};
 }
 function a50ApplyClinicalReview(){
  Object.assign(layerState,a50ClinicalReviewLayers());a50SyncLayerInputs();
@@ -4216,7 +4217,7 @@ function a55TheoreticalGuideOverlay(G,frame=VB,size={width:svg.clientWidth||900,
  ];
  for(const [name,origin,vector,target,color] of guides){
   const segment=a55Toward(origin,vector,target,length);if(!segment)continue;
-  out+=a55Line(segment[0],segment[1],color,.7,'4 4',.72)+a55GuideTag(segment[1],name,color,s,frame);
+  out+=a78Wrap(name.slice(0,2),a55Line(segment[0],segment[1],color,.7,'4 4',.72)+a55GuideTag(segment[1],name,color,s,frame));
  }
  return out+'</g>';
 }
@@ -4230,7 +4231,7 @@ a44VisualOverlay=function(G=geometry(),frame=VB,size={width:svg.clientWidth||900
  let out='';
  try{out=a55BaseVisualOverlay(G,frame,size,false)}finally{layerState.dentalAngles=priorAngles}
  if(showDental)out+=a55DentalOverlay(G,frame,size);
- if(showLines&&layerState.dental!==false&&(layerState.dentalGuides===true||a55GuidesRequested))out+=a55TheoreticalGuideOverlay(G,frame,size);
+ if(showLines&&(layerState.dentalGuides===true||a55GuidesRequested))out+=a55TheoreticalGuideOverlay(G,frame,size);
  if(render){
   const group=document.getElementById('a44Overlay');if(group)group.innerHTML=out;
   const hint=document.getElementById('a44DentalState'),data=a44DentalData(G);
@@ -4642,7 +4643,7 @@ a55TheoreticalGuideOverlay=function(G,frame=VB,size={width:svg.clientWidth||900,
   ['d2 · Imt ⟂ Me–No 90°',G.d2?.[0],G.d2?V(...G.d2):null,P.L1_EDGE,'#9CBFD5'],
   ['d3 · ENA ⟂ F4 · límite AP',G.d3?.[0],G.d3?V(...G.d3):null,P.U1_EDGE,'#A9CFC3']
  ];
- for(const [name,origin,vector,target,color] of guides){const segment=a55Toward(origin,vector,target,length);if(segment)out+=a55Line(segment[0],segment[1],color,.65,'3 4',.72)+a55GuideTag(segment[1],name,color,s,frame)}
+ for(const [name,origin,vector,target,color] of guides){const segment=a55Toward(origin,vector,target,length);if(segment)out+=a78Wrap(name.slice(0,2),a55Line(segment[0],segment[1],color,.65,'3 4',.72)+a55GuideTag(segment[1],name,color,s,frame))}
  return out+'</g>';
 };
 
@@ -4655,7 +4656,7 @@ function a57ContextExtensions(G,frame=VB,size={width:svg.clientWidth||900,height
   let u=unit(V(P.Pts,P.Br));if(u[1]>0)u=[-u[0],-u[1]];
   const top=Math.max(0,frame.y),t=Math.abs(u[1])>1e-9?(P.Pts[1]-top)/(-u[1]):180*s;
   const end=[P.Pts[0]+u[0]*Math.max(0,t),P.Pts[1]+u[1]*Math.max(0,t)];
-  out+=a55Line(P.Pts,end,'#E0B954',.75,'4 4',.72)+a55GuideTag(end,'F2 · proyección hacia Br','#E0B954',s,frame);
+  out+=a78Wrap('F2',a55Line(P.Pts,end,'#E0B954',.75,'4 4',.72)+a55GuideTag(end,'F2 · proyección hacia Br','#E0B954',s,frame));
  }
  // Extend the real occlusal plane beyond its anterior landmark Occl1.
  if(layerState.occlusal!==false&&a55Good(P.Occl1)&&a55Good(P.Occl2)){
@@ -5419,5 +5420,47 @@ a77BindPrint();
 window.ORION_A77={preparePrint:a77PreparePrint,print:a77Print,version:'A77_PRINT_COMPLETE_SNAPSHOT'};
 
 </script>
-</body></html>
+<script id="orion-a78-review">
+/* A78_LINE_REVIEW_C3_TABLE: display controls never change anatomical coordinates. */
+const A78_LINES=[
+ ['C1','C1 · M–Cla','#43c6e8','cranial'],['C2','C2 · M–Oi','#55d69b','cranial'],['C3','C3 · mC2–Sc','#6dafff','cranial'],['C4','C4 · Clp–Od','#d66cff','cranial'],['OpOi','Op–Oi · perpendicular a C2','#78dfd4','cranial'],
+ ['F1basal','F1 basal','#c38d19','f1Reference'],['F1real','F1 real · FM–NP','#059bb5','sagittal'],['F1comp','F1 compensada','#c0529b','f1Reference'],['F1mand','Pilar real · FM–Me','#79d6ff','sagittal'],
+ ['F2','F2 · Br–Pts prolongada','#ffd15c','cranial'],['F3','F3 · por Cp, paralela a F2','#ffae42','cranial'],['F4','F4 · promedio NP–Od','#ff7474','sagittal'],['F5','F5 · por Na′, perpendicular a F4','#a3ffdc','theoretical'],['F6','F6 · por ENAt, paralela a C2','#c7ff7a','theoretical'],['F7','F7 · Met–Got','#f0a6ff','theoretical'],['F8','F8 · Om–Pto','#ffe07a','theoretical'],
+ ['palatal','Plano palatino real','#7ef2bd','sagittal'],['basal','Me–No real','#ff8f70','mandibular'],['ramus','Arp–BpR · rama real','#8bd3ff','mandibular'],['occlusal','Oclusal real','#ffd166','occlusal'],['U1','U1 real','#ff88c8','dental'],['L1','L1 real','#82c7ff','dental'],['d1','d1 · guía superior 110°','#D9AEC5','dentalGuides'],['d2','d2 · guía inferior 90°','#9CBFD5','dentalGuides'],['d3','d3 · referencia AP','#A9CFC3','dentalGuides']];
+// Agreed historical-note table: thresholds are corrected nodes, not zero nodes.
+corrHeight=function(x){if(!Number.isFinite(x)||x<63||x>96)return null;if(x>=79&&x<=83)return 0;if(x<=78)return -.25+(x-78)*.125;if(x<79)return (x-79)*.25;if(x>=84)return .25+(x-84)*.125;return (x-83)*.25};
+for(const [k]of A78_LINES)layerState['line_'+k]=true;layerState.ramusPoints=true;
+function a78Enabled(k){return layerState['line_'+k]!==false}
+const a78Panel=document.createElement('section');a78Panel.className='section';a78Panel.id='a78LineReview';a78Panel.innerHTML='<h2>Revisar líneas y colores</h2><div class="sectionBody"><p>Cada control conserva las coordenadas y los cálculos. Las guías d1–d3 son independientes de los ejes dentarios reales.</p><div id="a78Rows"></div><label><input type="checkbox" id="a78RamusPoints" checked> Mostrar puntos Arp y BpR</label><p>Arp: referencia superior posterior del eje ramal real. BpR: referencia del borde posterior de la rama. No equivalen a Cp ni a F3, que es una referencia arquitectural.</p><div id="a78Compensation"></div><p>F4 permanece paralela a C1: el promedio NP–Od cambia su altura, no U1/F4. U1/S–N permite contrastar inclinaciones con otra referencia, pero no valida la altura de F4 ni sustituye su norma.</p></div>';
+(document.querySelector('.orionStagePanel[data-a35-stage="ceph"] .orionStageBody')||document.querySelector('.side')).appendChild(a78Panel);
+a78Panel.querySelector('#a78Rows').innerHTML=A78_LINES.map(([k,name,color])=>`<label style="display:block;margin:5px 0;color:${color}"><input type="checkbox" data-a78-toggle="${k}" checked> <span style="display:inline-block;width:22px;border-top:2px solid ${color};margin:0 6px"></span>${name}</label>`).join('');
+a78Panel.addEventListener('change',e=>{const k=e.target.dataset.a78Toggle;a50LayerChoiceTouched=true;if(k){layerState['line_'+k]=e.target.checked;if(e.target.checked){const master=A78_LINES.find(r=>r[0]===k)[3];layerState[master]=true;showLines=true}}else if(e.target.id==='a78RamusPoints')layerState.ramusPoints=e.target.checked;a47SetDirty(true);safeDraw('visibilidad de líneas')});
+function a78Extend(group,a,v,lower){if(!group||!a47Point(a)||!a47Point(v))return;let u=unit(v);const inf=a56InferiorUnit(a56AnteriorUnit(geometry()));if(u[0]*inf[0]+u[1]*inf[1]<0)u=u.map(x=>-x);const target=lower||P.Me;const t=Math.max(0,(target[0]-a[0])*u[0]+(target[1]-a[1])*u[1])+(group.dataset.a78Line==='F3'?Math.max(60,(Number(document.getElementById('pxmm').value)||1)*25):60);const line=group.querySelector('line');if(line){line.setAttribute('x1',a[0]);line.setAttribute('y1',a[1]);line.setAttribute('x2',a[0]+u[0]*t);line.setAttribute('y2',a[1]+u[1]*t)}}
+function a78Refresh(){
+ const ready=a47GeometryStatus().ready,G=geometry();
+ if(ready&&showLines&&layerState.cranial!==false){lines.insertAdjacentHTML('beforeend',a78Wrap('OpOi',a55Line(P.Op,G.Oi,'#78dfd4',1,'5 4',1)));}
+ if(ready){a78Extend(lines.querySelector('[data-a78-line="F2"]'),P.Br,G.f2,P.Me);a78Extend(lines.querySelector('[data-a78-line="F3"]'),P.Cp,G.f2,P.Me);}
+ document.querySelectorAll('[data-a78-line]').forEach(e=>e.style.display=a78Enabled(e.dataset.a78Line)?'':'none');
+ // F1 overlay predates the line registry; match only its own exact strokes.
+ const f1Colors={'#c38d19':'F1basal','#059bb5':'F1real','#c0529b':'F1comp'};
+ document.querySelectorAll('#a44Overlay [stroke]').forEach(e=>{const key=f1Colors[e.getAttribute('stroke')?.toLowerCase()];if(key)e.style.display=a78Enabled(key)?'':'none'});
+ document.querySelectorAll('#a44Overlay [data-a44-f1]').forEach(e=>e.style.display=a78Enabled('F1comp')?'':'none');
+ const names={C1:'C1',C2:'C2',C3:'C3',C4:'C4',F2:'F2',F3:'F3',F4:'F4',F5:'F5',F6:'F6','F7 teórica':'F7','F8 teórica':'F8',f1M:'F1real',f1m:'F1mand',U1:'U1',L1:'L1','Ramus real':'ramus'};
+ dgroup.querySelectorAll('text').forEach(e=>{const key=names[e.textContent];if(key)e.style.display=a78Enabled(key)?'':'none'});
+ pgroup.querySelectorAll('[data-k="Arp"],[data-k="BpR"]').forEach(e=>e.style.display=layerState.ramusPoints===false?'none':'');
+ a78Panel.querySelectorAll('[data-a78-toggle]').forEach(e=>e.checked=a78Enabled(e.dataset.a78Toggle)&&layerState[A78_LINES.find(r=>r[0]===e.dataset.a78Toggle)[3]]!==false);
+ document.getElementById('a78RamusPoints').checked=layerState.ramusPoints!==false;
+ const box=document.getElementById('a78Compensation');if(!ready){box.textContent='Altura y compensación: pendientes de referencias completas.';return;}
+ const f5=lines.querySelector('[data-a78-line="F5"] line');if(f5&&G.NaPrime&&G.MetP){f5.setAttribute('x1',G.NaPrime[0]);f5.setAttribute('y1',G.NaPrime[1]);f5.setAttribute('x2',G.MetP[0]);f5.setAttribute('y2',G.MetP[1]);}
+ const m=G.metrics,ppm=Number(document.getElementById('pxmm').value),height=len(V(G.mc2,P.Sc)),base=len(V(P.M,G.Oi)),audit=a54F1Snapshot(G),f=x=>Number.isFinite(x)?x.toFixed(3):'pendiente';
+ box.innerHTML=`<h3>Compensación desde C3 calculada</h3><p>C3 = ${f(ppm>0?height/ppm:height)} ${ppm>0?'mm':'px'}; C2 (M–Oi) = ${f(ppm>0?base/ppm:base)} ${ppm>0?'mm':'px'}.<br>100 × C3/C2 = <b>${f(m.ratio)} %</b>; correctivo altura = <b>${f(corrHeight(m.ratio))}°</b>.</p><p>Tabla acordada: 78 % → −0,250°; 79–83 % → 0°; 84 % → +0,250°. Hacia los extremos: 0,125° por punto porcentual; entre nodos: interpolación sin redondeo previo. Dominio 63–96 %; fuera de él, pendiente de revisión.</p><p>${audit.parts.map(x=>x.label+': '+f(x.correction)+'°').join(' · ')}<br>Total <b>${f(audit.correction)}°</b>; F1 basal ${f(audit.base)}° → compensada <b>${f(audit.angle)}°</b>.</p><p>${audit.parts.some(x=>!Number.isFinite(x.correction))?'Total pendiente: revise '+audit.parts.filter(x=>!Number.isFinite(x.correction)).map(x=>x.label+' = '+f(x.measured)+x.unit+' fuera del dominio de la tabla').join('; ')+'. ':''}Fuente: apunte histórico aportado por el usuario y acuerdo operativo ORION; respaldo primario de los coeficientes pendiente. Verificación numérica no equivale a validación clínica.</p>`;
+}
+const a78PreviousDraw=draw;draw=function(...args){const r=a78PreviousDraw(...args);a78Refresh();return r};
+const a78PreviousPayload=studyPayload;studyPayload=function(...args){const p=a78PreviousPayload(...args);p.engine.editor_version='AVANCE_78_LINE_REVIEW_C3_TABLE';p.analysis_inputs.visible_layers={...layerState};if(a47GeometryStatus().ready)p.analysis_snapshot.height_compensation={height_percent:geometry().metrics.ratio,correction_deg:corrHeight(geometry().metrics.ratio),method:'100*distance(mc2,Sc)/distance(M,Oi)',rule:'ORION_HISTORICAL_PHOTO_78_84_V1',primary_source_verified:false};return p};
+const a78PreviousApply=applyStudyPayload;applyStudyPayload=async function(st){for(const [k]of A78_LINES)layerState['line_'+k]=true;layerState.ramusPoints=true;const r=await a78PreviousApply(st);if(r!==false)safeDraw('restaurar líneas A78');return r};
+const a78PreviousReset=resetClinicalStudy;resetClinicalStudy=function(...args){const r=a78PreviousReset(...args);for(const [k]of A78_LINES)layerState['line_'+k]=true;layerState.ramusPoints=true;safeDraw('nuevo estudio A78');return r};
+window.ORION_A78={lines:A78_LINES,heightCorrection:x=>corrHeight(x),refresh:a78Refresh};safeDraw('A78 revisión líneas y compensaciones');a47SetDirty(false);
+
+</script></body></html>
+
 
