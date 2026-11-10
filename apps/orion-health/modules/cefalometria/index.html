@@ -2373,7 +2373,7 @@ function a47LegacyDraw(){
  if(showLines){
    if(on('cranial')){
      L+=a78Wrap('C1',lineEl(P.Op,P.M,'#43c6e8',4,'',70,90));L+=a78Wrap('C2',lineEl(P.M,G.Oi,'#55d69b',4,'',80,80));L+=a78Wrap('C4',lineEl(P.Clp,P.Od,'#d66cff',4,'',65,80));
-     L+=a78Wrap('F2',lineEl(P.Br,P.Pts,'#ffd15c',4,'',65,65));if(G.ATMp)L+=a78Wrap('F3',lineEl(P.Cp,[P.Cp[0]+G.f2[0],P.Cp[1]+G.f2[1]],'#ffae42',3,'',75,90));L+=a78Wrap('C3',lineEl(P.Sc,G.mc2,'#6dafff',3,'',65,95));
+     L+=a78Wrap('F2',lineEl(P.Br,P.Pts,'#ffd15c',4,'',65,65));if(G.ATMp)L+=a78Wrap('F3',lineEl(P.Cp,[P.Cp[0]+G.f2[0],P.Cp[1]+G.f2[1]],'#ffae42',3,'',75,90));L+=a78Wrap('C3',segEl(P.Sc,G.mc2,'#6dafff',3,'',0,0));
    }
    if(on('sagittal')){
      L+=a78Wrap('F4',lineEl(f4a,f4b,'#ff7474',3,'',0,0));L+=a78Wrap('F1real',lineEl(P.FM,P.NP,'#ff66a5',3,'',45,45));L+=a78Wrap('F1mand',lineEl(P.FM,P.Me,'#79d6ff',3,'',55,55));L+=a78Wrap('palatal',lineEl(P.ENP,P.ENA,'#7ef2bd',3,'',50,50));
@@ -5482,6 +5482,44 @@ const a79Theory=document.createElement('details');a79Theory.id='a79SNTheory';a79
 <li><a href="https://doi.org/10.7759/cureus.85437" target="_blank" rel="noopener">Saadeh M et al. Cephalometric Hard and Soft Tissue Norms in Lebanese Adults. Cureus. 2025;17(6):e85437.</a></li></ol>`;
 document.querySelector('#a78LineReview .sectionBody').appendChild(a79Theory);
 a79Theory.style.cssText='margin-top:12px;line-height:1.5';
+
+</script><script id="orion-a80-layout">
+/* A80_LABEL_LAYOUT_IMAGE_BOUNDS: presentation only; anatomical coordinates remain unchanged. */
+function a80ClipSegment(a,b,r){let lo=0,hi=1;const d=[b[0]-a[0],b[1]-a[1]];for(let i=0;i<2;i++){const mn=i?r.y:r.x,mx=mn+(i?r.h:r.w);if(Math.abs(d[i])<1e-9){if(a[i]<mn||a[i]>mx)return null;continue}let t=(mn-a[i])/d[i],u=(mx-a[i])/d[i];lo=Math.max(lo,Math.min(t,u));hi=Math.min(hi,Math.max(t,u));if(lo>hi)return null}return[[a[0]+lo*d[0],a[1]+lo*d[1]],[a[0]+hi*d[0],a[1]+hi*d[1]]]}
+function a80Layout(){
+ if(!a47HasImage())return;
+ document.getElementById('a80Leaders')?.remove();document.querySelectorAll('[data-a80-hidden]').forEach(e=>{e.style.visibility='';delete e.dataset.a80Hidden});document.querySelectorAll('[data-a80-base]').forEach(e=>e.setAttribute('transform',e.dataset.a80Base));
+ const ctm=svg.getScreenCTM();if(!ctm)return;const scale=Math.max(.001,Math.hypot(ctm.a,ctm.b)),margin=8/scale;
+ // Clip actual segment endpoints, rather than merely hiding the out-of-image tail.
+ const bx=Math.max(0,VB.x)+margin,by=Math.max(0,VB.y)+margin;const bounds={x:bx,y:by,w:Math.max(0,Math.min(IMG_W,VB.x+VB.w)-margin-bx),h:Math.max(0,Math.min(IMG_H,VB.y+VB.h)-margin-by)};
+ document.querySelectorAll('#lines line,#a44Overlay line').forEach(line=>{if(!line.dataset.a80Original)line.dataset.a80Original=JSON.stringify([+line.getAttribute('x1'),+line.getAttribute('y1'),+line.getAttribute('x2'),+line.getAttribute('y2')]);if(line.dataset.a80Clipped==='true'){line.style.display=line.dataset.a80Display||'';delete line.dataset.a80Clipped}const raw=JSON.parse(line.dataset.a80Original),a=raw.slice(0,2),b=raw.slice(2);if(![...a,...b].every(Number.isFinite))return;const seg=a80ClipSegment(a,b,bounds);if(!seg){line.dataset.a80Display=line.style.display;line.dataset.a80Clipped='true';line.style.display='none';return}['x1','y1','x2','y2'].forEach((k,i)=>line.setAttribute(k,seg[i<2?0:1][i%2]));});
+ const point=(x,y)=>{const p=svg.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(ctm)};
+ const ul=point(bounds.x,bounds.y),lr=point(bounds.x+bounds.w,bounds.y+bounds.h),box={x:Math.min(ul.x,lr.x),y:Math.min(ul.y,lr.y),r:Math.max(ul.x,lr.x),b:Math.max(ul.y,lr.y)};
+ const occupied=[],items=[],seen=new Set(),visible=e=>{const s=getComputedStyle(e);return s.display!=='none'&&s.visibility!=='hidden'&&e.getClientRects().length&&!!e.getBoundingClientRect().width};
+ for(const text of document.querySelectorAll('#points text,#derived text,#a44Overlay text')){if(text.dataset.a80Hidden==='true'){text.style.visibility='';delete text.dataset.a80Hidden}if(!visible(text))continue;const parent=text.parentElement,node=parent.tagName.toLowerCase()==='g'&&parent.querySelector('rect')&&!parent.querySelector('circle')&&parent.querySelectorAll('text').length===1?parent:text;if(seen.has(node))continue;seen.add(node);if(node.dataset.a80Base===undefined)node.dataset.a80Base=node.getAttribute('transform')||'';node.setAttribute('transform',node.dataset.a80Base);const r=node.getBoundingClientRect();items.push({node,text,original:r,priority:parent.dataset.k===selected?0:node===parent?1:parent.dataset.k?2:3});}
+ const pad=3,overlap=(a,b)=>a.x<b.r+pad&&a.r>b.x-pad&&a.y<b.b+pad&&a.b>b.y-pad;
+ for(const circle of document.querySelectorAll('#points circle:not(.a52HitArea),#derived circle')){if(!visible(circle))continue;const r=circle.getBoundingClientRect();occupied.push({x:r.x-2,y:r.y-2,r:r.right+2,b:r.bottom+2})}
+ const hud=document.getElementById('a41Hud');if(hud&&visible(hud)){const r=hud.getBoundingClientRect();occupied.push({x:r.x-4,y:r.y-4,r:r.right+4,b:r.bottom+4})}
+ items.sort((a,b)=>a.priority-b.priority);
+ const leaders=document.createElementNS('http://www.w3.org/2000/svg','g');leaders.id='a80Leaders';leaders.style.pointerEvents='none';let moved=0,omitted=0;
+ for(const item of items){const r=item.original,w=r.width,h=r.height;if(w>box.r-box.x||h>box.b-box.y){item.node.style.visibility='hidden';item.text.dataset.a80Hidden='true';item.node.dataset.a80Hidden='true';omitted++;continue}const ox=Math.max(box.x,Math.min(r.x,box.r-w)),oy=Math.max(box.y,Math.min(r.y,box.b-h));let chosen=null;
+  const tryAt=(x,y)=>{const q={x,y,r:x+w,b:y+h};if(q.x<box.x||q.y<box.y||q.r>box.r||q.b>box.b||occupied.some(o=>overlap(q,o)))return false;chosen=q;return true};
+  tryAt(ox,oy);
+  for(let radius=14;!chosen&&radius<=224;radius+=14){for(let k=0;k<16&&!chosen;k++){const a=k*Math.PI/8;tryAt(ox+Math.cos(a)*radius,oy+Math.sin(a)*radius)}}
+  if(!chosen){let best=Infinity;for(let y=box.y;y+h<=box.b;y+=Math.max(h+6,16))for(let x=box.x;x+w<=box.r;x+=24){const q={x,y,r:x+w,b:y+h},dist=(x-ox)**2+(y-oy)**2;if(dist<best&&!occupied.some(o=>overlap(q,o))){best=dist;chosen=q}}}
+  if(!chosen){item.node.style.visibility='hidden';item.text.dataset.a80Hidden='true';item.node.dataset.a80Hidden='true';omitted++;continue}
+  occupied.push(chosen);const dx=chosen.x-r.x,dy=chosen.y-r.y;item.node.style.visibility='';item.node.dataset.a80Placed='true';
+  if(Math.abs(dx)+Math.abs(dy)<.5)continue;
+  const own=item.node.getScreenCTM();if(!own)continue;const det=own.a*own.d-own.b*own.c;if(Math.abs(det)<1e-12)continue;const tx=(own.d*dx-own.c*dy)/det,ty=(-own.b*dx+own.a*dy)/det;item.node.setAttribute('transform',item.node.dataset.a80Base+` translate(${tx},${ty})`);moved++;
+  if(Math.hypot(dx,dy)>12){const inv=ctm.inverse(),convert=(x,y)=>{const p=svg.createSVGPoint();p.x=x;p.y=y;return p.matrixTransform(inv)},a=convert(r.x+w/2,r.y+h/2),b=convert(Math.max(chosen.x,Math.min(r.x+w/2,chosen.r)),Math.max(chosen.y,Math.min(r.y+h/2,chosen.b))),line=document.createElementNS('http://www.w3.org/2000/svg','line');for(const[k,v]of Object.entries({x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#b7cddd','stroke-width':'.65','stroke-dasharray':'2 3','vector-effect':'non-scaling-stroke',opacity:'.65'}))line.setAttribute(k,v);leaders.appendChild(line)}
+ }
+ svg.insertBefore(leaders,pgroup);let note=document.getElementById('a80LayoutNotice');if(!note){note=document.createElement('p');note.id='a80LayoutNotice';document.querySelector('#a78LineReview .sectionBody')?.prepend(note)}if(note)note.textContent=`Etiquetas separadas automáticamente. Prolongaciones limitadas al interior de la imagen.${omitted?' '+omitted+' etiquetas sin espacio: acerque la imagen o revise sus valores en el panel.':''}`;
+ window.a80LayoutResult={labels:items.length,moved,omitted};
+}
+const a80PreviousDraw=draw;draw=function(...args){const r=a80PreviousDraw(...args);a80Layout();return r};
+const a80PreviousSetVB=setVB;setVB=function(...args){const r=a80PreviousSetVB(...args);requestAnimationFrame(a80Layout);return r};
+window.addEventListener('resize',()=>requestAnimationFrame(a80Layout));
+window.ORION_A80={layout:a80Layout,clipSegment:a80ClipSegment};safeDraw('A80 etiquetas sin superposición');
 
 </script></body></html>
 
