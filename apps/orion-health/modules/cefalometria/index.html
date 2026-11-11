@@ -5694,6 +5694,14 @@ function a90Segments(){if(!showLines||!a47GeometryStatus().ready)return;const G=
  const u=unit(V(G.Om,G.Met)),end=[G.Met[0]+u[0]*8*ppm,G.Met[1]+u[1]*8*ppm];set('F7',G.Om,end);
 }
 const a90OldLayout=a80Layout;a80Layout=function(...args){a90Segments();return a90OldLayout(...args)};ORION_A80.layout=a80Layout;window.ORION_A90={segments:a90Segments};document.title='ORION Delaire A90 · F4 y F7 confluyen en Om';safeDraw('A90 extremos Om');a47SetDirty(false);
+</script><script>/* A91_FIXED_SCREEN_LANDMARKS: visible radius and hit target independent of image zoom. */
+function a91PointSize(){const m=svg.getScreenCTM();if(!m)return;const scale=Math.hypot(m.a,m.b);if(!(scale>0))return;
+ for(const g of pgroup.querySelectorAll('.landmark')){const active=g.dataset.k===selected,c=g.querySelector('circle:not(.a52HitArea)'),hit=g.querySelector('.a52HitArea');if(c){c.setAttribute('r',(active?5:3.5)/scale);c.setAttribute('vector-effect','non-scaling-stroke');c.setAttribute('stroke-width',active?1.8:1.2)}if(hit)hit.setAttribute('r',14/scale)}
+ for(const c of svg.querySelectorAll('#derived circle,[data-a88-intersection] circle')){c.setAttribute('r',3.5/scale);c.setAttribute('vector-effect','non-scaling-stroke');c.setAttribute('stroke-width','1.2')}
+}
+const a91OldLayout=a80Layout;a80Layout=function(...args){a91PointSize();return a91OldLayout(...args)};ORION_A80.layout=a80Layout;
+const a91OldSetVB=setVB;setVB=function(...args){const r=a91OldSetVB(...args);a91PointSize();return r};
+window.ORION_A91={resizePoints:a91PointSize};document.title='ORION Delaire A91 · Landmarks de tamaño constante';safeDraw('A91 puntos');a47SetDirty(false);
 </script></body></html>
 
 
