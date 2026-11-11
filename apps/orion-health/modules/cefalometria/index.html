@@ -5685,6 +5685,15 @@ const a89OldDraw=draw;draw=function(...args){const r=a89OldDraw(...args);a89Labe
 const a89OldSetVB=setVB;setVB=function(...args){const r=a89OldSetVB(...args);a89LabelSize();requestAnimationFrame(a80Layout);return r};
 window.addEventListener('resize',()=>requestAnimationFrame(()=>{a89LabelSize();a80Layout()}));
 window.ORION_A89={resizeLabels:a89LabelSize};document.title='ORION Delaire A89 · Etiquetas de tamaño constante';safeDraw('A89 etiquetas');a47SetDirty(false);
+</script><script>/* A90_SHARED_OM_SEGMENTS: final display endpoints from a single current geometry. */
+function a90Segments(){if(!showLines||!a47GeometryStatus().ready)return;const G=geometry();if(!G.Om||!G.Met)return;const ppm=Number(document.getElementById('pxmm').value)||1;
+ const set=(key,a,b)=>{for(const e of lines.querySelectorAll('[data-a78-line="'+key+'"] line')){['x1','y1','x2','y2'].forEach((k,i)=>e.setAttribute(k,(i<2?a:b)[i%2]));e.dataset.a80Original=JSON.stringify([...a,...b]);}};
+ const anterior=a56AnteriorUnit(G),f5=G.F5?inter(G.Om,anterior,G.F5[0],V(...G.F5)):null;
+ const dot=p=>(p[0]-G.Om[0])*anterior[0]+(p[1]-G.Om[1])*anterior[1];const length=Math.max(...[f5,P.NP,P.ENA].filter(Boolean).map(dot))+5*ppm;
+ set('F4',G.Om,[G.Om[0]+anterior[0]*length,G.Om[1]+anterior[1]*length]);
+ const u=unit(V(G.Om,G.Met)),end=[G.Met[0]+u[0]*8*ppm,G.Met[1]+u[1]*8*ppm];set('F7',G.Om,end);
+}
+const a90OldLayout=a80Layout;a80Layout=function(...args){a90Segments();return a90OldLayout(...args)};ORION_A80.layout=a80Layout;window.ORION_A90={segments:a90Segments};document.title='ORION Delaire A90 · F4 y F7 confluyen en Om';safeDraw('A90 extremos Om');a47SetDirty(false);
 </script></body></html>
 
 
