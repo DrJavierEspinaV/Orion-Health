@@ -5669,6 +5669,22 @@ const a86OldPayload=studyPayload;studyPayload=function(...args){const p=a86OldPa
 const a86Run=document.getElementById('runBatch');const a86RunOld=a86Run.onclick;a86Run.onclick=function(...args){const r=a86RunOld.apply(this,args);a86RefreshDelivery();return r};
 window.ORION_A86={delivery:a86DeliveryItems,signature:a86Signature,freshBatch:a86FreshBatch};document.title='ORION Delaire A88 · Confluencias F7';safeDraw('A86 informe y guías');a47SetDirty(false);
 
+</script><script>/* A89_FIXED_SCREEN_LABELS: font and label backgrounds retain screen dimensions under SVG zoom. */
+function a89LabelSize(){
+ const m=svg.getScreenCTM();if(!m)return;const scale=Math.hypot(m.a,m.b);if(!(scale>0))return;
+ for(const t of svg.querySelectorAll('text')){
+  if(!t.dataset.a89Px){const original=parseFloat(t.getAttribute('font-size')||getComputedStyle(t).fontSize)||12;t.dataset.a89Px=String(Math.max(10,Math.min(13,original)))}
+  t.style.fontSize=(Number(t.dataset.a89Px)/scale)+'px';
+  if(t.hasAttribute('stroke-width'))t.style.strokeWidth=(1.2/scale)+'px';
+  const g=t.parentElement,rect=g?.tagName.toLowerCase()==='g'&&g.querySelectorAll('text').length===1&&!g.querySelector('circle')?g.querySelector(':scope > rect'):null;
+  if(rect){try{const box=t.getBBox(),pad=4/scale;rect.setAttribute('x',box.x-pad);rect.setAttribute('y',box.y-2/scale);rect.setAttribute('width',box.width+2*pad);rect.setAttribute('height',box.height+4/scale);rect.setAttribute('rx',5/scale)}catch(_){}}
+ }
+}
+const a89OldLayout=a80Layout;a80Layout=function(...args){a89LabelSize();return a89OldLayout(...args)};ORION_A80.layout=a80Layout;
+const a89OldDraw=draw;draw=function(...args){const r=a89OldDraw(...args);a89LabelSize();a80Layout();return r};
+const a89OldSetVB=setVB;setVB=function(...args){const r=a89OldSetVB(...args);a89LabelSize();requestAnimationFrame(a80Layout);return r};
+window.addEventListener('resize',()=>requestAnimationFrame(()=>{a89LabelSize();a80Layout()}));
+window.ORION_A89={resizeLabels:a89LabelSize};document.title='ORION Delaire A89 · Etiquetas de tamaño constante';safeDraw('A89 etiquetas');a47SetDirty(false);
 </script></body></html>
 
 
