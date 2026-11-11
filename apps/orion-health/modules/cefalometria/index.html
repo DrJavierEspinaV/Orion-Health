@@ -5714,6 +5714,14 @@ const a93Run=document.getElementById('runBatch'),a93RunOld=a93Run.onclick;a93Run
 const a93Guide=document.createElement('p');a93Guide.textContent='Orientación ORION: rostro hacia la derecha de la pantalla. Se comprueba con C1 dirigida; no invierte la radiografía ni las coordenadas. La conclusión profesional debe integrar examen, oclusión y asimetría.';a93Notice.after(a93Guide);
 const a93OldPlate=a83Plate;a83Plate=function(...args){const plate=a93OldPlate(...args),c=a93Closure();a77Text('p',c.ready?'Revisión profesional completa.':'Informe para revisión · pendientes: '+c.pending.join('; '),plate,'a83Scope');return plate};
 window.ORION_A93={closure:a93Closure};document.title='ORION Delaire A93 · Informe depurado';safeDraw('A93 depuración');a47SetDirty(false);
+</script><script>/* A94_ACCESSIBLE_SAVE: workspace toolbar actions independent of side-panel scroll. */
+const a94Anchor=[...document.querySelectorAll('button')].find(b=>b.textContent.trim()==='Ocultar panel');
+const a94Tools=document.createElement('span');a94Tools.id='a94SaveTools';a94Tools.innerHTML='<button type="button" id="a94SaveLocal">Guardar</button> <button type="button" id="a94Download">Descargar estudio</button> <span id="a94SaveStatus" role="status" aria-live="polite"></span>';
+if(a94Anchor)a94Anchor.parentElement.prepend(a94Tools);else document.body.prepend(a94Tools);
+const a94Css=document.createElement('style');a94Css.textContent='#a94SaveTools{display:inline-flex;align-items:center;gap:4px;flex-wrap:nowrap;flex:0 0 auto}#a94SaveTools button{background:#123b59;color:white;border:1px solid #123b59;min-height:30px;white-space:nowrap}#a94SaveStatus{font-size:11px;color:#23455e;max-width:230px}@media print{#a94SaveTools{display:none!important}}';document.head.append(a94Css);
+async function a94Save(button,download){const status=document.getElementById('a94SaveStatus');button.disabled=true;status.textContent=download?'Preparando archivo…':'Guardando…';try{if(download){const r=await savePortableStudy();status.textContent=r?.ok?'Archivo de estudio guardado.':'Guardado cancelado.'}else{await saveStudyIndexedDB();status.textContent='Guardado en este navegador.'}}catch(e){status.textContent='No se pudo guardar: '+e.message}finally{button.disabled=false}}
+document.getElementById('a94SaveLocal').onclick=function(){return a94Save(this,false)};document.getElementById('a94Download').onclick=function(){return a94Save(this,true)};
+document.title='ORION Delaire A94 · Guardar accesible';
 </script></body></html>
 
 

@@ -1,0 +1,11 @@
+const fs=require('fs'),assert=require('assert'),{chromium}=require('playwright');
+(async()=>{const b=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE_PATH,args:['--no-sandbox','--disable-dev-shm-usage']});const p=await b.newPage({viewport:{width:1440,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('file://'+require('path').resolve(process.env.APP_HTML));
+// Synthetic image and coordinates only; never store a clinical fixture in the repository.
+await p.evaluate(()=>{const c=document.createElement('canvas');c.width=1518;c.height=1317;currentImageData=c.toDataURL();rx.setAttribute('href',currentImageData);IMG_W=1518;IMG_H=1317;VB={x:0,y:0,w:1518,h:1317};setVB();document.getElementById('pxmm').value='5';document.getElementById('age').value='14';document.getElementById('sex').value='F';document.getElementById('f1mode').value='AUTO';Object.assign(P,{M:[1100,590],Cla:[840,566],Clp:[770,565],Ara:[750,720],Cp:[710,735],Od:[648,786],Pts:[901,660],Pti:[893,768],Atl:[731,801],Na:[1148,566],Op:[160,506],Sc:[442,43],FM:[1109,594],NP:[1073,846],ENA:[1135,846],ENP:[891,825],Me:[1101,1243],Go:[752,1009],No:[819,1053],Arp:[700,699],BpR:[734,958],Occl1:[1069,982],Occl2:[956,957],U1_EDGE:[1155,1001],U1_APEX:[1093,874],L1_EDGE:[1164,1015],L1_APEX:[1104,1140],SYM_ANT:[1127,1228],SYM_POST:[1052,1172],Br:[799,67]});for(const k of A47_KEYS){use[k]='INCLUDE';stat[k]='FROZEN'}layerState.theoretical=true;layerState.cranial=true;layerState.dental=false;layerState.dentalGuides=true;safeDraw('synthetic A78')});
+
+
+
+
+
+await p.evaluate(()=>{window.a94Saved=null;saveJSONFile=async(data,name)=>{window.a94Saved={schema:data.schema,image:!!data.image_data_url,points:Object.keys(data.analysis_inputs.landmarks).length};return{ok:true}}});
+assert(await p.locator('#a94Download').isVisible());await p.locator('#a94Download').click();assert.deepEqual(await p.evaluate(()=>window.a94Saved),{schema:'orion.ceph.study/1.0',image:true,points:30});assert(await p.locator('#a94SaveStatus').textContent().then(t=>t.includes('guardado')));assert.deepEqual(errors,[]);console.log('A94 visible toolbar save, complete-image study export and confirmation PASS');await b.close()})().catch(e=>{console.error(e);process.exit(1)});
