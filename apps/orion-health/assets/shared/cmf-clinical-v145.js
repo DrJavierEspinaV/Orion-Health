@@ -10,6 +10,16 @@ Confirmar presentación, vía y momento. No repetir cada 6–8 horas. Revisar di
     prednisona: `PREDNISONA 20 mg — alternativa a dexametasona, solo si fue indicada
 2 comprimidos (40 mg en total) por vía oral, en dosis ÚNICA 60 minutos antes del procedimiento, cuando corresponda.
 No asociar a dexametasona ni repetir durante varios días de manera automática. Individualizar según glucemia, infección, comorbilidades y pauta quirúrgica.`,
+    // Pautas especiales solicitadas por el prescriptor; no son opciones automáticas.
+    // No equivalentes entre sí: 16 mg/día de dexametasona ≈ 107 mg/día de prednisona.
+    dexametasona_postqx: `DEXAMETASONA 4 mg — PAUTA POSTQUIRÚRGICA INDIVIDUALIZADA
+1 comprimido (4 mg) por vía oral cada 6 horas durante 3 días (16 mg/día; 48 mg acumulados).
+⚠️ DOSIS GLUCOCORTICOIDE ELEVADA: no constituye pauta rutinaria para terceros molares. Equivale aproximadamente a 107 mg/día de prednisona. Requiere justificación, evaluación clínica individual y confirmación expresa del prescriptor.
+No asociar con prednisona ni con otro corticoide sistémico. Reevaluar riesgo de hiperglucemia, infección, HTA, enfermedad ulcerosa y uso concomitante de ketoprofeno u otros AINE (mayor riesgo gastrointestinal).`,
+    prednisona_postqx: `PREDNISONA 5 mg — PAUTA POSTQUIRÚRGICA INDIVIDUALIZADA
+1 comprimido (5 mg) por vía oral cada 6 horas durante 3 días (20 mg/día; 60 mg acumulados).
+⚠️ Esta pauta requiere valoración y confirmación clínica individual; no es equivalente a dexametasona 4 mg cada 6 horas.
+No asociar con dexametasona ni otros corticoides sistémicos. Revisar diabetes, infección activa, HTA, enfermedad ulcerosa y uso concomitante de ketoprofeno u otros AINE (mayor riesgo gastrointestinal).`,
     ninguno:''
   });
 

@@ -382,13 +382,15 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
             <option value="embarazo">Embarazo/Puerperio (Seguridad)</option>
           </select>
           <div id="orionPostSteroidWrap" class="mt-3 p-3 rounded-xl border border-slate-200 bg-slate-50" hidden>
-            <label for="orionPostSteroid" class="text-xs font-bold text-slate-700">Corticoide perioperatorio (solo Postquirúrgico 1)</label>
+            <label for="orionPostSteroid" class="text-xs font-bold text-slate-700">Corticoide (solo Postquirúrgico 1) · seleccionar alternativa</label>
             <select id="orionPostSteroid" class="mt-1 w-full rounded-lg border p-2">
-              <option value="dexametasona">Dexametasona 8 mg — dosis única oral perioperatoria</option>
-              <option value="prednisona">Prednisona 40 mg — dosis única oral alternativa</option>
+              <option value="dexametasona">Dexametasona 8 mg — dosis única perioperatoria (base)</option>
+              <option value="prednisona">Prednisona 40 mg — dosis única perioperatoria (base)</option>
+              <option value="dexametasona_postqx">Dexametasona 4 mg — cada 6 h por 3 días (validación profesional)</option>
+              <option value="prednisona_postqx">Prednisona 5 mg — cada 6 h por 3 días (validación profesional)</option>
               <option value="ninguno">Ningún corticoide</option>
             </select>
-            <p class="mt-2 text-xs text-slate-600">Alternativas, nunca juntas. Revisar momento quirúrgico, diabetes, infección activa y contraindicaciones. No agregar ciclos prolongados automáticamente.</p>
+            <p class="mt-2 text-xs text-slate-600">Alternativas excluyentes. Las pautas cada 6 h no son equivalentes entre sí y requieren confirmación profesional; dexametasona 4 mg c/6 h supone dosis glucocorticoide elevada. Revisar diabetes, infección activa y asociación con ketoprofeno/AINE por riesgo gastrointestinal.</p>
           </div>
           <p id="orionProphylaxisNotice" class="mt-2 p-3 rounded-lg border border-amber-300 bg-amber-50 text-xs text-amber-950" role="note" hidden>Profilaxis de endocarditis: exclusiva de pacientes cardíacos de alto riesgo y procedimientos indicados. Dosis única 30–60 min antes. Verificar alergias e interacciones; no corresponde en extracciones de rutina.</p>
         </div>
@@ -1277,7 +1279,22 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
     activePediatric=false;pediatricError='';tplPedia.value='';$('pediaSettings').hidden=true;$('pediaStatus').textContent='';
     adultChoice();
   });
-  postSteroid?.addEventListener('change',()=>{if(tplAdulto.value==='Post_Qx1')adultChoice();});
+  let previousPostSteroid=postSteroid?.value||'dexametasona';
+  postSteroid?.addEventListener('change',()=>{
+    const requested=postSteroid.value;
+    if(['dexametasona_postqx','prednisona_postqx'].includes(requested)){
+      const dex=requested==='dexametasona_postqx';
+      const msg=dex
+        ?'Dexametasona 4 mg cada 6 h por 3 días: 16 mg/día, potencia equivalente aproximada a 107 mg de prednisona por día. No es pauta rutinaria. Riesgo aumentado al combinar con ketoprofeno/AINE. ¿Confirma que evaluó indicación, antecedentes y contraindicaciones del paciente?'
+        :'Prednisona 5 mg cada 6 h por 3 días: 20 mg/día. No es equivalente a dexametasona 4 mg cada 6 h. Riesgo aumentado al combinar con ketoprofeno/AINE. ¿Confirma que evaluó indicación, antecedentes y contraindicaciones del paciente?';
+      if(!window.confirm(msg)){
+        postSteroid.value=previousPostSteroid;
+        return;
+      }
+    }
+    previousPostSteroid=requested;
+    if(tplAdulto.value==='Post_Qx1')adultChoice();
+  });
   tplPedia?.addEventListener('change',()=>{
     activePediatric=!!tplPedia.value;tplAdulto.value='';postSteroidWrap.hidden=true;prophylaxisNotice.hidden=true;
     generatePediatric();
