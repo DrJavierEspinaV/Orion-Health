@@ -382,15 +382,14 @@ Este certificado se emite a solicitud del/la interesad@ para fines de reposo o j
             <option value="embarazo">Embarazo/Puerperio (Seguridad)</option>
           </select>
           <div id="orionPostSteroidWrap" class="mt-3 p-3 rounded-xl border border-slate-200 bg-slate-50" hidden>
-            <label for="orionPostSteroid" class="text-xs font-bold text-slate-700">Corticoide (solo Postquirúrgico 1) · seleccionar alternativa</label>
+            <label for="orionPostSteroid" class="text-xs font-bold text-slate-700">Dexametasona PREQX · extensión postquirúrgica solo si es necesaria</label>
             <select id="orionPostSteroid" class="mt-1 w-full rounded-lg border p-2">
-              <option value="dexametasona">Dexametasona 8 mg — dosis única perioperatoria (base)</option>
-              <option value="prednisona">Prednisona 40 mg — dosis única perioperatoria (base)</option>
-              <option value="dexametasona_postqx">Dexametasona 4 mg — cada 6 h por 3 días (validación profesional)</option>
-              <option value="prednisona_postqx">Prednisona 5 mg — cada 6 h por 3 días (validación profesional)</option>
+              <option value="dexametasona">Dexametasona 8 mg — dosis única PREQX</option>
+              <option value="dexametasona_ext24">PREQX 8 mg + 4 mg cada 12 h durante 24 h (confirmar)</option>
+              <option value="dexametasona_ext48">PREQX 8 mg + 4 mg cada 12 h durante 48 h (confirmar)</option>
               <option value="ninguno">Ningún corticoide</option>
             </select>
-            <p class="mt-2 text-xs text-slate-600">Alternativas excluyentes. Las pautas cada 6 h no son equivalentes entre sí y requieren confirmación profesional; dexametasona 4 mg c/6 h supone dosis glucocorticoide elevada. Revisar diabetes, infección activa y asociación con ketoprofeno/AINE por riesgo gastrointestinal.</p>
+            <p class="mt-2 text-xs text-slate-600">Pauta habitual: dosis única prequirúrgica. Extender solo por indicación clínica individual, nunca automáticamente. Revisar diabetes, infección y asociación con ketoprofeno u otros AINE por riesgo gastrointestinal.</p>
           </div>
           <p id="orionProphylaxisNotice" class="mt-2 p-3 rounded-lg border border-amber-300 bg-amber-50 text-xs text-amber-950" role="note" hidden>Profilaxis de endocarditis: exclusiva de pacientes cardíacos de alto riesgo y procedimientos indicados. Dosis única 30–60 min antes. Verificar alergias e interacciones; no corresponde en extracciones de rutina.</p>
         </div>
@@ -1282,15 +1281,10 @@ Ya tiene Cita el día _______________ a las __________ Hrs.">
   let previousPostSteroid=postSteroid?.value||'dexametasona';
   postSteroid?.addEventListener('change',()=>{
     const requested=postSteroid.value;
-    if(['dexametasona_postqx','prednisona_postqx'].includes(requested)){
-      const dex=requested==='dexametasona_postqx';
-      const msg=dex
-        ?'Dexametasona 4 mg cada 6 h por 3 días: 16 mg/día, potencia equivalente aproximada a 107 mg de prednisona por día. No es pauta rutinaria. Riesgo aumentado al combinar con ketoprofeno/AINE. ¿Confirma que evaluó indicación, antecedentes y contraindicaciones del paciente?'
-        :'Prednisona 5 mg cada 6 h por 3 días: 20 mg/día. No es equivalente a dexametasona 4 mg cada 6 h. Riesgo aumentado al combinar con ketoprofeno/AINE. ¿Confirma que evaluó indicación, antecedentes y contraindicaciones del paciente?';
-      if(!window.confirm(msg)){
-        postSteroid.value=previousPostSteroid;
-        return;
-      }
+    if(['dexametasona_ext24','dexametasona_ext48'].includes(requested)){
+      const hours=requested==='dexametasona_ext24'?24:48;
+      const confirmed=window.confirm('Extensión postquirúrgica individualizada: dexametasona 4 mg cada 12 horas durante '+hours+' horas después de la dosis única PREQX. Evaluar indicación, momento de inicio, glucemia, infección y riesgo gastrointestinal con AINE. ¿Confirma esta pauta para el paciente?');
+      if(!confirmed){postSteroid.value=previousPostSteroid;return;}
     }
     previousPostSteroid=requested;
     if(tplAdulto.value==='Post_Qx1')adultChoice();
