@@ -11,7 +11,7 @@ async function openCmf(page) {
 }
 
 for (const viewport of [{width:1440,height:900},{width:390,height:844}]) {
-  test('CMF postoperatorio de adulto: 1 g c/8 h, máximo 3 g, tres opciones de corticoide ('+viewport.width+')',async({page})=>{
+  test('CMF postoperatorio de adulto: 1 g c/8 h, máximo 3 g, dexametasona preqx y extensión opcional ('+viewport.width+')',async({page})=>{
     await page.setViewportSize(viewport);
     const frame=await openCmf(page);
     const selector=frame.locator('#tplAdulto');
@@ -21,12 +21,16 @@ for (const viewport of [{width:1440,height:900},{width:390,height:844}]) {
     await expect(frame.locator('#orionPostSteroidWrap')).toBeVisible();
     await expect(rx).toHaveValue(/PARACETAMOL 1 g[\s\S]*cada 8 horas[\s\S]*3\.000 mg\/día/);
     await expect(rx).toHaveValue(/DEXAMETASONA 8 mg[\s\S]*60–90 minutos[\s\S]*No repetir/);
-    await expect(rx).not.toHaveValue(/PREDNISONA 20 mg/);
-    await steroid.selectOption('prednisona');
-    await expect(rx).toHaveValue(/PREDNISONA 20 mg[\s\S]*40 mg en total[\s\S]*dosis ÚNICA/);
-    await expect(rx).not.toHaveValue(/DEXAMETASONA 8 mg/);
+    await expect(steroid).toHaveValue('dexametasona');
+    await expect(rx).not.toHaveValue(/PREDNISONA/);
+    page.once('dialog',d=>d.accept());
+    await steroid.selectOption('dexametasona_ext24');
+    await expect(rx).toHaveValue(/DEXAMETASONA 4 mg[\s\S]*cada 12 horas durante 24 horas/);
+    page.once('dialog',d=>d.accept());
+    await steroid.selectOption('dexametasona_ext48');
+    await expect(rx).toHaveValue(/DEXAMETASONA 4 mg[\s\S]*cada 12 horas durante 48 horas/);
     await steroid.selectOption('ninguno');
-    await expect(rx).not.toHaveValue(/DEXAMETASONA 8 mg|PREDNISONA 20 mg/);
+    await expect(rx).not.toHaveValue(/DEXAMETASONA 8 mg|DEXAMETASONA 4 mg/);
     await expect(rx).toHaveValue(/KETOPROFENO 50 mg/);
     await selector.selectOption('Post_Qx2');
     await expect(frame.locator('#orionPostSteroidWrap')).toBeHidden();
