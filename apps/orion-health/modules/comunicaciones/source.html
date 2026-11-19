@@ -968,7 +968,10 @@ function renderSAPSourceStatus(fromCache=false){
     status.textContent = (fromCache ? 'Último archivo SAP conservado en sesión' : 'Archivo SAP cargado manualmente') +
       ' · ' + (Number(dataSourceMeta.count)||0) + ' registros · ' + when +
       '. No hay sincronización automática.';
-  }else if(source === 'google-authorized'){\n    const when = new Date(Number(dataSourceMeta.loadedAt)||Date.now()).toLocaleString('es-CL');\n    status.textContent = 'Agenda consultada con Google · '+(Number(dataSourceMeta.count)||0)+' registros · '+when+'. Datos de la última lectura de DB, no sincronización en tiempo real de SAP.';\n  }else if(source === 'drive-manual'){
+  }else if(source === 'google-authorized'){
+    const when = new Date(Number(dataSourceMeta.loadedAt)||Date.now()).toLocaleString('es-CL');
+    status.textContent = 'Agenda consultada con Google · '+(Number(dataSourceMeta.count)||0)+' registros · '+when+'. Datos de la última lectura de DB, no sincronización en tiempo real de SAP.';
+  }else if(source === 'drive-manual'){
     status.textContent = 'Se muestran datos obtenidos por una conexión técnica manual, no un archivo SAP. Para actualizar desde SAP, importa un Excel.';
   }else if(DATA.length){
     status.textContent = 'Hay datos anteriores de origen sin verificar. Para garantizar vigencia, importa el archivo SAP actualizado.';
