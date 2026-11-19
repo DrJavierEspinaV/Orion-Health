@@ -981,6 +981,11 @@ function renderSAPSourceStatus(fromCache=false){
 }
 
 function saveCacheState(){
+  // Google OAuth: no persistir datos clínicos obtenidos con permisos de Google.
+  if(dataSourceMeta?.kind==='google-authorized'){
+    try{localStorage.removeItem(CACHE_KEY);}catch(_){}
+    return;
+  }
   try{
     const payload = {
       ts: Date.now(),
@@ -1496,6 +1501,7 @@ window.addEventListener('orion:google-db-loaded',event=>{
   autoScrollFranjaPending=true;
   renderSAPSourceStatus();
   render();
+  // Los datos OAuth permanecen en memoria; no se almacenan en caché permanente.
   saveCacheState();
 });
 
