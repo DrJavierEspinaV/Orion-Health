@@ -30,6 +30,15 @@ css.textContent='#orionGoogleOAuthPanel{background:#eff7fc;border:1px solid #bfd
 '#orionGoogleOAuthPanel label{display:block;font-size:12px;font-weight:700;margin:8px 0}';
 document.head.appendChild(css);
 card.parentNode.insertBefore(box,card);
+function placeAccessNextToAgenda(){
+ const priority=document.getElementById('orionPatientPriorityControls');
+ if(priority){
+  const search=priority.querySelector('#orionPrioritySearch');
+  priority.insertBefore(box,search||null);
+ }
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeAccessNextToAgenda,{once:true});
+else placeAccessNextToAgenda();
 const $=id=>document.getElementById(id);
 const cfg=getConfig();$('orionGoogleClient').value=cfg.clientId||'';$('orionGoogleSheet').value=cfg.sheetId||'';
 function status(msg,error=false){$('orionGoogleStatus').textContent=msg;$('orionGoogleStatus').style.color=error?'#a02438':'#1f3f5b';}
