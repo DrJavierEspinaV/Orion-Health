@@ -40,7 +40,11 @@ function placeAccessNextToAgenda(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeAccessNextToAgenda,{once:true});
 else placeAccessNextToAgenda();
 const $=id=>document.getElementById(id);
-const cfg=getConfig();$('orionGoogleClient').value=cfg.clientId||'';$('orionGoogleSheet').value=cfg.sheetId||'';
+const PUBLIC_CLIENT_ID='776321631786-on8bcnnocc9jlk3jh47191v1epqomaq9.apps.googleusercontent.com';
+const cfg=getConfig();
+if(!cfg.clientId)cfg.clientId=PUBLIC_CLIENT_ID;
+$('orionGoogleClient').value=cfg.clientId;
+$('orionGoogleSheet').value=cfg.sheetId||'';
 function status(msg,error=false){$('orionGoogleStatus').textContent=msg;$('orionGoogleStatus').style.color=error?'#a02438':'#1f3f5b';}
 function loadGIS(){
  if(window.google?.accounts?.oauth2)return Promise.resolve();
@@ -82,6 +86,7 @@ async function refresh(){
 }
 async function connect(){
  const c=getConfig();
+ if(!c.clientId)c.clientId=PUBLIC_CLIENT_ID;
  if(!validClient(c.clientId)||!validSheet(c.sheetId)){
   $('orionGoogleConfig').hidden=false;status('Configura los identificadores de Google una sola vez.',true);return;
  }
@@ -112,4 +117,5 @@ $('orionGoogleSetup').addEventListener('click',()=>{$('orionGoogleConfig').hidde
 $('orionGoogleLogin').addEventListener('click',connect);
 $('orionGoogleRefresh').addEventListener('click',refresh);
 if(validClient(cfg.clientId)&&validSheet(cfg.sheetId))status('Configurado. Accede con Google para cargar la agenda.');
+else status('Cliente OAuth ORION configurado. Indica solo la hoja clínica autorizada y guarda.');
 })();
