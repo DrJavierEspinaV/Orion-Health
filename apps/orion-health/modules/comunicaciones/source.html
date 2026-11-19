@@ -968,6 +968,9 @@ function renderSAPSourceStatus(fromCache=false){
     status.textContent = (fromCache ? 'Último archivo SAP conservado en sesión' : 'Archivo SAP cargado manualmente') +
       ' · ' + (Number(dataSourceMeta.count)||0) + ' registros · ' + when +
       '. No hay sincronización automática.';
+  }else if(source === 'google-authorized'){
+    const when = new Date(Number(dataSourceMeta.loadedAt)||Date.now()).toLocaleString('es-CL');
+    status.textContent = 'Agenda consultada con Google · '+(Number(dataSourceMeta.count)||0)+' registros · '+when+'. Datos de la última lectura de DB, no sincronización en tiempo real de SAP.';
   }else if(source === 'drive-manual'){
     status.textContent = 'Se muestran datos obtenidos por una conexión técnica manual, no un archivo SAP. Para actualizar desde SAP, importa un Excel.';
   }else if(DATA.length){
@@ -978,6 +981,11 @@ function renderSAPSourceStatus(fromCache=false){
 }
 
 function saveCacheState(){
+  // Google OAuth: no persistir datos clínicos obtenidos con permisos de Google.
+  if(dataSourceMeta?.kind==='google-authorized'){
+    try{localStorage.removeItem(CACHE_KEY);}catch(_){}
+    return;
+  }
   try{
     const payload = {
       ts: Date.now(),
@@ -1479,6 +1487,23 @@ async function pingDb_() {
     if (st) st.textContent = '❌ Error: ' + (e && e.message ? e.message : e);
   }
 }
+
+// Recepción de datos autorizados por la API oficial de Google Sheets.
+ // No interviene en SAP ni usa el token heredado del Apps Script.
+window.addEventListener('orion:google-db-loaded',event=>{
+  const rows=event.detail?.rows;
+  if(!Array.isArray(rows))return;
+  restoredFromCache=false;
+  DATA=rows.map(prepRowFromDb_);
+  dataSourceMeta={kind:'google-authorized',loadedAt:Date.now(),count:DATA.length};
+  poblarEstadosUnicos();
+  applyTodayFilter();
+  autoScrollFranjaPending=true;
+  renderSAPSourceStatus();
+  render();
+  // Los datos OAuth permanecen en memoria; no se almacenan en caché permanente.
+  saveCacheState();
+});
 
 async function loadDb_() {
   const url = (document.getElementById('dbWebappUrl')?.value || '').trim();
