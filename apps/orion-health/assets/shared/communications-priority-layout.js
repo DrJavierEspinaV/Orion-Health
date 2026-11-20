@@ -51,11 +51,19 @@
       priority.innerHTML='<div class="orion-priority-heading"><div><strong>Pacientes y agenda</strong><span>Búsqueda, fechas y lista clínica</span></div></div><div class="orion-priority-search" id="orionPrioritySearch"></div>';
       controlsCard.prepend(priority);
 
-      // La importación SAP es el primer paso operativo, no un ajuste avanzado.
+      // Fuentes de agenda en la columna de comunicaciones, bajo WhatsApp manual.
+      // Solo reubicar nodos: conservar eventos, input de archivo y autenticación.
       const searchGrid=priority.querySelector('#orionPrioritySearch');
+      const sources=document.createElement('section');
+      sources.id='orionAgendaSourcePanel';
+      sources.className='card orion-agenda-source-panel';
+      sources.innerHTML='<div class="orion-source-heading"><strong>Origen de agenda</strong><span>SAP · Google Sheets</span></div>';
+      const manualCard=document.getElementById('whatsappManualCard');
+      if(manualCard?.parentElement===left)manualCard.insertAdjacentElement('afterend',sources);
+      else left.appendChild(sources);
       if(fileBlock){
         fileBlock.classList.add('orion-sap-import-primary');
-        priority.insertBefore(fileBlock,searchGrid);
+        sources.appendChild(fileBlock);
       }
       [qBlock,statusBlock,exportBlock].filter(Boolean).forEach(node=>searchGrid.appendChild(node));
       [dateRow,todayChip,slotCard,documentStatus].filter(Boolean).forEach(node=>priority.appendChild(node));
@@ -70,6 +78,9 @@
 
       const dataGrid=dataPanel.querySelector('#orionDataSourceGrid');
       [driveBlock].filter(Boolean).forEach(node=>dataGrid.appendChild(node));
+      // OAuth puede haberse inicializado antes que la reorganización.
+      const googlePanel=document.getElementById('orionGoogleOAuthPanel');
+      if(googlePanel)sources.appendChild(googlePanel);
       if(themeRow)dataPanel.querySelector('.orion-data-source-body').appendChild(themeRow);
       if(!bar.children.length)bar.remove();
     }
