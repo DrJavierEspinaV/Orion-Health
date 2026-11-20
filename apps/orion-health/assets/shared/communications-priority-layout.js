@@ -64,7 +64,8 @@
       dataPanel.id='orionDataSourcePanel';
       dataPanel.className='card orion-data-source-panel';
       dataPanel.dataset.orionPlacement='layout-footer';
-      dataPanel.innerHTML='<summary><span class="orion-data-source-title">⚙️ Conexión técnica avanzada (opcional)</span><span class="orion-data-source-status" id="orionDataSourceStatus">Sin conexión</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>';
+      dataPanel.innerHTML='<summary><span class="orion-data-source-title">⚙️ Acceso heredado Apps Script · solo soporte</span><span class="orion-data-source-status" id="orionDataSourceStatus">Respaldo</span></summary><div class="orion-data-source-body"><div class="orion-data-source-grid" id="orionDataSourceGrid"></div></div>';
+      dataPanel.open=false; // Contingencia heredada, no acceso habitual.
       layout.appendChild(dataPanel);
 
       const dataGrid=dataPanel.querySelector('#orionDataSourceGrid');
@@ -104,23 +105,12 @@
     placeResponsive();
     window.addEventListener('resize',placeResponsive,{passive:true});
 
+    // La etiqueta del módulo heredado no refleja el estado OAuth principal.
     const summaryStatus=document.getElementById('orionDataSourceStatus');
-    const driveBadge=document.getElementById('orionDriveStatusBadge');
-    const driveText=document.getElementById('orionDriveStatusText');
-    const syncStatus=()=>{
-      if(!summaryStatus)return;
-      const badge=String(driveBadge?.textContent||'').trim();
-      const text=String(driveText?.textContent||'').trim();
-      const value=badge||(/cargad|conectad|ok|listo/i.test(text)?'Conectado':/error|revisar|token|timeout|no se pudo/i.test(text)?'Revisar acceso':'Estado pendiente');
-      summaryStatus.textContent=value;
-      summaryStatus.className='orion-data-source-status';
-      if(/conectado|listo/i.test(value))summaryStatus.classList.add('ready');
-      else if(/revisar|error|timeout|no se pudo/i.test(`${value} ${text}`))summaryStatus.classList.add('error');
-      else summaryStatus.classList.add('pending');
-    };
-    syncStatus();
-    [driveBadge,driveText].filter(Boolean).forEach(node=>new MutationObserver(syncStatus).observe(node,{childList:true,subtree:true,characterData:true}));
-
+    if(summaryStatus){
+      summaryStatus.textContent='Solo soporte';
+      summaryStatus.className='orion-data-source-status pending';
+    }
     window.ORION_COMMUNICATIONS_PRIORITY_LAYOUT={version:'1.4.2',status:'AGENDA_LIST_MESSAGES_DATA_SOURCE',effectiveWidth};
   }
 
