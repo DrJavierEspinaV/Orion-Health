@@ -66,14 +66,9 @@ css.textContent+=
 document.head.appendChild(css);
 card.parentNode.insertBefore(box,card);
 function placeAccessNextToAgenda(){
- const priority=document.getElementById('orionPatientPriorityControls');
- if(priority){
-  const search=priority.querySelector('#orionPrioritySearch');
-  const importBlock=priority.querySelector('.orion-sap-import-primary');
-  // Entre la importación SAP y los filtros, a todo el ancho del panel.
-  if(importBlock)importBlock.insertAdjacentElement('afterend',box);
-  else priority.insertBefore(box,search||null);
- }
+ const sources=document.getElementById('orionAgendaSourcePanel');
+ if(sources && box.parentElement!==sources)sources.appendChild(box);
+ // Si el panel no existe aún, communications-priority-layout lo moverá.
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeAccessNextToAgenda,{once:true});
 else placeAccessNextToAgenda();
