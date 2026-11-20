@@ -21,6 +21,27 @@ box.innerHTML='<strong>Acceso con cuenta Google</strong>'+
  '<label>ID de Google Sheets (ORION_DB_SAP)<input id="orionGoogleSheet" placeholder="ID de la hoja" autocomplete="off"></label>'+
  '<button type="button" id="orionGoogleSave">Guardar</button>'+
  '<p>No pegues contraseñas ni secretos. Solo identificadores públicos; quedan en este navegador.</p></div>';
+// Barra compacta: estado siempre disponible, opciones adicionales ocultables.
+const topbar=document.createElement('div');
+topbar.className='orion-google-topbar';
+const identity=document.createElement('span');
+identity.className='orion-google-identity';
+identity.textContent='Google Sheets · Agenda';
+const toggle=document.createElement('button');
+toggle.type='button';toggle.id='orionGoogleCollapse';
+toggle.setAttribute('aria-controls','orionGoogleOAuthPanel');
+topbar.append(identity,toggle);
+box.prepend(topbar);
+function setCompactHidden(hidden){
+ box.classList.toggle('orion-google-hidden',hidden);
+ toggle.textContent=hidden?'Mostrar conexión':'Ocultar';
+ toggle.setAttribute('aria-expanded',String(!hidden));
+ try{localStorage.setItem('orion_google_panel_hidden_v1',String(hidden));}catch(_){}
+}
+let panelHidden=false;
+try{panelHidden=localStorage.getItem('orion_google_panel_hidden_v1')==='true';}catch(_){}
+setCompactHidden(panelHidden);
+toggle.addEventListener('click',()=>setCompactHidden(!box.classList.contains('orion-google-hidden')));
 const css=document.createElement('style');
 css.textContent='#orionGoogleOAuthPanel{background:#eff7fc;border:1px solid #bfd9e9;border-radius:14px;padding:13px;margin:10px 0;color:#1f3f5b}'+
 '#orionGoogleOAuthPanel strong{font-size:14px}#orionGoogleOAuthPanel p,#orionGoogleStatus{font-size:12px;line-height:1.4}'+
@@ -28,13 +49,30 @@ css.textContent='#orionGoogleOAuthPanel{background:#eff7fc;border:1px solid #bfd
 '#orionGoogleLogin{background:#1f3f5b!important;color:white!important}#orionGoogleOAuthPanel button:disabled{opacity:.45}'+
 '#orionGoogleOAuthPanel input{width:100%;box-sizing:border-box;border:1px solid #aac4d6;border-radius:8px;padding:9px}'+
 '#orionGoogleOAuthPanel label{display:block;font-size:12px;font-weight:700;margin:8px 0}';
+css.textContent+=
+ '#orionGoogleOAuthPanel{width:100%;min-width:0;box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:9px 12px;margin:0!important;max-width:none!important}'+
+ '#orionGoogleOAuthPanel .orion-google-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:160px;flex:0 1 auto}'+
+ '#orionGoogleOAuthPanel .orion-google-identity{font-size:12px;font-weight:850;color:#1f3f5b;white-space:nowrap}'+
+ '#orionGoogleOAuthPanel .orion-google-topbar button{font-size:11px;padding:5px 8px;background:transparent}'+
+ '#orionGoogleOAuthPanel > strong,#orionGoogleOAuthPanel > p{display:none!important}'+
+ '#orionGoogleOAuthPanel .orion-google-actions{display:flex;align-items:center;flex-wrap:wrap;gap:5px}'+
+ '#orionGoogleOAuthPanel .orion-google-actions button{font-size:11px;margin:0;min-height:32px;padding:6px 9px}'+
+ '#orionGoogleOAuthPanel #orionGoogleStatus{flex:1 1 230px;min-width:180px;font-size:11px;margin:0}'+
+ '#orionGoogleOAuthPanel #orionGoogleSetup{display:none}'+
+ '#orionGoogleOAuthPanel #orionGoogleConfig:not([hidden]){display:block;flex:0 0 100%;max-width:570px}'+
+ '#orionGoogleOAuthPanel.orion-google-hidden > :not(.orion-google-topbar):not(#orionGoogleStatus){display:none!important}'+
+ '#orionGoogleOAuthPanel.orion-google-hidden #orionGoogleStatus{flex:1 1 auto}'+
+ '@media(max-width:760px){#orionGoogleOAuthPanel{gap:6px}#orionGoogleOAuthPanel .orion-google-topbar{width:100%}#orionGoogleOAuthPanel #orionGoogleStatus{min-width:0;flex-basis:100%}}';
 document.head.appendChild(css);
 card.parentNode.insertBefore(box,card);
 function placeAccessNextToAgenda(){
  const priority=document.getElementById('orionPatientPriorityControls');
  if(priority){
   const search=priority.querySelector('#orionPrioritySearch');
-  priority.insertBefore(box,search||null);
+  const importBlock=priority.querySelector('.orion-sap-import-primary');
+  // Entre la importación SAP y los filtros, a todo el ancho del panel.
+  if(importBlock)importBlock.insertAdjacentElement('afterend',box);
+  else priority.insertBefore(box,search||null);
  }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',placeAccessNextToAgenda,{once:true});
@@ -113,7 +151,18 @@ $('orionGoogleSave').addEventListener('click',()=>{
  $('orionGoogleRefresh').disabled=true;$('orionGoogleConfig').hidden=true;
  status('Configuración guardada. Accede con tu cuenta Google.');
 });
+// La configuración avanzada permanece oculta salvo petición explícita.
 $('orionGoogleSetup').addEventListener('click',()=>{$('orionGoogleConfig').hidden=!$('orionGoogleConfig').hidden});
+const advanced=document.createElement('button');
+advanced.type='button';advanced.id='orionGoogleAdvanced';
+advanced.textContent='Configuración';
+advanced.setAttribute('aria-expanded','false');
+advanced.addEventListener('click',()=>{
+ const el=$('orionGoogleConfig');el.hidden=!el.hidden;
+ advanced.setAttribute('aria-expanded',String(!el.hidden));
+ if(!el.hidden)setCompactHidden(false);
+});
+box.querySelector('.orion-google-actions').appendChild(advanced);
 $('orionGoogleLogin').addEventListener('click',connect);
 $('orionGoogleRefresh').addEventListener('click',refresh);
 if(validClient(cfg.clientId)&&validSheet(cfg.sheetId))status('Configurado. Accede con Google para cargar la agenda.');
